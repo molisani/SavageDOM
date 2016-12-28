@@ -1,0 +1,13 @@
+{
+  "name": "vektor",
+  "version": "0.1.0",
+  "description": "Object-oriented SVG manipulation/animation library",
+  "main": "index.js",
+  "author": "Michael Molisani <michael@molisani.us> (http://molisani.us)",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^6.0.46",
+    "systemjs": "^0.19.41",
+    "typescript": "^2.1.4"
+  }
+}
