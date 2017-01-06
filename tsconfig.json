@@ -2,15 +2,21 @@
   "compilerOptions": {
     "lib": ["dom", "es6"],
     "types": ["node"],
+
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es5",
+
+    "declaration": true,
+    "sourceMap": true,
+    "inlineSourceMap": true,
+
     "noImplicitAny": false,
     "noImplicitThis": true,
     "strictNullChecks": true,
     "alwaysStrict": true,
-    "declaration": true,
-    "sourceMap": true
+
+    "removeComments": true
   },
   "exclude": [
     "node_modules"

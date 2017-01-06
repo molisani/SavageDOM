@@ -4,246 +4,43 @@ export namespace vektor {
   const XMLNS = 'http://www.w3.org/2000/svg';
   const XLINK = 'http://www.w3.org/1999/xlink';
 
-  export interface AnimationDefinition<A, V> {
-    attr: A;
-    value: (t: number) => V;
-  }
-
-  interface Animation<SVG extends SVGElement, A> {
-    element: SVG;
-    start: number;
-    duration: number;
-    easing: (t: number) => number;
-    defs: AnimationDefinition<keyof A, A[keyof A]>[];
-    resolve: (end: number) => any;
-  }
-
-  export namespace Animation {
-
-    export const simpleProperties = (start: { [prop: string]: number }, end: { [prop: string]: number }, easing: (n: number) => number = Easing.linear): AnimationDefinition<any, number>[] => {
-      return Object.getOwnPropertyNames(start).filter(attr => start[attr] !== undefined && end[attr] !== undefined).map(attr => ({
-        "attr": attr,
-        "easing": easing,
-        "value": (t: number) => start[attr] + (end[attr] - start[attr]) * t,
-      }));
-    }
-
-    export namespace Easing {
-      const flip = (ease: (t: number) => number) => (t: number) => 1 - ease(1 - t);
-      const inout = (easeIn: (t: number) => number, easeOut: (t: number) => number) => {
-        return (t: number) => t < 0.5 ? easeIn(t * 2) / 2 : easeOut(2 * t - 1) / 2 + 0.5;
-      };
-
-      export const linear = (t: number) => t;
-      export const quadIn = (t: number) => t ** 2;
-      export const quadOut = flip(quadIn);
-      export const quad = inout(quadIn, quadOut);
-      export const cubicIn = (t: number) => t ** 3;
-      export const cubicOut = flip(cubicIn);
-      export const cubic = inout(cubicIn, cubicOut);
-      export const quartIn = (t: number) => t ** 4;
-      export const quartOut = flip(quartIn);
-      export const quart = inout(quartIn, quartOut);
-      export const quintIn = (t: number) => t ** 5;
-      export const quintOut = flip(quintIn);
-      export const quint = inout(quintIn, quintOut);
-      export const sineIn = (t: number) => 1 - Math.cos(t * Math.PI / 2);
-      export const sineOut = flip(sineIn);
-      export const sine = inout(sineIn, sineOut);
-      export const expoIn = (t: number) => 2 ** (10 * (t - 1));
-      export const expoOut = flip(expoIn);
-      export const expo = inout(expoIn, expoOut);
-      export const circIn = (t: number) => 1 - Math.sqrt(1 - t ** 2);
-      export const circOut = flip(circIn);
-      export const circ = inout(circIn, circOut);
-    }
-
-
-    export function Interpolate<T>(start: T, end: T, limit: number = 2): (t: number) => T {
-      return (t: number) => {
-          return Object.getOwnPropertyNames(start).reduce((mid, prop) => {
-            let type = typeof start[prop];
-            if (type === 'string' || limit === 0) {
-              mid[prop] = start[prop];
-            } else if (type === 'number') {
-              mid[prop] = start[prop] + t * (end[prop] - start[prop]);
-            } else if (type === 'object') {
-              mid[prop] = Interpolate(start[prop], end[prop], limit - 1)(t);
-            }
-            return mid;
-          }, {} as T);
-      };
-    }
-  }
-
-  class AnimationRunner {
-    private static requestAnimationFrame: (callback: FrameRequestCallback) => number = (window.requestAnimationFrame || window.webkitRequestAnimationFrame || window['mozRequestAnimationFrame'] || window['oRequestAnimationFrame'] || window['msRequestAnimationFrame'] || function(this: Window, callback: FrameRequestCallback) { this.setTimeout(callback, 16) }).bind(window);
-    private running = false;
-    private queue: Animation<SVGElement, any>[] = [];
-    private loop() {
-      const now = performance.now();
-      this.queue.forEach((anim, idx, arr) => {
-        if (now > (anim.start + anim.duration)) {
-          const t = 1;
-          anim.defs.forEach(def => {
-            anim.element.setAttribute(def.attr, String(def.value(t)));
-          });
-          arr.splice(idx, 1);
-          anim.resolve(now);
-          //anim.resolve.call(undefined, now);
-        } else {
-          const t = anim.easing((now - anim.start) / anim.duration);
-          anim.defs.forEach(def => {
-            anim.element.setAttribute(def.attr, String(def.value(t)));
-          });
-        }
-      });
-      if (this.queue.length === 0) {
-        this.stop();
-      } else if (this.running) {
-        AnimationRunner.requestAnimationFrame(() => {
-          this.loop();
-        });
-      }
-    }
-    private stop() {
-      this.running = false;
-    }
-    private start() {
-      this.running = true;
-      AnimationRunner.requestAnimationFrame(() => {
-        this.loop();
-      });
-    }
-    public add(anim: Animation<SVGElement, any>) {
-      this.queue.push(anim);
-      if (!this.running) {
-        this.start();
-      }
-    }
-  }
-
-  export class Element<SVG extends SVGElement, A> {
-    public node: SVG;
-    private style: CSSStyleDeclaration;
-    public id: string = Math.random().toString(36).substring(2);
-    constructor(paper: Paper, el: SVG);
-    constructor(paper: Paper, name: string, attrs?: Partial<A>);
-    constructor(public paper: Paper, el: string | SVG, attrs?: Partial<A>) {
-      if (typeof el === 'string') {
-        this.node = window.document.createElementNS(XMLNS, el) as SVG;
-        if (attrs !== undefined) {
-          this.setAttributes(attrs);
-        }
-        this.paper.root.appendChild(this.node);
-        this.node.setAttribute('id', this.id);
-      } else {
-        this.node = el;
-        let id = this.node.getAttribute('id');
-        if (id !== null) {
-          this.id = id;
-        } else {
-          this.node.setAttribute('id', this.id);
-        }
-      }
-      this.style = window.getComputedStyle(this.node);
-    }
-    public toString(): string {
-      return `url(#${this.id})`;
-    }
-    public setAttribute<Attr extends keyof A>(name: Attr, val: A[Attr]): void {
-      this.node.setAttribute(name, String(val));
-    }
-    public setAttributes(attrs: Partial<A>): void {
-      for (let name in attrs) {
-        let attr = attrs[name];
-        if (attr !== undefined && attr !== null) {
-          this.setAttribute(name, attr);
-        }
-      }
-    }
-    public getAttribute<Attr extends keyof A>(name: Attr): string | null {
-      let computed = this.style.getPropertyValue(name);
-      if (computed === '') {
-        return this.node.getAttribute(name);
-      } else {
-        return computed;
-      }
-    }
-    public animate<AA extends A>(attrs: Partial<AA>, duration: number, easing: (t: number) => number = Animation.Easing.linear): Promise<number> {
-      let defs: AnimationDefinition<keyof A, AA[keyof A]>[] = [];
-      Object.getOwnPropertyNames(attrs).forEach((attr: keyof A) => {
-        let str = this.getAttribute(attr);
-        if (str !== null && str !== "") {
-          let end = attrs[attr];
-          if (end !== undefined) {
-            let value = _getValueFunction(end, str);
-            if (value !== undefined) {
-              defs.push({ attr, value });
-            }
-          }
-        }
-      });
-      return this.paper.registerAnimation(this, defs, duration, easing);
-    }
-    public add(el: Element<SVGElement, any>) {
-      this.node.appendChild(el.node);
-    }
-    public getChildren(): Element<SVGElement, any>[] {
-      let children = this.node.children;
-      let elements: Element<SVGElement, any>[] = [];
-      for (let i = 0; i < children.length; ++i) {
-        elements.push(new Element(this.paper, <SVGElement>children.item(i)));
-      }
-      return elements;
-    }
-    public toPattern(w: number, h: number): Element.NonRenderable.PaintServer.Pattern;
-    public toPattern(w: number, h: number, x: number, y: number): Element.NonRenderable.PaintServer.Pattern;
-    public toPattern(w: number, h: number, x: number, y: number, view: Attribute.ViewBox): Element.NonRenderable.PaintServer.Pattern;
-    public toPattern(w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Element.NonRenderable.PaintServer.Pattern {
-      let pattern = new Element.NonRenderable.PaintServer.Pattern(this.paper, w, h, x, y, view);
-      let children = this.node.children;
-      for (let i = 0; i < children.length; ++i) {
-        pattern.node.appendChild(children.item(i));
-      }
-      return pattern;
-    }
-  }
-
   const _mix = (a: number, b: number, t: number): number => a + ((b - a) * t);
 
-  const _getValueFunction = <A>(end: A[keyof A], str: string): ((t: number) => A[keyof A]) | undefined => {
-    if (Attribute.isAttribute(end)) {
-      return end.interpolate.bind(end, end.parse(str));
-    } else if (typeof end === 'number') {
-      return _mix.bind(undefined, parseFloat(str), end);
-    } else if (Array.isArray(end)) {
-      let vals: ((t: number) => A[keyof A][keyof A[keyof A]])[] = [];
-      let toks = str.split('\t');
-      for (let i = 0; i !== toks.length; ++i) {
-        let val = _getValueFunction<A[keyof A]>(end[i], toks[i]);
-        if (val !== undefined) {
-          vals.push(val);
-        } else {
-          return undefined;
-        }
-      }
-      return (t: number) => vals.map(val => val(t)) as any as A[keyof A];
-    }
-    return undefined;
-  };
+  // const _getValueFunction = <A>(end: A[keyof A], str: string): ((t: number) => A[keyof A]) | undefined => {
+  //   if (Attribute.isAttribute(end)) {
+  //     return end.interpolate.bind(end, end.parse(str));
+  //   } else if (typeof end === 'number') {
+  //     return _mix.bind(undefined, parseFloat(str), end);
+  //   } else if (Array.isArray(end)) {
+  //     let vals: ((t: number) => A[keyof A][keyof A[keyof A]])[] = [];
+  //     let toks = str.split('\t');
+  //     for (let i = 0; i !== toks.length; ++i) {
+  //       let val = _getValueFunction<A[keyof A]>(end[i], toks[i]);
+  //       if (val !== undefined) {
+  //         vals.push(val);
+  //       } else {
+  //         return undefined;
+  //       }
+  //     }
+  //     return (t: number) => vals.map(val => val(t)) as any as A[keyof A];
+  //   }
+  //   return undefined;
+  // };
 
-  export interface Attribute<T> {
-    toString(): string;
+  export interface Setter {
+    set<Attrs>(element: Element<SVGElement, Attrs>, attr: keyof Attrs, override?: any): void;
+  }
+
+  export interface Attribute<T> extends Setter {
     parse(css: string | null): T;
+    get<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A): T;
+    set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A, override?: T): void;
     interpolate(from: T, t: number): T;
   }
   export namespace Attribute {
 
     export const isAttribute = (obj: any | Attribute<any>): obj is Attribute<any> => {
-      let parse_fn = obj['parse'];
-      let interpolate_fn = obj['interpolate'];
-      return parse_fn !== undefined && typeof parse_fn === 'function' && interpolate_fn !== undefined && typeof interpolate_fn === 'function';
+      return typeof obj['interpolate'] === 'function' && typeof obj['parse'] === 'function';
     };
 
     export type Inherit = 'inherit';
@@ -345,6 +142,16 @@ export namespace vektor {
           return new Color('hsl', 0, 0, 0);
         }
       }
+      get(element: Element<SVGElement, any>, attr: string): Color {
+        return this.parse(element.getAttribute(attr));
+      }
+      set(element: Element<SVGElement, any>, attr: string, override?: Color): void {
+        if (override !== undefined) {
+          element.setAttribute(attr, override.toString());
+        } else {
+          element.setAttribute(attr, this.toString());
+        }
+      }
       interpolate(from: Color, t: number): Color {
         return new Color('hsl', _mix(from.h, this.h, t), _mix(from.s, this.s, t), _mix(from.l, this.l, t), _mix(from.a, this.a, t));
       }
@@ -385,6 +192,16 @@ export namespace vektor {
           }
         }
         return new Dimension<Unit>(0, this.unit);
+      }
+      get(element: Element<SVGElement, any>, attr: string): Dimension<Unit> {
+        return this.parse(element.getAttribute(attr));
+      }
+      set(element: Element<SVGElement, any>, attr: string, override?: Dimension<Unit>): void {
+        if (override !== undefined) {
+          element.setAttribute(attr, override.toString());
+        } else {
+          element.setAttribute(attr, this.toString());
+        }
       }
       interpolate(from: Dimension<Unit>, t: number): Dimension<Unit> {
         if (this.unit !== from.unit) {
@@ -440,6 +257,38 @@ export namespace vektor {
           return new Point(0, 0);
         }
       }
+      get(element: Element<SVGElement, any>, attr: string): Point {
+        let toks = attr.split(":");
+        if (toks.length === 2) {
+          let cssX = element.getAttribute(toks[0]);
+          let cssY = element.getAttribute(toks[1]);
+          if (cssX !== null && cssY !== null) {
+            return new Point(_LengthParse(cssX), _LengthParse(cssY));
+          } else {
+            return new Point(0, 0);
+          }
+        } else {
+          return this.parse(element.getAttribute(attr));
+        }
+      }
+      set(element: Element<SVGElement, any>, attr: string, override?: Point): void {
+        let toks = attr.split(":");
+        if (toks.length === 2) {
+          if (override !== undefined) {
+            element.setAttribute(toks[0], override.x.toString());
+            element.setAttribute(toks[1], override.y.toString());
+          } else {
+            element.setAttribute(toks[0], this.x.toString());
+            element.setAttribute(toks[1], this.y.toString());
+          }
+        } else {
+          if (override !== undefined) {
+            element.setAttribute(attr, override.toString());
+          } else {
+            element.setAttribute(attr, this.toString());
+          }
+        }
+      }
       interpolate(from: Point, t: number): Point {
         return new Point(_LengthInterpolate(from.x, this.x, t), _LengthInterpolate(from.y, this.y, t));
       }
@@ -452,9 +301,19 @@ export namespace vektor {
       }
       parse(css: string | null): Number {
         if (css !== null) {
-          return new Number(parseInt(css));
+          return new Number(parseFloat(css));
         } else {
           return new Number();
+        }
+      }
+      get(element: Element<SVGElement, any>, attr: string): Number {
+        return this.parse(element.getAttribute(attr));
+      }
+      set(element: Element<SVGElement, any>, attr: string, override?: Number): void {
+        if (override !== undefined) {
+          element.setAttribute(attr, override.toString());
+        } else {
+          element.setAttribute(attr, this.toString());
         }
       }
       interpolate(from: Number, t: number): Number {
@@ -471,12 +330,22 @@ export namespace vektor {
         if (css !== null) {
           let toks = css.split(',');
           if (toks.length === 1) {
-            return new NumberOptionalNumber(parseInt(toks[0]));
+            return new NumberOptionalNumber(parseFloat(toks[0]));
           } else {
-            return new NumberOptionalNumber(parseInt(toks[0]), parseInt(toks[1]));
+            return new NumberOptionalNumber(parseFloat(toks[0]), parseFloat(toks[1]));
           }
         } else {
           return new NumberOptionalNumber(0);
+        }
+      }
+      get(element: Element<SVGElement, any>, attr: string): NumberOptionalNumber {
+        return this.parse(element.getAttribute(attr));
+      }
+      set(element: Element<SVGElement, any>, attr: string, override?: NumberOptionalNumber): void {
+        if (override !== undefined) {
+          element.setAttribute(attr, override.toString());
+        } else {
+          element.setAttribute(attr, this.toString());
         }
       }
       interpolate(from: NumberOptionalNumber, t: number): NumberOptionalNumber {
@@ -500,9 +369,47 @@ export namespace vektor {
       parse(css: string | null): ViewBox {
         if (css !== null) {
           let toks = css.split(' ');
-          return new ViewBox(parseInt(toks[0]), parseInt(toks[1]), parseInt(toks[2]), parseInt(toks[3]));
+          return new ViewBox(parseFloat(toks[0]), parseFloat(toks[1]), parseFloat(toks[2]), parseFloat(toks[3]));
         } else {
           return new ViewBox(0, 0, 0, 0);
+        }
+      }
+      get(element: Element<SVGElement, any>, attr: string): ViewBox {
+        let toks = attr.split(":");
+        if (toks.length === 4) {
+          let cssX = element.getAttribute(toks[0]);
+          let cssY = element.getAttribute(toks[1]);
+          let cssWidth = element.getAttribute(toks[2]);
+          let cssHeight = element.getAttribute(toks[3]);
+          if (cssX !== null && cssY !== null && cssWidth !== null && cssHeight !== null) {
+            return new ViewBox(parseFloat(cssX), parseFloat(cssY), parseFloat(cssWidth), parseFloat(cssHeight));
+          } else {
+            return new ViewBox(0, 0, 0, 0);
+          }
+        } else {
+          return this.parse(element.getAttribute(attr));
+        }
+      }
+      set(element: Element<SVGElement, any>, attr: string, override?: ViewBox): void {
+        let toks = attr.split(":");
+        if (toks.length === 4) {
+          if (override !== undefined) {
+            element.setAttribute(toks[0], override.x.toString());
+            element.setAttribute(toks[1], override.y.toString());
+            element.setAttribute(toks[2], override.width.toString());
+            element.setAttribute(toks[3], override.height.toString());
+          } else {
+            element.setAttribute(toks[0], this.x.toString());
+            element.setAttribute(toks[1], this.y.toString());
+            element.setAttribute(toks[2], this.width.toString());
+            element.setAttribute(toks[3], this.height.toString());
+          }
+        } else {
+          if (override !== undefined) {
+            element.setAttribute(attr, override.toString());
+          } else {
+            element.setAttribute(attr, this.toString());
+          }
         }
       }
       interpolate(from: ViewBox, t: number): ViewBox {
@@ -523,6 +430,16 @@ export namespace vektor {
           return list;
         } else {
           return new List<T>();
+        }
+      }
+      get(element: Element<SVGElement, any>, attr: string): List<T> {
+        return this.parse(element.getAttribute(attr));
+      }
+      set(element: Element<SVGElement, any>, attr: string, override?: List<T>): void {
+        if (override !== undefined) {
+          element.setAttribute(attr, override.toString());
+        } else {
+          element.setAttribute(attr, this.toString());
         }
       }
       interpolate(from: List<T>, t: number): List<T> {
@@ -546,6 +463,16 @@ export namespace vektor {
           return this.parseArgs(css.substring(css.indexOf('(') + 1, css.length - 1));
         } else {
           return this.parseArgs(css);
+        }
+      }
+      get(element: Element<SVGElement, any>, attr: string): Transform {
+        return this.parse(element.getAttribute(attr));
+      }
+      set(element: Element<SVGElement, any>, attr: string, override?: Transform): void {
+        if (override !== undefined) {
+          element.setAttribute(attr, override.toString());
+        } else {
+          element.setAttribute(attr, this.toString());
         }
       }
       abstract interpolate(from: Transform, t: number): Transform;
@@ -699,6 +626,16 @@ export namespace vektor {
           return this.parseArgs(css.substr(2));
         } else {
           return this.defaultInstance();
+        }
+      }
+      get(element: Element<SVGElement, any>, attr: string): PathSegment {
+        return this.parse(element.getAttribute(attr));
+      }
+      set(element: Element<SVGElement, any>, attr: string, override?: PathSegment): void {
+        if (override !== undefined) {
+          element.setAttribute(attr, override.toString());
+        } else {
+          element.setAttribute(attr, this.toString());
         }
       }
       abstract parseArgs(css: string): PathSegment;
@@ -948,9 +885,19 @@ export namespace vektor {
       }
       parse(css: string | null): Matrix {
         if (css !== null) {
-          return new Matrix([css.split('\t').map(parseInt)]);
+          return new Matrix([css.split('\t').map(parseFloat)]);
         } else {
           return new Matrix([]);
+        }
+      }
+      get(element: Element<SVGElement, any>, attr: string): Matrix {
+        return this.parse(element.getAttribute(attr));
+      }
+      set(element: Element<SVGElement, any>, attr: string, override?: Matrix): void {
+        if (override !== undefined) {
+          element.setAttribute(attr, override.toString());
+        } else {
+          element.setAttribute(attr, this.toString());
         }
       }
       interpolate(from: Matrix, t: number): Matrix {
@@ -978,9 +925,19 @@ export namespace vektor {
       }
       parse(css: string | null): SaturateColorMatrix {
         if (css !== null) {
-          return new SaturateColorMatrix(parseInt(css));
+          return new SaturateColorMatrix(parseFloat(css));
         } else {
           return new SaturateColorMatrix();
+        }
+      }
+      get(element: Element<SVGElement, any>, attr: string): SaturateColorMatrix {
+        return this.parse(element.getAttribute(attr));
+      }
+      set(element: Element<SVGElement, any>, attr: string, override?: SaturateColorMatrix): void {
+        if (override !== undefined) {
+          element.setAttribute(attr, override.toString());
+        } else {
+          element.setAttribute(attr, this.toString());
         }
       }
       interpolate(from: SaturateColorMatrix, t: number): SaturateColorMatrix {
@@ -996,9 +953,19 @@ export namespace vektor {
       }
       parse(css: string | null): HueRotateColorMatrix {
         if (css !== null) {
-          return new HueRotateColorMatrix(parseInt(css));
+          return new HueRotateColorMatrix(parseFloat(css));
         } else {
           return new HueRotateColorMatrix();
+        }
+      }
+      get(element: Element<SVGElement, any>, attr: string): HueRotateColorMatrix {
+        return this.parse(element.getAttribute(attr));
+      }
+      set(element: Element<SVGElement, any>, attr: string, override?: HueRotateColorMatrix): void {
+        if (override !== undefined) {
+          element.setAttribute(attr, override.toString());
+        } else {
+          element.setAttribute(attr, this.toString());
         }
       }
       interpolate(from: HueRotateColorMatrix, t: number): HueRotateColorMatrix {
@@ -1063,18 +1030,18 @@ export namespace vektor {
     export namespace Renderable {
 
       export namespace Shape {
-        export type Circle = { cx: Length, cy: Length, r: Length };
-        export type Ellipse = { cx: Length, cy: Length, rx: Length, ry: Length };
-        export type Line = { x1: Length, x2: Length, y1: Length, y2: Length };
+        export type Circle = { cx: Length, cy: Length, "cx:cy": Point, r: Length };
+        export type Ellipse = { cx: Length, cy: Length, "cx:cy": Point, rx: Length, ry: Length, "rx:ry": Point };
+        export type Line = { x1: Length, y1: Length, "x1:y1": Point, x2: Length, y2: Length, "x2:y2": Point };
         export type Polygon = { points: List<Point> };
         export type Polyline = { points: List<Point> };
         export type Path = { d: List<PathSegment>, pathLength: number };
-        export type Rect = { x: Length, y: Length, width: Length, height: Length, rx: Length, ry: Length };
+        export type Rect = { x: Length, y: Length, "x:y": Point, width: Length, height: Length, "width:height": Point, "x:y:width:height": ViewBox, rx: Length, ry: Length, "rx:ry": Point };
       }
 
-      export type Image = { x: Length, y: Length, width: Length, height: Length, "xlink:href": string, preserveAspectRatio?: PreserveAspectRatio, viewBox?: ViewBox };
-      export type Text = { x: Length, y: Length, dx: Length, dy: Length, textLength?: Length };
-      //export type Use = { x: Length, y: Length, width: Length, height: Length, "xlink:href": Element<any, any> };
+      export type Image = { x: Length, y: Length, "x:y": Point, width: Length, height: Length, "width:height": Point, "x:y:width:height": ViewBox, "xlink:href": string, preserveAspectRatio?: PreserveAspectRatio, viewBox?: ViewBox };
+      export type Text = { x: Length, y: Length, "x:y": Point, dx: Length, dy: Length, "dx:dy": Point, textLength?: Length };
+      //export type Use = { x: Length, y: Length, width: Length, height: Length, "width:height": Point, "x:y:width:height": ViewBox, "xlink:href": Element<any, any> };
 
     }
 
@@ -1083,23 +1050,23 @@ export namespace vektor {
 
       export namespace PaintServer {
 
-        export type Gradient = { gradientUnits?: 'userSpaceOnUse' | 'objectBoundingBox', gradientTransform?: List<Transform>, spreadMethod?: 'pad' | 'reflect' | 'repeat', "xlink:href": string };
+        export type Gradient = { gradientUnits: 'userSpaceOnUse' | 'objectBoundingBox', gradientTransform: List<Transform>, spreadMethod: 'pad' | 'reflect' | 'repeat', "xlink:href": string };
         export namespace Gradient {
-          export type Linear = Gradient & { x1?: Length, y1?: Length, x2?: Length, y2?: Length };
-          export type Radial = Gradient & { cx?: Length, cy?: Length, r?: Length, fx?: Length, fy?: Length };
+          export type Linear = Gradient & { x1: Length, y1: Length, "x1:y1": Point, x2: Length, y2: Length, "x2:y2": Point };
+          export type Radial = Gradient & { cx: Length, cy: Length, "cx:cy": Point, r: Length, fx: Length, fy: Length, "fx:fy": Point };
           export type Stops = { [offset: number]: 'currentColor' | Color | Inherit };
         }
 
-        export type Pattern = { patternUnits: 'userSpaceOnUse' | 'objectBoundingBox', patternContentUnits: 'userSpaceOnUse' | 'objectBoundingBox', patternTransform: List<Transform>, x: Length, y: Length, width: Length, height: Length, "xlink:href": string, preserveAspectRatio: PreserveAspectRatio, viewBox: ViewBox };
+        export type Pattern = { patternUnits: 'userSpaceOnUse' | 'objectBoundingBox', patternContentUnits: 'userSpaceOnUse' | 'objectBoundingBox', patternTransform: List<Transform>, x: Length, y: Length, "x:y": Point, width: Length, height: Length, "width:height": Point, "x:y:width:height": ViewBox, "xlink:href": string, preserveAspectRatio: PreserveAspectRatio, viewBox: ViewBox };
 
       }
 
-      export type Marker = { markerUnits: 'userSpaceOnUse' | 'strokeWidth', refX: Length, refY: Length, markerWidth: Length, markerHeight: Length, orient: 'auto' | 'auto-start-reverse' | number | string, viewBox: ViewBox };
-      export type Mask = { maskUnits: 'userSpaceOnUse' | 'objectBoundingBox', maskContentUnits: 'userSpaceOnUse' | 'objectBoundingBox', x: Length, y: Length, width: Length, height: Length };
+      export type Marker = { markerUnits: 'userSpaceOnUse' | 'strokeWidth', refX: Length, refY: Length, "refX:refY": Point, markerWidth: Length, markerHeight: Length, orient: 'auto' | 'auto-start-reverse' | number | string, viewBox: ViewBox };
+      export type Mask = { maskUnits: 'userSpaceOnUse' | 'objectBoundingBox', maskContentUnits: 'userSpaceOnUse' | 'objectBoundingBox', x: Length, y: Length, width: Length, height: Length, "width:height": Point, "x:y:width:height": ViewBox };
 
     }
 
-    export type FilterPrimitive = Presentation & HasClass & HasStyle & { x: Length, y: Length, width: Length, height: Length, result: string };
+    export type FilterPrimitive = Presentation & HasClass & HasStyle & { x: Length, y: Length, width: Length, height: Length, "width:height": Point, "x:y:width:height": ViewBox, result: string };
     export namespace FilterPrimitive {
 
       export type Blend = { in: Element.FilterPrimitive<any, any>, in2: Element.FilterPrimitive<any, any>, mode: 'normal' | 'multiply' | 'screen' | 'darken' | 'lighten' };
@@ -1109,13 +1076,13 @@ export namespace vektor {
       export type ConvolveMatrix = { in: Element.FilterPrimitive<any, any>, order: NumberOptionalNumber, kernelMatrix: Matrix, divisor: number, bias: number, targetX: number, targetY: number, edgeMode: 'duplicate' | 'wrap' | 'none', kernelUnitLength: NumberOptionalNumber, preserveAlpha: boolean };
       export type DiffuseLighting = { in: Element.FilterPrimitive<any, any>, surfaceScale: number, diffuseConstant: number, kernelUnitLength: NumberOptionalNumber };
       export type DisplacementMap = { in: Element.FilterPrimitive<any, any>, in2: Element.FilterPrimitive<any, any>, scale: number, xChannelSelector: 'R' | 'G' | 'B' | 'A', yChannelSelector: 'R' | 'G' | 'B' | 'A' };
-      export type DropShadow = { in: Element.FilterPrimitive<any, any>, stdDeviation: number, dx: Length, dy: Length };
+      export type DropShadow = { in: Element.FilterPrimitive<any, any>, stdDeviation: number, dx: Length, dy: Length, "dx:dy": Point };
       export type Flood = { "flood-color": 'currentColor' | Color };
       export type GaussianBlur = { in: Element.FilterPrimitive<any, any>, stdDeviation: number, edgeMode: 'duplicate' | 'wrap' | 'none' };
       export type Image = { preserveAspectRatio: PreserveAspectRatio, "xlink:href": string };
       export type MergeNode = { in: Element.FilterPrimitive<any, any> };
       export type Morphology = { in: Element.FilterPrimitive<any, any>, operator: 'erode' | 'dilate', radius: NumberOptionalNumber };
-      export type Offset = { in: Element.FilterPrimitive<any, any>, dx: Length, dy: Length };
+      export type Offset = { in: Element.FilterPrimitive<any, any>, dx: Length, dy: Length, "dx:dy": Point };
       export type SpecularLighting = { in: Element.FilterPrimitive<any, any>, surfaceScale: number, specularConstant: number, specularExponent: number, kernelUnitLength: NumberOptionalNumber };
       export type Tile = { in: Element.FilterPrimitive<any, any> };
       export type Turbulence = { type: 'fractalNoise' | 'turbulence', baseFrequency: NumberOptionalNumber, numOctaves: number, seed: number, stitchTiles: 'noStitch' | 'stitch' };
@@ -1146,15 +1113,247 @@ export namespace vektor {
 
       export namespace LightSource {
         export type DistantLight = { type: 'distant', azimuth: number, elevation: number };
-        export type PointLight = { type: 'point', x: Length, y: Length, z: Length };
-        export type SpotLight = { type: 'spot', x: Length, y: Length, z: Length, pointsAtX: Length, pointsAtY: Length, pointsAtZ: Length, specularExponent: number, limitingConeAngle: number };
+        export type PointLight = { type: 'point', x: Length, y: Length, "x:y": Point, z: Length };
+        export type SpotLight = { type: 'spot', x: Length, y: Length, "x:y": Point, z: Length, pointsAtX: Length, pointsAtY: Length, "pointsAtX:pointsAtY": Point, pointsAtZ: Length, specularExponent: number, limitingConeAngle: number };
       }
       export type LightSource = LightSource.DistantLight | LightSource.PointLight | LightSource.SpotLight;
 
     }
 
-    export type Filter = { x: Length, y: Length, width: Length, height: Length, filterUnits: 'userSpaceOnUse' | 'objectBoundingBox', primitiveUnits: 'userSpaceOnUse' | 'objectBoundingBox' };
+    export type Filter = { x: Length, y: Length, "x:y": Point, width: Length, height: Length, "width:height": Point, "x:y:width:height": ViewBox, filterUnits: 'userSpaceOnUse' | 'objectBoundingBox', primitiveUnits: 'userSpaceOnUse' | 'objectBoundingBox' };
 
+  }
+
+  interface Dynamic<Attrs> {
+    element: Element<SVGElement, Attrs>;
+    defs: Dynamic.Defined<Attrs>;
+    progress: (now: number) => number | undefined;
+  }
+  export namespace Dynamic {
+    
+    export interface Definition<A extends string> extends Setter {
+      set(element: Element<SVGElement, any>, attr: A): void;
+    }
+
+    export type Defined<Attrs> = {
+      [A in keyof Attrs]?: Dynamic.Definition<A>;
+    };
+
+    export class MousePosition<A extends string> extends Attribute.Point implements Definition<A> {
+      private xAttr: string;
+      private yAttr: string;
+      constructor(target: Document | HTMLElement | SVGElement | Paper = document) {
+        super(0, 0);
+        if (target instanceof Paper) {
+          target = target.root;
+        }
+        target.addEventListener('mousemove', (e: MouseEvent) => {
+          this.x = e.offsetX;
+          this.y = e.offsetY;
+        });
+      }
+    }
+  }
+
+  interface Animation<Attrs> extends Dynamic<Attrs> {
+    from: Partial<Attrs>;
+    attrs: Animation.Defined<Attrs>;
+    resolve: (end: number) => any;
+  }
+  export namespace Animation {
+
+    export type Defined<Attrs> = {
+      [A in keyof Attrs]?: Attribute<Attrs[A]>;
+    };
+
+    export namespace Easing {
+      const flip = (ease: (t: number) => number) => (t: number) => 1 - ease(1 - t);
+      const inout = (easeIn: (t: number) => number, easeOut: (t: number) => number) => {
+        return (t: number) => t < 0.5 ? easeIn(t * 2) / 2 : easeOut(2 * t - 1) / 2 + 0.5;
+      };
+
+      export const linear = (t: number) => t;
+      export const quadraticIn = (t: number) => t ** 2;
+      export const quadraticOut = flip(quadraticIn);
+      export const quadratic = inout(quadraticIn, quadraticOut);
+      export const cubicIn = (t: number) => t ** 3;
+      export const cubicOut = flip(cubicIn);
+      export const cubic = inout(cubicIn, cubicOut);
+      export const quarticIn = (t: number) => t ** 4;
+      export const quarticOut = flip(quarticIn);
+      export const quartic = inout(quarticIn, quarticOut);
+      export const quinticIn = (t: number) => t ** 5;
+      export const quinticOut = flip(quinticIn);
+      export const quintic = inout(quinticIn, quinticOut);
+      export const sineIn = (t: number) => 1 - Math.cos(t * Math.PI / 2);
+      export const sineOut = flip(sineIn);
+      export const sine = inout(sineIn, sineOut);
+      export const exponentialIn = (t: number) => 2 ** (10 * (t - 1));
+      export const exponentialOut = flip(exponentialIn);
+      export const exponential = inout(exponentialIn, exponentialOut);
+      export const circularIn = (t: number) => 1 - Math.sqrt(1 - t ** 2);
+      export const circularOut = flip(circularIn);
+      export const circular = inout(circularIn, circularOut);
+    }
+
+  }
+
+  function isAnimation<SVG extends SVGElement, Attrs>(dynamic: Dynamic<Attrs>): dynamic is Animation<Attrs> {
+    return dynamic["from"] !== undefined && typeof dynamic["resolve"] === 'function';
+  }
+
+  class AnimationRunner {
+    private static requestAnimationFrame: (callback: FrameRequestCallback) => number = (window.requestAnimationFrame || window.webkitRequestAnimationFrame || window['mozRequestAnimationFrame'] || window['oRequestAnimationFrame'] || window['msRequestAnimationFrame'] || function(this: Window, callback: FrameRequestCallback) { this.setTimeout(callback, 16) }).bind(window);
+    private running = false;
+    private queue: Dynamic<any>[] = [];
+    private loop() {
+      const now = performance.now();
+      for (let i = this.queue.length - 1; i >= 0; --i) {
+        const dyn = this.queue[i];
+        const t = dyn.progress(now);
+        if (isAnimation(dyn)) {
+          if (t !== undefined) {
+            for (let prop in dyn.attrs) {
+              let attr = dyn.attrs[prop] as Attribute<any>;
+              let mid = attr.interpolate(dyn.from[prop], t);
+              attr.set(dyn.element, prop, mid);
+            }
+          } else {
+            this.queue.splice(i, 1);
+            for (let prop in dyn.attrs) {
+              (dyn.attrs[prop] as Attribute<any>).set(dyn.element, prop);
+            }
+            dyn.resolve(now);
+          }
+        } else {
+          if (t !== undefined) {
+            for (let prop in dyn.defs) {
+              (dyn.defs[prop] as Dynamic.Definition<any>).set(dyn.element, prop);
+            }
+          } else {
+            this.queue.splice(i, 1);
+            for (let prop in dyn.defs) {
+              (dyn.defs[prop] as Dynamic.Definition<any>).set(dyn.element, prop);
+            }
+          }
+        }
+      }
+      if (this.queue.length === 0) {
+        this.stop();
+      } else if (this.running) {
+        AnimationRunner.requestAnimationFrame(() => {
+          this.loop();
+        });
+      }
+    }
+    private stop() {
+      this.running = false;
+    }
+    private start() {
+      this.running = true;
+      AnimationRunner.requestAnimationFrame(() => {
+        this.loop();
+      });
+    }
+    public add(anim: Dynamic<any>) {
+      this.queue.push(anim);
+      if (!this.running) {
+        this.start();
+      }
+    }
+  }
+
+  export class Element<SVG extends SVGElement, Attrs> {
+    public node: SVG;
+    private style: CSSStyleDeclaration;
+    public id: string = Math.random().toString(36).substring(2);
+    constructor(paper: Paper, el: SVG);
+    constructor(paper: Paper, name: string, attrs?: Partial<Attrs>);
+    constructor(public paper: Paper, el: string | SVG, attrs?: Partial<Attrs>) {
+      if (typeof el === 'string') {
+        this.node = window.document.createElementNS(XMLNS, el) as SVG;
+        if (attrs !== undefined) {
+          this.setAttributes(attrs);
+        }
+        this.paper.root.appendChild(this.node);
+        this.node.setAttribute('id', this.id);
+      } else {
+        this.node = el;
+        let id = this.node.getAttribute('id');
+        if (id !== null) {
+          this.id = id;
+        } else {
+          this.node.setAttribute('id', this.id);
+        }
+      }
+      this.style = window.getComputedStyle(this.node);
+    }
+    public toString(): string {
+      return `url(#${this.id})`;
+    }
+    public setAttribute<Attr extends keyof Attrs>(name: Attr, val: Attrs[Attr]): void {
+      this.node.setAttribute(name, String(val));
+    }
+    public setAttributes(attrs: Partial<Attrs>): void {
+      for (let name in attrs) {
+        let attr = attrs[name];
+        if (attr !== undefined && attr !== null) {
+          this.setAttribute(name, attr);
+        }
+      }
+    }
+    public getAttribute<Attr extends keyof Attrs>(name: Attr): string | null {
+      let computed = this.style.getPropertyValue(name);
+      if (computed === '') {
+        return this.node.getAttribute(name);
+      } else {
+        return computed;
+      }
+    }
+    public add(el: Element<SVGElement, any>) {
+      this.node.appendChild(el.node);
+    }
+    public getChildren(): Element<SVGElement, any>[] {
+      let children = this.node.children;
+      let elements: Element<SVGElement, any>[] = [];
+      for (let i = 0; i < children.length; ++i) {
+        elements.push(new Element(this.paper, <SVGElement>children.item(i)));
+      }
+      return elements;
+    }
+    public dynamic(defs: Dynamic.Defined<Attrs>) {
+      this.paper.registerDynamic(this, defs);
+    }
+    public animate(attrs: Partial<Attrs>, duration: number, easing: (t: number) => number = Animation.Easing.linear): Promise<number> {
+      let defs = {} as Animation.Defined<Attrs>;
+      for (let prop in attrs) {
+        let a = attrs[prop];
+        if (a !== undefined) {
+          if (Attribute.isAttribute(a)) {
+            defs[prop] = a;
+          } else if (typeof a === 'number') {
+            defs[prop] = new Attribute.Number(a as any as number) as Attribute<any>;
+          }
+        }
+      }
+      return this.paper.registerAnimation(this, defs, duration, easing);
+    }
+    public addEventListener(event: 'focusin' | 'focusout' | 'mousedown' | 'mouseup' | 'mousemove' | 'mouseover' | 'mouseout', listener: (this: this, event: MouseEvent) => any): void;
+    public addEventListener(event: 'touchstart' | 'touchend' | 'touchmove' | 'touchcancel', listener: (this: this, event: TouchEvent) => any): void;
+    public addEventListener(event: string, listener: (this: this, event: Event) => any): void {
+      this.node.addEventListener(event, listener.bind(this));
+    }
+    public toPattern(w: number, h: number): Element.NonRenderable.PaintServer.Pattern;
+    public toPattern(w: number, h: number, x: number, y: number): Element.NonRenderable.PaintServer.Pattern;
+    public toPattern(w: number, h: number, x: number, y: number, view: Attribute.ViewBox): Element.NonRenderable.PaintServer.Pattern;
+    public toPattern(w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Element.NonRenderable.PaintServer.Pattern {
+      let pattern = new Element.NonRenderable.PaintServer.Pattern(this.paper, w, h, x, y, view);
+      let children = this.node.children;
+      for (let i = 0; i < children.length; ++i) {
+        pattern.node.appendChild(children.item(i));
+      }
+      return pattern;
+    }
   }
 
   export namespace Element {
@@ -1619,16 +1818,37 @@ export namespace vektor {
     public addDef(def: Element<SVGElement, any>) {
       this.defs.appendChild(def.node);
     }
-    public registerAnimation<A>(el: Element<SVGElement, A>, defs: AnimationDefinition<keyof A, A[keyof A]>[], duration: number, easing: (t: number) => number): Promise<any> {
-      return new Promise(resolve => {
+    public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>): (enable: boolean) => void;
+    public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>, isEnabled: () => boolean): void;
+    public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>, isEnabled?: () => boolean): void | ((enable: boolean) => void) {
+      if (isEnabled !== undefined) {
         Paper.runner.add({
-          "element": el.node,
-          "start": performance.now(),
-          "duration": duration,
-          "easing": easing,
-          "defs": defs,
-          "resolve": resolve
+          element, defs, "progress": (now: number): number | undefined => isEnabled() ? now : undefined     
         });
+      } else {
+        let enabled = true;
+        Paper.runner.add({
+          element, defs, "progress": (now: number): number | undefined => enabled ? now : undefined      
+        });
+        return (enable: boolean) => {
+          enabled = enable;
+        };
+      }
+    }
+    public registerAnimation<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, attrs: Animation.Defined<Attrs>, duration: number, easing: (t: number) => number): Promise<any> {
+      return new Promise(resolve => {
+        const start = performance.now();
+        const end = start + duration;
+        const from = {} as Partial<Attrs>;
+        for (let prop in attrs) {
+          from[prop] = (attrs[prop] as Attribute<any>).get(element, prop);
+        }
+        const defs = {} as Dynamic.Defined<any>;
+        const anim: Animation<Attrs> = {
+          element, attrs, resolve, from, defs,
+          "progress": (now: number): number | undefined => (now > start && now <= end) ? easing((now - start) / duration) : undefined
+        };
+        Paper.runner.add(anim);
       })
     }
     public g(els: Element<SVGElement, any>[]): Element.Renderable.G {
