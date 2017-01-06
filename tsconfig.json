@@ -9,7 +9,6 @@
 
     "declaration": true,
     "sourceMap": true,
-    "inlineSourceMap": true,
 
     "noImplicitAny": false,
     "noImplicitThis": true,
