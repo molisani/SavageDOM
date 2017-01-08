@@ -4,5 +4,7 @@ dist/
 *.js.map
 *.d.ts
 
+!Gruntfile.js
+
 .vscode/
 .tscache/
