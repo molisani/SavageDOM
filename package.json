@@ -2,25 +2,46 @@
   "name": "vektor",
   "version": "1.0.0-alpha.0",
   "description": "Object-oriented, DOM-wrapping SVG library written in TypeScript",
-  "keywords": ["svg", "animation"],
+  "keywords": [
+    "svg",
+    "animation"
+  ],
   "homepage": "",
   "bugs": {
     "url": "https://github.com/molisani/vektor-ts/issues"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/molisani/vektor-ts.git"
+    "type": "git",
+    "url": "https://github.com/molisani/vektor-ts.git"
   },
-  "license": "LGPLv3",
+  "license": "LGPL-3.0",
   "author": "Michael Molisani <michael@molisani.us> (http://molisani.us)",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/vektor.js",
+  "types": "dist/vektor.d.ts",
   "scripts": {
-    "prepublish": "tsc"
+    "test": "grunt test-travis"
   },
   "devDependencies": {
     "@types/node": "^6.0.46",
+    "grunt": "^1.0.1",
+    "grunt-bump": "^0.8.0",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-git": "^1.0.3",
+    "grunt-parallelize": "^1.1.7",
+    "grunt-sed": "^0.1.1",
+    "grunt-shell": "^2.1.0",
+    "grunt-ts": "^6.0.0-beta.3",
+    "grunt-tslint": "^4.0.0",
+    "grunt-umd": "^2.4.0",
+    "load-grunt-tasks": "^3.5.2",
+    "requirejs": "^2.3.2",
     "systemjs": "^0.19.41",
+    "tslint": "^4.3.1",
     "typescript": "^2.1.4"
   }
 }

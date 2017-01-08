@@ -1,0 +1,5 @@
+/*
+ * VEKTOR-TS @VERSION (https://github.com/molisani/vektor-ts) 
+ * Copyright 2017 Michael Molisani
+ * Licensed under LGPL-3.0 (https://github.com/molisani/vektor-ts/blob/master/LICENSE)
+ */
