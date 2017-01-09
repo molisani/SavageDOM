@@ -1,0 +1,18 @@
+{
+  "name": "savagedom",
+  "description": "Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript",
+  "main": [
+    "dist/SavageDOM.js"
+  ],
+  "keywords": [
+    "svg",
+    "animation"
+  ],
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "authors": ["Michael Molisani <michael@molisani.us> (http://molisani.us)"],
+  "license": "LGPL-3.0"
+}
