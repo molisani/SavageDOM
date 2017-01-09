@@ -1,0 +1,1034 @@
+declare namespace SavageDOM {
+    interface Animation<Attrs> extends Dynamic<Attrs> {
+        from: Partial<Attrs>;
+        attrs: Animation.Defined<Attrs>;
+        resolve: (end: number) => any;
+    }
+    namespace Animation {
+        type Defined<Attrs> = {
+            [A in keyof Attrs]?: Attribute<Attrs[A]>;
+        };
+        namespace Easing {
+            const linear: (t: number) => number;
+            const quadraticIn: (t: number) => number;
+            const quadraticOut: (t: number) => number;
+            const quadratic: (t: number) => number;
+            const cubicIn: (t: number) => number;
+            const cubicOut: (t: number) => number;
+            const cubic: (t: number) => number;
+            const quarticIn: (t: number) => number;
+            const quarticOut: (t: number) => number;
+            const quartic: (t: number) => number;
+            const quinticIn: (t: number) => number;
+            const quinticOut: (t: number) => number;
+            const quintic: (t: number) => number;
+            const sineIn: (t: number) => number;
+            const sineOut: (t: number) => number;
+            const sine: (t: number) => number;
+            const exponentialIn: (t: number) => number;
+            const exponentialOut: (t: number) => number;
+            const exponential: (t: number) => number;
+            const circularIn: (t: number) => number;
+            const circularOut: (t: number) => number;
+            const circular: (t: number) => number;
+        }
+    }
+    class AnimationRunner {
+        private static requestAnimationFrame;
+        private running;
+        private queue;
+        add(anim: Dynamic<any>): void;
+        private loop();
+        private stop();
+        private start();
+    }
+}
+declare namespace SavageDOM {
+    interface Setter {
+        set<Attrs>(element: Element<SVGElement, Attrs>, attr: keyof Attrs, override?: any): void;
+    }
+    interface Attribute<T> extends Setter {
+        parse(css: string | null): T;
+        get<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A): T;
+        set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A, override?: T): void;
+        interpolate(from: T, t: number): T;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    const isAttribute: (obj: any) => obj is Attribute<any>;
+    type Inherit = "inherit";
+    type Paint = "none" | "currentColor" | Color | Elements.NonRenderable.PaintServer.Gradient.Linear | Elements.NonRenderable.PaintServer.Gradient.Radial | Elements.NonRenderable.PaintServer.Pattern | Inherit;
+    type Length = number | Dimension<CSSAbsoluteLengths>;
+    const _LengthParse: (css: string) => Length;
+    const _LengthInterpolate: (a: Length, b: Length, t: number) => Length;
+    type Angle = number | Dimension<CSSAngleUnits>;
+    type Percentage = Dimension<"%">;
+    interface Presentation {
+        "alignment-baseline": "auto" | "baseline" | "before-edge" | "text-before-edge" | "middle" | "central" | "after-edge" | "text-after-edge" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | Inherit;
+        "baseline-shift": "auto" | "baseline" | "super" | "sub" | number | Inherit;
+        "color": Color | Inherit;
+        "color-interpolation": "auto" | "sRGB" | "linearRGB" | Inherit;
+        "color-interpolation-filters": "auto" | "sRGB" | "linearRGB" | Inherit;
+        "color-profile": "auto" | "sRGB" | string | Inherit;
+        "color-rendering": "auto" | "optimizeSpeed" | "optimizeQuality" | Inherit;
+        "dominant-baseline": "auto" | "use-script" | "no-change" | "reset-size" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | "central" | "middle" | "text-after-edge" | "text-before-edge" | Inherit;
+        "fill": Paint;
+        "fill-rule": "nonzero" | "evenodd" | Inherit;
+        "filter": string | "none" | Inherit;
+        "opacity": number | Inherit;
+        "shape-rendering": "auto" | "optimizeSpeed" | "crispEdges" | "geometricPrecision" | Inherit;
+        "stroke": Paint;
+        "stroke-dasharray": "none" | List<Number> | Inherit;
+        "stroke-dashoffset": Percentage | Length | Inherit;
+        "stroke-linecap": "butt" | "round" | "square" | Inherit;
+        "stroke-linejoin": "miter" | "round" | "bevel" | Inherit;
+        "stroke-miterlimit": number | Inherit;
+        "stroke-width": Length | Percentage | Inherit;
+    }
+    interface Textual {
+        "direction": "ltr" | "rtl" | Inherit;
+        "font-family": string | Inherit;
+        "font-size": Length | Inherit;
+        "font-size-adjust": number | "none" | Inherit;
+        "font-stretch": "normal" | "wider" | "narrower" | "ultra-condensed" | "extra-condensed" | "condensed" | "semi-condensed" | "semi-expanded" | "expanded" | "extra-expanded" | "ultra-expanded" | Inherit;
+        "font-style": "normal" | "italic" | "oblique" | Inherit;
+        "font-variant": "normal" | "small-caps" | Inherit;
+        "font-weight": "normal" | "bold" | "bolder" | "lighter" | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | Inherit;
+        "kerning": "auto" | Length | Inherit;
+        "letter-spacing": "normal" | Length | Inherit;
+        "text-anchor": "start" | "middle" | "end" | Inherit;
+        "text-decoration": "none" | "underline" | "overline" | "line-through" | "blink" | Inherit;
+        "text-rendering": "auto" | "optimizeSpeed" | "optimizeLegibility" | "geometericPrecision" | Inherit;
+        "word-spacing": "normal" | Length | Inherit;
+        "writing-mode": "lr-tb" | "rl-tb" | "tb-rl" | "lr" | "rl" | "tb" | Inherit;
+    }
+    interface HasStyle {
+        style: string;
+    }
+    interface HasClass {
+        class: string;
+    }
+    interface Transformable {
+        transform: List<Transform>;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    interface ColorMatrix {
+        type: "matrix" | "saturate" | "hueRotate" | "luminanceToAlpha";
+        toString(): string;
+    }
+    namespace ColorMatrix {
+        class Raw implements ColorMatrix, Attribute<Raw> {
+            type: "matrix";
+            arr: number[];
+            constructor(values?: number[][]);
+            parse(css: string | null): Raw;
+            get(element: Element<SVGElement, any>, attr: string): Raw;
+            set(element: Element<SVGElement, any>, attr: string, override?: Raw): void;
+            interpolate(from: Matrix, t: number): Raw;
+        }
+        class Saturate implements ColorMatrix, Attribute<Saturate> {
+            value: number;
+            type: "saturate";
+            constructor(value?: number);
+            toString(): string;
+            parse(css: string | null): Saturate;
+            get(element: Element<SVGElement, any>, attr: string): Saturate;
+            set(element: Element<SVGElement, any>, attr: string, override?: Saturate): void;
+            interpolate(from: Saturate, t: number): Saturate;
+        }
+        class HueRotate implements ColorMatrix, Attribute<HueRotate> {
+            value: number;
+            type: "hueRotate";
+            constructor(value?: number);
+            toString(): string;
+            parse(css: string | null): HueRotate;
+            get(element: Element<SVGElement, any>, attr: string): HueRotate;
+            set(element: Element<SVGElement, any>, attr: string, override?: HueRotate): void;
+            interpolate(from: HueRotate, t: number): HueRotate;
+        }
+        class LuminanceToAlphaColorMatrix implements ColorMatrix {
+            type: "luminanceToAlpha";
+            toString(): string;
+        }
+    }
+}
+declare namespace SavageDOM.Attribute {
+    const _lerp: (a: number, b: number, t: number) => number;
+    type InterpolationMode = "rgb" | "hsl-shortest" | "hsl-longest" | "hsl-clockwise" | "hsl-counterclockwise";
+    class Color implements Attribute<Color> {
+        static DEFAULT_MODE: InterpolationMode;
+        mode: InterpolationMode;
+        private impl;
+        constructor();
+        constructor(css: string);
+        constructor(format: "rgb", r: number, g: number, b: number, a?: number);
+        constructor(format: "hsl", h: number, s: number, l: number, a?: number);
+        toString(): string;
+        parse(css: string | null): Color;
+        get(element: Element<SVGElement, any>, attr: string): Color;
+        set(element: Element<SVGElement, any>, attr: string, override?: Color): void;
+        interpolate(from: Color, t: number): Color;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    type CSSAbsoluteLengths = "px" | "in" | "cm" | "mm" | "pt" | "pc";
+    type CSSAngleUnits = "deg" | "grad" | "rad" | "turn";
+    class Dimension<Unit extends string> implements Attribute<Dimension<Unit>> {
+        value: number;
+        unit: Unit;
+        private static convert;
+        constructor(value: number, unit: Unit);
+        toString(): string;
+        parse(css: string | null): Dimension<Unit>;
+        get(element: Element<SVGElement, any>, attr: string): Dimension<Unit>;
+        set(element: Element<SVGElement, any>, attr: string, override?: Dimension<Unit>): void;
+        interpolate(from: Dimension<Unit>, t: number): Dimension<Unit>;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    class List<T extends Attribute<T>> extends Array<T> implements Attribute<List<T>> {
+        toString(): string;
+        parse(css: string | null): List<T>;
+        get(element: Element<SVGElement, any>, attr: string): List<T>;
+        set(element: Element<SVGElement, any>, attr: string, override?: List<T>): void;
+        interpolate(from: List<T>, t: number): List<T>;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    class Matrix implements Attribute<Matrix> {
+        arr: number[];
+        constructor(values: number[][]);
+        toString(): string;
+        parse(css: string | null): Matrix;
+        get(element: Element<SVGElement, any>, attr: string): Matrix;
+        set(element: Element<SVGElement, any>, attr: string, override?: Matrix): void;
+        interpolate(from: Matrix, t: number): Matrix;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    class NumberOptionalNumber implements Attribute<NumberOptionalNumber> {
+        n: number;
+        o: number;
+        constructor(n: number, o?: number);
+        toString(): string;
+        parse(css: string | null): NumberOptionalNumber;
+        get(element: Element<SVGElement, any>, attr: string): NumberOptionalNumber;
+        set(element: Element<SVGElement, any>, attr: string, override?: NumberOptionalNumber): void;
+        interpolate(from: NumberOptionalNumber, t: number): NumberOptionalNumber;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    class Number implements Attribute<Number> {
+        n: number;
+        constructor(n?: number);
+        toString(): string;
+        parse(css: string | null): Number;
+        get(element: Element<SVGElement, any>, attr: string): Number;
+        set(element: Element<SVGElement, any>, attr: string, override?: Number): void;
+        interpolate(from: Number, t: number): Number;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    abstract class PathSegment implements Attribute<PathSegment> {
+        type: "M" | "m" | "L" | "l" | "Q" | "q" | "T" | "t" | "C" | "c" | "S" | "s" | "A" | "a" | "Z";
+        abstract toString(): string;
+        parse(css: string | null): PathSegment;
+        get(element: Element<SVGElement, any>, attr: string): PathSegment;
+        set(element: Element<SVGElement, any>, attr: string, override?: PathSegment): void;
+        abstract parseArgs(css: string): PathSegment;
+        abstract defaultInstance(): PathSegment;
+        abstract interpolate(from: PathSegment, t: number): PathSegment;
+    }
+    namespace PathSegment {
+        abstract class SinglePoint extends PathSegment {
+            p: Point;
+            abstract type: "M" | "m" | "L" | "l" | "T" | "t";
+            constructor(p?: Point);
+            toString(): string;
+            parseArgs(css: string): SinglePoint;
+            interpolate(from: SinglePoint, t: number): SinglePoint;
+            abstract buildInstance(p: Point): SinglePoint;
+            abstract defaultInstance(): SinglePoint;
+        }
+        abstract class DoublePoint extends PathSegment {
+            p1: Point;
+            p2: Point;
+            abstract type: "Q" | "q" | "S" | "s";
+            constructor(p1?: Point, p2?: Point);
+            toString(): string;
+            parseArgs(css: string): DoublePoint;
+            interpolate(from: DoublePoint, t: number): DoublePoint;
+            abstract buildInstance(p1: Point, p2: Point): DoublePoint;
+            abstract defaultInstance(): DoublePoint;
+        }
+        abstract class TriplePoint extends PathSegment {
+            p1: Point;
+            p2: Point;
+            p3: Point;
+            abstract type: "C" | "c";
+            constructor(p1?: Point, p2?: Point, p3?: Point);
+            toString(): string;
+            parseArgs(css: string): TriplePoint;
+            interpolate(from: TriplePoint, t: number): TriplePoint;
+            abstract buildInstance(p1: Point, p2: Point, p3: Point): TriplePoint;
+            abstract defaultInstance(): TriplePoint;
+        }
+        class MoveToAbs extends SinglePoint {
+            type: "M";
+            buildInstance(p: Point): MoveToAbs;
+            defaultInstance(): MoveToAbs;
+        }
+        class MoveToRel extends SinglePoint {
+            type: "m";
+            buildInstance(p: Point): MoveToRel;
+            defaultInstance(): MoveToRel;
+        }
+        class LineToAbs extends SinglePoint {
+            type: "L";
+            buildInstance(p: Point): LineToAbs;
+            defaultInstance(): LineToAbs;
+        }
+        class LineToRel extends SinglePoint {
+            type: "l";
+            buildInstance(p: Point): LineToRel;
+            defaultInstance(): LineToRel;
+        }
+        class CurveToQuadraticAbs extends DoublePoint {
+            type: "Q";
+            buildInstance(p1: Point, p2: Point): CurveToQuadraticAbs;
+            defaultInstance(): CurveToQuadraticAbs;
+        }
+        class CurveToQuadraticRel extends DoublePoint {
+            type: "q";
+            buildInstance(p1: Point, p2: Point): CurveToQuadraticRel;
+            defaultInstance(): CurveToQuadraticRel;
+        }
+        class CurveToQuadraticSmoothAbs extends SinglePoint {
+            type: "T";
+            buildInstance(p: Point): CurveToQuadraticSmoothAbs;
+            defaultInstance(): CurveToQuadraticSmoothAbs;
+        }
+        class CurveToQuadraticSmoothRel extends SinglePoint {
+            type: "t";
+            buildInstance(p: Point): CurveToQuadraticSmoothRel;
+            defaultInstance(): CurveToQuadraticSmoothRel;
+        }
+        class CurveToCubicAbs extends TriplePoint {
+            type: "C";
+            buildInstance(p1: Point, p2: Point, p3: Point): CurveToCubicAbs;
+            defaultInstance(): CurveToCubicAbs;
+        }
+        class CurveToCubicRel extends TriplePoint {
+            type: "c";
+            buildInstance(p1: Point, p2: Point, p3: Point): CurveToCubicRel;
+            defaultInstance(): CurveToCubicRel;
+        }
+        class CurveToCubicSmoothAbs extends DoublePoint {
+            type: "S";
+            buildInstance(p1: Point, p2: Point): CurveToCubicSmoothAbs;
+            defaultInstance(): CurveToCubicSmoothAbs;
+        }
+        class CurveToCubicSmoothRel extends DoublePoint {
+            type: "s";
+            buildInstance(p1: Point, p2: Point): CurveToCubicSmoothRel;
+            defaultInstance(): CurveToCubicSmoothRel;
+        }
+        abstract class ArcTo extends PathSegment {
+            r: Point;
+            p: Point;
+            xAxisRotate: number;
+            largeArc: boolean;
+            sweepClockwise: boolean;
+            abstract type: "A" | "a";
+            constructor(r?: Point, p?: Point, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean);
+            toString(): string;
+            parseArgs(css: string): ArcTo;
+            interpolate(from: ArcTo, t: number): ArcTo;
+            abstract buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise: any): ArcTo;
+            abstract defaultInstance(): ArcTo;
+        }
+        class ArcToAbs extends ArcTo {
+            type: "A";
+            buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise: any): ArcToAbs;
+            defaultInstance(): ArcToAbs;
+        }
+        class ArcToRel extends ArcTo {
+            type: "a";
+            buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise: any): ArcToRel;
+            defaultInstance(): ArcToRel;
+        }
+        class ClosePath extends PathSegment {
+            type: "Z";
+            toString(): string;
+            parseArgs(css: string): ClosePath;
+            defaultInstance(): ClosePath;
+            interpolate(from: ClosePath, t: number): ClosePath;
+        }
+    }
+}
+declare namespace SavageDOM.Attribute {
+    class Point implements Attribute<Point> {
+        x: Length;
+        y: Length;
+        constructor(x: Length, y: Length);
+        toString(): string;
+        parse(css: string | null): Point;
+        get(element: Element<SVGElement, any>, attr: string): Point;
+        set(element: Element<SVGElement, any>, attr: string, override?: Point): void;
+        interpolate(from: Point, t: number): Point;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    class PreserveAspectRatio {
+        x: "Min" | "Mid" | "Max";
+        y: "Min" | "Mid" | "Max";
+        meetOrSlice: "meet" | "slice";
+        constructor();
+        constructor(x: "Min" | "Mid" | "Max", y: "Min" | "Mid" | "Max");
+        constructor(x: "Min" | "Mid" | "Max", y: "Min" | "Mid" | "Max", meetOrSlice: "meet" | "slice");
+        toString(): string;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    abstract class Transform implements Attribute<Transform> {
+        type: "matrix" | "translate" | "scale" | "rotate" | "skewX" | "skewY";
+        constructor(type: "matrix" | "translate" | "scale" | "rotate" | "skewX" | "skewY");
+        abstract args(): string;
+        toString(): string;
+        abstract parseArgs(args: string | null): Transform;
+        parse(css: string | null): Transform;
+        get(element: Element<SVGElement, any>, attr: string): Transform;
+        set(element: Element<SVGElement, any>, attr: string, override?: Transform): void;
+        abstract interpolate(from: Transform, t: number): Transform;
+    }
+    namespace Transform {
+        class Matrix extends Transform {
+            a: number;
+            b: number;
+            c: number;
+            d: number;
+            e: number;
+            f: number;
+            constructor(a?: number, b?: number, c?: number, d?: number, e?: number, f?: number);
+            args(): string;
+            parseArgs(css: string | null): Matrix;
+            interpolate(from: Matrix, t: number): Matrix;
+        }
+        class Translate extends Transform {
+            x: number;
+            y: number;
+            constructor(x?: number, y?: number);
+            args(): string;
+            parseArgs(css: string | null): Translate;
+            interpolate(from: Translate, t: number): Translate;
+        }
+        class UniformScale extends Transform {
+            s: number;
+            constructor(s?: number);
+            args(): string;
+            parseArgs(css: string | null): UniformScale;
+            interpolate(from: UniformScale, t: number): UniformScale;
+        }
+        class Scale extends Transform {
+            x: number;
+            y: number;
+            constructor(x?: number, y?: number);
+            args(): string;
+            parseArgs(css: string | null): Scale;
+            interpolate(from: Scale, t: number): Scale;
+        }
+        class Rotate extends Transform {
+            a: number;
+            x: number;
+            y: number;
+            constructor(a: number, x?: number, y?: number);
+            args(): string;
+            parseArgs(css: string | null): Rotate;
+            interpolate(from: Rotate, t: number): Rotate;
+        }
+        class SkewX extends Transform {
+            a: number;
+            constructor(a?: number);
+            args(): string;
+            parseArgs(css: string | null): SkewX;
+            interpolate(from: SkewX, t: number): SkewX;
+        }
+        class SkewY extends Transform {
+            a: number;
+            constructor(a?: number);
+            args(): string;
+            parseArgs(css: string | null): SkewY;
+            interpolate(from: SkewY, t: number): SkewY;
+        }
+    }
+}
+declare namespace SavageDOM.Attribute {
+    class ViewBox implements Attribute<ViewBox> {
+        x: Length;
+        y: Length;
+        width: Length;
+        height: Length;
+        constructor(x: Length, y: Length, width: Length, height: Length);
+        toString(): string;
+        parse(css: string | null): ViewBox;
+        get(element: Element<SVGElement, any>, attr: string): ViewBox;
+        set(element: Element<SVGElement, any>, attr: string, override?: ViewBox): void;
+        interpolate(from: ViewBox, t: number): ViewBox;
+    }
+}
+declare namespace SavageDOM {
+    const XMLNS = "http://www.w3.org/2000/svg";
+    const XLINK = "http://www.w3.org/1999/xlink";
+}
+declare namespace SavageDOM {
+    interface Dynamic<Attrs> {
+        element: Element<SVGElement, Attrs>;
+        defs: Dynamic.Defined<Attrs>;
+        progress: (now: number) => number | undefined;
+    }
+    namespace Dynamic {
+        interface Definition<A extends string> extends Setter {
+            set(element: Element<SVGElement, any>, attr: A): void;
+        }
+        type Defined<Attrs> = {
+            [A in keyof Attrs]?: Dynamic.Definition<A>;
+        };
+        class MousePosition<A extends string> extends Attribute.Point implements Definition<A> {
+            private xAttr;
+            private yAttr;
+            constructor(target?: Document | HTMLElement | SVGElement | Paper);
+        }
+    }
+}
+declare namespace SavageDOM {
+    class Element<SVG extends SVGElement, Attrs> {
+        paper: Paper;
+        node: SVG;
+        id: string;
+        private style;
+        constructor(paper: Paper, el: SVG);
+        constructor(paper: Paper, name: string, attrs?: Partial<Attrs>);
+        toString(): string;
+        setAttribute<Attr extends keyof Attrs>(name: Attr, val: Attrs[Attr]): void;
+        setAttributes(attrs: Partial<Attrs>): void;
+        getAttribute<Attr extends keyof Attrs>(name: Attr): string | null;
+        add(el: Element<SVGElement, any>): void;
+        getChildren(): Element<SVGElement, any>[];
+        dynamic(defs: Dynamic.Defined<Attrs>): void;
+        animate(attrs: Partial<Attrs>, duration: number, easing?: (t: number) => number): Promise<number>;
+        addEventListener(event: "focusin" | "focusout" | "mousedown" | "mouseup" | "mousemove" | "mouseover" | "mouseout", listener: (this: this, event: MouseEvent) => any): void;
+        addEventListener(event: "touchstart" | "touchend" | "touchmove" | "touchcancel", listener: (this: this, event: TouchEvent) => any): void;
+        toPattern(w: number, h: number): Elements.NonRenderable.PaintServer.Pattern;
+        toPattern(w: number, h: number, x: number, y: number): Elements.NonRenderable.PaintServer.Pattern;
+        toPattern(w: number, h: number, x: number, y: number, view: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
+    }
+    namespace Elements {
+    }
+}
+declare namespace SavageDOM.Attribute {
+    interface FilterPrimitive extends Presentation, HasClass, HasStyle {
+        x: Length;
+        y: Length;
+        width: Length;
+        height: Length;
+        "width:height": Point;
+        "x:y:width:height": ViewBox;
+        result: string;
+    }
+    namespace FilterPrimitive {
+        interface Blend {
+            in: Elements.FilterPrimitive<any, any>;
+            in2: Elements.FilterPrimitive<any, any>;
+            mode: "normal" | "multiply" | "screen" | "darken" | "lighten";
+        }
+        interface ColorMatrix {
+            in: Elements.FilterPrimitive<any, any>;
+            type: "matrix" | "saturate" | "hueRotate" | "luminanceToAlpha";
+            values: Attribute.ColorMatrix;
+            "type:values": Attribute.ColorMatrix;
+        }
+        interface ComponentTransfer {
+            in: Elements.FilterPrimitive<any, any>;
+        }
+        interface Composite {
+            in: Elements.FilterPrimitive<any, any>;
+            in2: Elements.FilterPrimitive<any, any>;
+            operator: "over" | "in" | "out" | "atop" | "xor" | "arithmetic";
+            k1: number;
+            k2: number;
+            k3: number;
+            k4: number;
+        }
+        interface ConvolveMatrix {
+            in: Elements.FilterPrimitive<any, any>;
+            order: NumberOptionalNumber;
+            kernelMatrix: Matrix;
+            divisor: number;
+            bias: number;
+            targetX: number;
+            targetY: number;
+            "targetX:targetY": Point;
+            edgeMode: "duplicate" | "wrap" | "none";
+            kernelUnitLength: NumberOptionalNumber;
+            preserveAlpha: boolean;
+        }
+        interface DiffuseLighting {
+            in: Elements.FilterPrimitive<any, any>;
+            surfaceScale: number;
+            diffuseConstant: number;
+            kernelUnitLength: NumberOptionalNumber;
+        }
+        interface DisplacementMap {
+            in: Elements.FilterPrimitive<any, any>;
+            in2: Elements.FilterPrimitive<any, any>;
+            scale: number;
+            xChannelSelector: "R" | "G" | "B" | "A";
+            yChannelSelector: "R" | "G" | "B" | "A";
+        }
+        interface DropShadow {
+            in: Elements.FilterPrimitive<any, any>;
+            stdDeviation: number;
+            dx: Length;
+            dy: Length;
+            "dx:dy": Point;
+        }
+        interface Flood {
+            "flood-color": "currentColor" | Color;
+        }
+        interface GaussianBlur {
+            in: Elements.FilterPrimitive<any, any>;
+            stdDeviation: number;
+            edgeMode: "duplicate" | "wrap" | "none";
+        }
+        interface Image {
+            preserveAspectRatio: PreserveAspectRatio;
+            "xlink:href": string;
+        }
+        interface MergeNode {
+            in: Elements.FilterPrimitive<any, any>;
+        }
+        interface Morphology {
+            in: Elements.FilterPrimitive<any, any>;
+            operator: "erode" | "dilate";
+            radius: NumberOptionalNumber;
+        }
+        interface Offset {
+            in: Elements.FilterPrimitive<any, any>;
+            dx: Length;
+            dy: Length;
+            "dx:dy": Point;
+        }
+        interface SpecularLighting {
+            in: Elements.FilterPrimitive<any, any>;
+            surfaceScale: number;
+            specularConstant: number;
+            specularExponent: number;
+            kernelUnitLength: NumberOptionalNumber;
+        }
+        interface Tile {
+            in: Elements.FilterPrimitive<any, any>;
+        }
+        interface Turbulence {
+            type: "fractalNoise" | "turbulence";
+            baseFrequency: NumberOptionalNumber;
+            numOctaves: number;
+            seed: number;
+            stitchTiles: "noStitch" | "stitch";
+        }
+        interface IdentityFunction {
+            type: "identity";
+        }
+        interface TabularFunction {
+            type: "table" | "discrete";
+            tableValues: List<Number>;
+        }
+        interface LinearFunction {
+            type: "linear";
+            slope: number;
+            intercept: number;
+        }
+        interface GammaFunction {
+            type: "gamma";
+            amplitude: number;
+            exponent: number;
+            offset: number;
+        }
+        type TransferFunction = IdentityFunction | TabularFunction | LinearFunction | GammaFunction;
+        namespace LightSource {
+            interface DistantLight {
+                type: "distant";
+                azimuth: number;
+                elevation: number;
+            }
+            interface PointLight {
+                type: "point";
+                x: Length;
+                y: Length;
+                "x:y": Point;
+                z: Length;
+            }
+            interface SpotLight {
+                type: "spot";
+                x: Length;
+                y: Length;
+                "x:y": Point;
+                z: Length;
+                pointsAtX: Length;
+                pointsAtY: Length;
+                "pointsAtX:pointsAtY": Point;
+                pointsAtZ: Length;
+                specularExponent: number;
+                limitingConeAngle: number;
+            }
+        }
+        type LightSource = LightSource.DistantLight | LightSource.PointLight | LightSource.SpotLight;
+    }
+    interface Filter {
+        x: Length;
+        y: Length;
+        "x:y": Point;
+        width: Length;
+        height: Length;
+        "width:height": Point;
+        "x:y:width:height": ViewBox;
+        filterUnits: "userSpaceOnUse" | "objectBoundingBox";
+        primitiveUnits: "userSpaceOnUse" | "objectBoundingBox";
+    }
+}
+declare namespace SavageDOM.Elements {
+    class FilterPrimitive<FE extends SVGElement, A> extends Element<FE, Attribute.FilterPrimitive & A> {
+        constructor(filter: Filter, name: string, attrs?: Partial<Attribute.FilterPrimitive & A>);
+    }
+    namespace FilterPrimitive {
+        class Blend extends FilterPrimitive<SVGFEBlendElement, Attribute.FilterPrimitive.Blend> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.Blend>);
+        }
+        class ColorMatrix extends FilterPrimitive<SVGFEColorMatrixElement, Attribute.FilterPrimitive.ColorMatrix> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.ColorMatrix>);
+        }
+        class ComponentTransfer extends FilterPrimitive<SVGFEComponentTransferElement, Attribute.FilterPrimitive.ComponentTransfer> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.ComponentTransfer>);
+        }
+        class Composite extends FilterPrimitive<SVGFECompositeElement, Attribute.FilterPrimitive.Composite> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.Composite>);
+        }
+        class ConvolveMatrix extends FilterPrimitive<SVGFEConvolveMatrixElement, Attribute.FilterPrimitive.ConvolveMatrix> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.ConvolveMatrix>);
+        }
+        class DiffuseLighting extends FilterPrimitive<SVGFEDiffuseLightingElement, Attribute.FilterPrimitive.DiffuseLighting> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.DiffuseLighting>);
+        }
+        class DisplacementMap extends FilterPrimitive<SVGFEDisplacementMapElement, Attribute.FilterPrimitive.DisplacementMap> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.DisplacementMap>);
+        }
+        class Flood extends FilterPrimitive<SVGFEFloodElement, Attribute.FilterPrimitive.Flood> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.Flood>);
+        }
+        class GaussianBlur extends FilterPrimitive<SVGFEGaussianBlurElement, Attribute.FilterPrimitive.GaussianBlur> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.GaussianBlur>);
+        }
+        class Image extends FilterPrimitive<SVGFEImageElement, Attribute.FilterPrimitive.Image> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.Image>);
+        }
+        class Merge extends FilterPrimitive<SVGFEMergeElement, void> {
+            constructor(filter: Filter);
+        }
+        class MergeNode extends FilterPrimitive<SVGFEMergeNodeElement, Attribute.FilterPrimitive.MergeNode> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.MergeNode>);
+        }
+        class Morphology extends FilterPrimitive<SVGFEMorphologyElement, Attribute.FilterPrimitive.Morphology> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.Morphology>);
+        }
+        class Offset extends FilterPrimitive<SVGFEOffsetElement, Attribute.FilterPrimitive.Offset> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.Offset>);
+        }
+        class SpecularLighting extends FilterPrimitive<SVGFESpecularLightingElement, Attribute.FilterPrimitive.SpecularLighting> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.SpecularLighting>);
+        }
+        class Tile extends FilterPrimitive<SVGFETileElement, Attribute.FilterPrimitive.Tile> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.Tile>);
+        }
+        class Turbulence extends FilterPrimitive<SVGFETurbulenceElement, Attribute.FilterPrimitive.Turbulence> {
+            constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.Turbulence>);
+        }
+        class TransferFunction extends FilterPrimitive<SVGFEFuncRElement | SVGFEFuncGElement | SVGFEFuncBElement | SVGFEFuncAElement, Attribute.FilterPrimitive.TransferFunction> {
+            constructor(filter: Filter, channel: "R" | "G" | "B" | "A", attrs?: Partial<Attribute.FilterPrimitive.TransferFunction>);
+        }
+        namespace LightSource {
+            class DistantLight extends FilterPrimitive<SVGFEDistantLightElement, Attribute.FilterPrimitive.LightSource.DistantLight> {
+                constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.LightSource.DistantLight>);
+            }
+            class PointLight extends FilterPrimitive<SVGFEPointLightElement, Attribute.FilterPrimitive.LightSource.PointLight> {
+                constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.LightSource.PointLight>);
+            }
+            class SpotLight extends FilterPrimitive<SVGFESpotLightElement, Attribute.FilterPrimitive.LightSource.SpotLight> {
+                constructor(filter: Filter, attrs?: Partial<Attribute.FilterPrimitive.LightSource.SpotLight>);
+            }
+        }
+    }
+    class Filter {
+        paper: Paper;
+        node: SVGFilterElement;
+        constructor(paper: Paper);
+        blend(mode: "normal" | "multiply" | "screen" | "darken" | "lighten", input1: Element<SVGElement, Attribute.FilterPrimitive>, input2?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.Blend;
+        colorMatrix(matrix: Attribute.ColorMatrix, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.ColorMatrix;
+        componentTransfer(r: Attribute.FilterPrimitive.TransferFunction, g: Attribute.FilterPrimitive.TransferFunction, b: Attribute.FilterPrimitive.TransferFunction, a?: Attribute.FilterPrimitive.TransferFunction, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.ComponentTransfer;
+        composite(operator: "over" | "in" | "out" | "atop" | "xor" | "arithmetic", k1: number, k2: number, k3: number, k4: number, input1?: Element<SVGElement, Attribute.FilterPrimitive>, input2?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.Composite;
+        convolveMatrix(attrs: Partial<Attribute.FilterPrimitive.ConvolveMatrix>, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.ConvolveMatrix;
+        diffuseLighting(attrs: Partial<Attribute.FilterPrimitive.DiffuseLighting>, lights?: Attribute.FilterPrimitive.LightSource[], input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.DiffuseLighting;
+        displacementMap(attrs: Partial<Attribute.FilterPrimitive.DisplacementMap>, input1?: Elements.FilterPrimitive<any, any>, input2?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.DisplacementMap;
+        flood(color: Attribute.Color, area: Attribute.ViewBox): Elements.FilterPrimitive.Flood;
+        gaussianBlur(stdDeviation?: number, edgeMode?: "duplicate" | "wrap" | "none", input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.GaussianBlur;
+        image(href: string, preserveAspectRatio?: Attribute.PreserveAspectRatio): Elements.FilterPrimitive.Image;
+        merge(inputs: Elements.FilterPrimitive<any, any>[]): Elements.FilterPrimitive.Merge;
+        morphology(operator: "erode" | "dilate", radius: Attribute.NumberOptionalNumber, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.Morphology;
+        offset(d: Attribute.Point, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.Offset;
+        specularLighting(attrs: Partial<Attribute.FilterPrimitive.SpecularLighting>, lights?: Attribute.FilterPrimitive.LightSource[], input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.SpecularLighting;
+        tile(area: Attribute.ViewBox, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.Tile;
+        turbulence(attrs: Partial<Attribute.FilterPrimitive.Turbulence>): Elements.FilterPrimitive.Turbulence;
+        private addEffect(fe);
+        private addLights(lighting, lights);
+    }
+}
+declare namespace SavageDOM.Attribute {
+    interface NonRenderable extends Presentation, HasStyle, HasClass {
+    }
+    namespace NonRenderable {
+        namespace PaintServer {
+            interface Gradient {
+                gradientUnits: "userSpaceOnUse" | "objectBoundingBox";
+                gradientTransform: List<Transform>;
+                spreadMethod: "pad" | "reflect" | "repeat";
+                "xlink:href": string;
+            }
+            namespace Gradient {
+                interface Linear extends Gradient {
+                    x1: Length;
+                    y1: Length;
+                    "x1:y1": Point;
+                    x2: Length;
+                    y2: Length;
+                    "x2:y2": Point;
+                }
+                interface Radial extends Gradient {
+                    cx: Length;
+                    cy: Length;
+                    "cx:cy": Point;
+                    r: Length;
+                    fx: Length;
+                    fy: Length;
+                    "fx:fy": Point;
+                }
+                interface Stops {
+                    [offset: number]: "currentColor" | Color | Inherit;
+                }
+            }
+            interface Pattern {
+                patternUnits: "userSpaceOnUse" | "objectBoundingBox";
+                patternContentUnits: "userSpaceOnUse" | "objectBoundingBox";
+                patternTransform: List<Transform>;
+                x: Length;
+                y: Length;
+                "x:y": Point;
+                width: Length;
+                height: Length;
+                "width:height": Point;
+                "x:y:width:height": ViewBox;
+                "xlink:href": string;
+                preserveAspectRatio: PreserveAspectRatio;
+                viewBox: ViewBox;
+            }
+        }
+        interface Marker {
+            markerUnits: "userSpaceOnUse" | "strokeWidth";
+            refX: Length;
+            refY: Length;
+            "refX:refY": Point;
+            markerWidth: Length;
+            markerHeight: Length;
+            "refX:refY:markerWidth:markerHeight": ViewBox;
+            orient: "auto" | "auto-start-reverse" | number | string;
+            viewBox: ViewBox;
+        }
+        interface Mask {
+            maskUnits: "userSpaceOnUse" | "objectBoundingBox";
+            maskContentUnits: "userSpaceOnUse" | "objectBoundingBox";
+            x: Length;
+            y: Length;
+            width: Length;
+            height: Length;
+            "width:height": Point;
+            "x:y:width:height": ViewBox;
+        }
+    }
+}
+declare namespace SavageDOM.Elements {
+    abstract class NonRenderable<E extends SVGElement, NonRenderableAttributes> extends Element<E, Attribute.NonRenderable & NonRenderableAttributes> {
+    }
+    namespace NonRenderable {
+        abstract class PaintServer<E extends SVGElement, PaintServerAttributes> extends NonRenderable<E, PaintServerAttributes> {
+        }
+        namespace PaintServer {
+            abstract class Gradient<E extends SVGElement, GradientAttributes extends Attribute.NonRenderable.PaintServer.Gradient> extends PaintServer<E, GradientAttributes> {
+            }
+            namespace Gradient {
+                class Linear extends Gradient<SVGLinearGradientElement, Attribute.NonRenderable.PaintServer.Gradient.Linear> {
+                    constructor(paper: Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable | Attribute.NonRenderable.PaintServer.Gradient.Linear>);
+                }
+                class Radial extends Gradient<SVGRadialGradientElement, Attribute.NonRenderable.PaintServer.Gradient.Radial> {
+                    constructor(paper: Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable | Attribute.NonRenderable.PaintServer.Gradient.Radial>);
+                }
+            }
+            class Pattern extends PaintServer<SVGPatternElement, Attribute.NonRenderable.PaintServer.Pattern> {
+                paper: Paper;
+                constructor(paper: Paper, w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox);
+            }
+        }
+        class Marker extends Element<SVGMarkerElement, Attribute.NonRenderable & Attribute.NonRenderable.Marker> {
+            constructor(paper: Paper, attrs?: Partial<Attribute.NonRenderable & Attribute.NonRenderable.Marker>);
+        }
+        class Mask extends Element<SVGMaskElement, Attribute.NonRenderable & Attribute.NonRenderable.Mask> {
+            paper: Paper;
+            constructor(paper: Paper, w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox");
+        }
+    }
+}
+declare namespace SavageDOM.Attribute {
+    interface Renderable extends Presentation, HasStyle, HasClass, Transformable {
+    }
+    namespace Renderable {
+        namespace Shape {
+            interface Circle {
+                cx: Length;
+                cy: Length;
+                "cx:cy": Point;
+                r: Length;
+            }
+            interface Ellipse {
+                cx: Length;
+                cy: Length;
+                "cx:cy": Point;
+                rx: Length;
+                ry: Length;
+                "rx:ry": Point;
+            }
+            interface Line {
+                x1: Length;
+                y1: Length;
+                "x1:y1": Point;
+                x2: Length;
+                y2: Length;
+                "x2:y2": Point;
+            }
+            interface Polygon {
+                points: List<Point>;
+            }
+            interface Polyline {
+                points: List<Point>;
+            }
+            interface Path {
+                d: List<PathSegment>;
+                pathLength: number;
+            }
+            interface Rect {
+                x: Length;
+                y: Length;
+                "x:y": Point;
+                width: Length;
+                height: Length;
+                "width:height": Point;
+                "x:y:width:height": ViewBox;
+                rx: Length;
+                ry: Length;
+                "rx:ry": Point;
+            }
+        }
+        interface Image {
+            x: Length;
+            y: Length;
+            "x:y": Point;
+            width: Length;
+            height: Length;
+            "width:height": Point;
+            "x:y:width:height": ViewBox;
+            "xlink:href": string;
+            preserveAspectRatio?: PreserveAspectRatio;
+            viewBox?: ViewBox;
+        }
+        interface Text {
+            x: Length;
+            y: Length;
+            "x:y": Point;
+            dx: Length;
+            dy: Length;
+            "dx:dy": Point;
+            textLength?: Length;
+        }
+    }
+}
+declare namespace SavageDOM.Elements {
+    abstract class Renderable<E extends SVGElement, RenderableAttributes> extends Element<E, Attribute.Renderable & RenderableAttributes> {
+    }
+    namespace Renderable {
+        abstract class Shape<E extends SVGElement, ShapeAttributes> extends Renderable<E, ShapeAttributes> {
+        }
+        namespace Shape {
+            class Circle extends Shape<SVGCircleElement, Attribute.Renderable.Shape.Circle> {
+                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Circle>);
+            }
+            class Ellipse extends Shape<SVGEllipseElement, Attribute.Renderable.Shape.Ellipse> {
+                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Ellipse>);
+            }
+            class Line extends Shape<SVGLineElement, Attribute.Renderable.Shape.Line> {
+                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Line>);
+            }
+            class Polygon extends Shape<SVGPolygonElement, Attribute.Renderable.Shape.Polygon> {
+                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Polygon>);
+            }
+            class Polyline extends Shape<SVGPolylineElement, Attribute.Renderable.Shape.Polyline> {
+                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Polyline>);
+            }
+            class Path extends Shape<SVGPathElement, Attribute.Renderable.Shape.Path> {
+                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Path>);
+            }
+            class Rect extends Shape<SVGRectElement, Attribute.Renderable.Shape.Rect> {
+                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Rect>);
+            }
+        }
+        class Image extends Renderable<SVGImageElement, Attribute.Renderable.Image> {
+            constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Image>);
+        }
+        class Text extends Renderable<SVGTextElement, Attribute.Textual | Attribute.Renderable.Text> {
+            constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Textual | Attribute.Renderable.Text>);
+        }
+        class G extends Renderable<SVGGElement, void> {
+            constructor(paper: Paper, attrs?: Partial<Attribute.Renderable>);
+        }
+    }
+}
+declare namespace SavageDOM {
+    class Paper {
+        private static runner;
+        root: SVGSVGElement;
+        defs: SVGDefsElement;
+        constructor();
+        constructor(id: string);
+        constructor(el: SVGSVGElement);
+        addDef(def: Element<SVGElement, any>): void;
+        registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>): (enable: boolean) => void;
+        registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>, isEnabled: () => boolean): void;
+        registerAnimation<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, attrs: Animation.Defined<Attrs>, duration: number, easing: (t: number) => number): Promise<any>;
+        g(els: Element<SVGElement, any>[]): Elements.Renderable.G;
+        circle(cx: Attribute.Length, cy: Attribute.Length, r: Attribute.Length): Elements.Renderable.Shape.Circle;
+        ellipse(cx: number, cy: number, rx: number, ry: number): Elements.Renderable.Shape.Ellipse;
+        filter(): Elements.Filter;
+        pattern(w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
+        linearGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear;
+        radialGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs: Attribute.NonRenderable.PaintServer.Gradient.Radial): Elements.NonRenderable.PaintServer.Gradient.Radial;
+        image(attrs: Attribute.Renderable.Image): Elements.Renderable.Image;
+        line(x1: Attribute.Length, y1: Attribute.Length, x2: Attribute.Length, y2: Attribute.Length): Elements.Renderable.Shape.Line;
+        mask(w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox"): Elements.NonRenderable.Mask;
+        path(d: Attribute.List<Attribute.PathSegment>, pathLength?: number): Elements.Renderable.Shape.Path;
+    }
+}
