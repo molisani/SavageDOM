@@ -119,44 +119,6 @@ module.exports = function(grunt) {
           src: FILES_TO_COMMIT
         }
       }
-    },
-    uglify: {
-      main: {
-        files: {
-          "dist/SavageDOM.min.js": ["dist/SavageDOM.js"]
-        }
-      }
-    },
-    "saucelabs-mocha": {
-      all: {
-        options: {
-          urls: ["http://127.0.0.1:9999/test/tests.html"],
-          testname: "SavageDOM Unit Tests",
-          pollInterval: 5000,
-          statusCheckAttempts: 60,
-          maxRetries: 1,
-          browsers: [
-            {
-              browserName: "firefox",
-              platform: "linux"
-            },
-            {
-              browserName: "chrome",
-              platform: "linux"
-            },
-            {
-              browserName: "internet explorer",
-              version: "9",
-              platform: "WIN7"
-            },
-            {
-              browserName: "safari",
-              version: "8.0",
-              platform: "OS X 10.10"
-            }
-          ]
-        }
-      }
     }
   });
 
@@ -171,7 +133,7 @@ module.exports = function(grunt) {
   grunt.registerTask("release:minor", ["bump:minor", "dist-compile", "gitcommit:version"]);
   grunt.registerTask("release:major", ["bump:major", "dist-compile", "gitcommit:version"]);
 
-  grunt.registerTask("dist-compile", ["test", "uglify"]);
+  grunt.registerTask("dist-compile", ["test"]);
 
   grunt.registerTask("commitjs", ["dist-compile", "gitcommit:built"]);
   grunt.registerTask("default", ["connect", "dev-compile", "watch-silent"]);
@@ -187,12 +149,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask("lint", ["parallelize:tslint"]);
 
-  if (process.env.SAUCE_USERNAME) {
-    grunt.registerTask("test-travis", ["dev-compile", "test-local", "test-sauce"]);
-  } else {
-    grunt.registerTask("test-travis", ["dev-compile", "test-local"]);
-  }
-
+  grunt.registerTask("test-travis", ["dev-compile", "test-local"]);
 
 
 
