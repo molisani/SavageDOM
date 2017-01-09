@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export class NumberOptionalNumber implements Attribute<NumberOptionalNumber> {
     constructor(public n: number, public o?: number) {}

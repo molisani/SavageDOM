@@ -1,4 +1,4 @@
-namespace vektor {
+namespace SavageDOM {
 
   export class Paper {
     private static runner = new AnimationRunner();

@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export abstract class Transform implements Attribute<Transform> {
     constructor(public type: "matrix" | "translate" | "scale" | "rotate" | "skewX" | "skewY") {}

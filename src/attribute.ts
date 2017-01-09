@@ -1,4 +1,4 @@
-namespace vektor {
+namespace SavageDOM {
 
   const _lerp = (a: number, b: number, t: number): number => a + ((b - a) * t);
 
@@ -15,7 +15,7 @@ namespace vektor {
 
 }
 
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export const isAttribute = (obj: any | Attribute<any>): obj is Attribute<any> => {
     return typeof obj["interpolate"] === "function" && typeof obj["parse"] === "function";

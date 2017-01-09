@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export class PreserveAspectRatio {
     constructor();

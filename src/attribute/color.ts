@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export const _lerp = (a: number, b: number, t: number): number => a + ((b - a) * t);
 

@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export class ViewBox implements Attribute<ViewBox> {
     constructor(public x: Length, public y: Length, public width: Length, public height: Length) {}

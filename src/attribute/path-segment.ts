@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export abstract class PathSegment implements Attribute<PathSegment> {
     type: "M" | "m" | "L" | "l" | "Q" | "q" | "T" | "t" | "C" | "c" | "S" | "s" | "A" | "a" | "Z";

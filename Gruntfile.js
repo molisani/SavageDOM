@@ -2,35 +2,25 @@ module.exports = function(grunt) {
   "use strict";
 
   const FILES_TO_COMMIT = [
-    "dist/vektor.js",
-    "dist/vektor.min.js",
-    "dist/vektor.d.ts",
+    "dist/SavageDOM.js",
+    "dist/SavageDOM.min.js",
+    "dist/SavageDOM.d.ts",
     "bower.json",
     "package.json"
   ];
 
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
-    bump: {
-      options: {
-        files: ["package.json", "bower.json"],
-        updateConfigs: ["pkg"],
-        commit: false,
-        createTag: false,
-        push: false,
-        prereleaseName: "rc"
-      }
-    },
     umd: {
       all: {
-        src: "dist/vektor.js",
-        objectToExport: "vektor"
+        src: "dist/SavageDOM.js",
+        objectToExport: "SavageDOM"
       }
     },
     concat: {
       header: {
-        src: ["HEADER.txt", "dist/vektor.js"],
-        dest: "dist/vektor.js"
+        src: ["HEADER.txt", "dist/SavageDOM.js"],
+        dest: "dist/SavageDOM.js"
       }
     },
     ts: {
@@ -53,7 +43,7 @@ module.exports = function(grunt) {
       },
       verifyDefinitionFiles: {
         src: [
-          "dist/vektor.d.ts"
+          "dist/SavageDOM.d.ts"
         ],
         tsconfig: true
       }
@@ -64,6 +54,13 @@ module.exports = function(grunt) {
       },
       all: {
         src: ["src/**/*.ts", "test/**/*.ts"]
+      }
+    },
+    typedoc: {
+      build: {
+        out: "./docs",
+        mode: "module",
+        name: "SavageDOM"
       }
     },
     parallelize: {
@@ -102,7 +99,7 @@ module.exports = function(grunt) {
       versionNumber: {
         pattern: "@VERSION",
         replacement: "<%= pkg.version %>",
-        path: "dist/vektor.js"
+        path: "dist/SavageDOM.js"
       }
     },
     gitcommit: {
@@ -126,7 +123,7 @@ module.exports = function(grunt) {
     uglify: {
       main: {
         files: {
-          "dist/vektor.min.js": ["dist/vektor.js"]
+          "dist/SavageDOM.min.js": ["dist/SavageDOM.js"]
         }
       }
     },
@@ -134,7 +131,7 @@ module.exports = function(grunt) {
       all: {
         options: {
           urls: ["http://127.0.0.1:9999/test/tests.html"],
-          testname: "Vektor Unit Tests",
+          testname: "SavageDOM Unit Tests",
           pollInterval: 5000,
           statusCheckAttempts: 60,
           maxRetries: 1,

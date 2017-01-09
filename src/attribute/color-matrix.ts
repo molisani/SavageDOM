@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export interface ColorMatrix {
     type: "matrix" | "saturate" | "hueRotate" | "luminanceToAlpha";

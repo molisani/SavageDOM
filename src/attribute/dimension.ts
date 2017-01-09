@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export type CSSAbsoluteLengths = "px" | "in" | "cm" | "mm" | "pt" | "pc";
   export type CSSAngleUnits = "deg" | "grad" | "rad" | "turn";

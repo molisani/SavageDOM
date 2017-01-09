@@ -1,23 +1,23 @@
 {
-  "name": "vektor",
+  "name": "savagedom",
   "version": "1.0.0-alpha.0",
-  "description": "Object-oriented, DOM-wrapping SVG library written in TypeScript",
+  "description": "Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript",
   "keywords": [
     "svg",
     "animation"
   ],
   "homepage": "",
   "bugs": {
-    "url": "https://github.com/molisani/vektor-ts/issues"
+    "url": "https://github.com/molisani/SavageDOM/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/molisani/vektor-ts.git"
+    "url": "https://github.com/molisani/SavageDOM.git"
   },
   "license": "LGPL-3.0",
   "author": "Michael Molisani <michael@molisani.us> (http://molisani.us)",
-  "main": "dist/vektor.js",
-  "types": "dist/vektor.d.ts",
+  "main": "dist/SavageDOM.js",
+  "types": "dist/SavageDOM.d.ts",
   "scripts": {
     "test": "grunt test-travis"
   },
@@ -37,11 +37,13 @@
     "grunt-shell": "^2.1.0",
     "grunt-ts": "^6.0.0-beta.3",
     "grunt-tslint": "^4.0.0",
+    "grunt-typedoc": "^0.2.4",
     "grunt-umd": "^2.4.0",
     "load-grunt-tasks": "^3.5.2",
     "requirejs": "^2.3.2",
     "systemjs": "^0.19.41",
     "tslint": "^4.3.1",
+    "typedoc": "^0.5.3",
     "typescript": "^2.1.4"
   }
 }

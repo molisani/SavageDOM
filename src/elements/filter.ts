@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export interface FilterPrimitive extends Presentation, HasClass, HasStyle {
     x: Length;
@@ -202,7 +202,7 @@ namespace vektor.Attribute {
 
 }
 
-namespace vektor.Elements {
+namespace SavageDOM.Elements {
 
   export class FilterPrimitive<FE extends SVGElement, A> extends Element<FE, Attribute.FilterPrimitive & A> {
     constructor(filter: Filter, name: string, attrs?: Partial<Attribute.FilterPrimitive & A>) {

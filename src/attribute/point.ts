@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export class Point implements Attribute<Point> {
     constructor(public x: Length, public y: Length) {}

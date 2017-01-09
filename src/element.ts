@@ -1,4 +1,4 @@
-namespace vektor {
+namespace SavageDOM {
 
   export class Element<SVG extends SVGElement, Attrs> {
     public node: SVG;

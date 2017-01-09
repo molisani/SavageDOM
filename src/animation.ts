@@ -1,4 +1,4 @@
-namespace vektor {
+namespace SavageDOM {
 
   export interface Animation<Attrs> extends Dynamic<Attrs> {
     from: Partial<Attrs>;

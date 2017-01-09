@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export class Number implements Attribute<Number> {
     constructor(public n: number = 0) {}

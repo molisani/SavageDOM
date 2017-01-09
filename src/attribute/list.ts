@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export class List<T extends Attribute<T>> extends Array<T> implements Attribute<List<T>> {
     toString(): string {

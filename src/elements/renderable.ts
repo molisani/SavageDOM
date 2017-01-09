@@ -1,4 +1,4 @@
-namespace vektor.Attribute {
+namespace SavageDOM.Attribute {
 
   export interface Renderable extends Presentation, HasStyle, HasClass, Transformable {}
 
@@ -88,7 +88,7 @@ namespace vektor.Attribute {
 
 }
 
-namespace vektor.Elements {
+namespace SavageDOM.Elements {
 
   export abstract class Renderable<E extends SVGElement, RenderableAttributes> extends Element<E, Attribute.Renderable & RenderableAttributes> {}
 

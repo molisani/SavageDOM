@@ -1,4 +1,4 @@
-namespace vektor {
+namespace SavageDOM {
 
   export interface Dynamic<Attrs> {
     element: Element<SVGElement, Attrs>;
