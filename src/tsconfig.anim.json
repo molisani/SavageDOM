@@ -12,7 +12,6 @@
         "outFile": "../dist/SavageDOM.anim.js",
         "declaration": true,
         "inlineSourceMap": true,
-        "noResolve": true,
         "noImplicitAny": false,
         "noImplicitThis": true,
         "strictNullChecks": true,
