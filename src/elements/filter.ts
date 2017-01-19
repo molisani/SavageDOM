@@ -321,6 +321,17 @@ namespace SavageDOM.Elements {
     }
   }
 
+  const merge = <A, B>(a: A, b: B): A & B => {
+    const obj = Object.create(null);
+    for (const aProp in a) {
+      obj[aProp] = a[aProp];
+    }
+    for (const bProp in b) {
+      obj[bProp] = b[bProp];
+    }
+    return obj;
+  };
+
   export class Filter {
     public node: SVGFilterElement;
     constructor(public paper: Paper) {
@@ -372,18 +383,18 @@ namespace SavageDOM.Elements {
       return fe;
     }
     public convolveMatrix(attrs: Partial<Attribute.FilterPrimitive.ConvolveMatrix>, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.ConvolveMatrix {
-      const fe = new Elements.FilterPrimitive.ConvolveMatrix(this, Object.assign(attrs, { in: input }));
+      const fe = new Elements.FilterPrimitive.ConvolveMatrix(this, merge(attrs, { in: input }));
       this.addEffect(fe);
       return fe;
     }
     public diffuseLighting(attrs: Partial<Attribute.FilterPrimitive.DiffuseLighting>, lights: Attribute.FilterPrimitive.LightSource[] = [], input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.DiffuseLighting {
-      const fe = new Elements.FilterPrimitive.DiffuseLighting(this, Object.assign(attrs, { in: input }));
+      const fe = new Elements.FilterPrimitive.DiffuseLighting(this, merge(attrs, { in: input }));
       this.addLights(fe, lights);
       this.addEffect(fe);
       return fe;
     }
     public displacementMap(attrs: Partial<Attribute.FilterPrimitive.DisplacementMap>, input1?: Elements.FilterPrimitive<any, any>, input2?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.DisplacementMap {
-      const fe = new Elements.FilterPrimitive.DisplacementMap(this, Object.assign(attrs, { in: input1, in2: input2 }));
+      const fe = new Elements.FilterPrimitive.DisplacementMap(this, merge(attrs, { in: input1, in2: input2 }));
       this.addEffect(fe);
       return fe;
     }
@@ -485,5 +496,17 @@ namespace SavageDOM.Elements {
       });
     }
   }
+
+}
+
+namespace SavageDOM {
+
+  export interface Paper {
+    filter(): Elements.Filter;
+  }
+
+  Paper.prototype.filter = function(this: SavageDOM.Paper): Elements.Filter {
+    return new Elements.Filter(this);
+  };
 
 }

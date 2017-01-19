@@ -20,21 +20,18 @@ namespace SavageDOM.Attribute {
     constructor(x: string | number = 0, y: number = 0, z: number = 0, a: number = 1) {
       super();
       if (typeof x === "string") {
-        if (x.startsWith("rgba")) {
-          const m = x.match(/^rgba\s*?\(\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(0|0\.\d*|1|1.0*)\s*?\)$/i);
-          if (m !== null) {
-            this.r = parseInt(m[1], 10);
-            this.g = parseInt(m[2], 10);
-            this.b = parseInt(m[3], 10);
-            this.a = parseFloat(m[4]);
-          }
-        } else if (x.startsWith("rgb")) {
-          const m = x.match(/^rgb\s*?\(\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?\)$/i);
-          if (m !== null) {
-            this.r = parseInt(m[1], 10);
-            this.g = parseInt(m[2], 10);
-            this.b = parseInt(m[3], 10);
-          }
+        const rgbaMatch = x.match(/^rgba\s*?\(\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(0|0\.\d*|1|1.0*)\s*?\)$/i);
+        if (rgbaMatch !== null) {
+          this.r = parseInt(rgbaMatch[1], 10);
+          this.g = parseInt(rgbaMatch[2], 10);
+          this.b = parseInt(rgbaMatch[3], 10);
+          this.a = parseFloat(rgbaMatch[4]);
+        }
+        const rgbMatch = x.match(/^rgb\s*?\(\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?\)$/i);
+        if (rgbMatch !== null) {
+          this.r = parseInt(rgbMatch[1], 10);
+          this.g = parseInt(rgbMatch[2], 10);
+          this.b = parseInt(rgbMatch[3], 10);
         }
       } else {
         this.r = x;
@@ -81,14 +78,15 @@ namespace SavageDOM.Attribute {
       return new HSL(h, s, l);
     }
     interpolate(from: ColorImpl, t: number, mode: InterpolationMode): ColorImpl {
-      if (mode.startsWith("rgb")) {
+      const modePrefix = mode.substr(0, 3);
+      if (modePrefix === "rgb") {
         if (from instanceof HSL) {
           from = from.toRGB();
         }
         if (from instanceof RGB) {
           return new RGB(_lerp(from.r, this.r, t), _lerp(from.g, this.g, t), _lerp(from.b, this.b, t), _lerp(from.a, this.a, t));
         }
-      } else if (mode.startsWith("hsl")) {
+      } else if (modePrefix === "hsl") {
         if (from instanceof HSL) {
           return from.interpolate(this, 1 - t, mode);
         } else {
@@ -110,21 +108,18 @@ namespace SavageDOM.Attribute {
     constructor(x: string | number = 0, y: number = 0, z: number = 0, a: number = 1) {
       super();
       if (typeof x === "string") {
-        if (x.startsWith("hsla")) {
-          const m = x.match(/^hsla\s*?\(\s*?(000|0?\d{1,2}|[1-2]\d\d|3[0-5]\d|360)\s*?,\s*?(0\.?0*|100\.?0*|\d{1,2}|\d{1,2}\.\d+)\%\s*?,\s*?(0\.?0*|100\.?0*|\d{1,2}|\d{1,2}\.\d+)\%\s*?,\s*?(0|0\.\d*|1|1.0*)\s*?\)$/i);
-          if (m !== null) {
-            this.h = parseFloat(m[1]);
-            this.s = parseFloat(m[2]) / 100;
-            this.l = parseFloat(m[3]) / 100;
-            this.a = parseFloat(m[4]);
-          }
-        } else if (x.startsWith("hsl")) {
-          const m = x.match(/^hsl\s*?\(\s*?(000|0?\d{1,2}|[1-2]\d\d|3[0-5]\d|360)\s*?,\s*?(0\.?0*|100\.?0*|\d{1,2}|\d{1,2}\.\d+)\%\s*?,\s*?(0\.?0*|100\.?0*|\d{1,2}|\d{1,2}\.\d+)\%\s*?\)$/i);
-          if (m !== null) {
-            this.h = parseFloat(m[1]);
-            this.s = parseFloat(m[2]) / 100;
-            this.l = parseFloat(m[3]) / 100;
-          }
+        const hslaMatch = x.match(/^hsla\s*?\(\s*?(000|0?\d{1,2}|[1-2]\d\d|3[0-5]\d|360)\s*?,\s*?(0\.?0*|100\.?0*|\d{1,2}|\d{1,2}\.\d+)\%\s*?,\s*?(0\.?0*|100\.?0*|\d{1,2}|\d{1,2}\.\d+)\%\s*?,\s*?(0|0\.\d*|1|1.0*)\s*?\)$/i);
+        if (hslaMatch !== null) {
+          this.h = parseFloat(hslaMatch[1]);
+          this.s = parseFloat(hslaMatch[2]) / 100;
+          this.l = parseFloat(hslaMatch[3]) / 100;
+          this.a = parseFloat(hslaMatch[4]);
+        }
+        const hslMatch = x.match(/^hsl\s*?\(\s*?(000|0?\d{1,2}|[1-2]\d\d|3[0-5]\d|360)\s*?,\s*?(0\.?0*|100\.?0*|\d{1,2}|\d{1,2}\.\d+)\%\s*?,\s*?(0\.?0*|100\.?0*|\d{1,2}|\d{1,2}\.\d+)\%\s*?\)$/i);
+        if (hslMatch !== null) {
+          this.h = parseFloat(hslMatch[1]);
+          this.s = parseFloat(hslMatch[2]) / 100;
+          this.l = parseFloat(hslMatch[3]) / 100;
         }
       } else {
         this.h = x;
@@ -170,7 +165,8 @@ namespace SavageDOM.Attribute {
       return new RGB(r * 255, g * 255, b * 255);
     }
     interpolate(from: ColorImpl, t: number, mode: InterpolationMode): ColorImpl {
-      if (mode.startsWith("hsl")) {
+      const modePrefix = mode.substr(0, 3);
+      if (modePrefix === "hsl") {
         if (from instanceof RGB) {
           from = from.toHSL();
         }
@@ -202,7 +198,7 @@ namespace SavageDOM.Attribute {
           }
           return new HSL(_lerp(h1, h2, t) % 360, _lerp(from.s, this.s, t), _lerp(from.l, this.l, t), _lerp(from.a, this.a, t));
         }
-      } else if (mode.startsWith("rgb")) {
+      } else if (modePrefix === "rgb") {
         if (from instanceof RGB) {
           return from.interpolate(this, 1 - t, mode);
         } else {
@@ -227,11 +223,11 @@ namespace SavageDOM.Attribute {
       } else if (format === "hsl") {
         this.impl = new HSL(x, y, z, a);
       } else if (format !== undefined) {
-        if (format.startsWith("rgb")) {
+        if (format.indexOf("rgb") === 0) {
           this.impl = new RGB(format);
-        } else if (format.startsWith("hsl")) {
+        } else if (format.indexOf("hsl") === 0) {
           this.impl = new HSL(format);
-        } else if (format.startsWith("#")) {
+        } else if (format.indexOf("#") === 0) {
           let r = 0;
           let g = 0;
           let b = 0;

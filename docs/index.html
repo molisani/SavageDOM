@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>savagedom</title>
+	<title>SavageDOM</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">savagedom</a>
+					<a href="index.html" class="title">SavageDOM</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> savagedom</h1>
+			<h1> SavageDOM</h1>
 		</div>
 	</div>
 </header>
@@ -69,12 +69,52 @@
 				<h2 id="getting-started">Getting Started</h2>
 				<h3 id="installation">Installation</h3>
 				<ul>
-					<li>Direct downloads: <a href="./dist/SavageDOM.js">SavageDOM.js</a>, <a href="./dist/SavageDOM.d.ts">SavageDOM.d.ts</a></li>
+					<li>Direct downloads are available in the <a href="./dist/">dist</a> directory, and come in several versions:<ul>
+							<li>Core [ES5] <a href="./dist/SavageDOM.core.js">.js</a>, <a href="./dist/SavageDOM.core.min.js">.min.js</a>, <a href="./dist/SavageDOM.core.d.ts">.d.ts</a></li>
+							<li>Elements [ES5] <a href="./dist/SavageDOM.elem.js">.js</a>, <a href="./dist/SavageDOM.elem.min.js">.min.js</a>, <a href="./dist/SavageDOM.elem.d.ts">.d.ts</a></li>
+							<li>Animation [ES6] <a href="./dist/SavageDOM.anim.js">.js</a>, <a href="./dist/SavageDOM.anim.d.ts">.d.ts</a></li>
+							<li>Everything [ES6] <a href="./dist/SavageDOM.js">.js</a>, <a href="./dist/SavageDOM.d.ts">.d.ts</a></li>
+						</ul>
+					</li>
 					<li><code>npm install SavageDOM --save</code></li>
 					<li><code>bower install SavageDOM --save</code></li>
 				</ul>
 				<h3 id="usage">Usage</h3>
-				<p>The library is distributed as an ES6 AMD module</p>
+				<p>The library is distributed as an ES6 JavaScript. The documentation can be found <a href="https://molisani.github.io/SavageDOM/index.html">here</a>, but due to TypeDoc&#39;s poor support for TypeScript 2.1 features it is always good to revert to the definition file.</p>
+				<h3 id="version-differences">Version Differences</h3>
+				<ul>
+					<li><p><strong>Core</strong></p>
+						<ul>
+							<li><code>Element&lt;SVGElement, Attributes&gt;</code> - The base class for all elements created by this library</li>
+							<li><code>Paper</code> - Stores the <code>&lt;svg&gt;</code> context for element creation</li>
+							<li>Attributes, including the base <code>Attribute&lt;T&gt;</code> class<ul>
+									<li>Core attributes: <code>Number</code>, <code>Dimension</code>, <code>Point</code>, <code>Color</code></li>
+									<li>Complex attributes: <code>Transform</code>, <code>Color Matrix</code></li>
+									<li>Derived attributes: <code>Inherit</code>, <code>Length</code>, <code>Angle</code>, <code>Paint</code></li>
+									<li><a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute">Element attribute caterogies</a>: <code>Presentation</code>, <code>Textual</code></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><p><strong>Elements</strong> - Includes everything in core and also features additional, common svg elements.</p>
+						<ul>
+							<li>Renderable: <code>&lt;circle&gt;</code>, <code>&lt;ellipse&gt;</code>, <code>&lt;line&gt;</code>, <code>&lt;polygon&gt;</code>, <code>&lt;polyline&gt;</code>, <code>&lt;path&gt;</code>, <code>&lt;rect&gt;</code>, <code>&lt;image&gt;</code>, <code>&lt;text&gt;</code>, <code>&lt;g&gt;</code></li>
+							<li>NonRenderable: <code>&lt;linearGradient&gt;</code>, <code>&lt;radialGradient&gt;</code>, <code>&lt;pattern&gt;</code>, <code>&lt;marker&gt;</code>, <code>&lt;mask&gt;</code></li>
+							<li>Filter (<code>&lt;filter&gt;</code>) with primitives: <code>&lt;feBlend&gt;</code>, <code>&lt;feColorMatrix&gt;</code>, <code>&lt;feComponentTransfer&gt;</code>, <code>&lt;feComposite&gt;</code>, <code>&lt;feConvolveMatrix&gt;</code>, <code>&lt;feDiffuseLighting&gt;</code>, <code>&lt;feDisplacementMap&gt;</code>, <code>&lt;feFlood&gt;</code>, <code>&lt;feGaussianBlur&gt;</code>, <code>&lt;feImage&gt;</code>, <code>&lt;feMerge&gt;</code>, <code>&lt;feMergeNode&gt;</code>, <code>&lt;feMorphology&gt;</code>, <code>&lt;feOffset&gt;</code>, <code>&lt;feSpecularLighting&gt;</code>, <code>&lt;feTile&gt;</code>, <code>&lt;feTurbulence&gt;</code>, <code>&lt;feFuncR&gt;</code>, <code>&lt;feFuncG&gt;</code>, <code>&lt;feFuncB&gt;</code>, <code>&lt;feFuncA&gt;</code>, <code>&lt;feDistantLight&gt;</code>, <code>&lt;fePointLight&gt;</code>, <code>&lt;feSpotLight&gt;</code></li>
+						</ul>
+					</li>
+					<li><p><strong>Animation</strong> - Provides the functionality to animate attributes or set dynamic attributes.</p>
+						<ul>
+							<li>Dynamic: Constantly updating attribute value (ex: <code>MousePoint</code>)</li>
+							<li>Animation<ul>
+									<li>Define animation endpoint as another set of attributes</li>
+									<li>Control easing with functions (linear, quadratic, exponent, etc.)</li>
+									<li>Makes use of ES6 Promises for animation completion (therefore, all versions with animation target ES6 instead of ES5)</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

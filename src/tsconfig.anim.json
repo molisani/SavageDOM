@@ -1,0 +1,44 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "dom",
+            "es6"
+        ],
+        "types": [
+            "node"
+        ],
+        "target": "es6",
+        "module": "amd",
+        "outFile": "../dist/SavageDOM.anim.js",
+        "declaration": true,
+        "inlineSourceMap": true,
+        "noResolve": true,
+        "noImplicitAny": false,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "alwaysStrict": true,
+        "removeComments": true
+    },
+    "files": [
+        "constants.ts",
+        "attribute.ts",
+        "attribute/color.ts",
+        "attribute/color-matrix.ts",
+        "attribute/dimension.ts",
+        "attribute/list.ts",
+        "attribute/matrix.ts",
+        "attribute/number.ts",
+        "attribute/number-optional-number.ts",
+        "attribute/point.ts",
+        "attribute/preserve-aspect-ratio.ts",
+        "attribute/transform.ts",
+        "attribute/view-box.ts",
+        "paper.ts",
+        "element.ts",
+        "animation.ts"
+    ],
+    "exclude": [
+        "../node_modules"
+    ],
+    "compileOnSave": false
+}

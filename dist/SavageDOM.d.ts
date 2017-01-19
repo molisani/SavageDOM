@@ -1,47 +1,6 @@
 declare namespace SavageDOM {
-    interface Animation<Attrs> extends Dynamic<Attrs> {
-        from: Partial<Attrs>;
-        attrs: Animation.Defined<Attrs>;
-        resolve: (end: number) => any;
-    }
-    namespace Animation {
-        type Defined<Attrs> = {
-            [A in keyof Attrs]?: Attribute<Attrs[A]>;
-        };
-        namespace Easing {
-            const linear: (t: number) => number;
-            const quadraticIn: (t: number) => number;
-            const quadraticOut: (t: number) => number;
-            const quadratic: (t: number) => number;
-            const cubicIn: (t: number) => number;
-            const cubicOut: (t: number) => number;
-            const cubic: (t: number) => number;
-            const quarticIn: (t: number) => number;
-            const quarticOut: (t: number) => number;
-            const quartic: (t: number) => number;
-            const quinticIn: (t: number) => number;
-            const quinticOut: (t: number) => number;
-            const quintic: (t: number) => number;
-            const sineIn: (t: number) => number;
-            const sineOut: (t: number) => number;
-            const sine: (t: number) => number;
-            const exponentialIn: (t: number) => number;
-            const exponentialOut: (t: number) => number;
-            const exponential: (t: number) => number;
-            const circularIn: (t: number) => number;
-            const circularOut: (t: number) => number;
-            const circular: (t: number) => number;
-        }
-    }
-    class AnimationRunner {
-        private static requestAnimationFrame;
-        private running;
-        private queue;
-        add(anim: Dynamic<any>): void;
-        private loop();
-        private stop();
-        private start();
-    }
+    const XMLNS = "http://www.w3.org/2000/svg";
+    const XLINK = "http://www.w3.org/1999/xlink";
 }
 declare namespace SavageDOM {
     interface Setter {
@@ -57,7 +16,9 @@ declare namespace SavageDOM {
 declare namespace SavageDOM.Attribute {
     const isAttribute: (obj: any) => obj is Attribute<any>;
     type Inherit = "inherit";
-    type Paint = "none" | "currentColor" | Color | Elements.NonRenderable.PaintServer.Gradient.Linear | Elements.NonRenderable.PaintServer.Gradient.Radial | Elements.NonRenderable.PaintServer.Pattern | Inherit;
+    interface PaintServer {
+    }
+    type Paint = "none" | "currentColor" | Color | PaintServer | Inherit;
     type Length = number | Dimension<CSSAbsoluteLengths>;
     const _LengthParse: (css: string) => Length;
     const _LengthInterpolate: (a: Length, b: Length, t: number) => Length;
@@ -113,6 +74,24 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute {
+    const _lerp: (a: number, b: number, t: number) => number;
+    type InterpolationMode = "rgb" | "hsl-shortest" | "hsl-longest" | "hsl-clockwise" | "hsl-counterclockwise";
+    class Color implements Attribute<Color> {
+        static DEFAULT_MODE: InterpolationMode;
+        mode: InterpolationMode;
+        private impl;
+        constructor();
+        constructor(css: string);
+        constructor(format: "rgb", r: number, g: number, b: number, a?: number);
+        constructor(format: "hsl", h: number, s: number, l: number, a?: number);
+        toString(): string;
+        parse(css: string | null): Color;
+        get(element: Element<SVGElement, any>, attr: string): Color;
+        set(element: Element<SVGElement, any>, attr: string, override?: Color): void;
+        interpolate(from: Color, t: number): Color;
+    }
+}
+declare namespace SavageDOM.Attribute {
     interface ColorMatrix {
         type: "matrix" | "saturate" | "hueRotate" | "luminanceToAlpha";
         toString(): string;
@@ -154,24 +133,6 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute {
-    const _lerp: (a: number, b: number, t: number) => number;
-    type InterpolationMode = "rgb" | "hsl-shortest" | "hsl-longest" | "hsl-clockwise" | "hsl-counterclockwise";
-    class Color implements Attribute<Color> {
-        static DEFAULT_MODE: InterpolationMode;
-        mode: InterpolationMode;
-        private impl;
-        constructor();
-        constructor(css: string);
-        constructor(format: "rgb", r: number, g: number, b: number, a?: number);
-        constructor(format: "hsl", h: number, s: number, l: number, a?: number);
-        toString(): string;
-        parse(css: string | null): Color;
-        get(element: Element<SVGElement, any>, attr: string): Color;
-        set(element: Element<SVGElement, any>, attr: string, override?: Color): void;
-        interpolate(from: Color, t: number): Color;
-    }
-}
-declare namespace SavageDOM.Attribute {
     type CSSAbsoluteLengths = "px" | "in" | "cm" | "mm" | "pt" | "pc";
     type CSSAngleUnits = "deg" | "grad" | "rad" | "turn";
     class Dimension<Unit extends string> implements Attribute<Dimension<Unit>> {
@@ -207,6 +168,17 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute {
+    class Number implements Attribute<Number> {
+        n: number;
+        constructor(n?: number);
+        toString(): string;
+        parse(css: string | null): Number;
+        get(element: Element<SVGElement, any>, attr: string): Number;
+        set(element: Element<SVGElement, any>, attr: string, override?: Number): void;
+        interpolate(from: Number, t: number): Number;
+    }
+}
+declare namespace SavageDOM.Attribute {
     class NumberOptionalNumber implements Attribute<NumberOptionalNumber> {
         n: number;
         o: number;
@@ -219,14 +191,211 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute {
-    class Number implements Attribute<Number> {
-        n: number;
-        constructor(n?: number);
+    class Point implements Attribute<Point> {
+        x: Length;
+        y: Length;
+        constructor(x: Length, y: Length);
         toString(): string;
-        parse(css: string | null): Number;
-        get(element: Element<SVGElement, any>, attr: string): Number;
-        set(element: Element<SVGElement, any>, attr: string, override?: Number): void;
-        interpolate(from: Number, t: number): Number;
+        parse(css: string | null): Point;
+        get(element: Element<SVGElement, any>, attr: string): Point;
+        set(element: Element<SVGElement, any>, attr: string, override?: Point): void;
+        interpolate(from: Point, t: number): Point;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    class PreserveAspectRatio {
+        x: "Min" | "Mid" | "Max";
+        y: "Min" | "Mid" | "Max";
+        meetOrSlice: "meet" | "slice";
+        constructor();
+        constructor(x: "Min" | "Mid" | "Max", y: "Min" | "Mid" | "Max");
+        constructor(x: "Min" | "Mid" | "Max", y: "Min" | "Mid" | "Max", meetOrSlice: "meet" | "slice");
+        toString(): string;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    abstract class Transform implements Attribute<Transform> {
+        type: "matrix" | "translate" | "scale" | "rotate" | "skewX" | "skewY";
+        constructor(type: "matrix" | "translate" | "scale" | "rotate" | "skewX" | "skewY");
+        abstract args(): string;
+        toString(): string;
+        abstract parseArgs(args: string | null): Transform;
+        parse(css: string | null): Transform;
+        get(element: Element<SVGElement, any>, attr: string): Transform;
+        set(element: Element<SVGElement, any>, attr: string, override?: Transform): void;
+        abstract interpolate(from: Transform, t: number): Transform;
+    }
+    namespace Transform {
+        class Matrix extends Transform {
+            a: number;
+            b: number;
+            c: number;
+            d: number;
+            e: number;
+            f: number;
+            constructor(a?: number, b?: number, c?: number, d?: number, e?: number, f?: number);
+            args(): string;
+            parseArgs(css: string | null): Matrix;
+            interpolate(from: Matrix, t: number): Matrix;
+        }
+        class Translate extends Transform {
+            x: number;
+            y: number;
+            constructor(x?: number, y?: number);
+            args(): string;
+            parseArgs(css: string | null): Translate;
+            interpolate(from: Translate, t: number): Translate;
+        }
+        class UniformScale extends Transform {
+            s: number;
+            constructor(s?: number);
+            args(): string;
+            parseArgs(css: string | null): UniformScale;
+            interpolate(from: UniformScale, t: number): UniformScale;
+        }
+        class Scale extends Transform {
+            x: number;
+            y: number;
+            constructor(x?: number, y?: number);
+            args(): string;
+            parseArgs(css: string | null): Scale;
+            interpolate(from: Scale, t: number): Scale;
+        }
+        class Rotate extends Transform {
+            a: number;
+            x: number;
+            y: number;
+            constructor(a: number, x?: number, y?: number);
+            args(): string;
+            parseArgs(css: string | null): Rotate;
+            interpolate(from: Rotate, t: number): Rotate;
+        }
+        class SkewX extends Transform {
+            a: number;
+            constructor(a?: number);
+            args(): string;
+            parseArgs(css: string | null): SkewX;
+            interpolate(from: SkewX, t: number): SkewX;
+        }
+        class SkewY extends Transform {
+            a: number;
+            constructor(a?: number);
+            args(): string;
+            parseArgs(css: string | null): SkewY;
+            interpolate(from: SkewY, t: number): SkewY;
+        }
+    }
+}
+declare namespace SavageDOM.Attribute {
+    class ViewBox implements Attribute<ViewBox> {
+        x: Length;
+        y: Length;
+        width: Length;
+        height: Length;
+        constructor(x: Length, y: Length, width: Length, height: Length);
+        toString(): string;
+        parse(css: string | null): ViewBox;
+        get(element: Element<SVGElement, any>, attr: string): ViewBox;
+        set(element: Element<SVGElement, any>, attr: string, override?: ViewBox): void;
+        interpolate(from: ViewBox, t: number): ViewBox;
+    }
+}
+declare namespace SavageDOM {
+    class Paper {
+        root: SVGSVGElement;
+        defs: SVGDefsElement;
+        constructor();
+        constructor(id: string);
+        constructor(el: SVGSVGElement);
+        addDef(def: Element<SVGElement, any>): void;
+    }
+}
+declare namespace SavageDOM {
+    class Element<SVG extends SVGElement, Attrs> {
+        paper: Paper;
+        node: SVG;
+        id: string;
+        private style;
+        constructor(paper: Paper, el: SVG);
+        constructor(paper: Paper, name: string, attrs?: Partial<Attrs>);
+        toString(): string;
+        setAttribute<Attr extends keyof Attrs>(name: Attr, val: Attrs[Attr]): void;
+        setAttributes(attrs: Partial<Attrs>): void;
+        getAttribute<Attr extends keyof Attrs>(name: Attr): string | null;
+        add(el: Element<SVGElement, any>): void;
+        getChildren(): Element<SVGElement, any>[];
+        addEventListener(event: "focusin" | "focusout" | "mousedown" | "mouseup" | "mousemove" | "mouseover" | "mouseout", listener: (this: this, event: MouseEvent) => any): void;
+        addEventListener(event: "touchstart" | "touchend" | "touchmove" | "touchcancel", listener: (this: this, event: TouchEvent) => any): void;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    interface Renderable extends Presentation, HasStyle, HasClass, Transformable {
+    }
+}
+declare namespace SavageDOM.Elements {
+    abstract class AbstractRenderable<E extends SVGElement, A> extends Element<E, Attribute.Renderable & A> {
+    }
+}
+declare namespace SavageDOM.Elements.Renderable {
+    abstract class AbstractShape<E extends SVGElement, A> extends AbstractRenderable<E, A> {
+    }
+}
+declare namespace SavageDOM.Attribute.Renderable.Shape {
+    interface Circle {
+        cx: Length;
+        cy: Length;
+        "cx:cy": Point;
+        r: Length;
+    }
+}
+declare namespace SavageDOM.Elements.Renderable.Shape {
+    class Circle extends AbstractShape<SVGCircleElement, Attribute.Renderable.Shape.Circle> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Circle>);
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        circle(cx: Attribute.Length, cy: Attribute.Length, r: Attribute.Length): Elements.Renderable.Shape.Circle;
+    }
+}
+declare namespace SavageDOM.Attribute.Renderable.Shape {
+    interface Ellipse {
+        cx: Length;
+        cy: Length;
+        "cx:cy": Point;
+        rx: Length;
+        ry: Length;
+        "rx:ry": Point;
+    }
+}
+declare namespace SavageDOM.Elements.Renderable.Shape {
+    class Ellipse extends AbstractShape<SVGEllipseElement, Attribute.Renderable.Shape.Ellipse> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Ellipse>);
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        ellipse(cx: number, cy: number, rx: number, ry: number): Elements.Renderable.Shape.Ellipse;
+    }
+}
+declare namespace SavageDOM.Attribute.Renderable.Shape {
+    interface Line {
+        x1: Length;
+        y1: Length;
+        "x1:y1": Point;
+        x2: Length;
+        y2: Length;
+        "x2:y2": Point;
+    }
+}
+declare namespace SavageDOM.Elements.Renderable.Shape {
+    class Line extends AbstractShape<SVGLineElement, Attribute.Renderable.Shape.Line> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Line>);
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        line(x1: Attribute.Length, y1: Attribute.Length, x2: Attribute.Length, y2: Attribute.Length): Elements.Renderable.Shape.Line;
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -367,163 +536,299 @@ declare namespace SavageDOM.Attribute {
         }
     }
 }
-declare namespace SavageDOM.Attribute {
-    class Point implements Attribute<Point> {
+declare namespace SavageDOM.Attribute.Renderable.Shape {
+    interface Path {
+        d: List<PathSegment>;
+        pathLength: number;
+    }
+}
+declare namespace SavageDOM.Elements.Renderable.Shape {
+    class Path extends AbstractShape<SVGPathElement, Attribute.Renderable.Shape.Path> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Path>);
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        path(d: Attribute.List<Attribute.PathSegment>, pathLength?: number): Elements.Renderable.Shape.Path;
+    }
+}
+declare namespace SavageDOM.Attribute.Renderable.Shape {
+    interface Polygon {
+        points: List<Point>;
+    }
+}
+declare namespace SavageDOM.Elements.Renderable.Shape {
+    class Polygon extends AbstractShape<SVGPolygonElement, Attribute.Renderable.Shape.Polygon> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Polygon>);
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        polygon(points: Attribute.List<Attribute.Point>): Elements.Renderable.Shape.Polygon;
+    }
+}
+declare namespace SavageDOM.Attribute.Renderable.Shape {
+    interface Polyline {
+        points: List<Point>;
+    }
+}
+declare namespace SavageDOM.Elements.Renderable.Shape {
+    class Polyline extends AbstractShape<SVGPolylineElement, Attribute.Renderable.Shape.Polyline> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Polyline>);
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        polyline(points: Attribute.List<Attribute.Point>): Elements.Renderable.Shape.Polyline;
+    }
+}
+declare namespace SavageDOM.Attribute.Renderable.Shape {
+    interface Rect {
         x: Length;
         y: Length;
-        constructor(x: Length, y: Length);
-        toString(): string;
-        parse(css: string | null): Point;
-        get(element: Element<SVGElement, any>, attr: string): Point;
-        set(element: Element<SVGElement, any>, attr: string, override?: Point): void;
-        interpolate(from: Point, t: number): Point;
+        "x:y": Point;
+        width: Length;
+        height: Length;
+        "width:height": Point;
+        "x:y:width:height": ViewBox;
+        rx: Length;
+        ry: Length;
+        "rx:ry": Point;
     }
 }
-declare namespace SavageDOM.Attribute {
-    class PreserveAspectRatio {
-        x: "Min" | "Mid" | "Max";
-        y: "Min" | "Mid" | "Max";
-        meetOrSlice: "meet" | "slice";
-        constructor();
-        constructor(x: "Min" | "Mid" | "Max", y: "Min" | "Mid" | "Max");
-        constructor(x: "Min" | "Mid" | "Max", y: "Min" | "Mid" | "Max", meetOrSlice: "meet" | "slice");
-        toString(): string;
+declare namespace SavageDOM.Elements.Renderable.Shape {
+    class Rect extends AbstractShape<SVGRectElement, Attribute.Renderable.Shape.Rect> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Rect>);
     }
 }
-declare namespace SavageDOM.Attribute {
-    abstract class Transform implements Attribute<Transform> {
-        type: "matrix" | "translate" | "scale" | "rotate" | "skewX" | "skewY";
-        constructor(type: "matrix" | "translate" | "scale" | "rotate" | "skewX" | "skewY");
-        abstract args(): string;
-        toString(): string;
-        abstract parseArgs(args: string | null): Transform;
-        parse(css: string | null): Transform;
-        get(element: Element<SVGElement, any>, attr: string): Transform;
-        set(element: Element<SVGElement, any>, attr: string, override?: Transform): void;
-        abstract interpolate(from: Transform, t: number): Transform;
+declare namespace SavageDOM {
+    interface Paper {
+        rect(x: Attribute.Length, y: Attribute.Length, width: Attribute.Length, height: Attribute.Length, rx?: Attribute.Length, ry?: Attribute.Length): Elements.Renderable.Shape.Rect;
     }
-    namespace Transform {
-        class Matrix extends Transform {
-            a: number;
-            b: number;
-            c: number;
-            d: number;
-            e: number;
-            f: number;
-            constructor(a?: number, b?: number, c?: number, d?: number, e?: number, f?: number);
-            args(): string;
-            parseArgs(css: string | null): Matrix;
-            interpolate(from: Matrix, t: number): Matrix;
-        }
-        class Translate extends Transform {
-            x: number;
-            y: number;
-            constructor(x?: number, y?: number);
-            args(): string;
-            parseArgs(css: string | null): Translate;
-            interpolate(from: Translate, t: number): Translate;
-        }
-        class UniformScale extends Transform {
-            s: number;
-            constructor(s?: number);
-            args(): string;
-            parseArgs(css: string | null): UniformScale;
-            interpolate(from: UniformScale, t: number): UniformScale;
-        }
-        class Scale extends Transform {
-            x: number;
-            y: number;
-            constructor(x?: number, y?: number);
-            args(): string;
-            parseArgs(css: string | null): Scale;
-            interpolate(from: Scale, t: number): Scale;
-        }
-        class Rotate extends Transform {
-            a: number;
-            x: number;
-            y: number;
-            constructor(a: number, x?: number, y?: number);
-            args(): string;
-            parseArgs(css: string | null): Rotate;
-            interpolate(from: Rotate, t: number): Rotate;
-        }
-        class SkewX extends Transform {
-            a: number;
-            constructor(a?: number);
-            args(): string;
-            parseArgs(css: string | null): SkewX;
-            interpolate(from: SkewX, t: number): SkewX;
-        }
-        class SkewY extends Transform {
-            a: number;
-            constructor(a?: number);
-            args(): string;
-            parseArgs(css: string | null): SkewY;
-            interpolate(from: SkewY, t: number): SkewY;
+}
+declare namespace SavageDOM.Elements {
+    namespace Renderable {
+        class Group extends AbstractRenderable<SVGGElement, void> {
+            constructor(paper: Paper, attrs?: Partial<Attribute.Renderable>);
         }
     }
 }
+declare namespace SavageDOM {
+    interface Paper {
+        group(els: Element<SVGElement, any>[]): Elements.Renderable.Group;
+    }
+}
+declare namespace SavageDOM.Attribute.Renderable {
+    interface Image {
+        x: Length;
+        y: Length;
+        "x:y": Point;
+        width: Length;
+        height: Length;
+        "width:height": Point;
+        "x:y:width:height": ViewBox;
+        "xlink:href": string;
+        preserveAspectRatio?: PreserveAspectRatio;
+        viewBox?: ViewBox;
+    }
+}
+declare namespace SavageDOM.Elements.Renderable {
+    class Image extends AbstractRenderable<SVGImageElement, Attribute.Renderable.Image> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Image>);
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        image(attrs: Attribute.Renderable.Image): Elements.Renderable.Image;
+    }
+}
+declare namespace SavageDOM.Attribute.Renderable {
+    interface Text {
+        x: Length;
+        y: Length;
+        "x:y": Point;
+        dx: Length;
+        dy: Length;
+        "dx:dy": Point;
+        "text-anchor"?: "start" | "middle" | "end" | Inherit;
+        textLength?: Length;
+    }
+}
+declare namespace SavageDOM.Elements.Renderable {
+    class Text extends AbstractRenderable<SVGTextElement, Attribute.Textual | Attribute.Renderable.Text> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Textual | Attribute.Renderable.Text>);
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        text(x: Attribute.Length, y: Attribute.Length): Elements.Renderable.Text;
+    }
+}
 declare namespace SavageDOM.Attribute {
-    class ViewBox implements Attribute<ViewBox> {
+    interface NonRenderable extends Presentation, HasStyle, HasClass {
+    }
+}
+declare namespace SavageDOM.Elements {
+    abstract class AbstractNonRenderable<E extends SVGElement, NonRenderableAttributes> extends Element<E, Attribute.NonRenderable & NonRenderableAttributes> {
+    }
+}
+declare namespace SavageDOM.Elements.NonRenderable {
+    abstract class AbstractPaintServer<E extends SVGElement, PaintServerAttributes> extends AbstractNonRenderable<E, PaintServerAttributes> implements Attribute.PaintServer {
+    }
+}
+declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
+    interface Gradient {
+        gradientUnits: "userSpaceOnUse" | "objectBoundingBox";
+        gradientTransform: List<Transform>;
+        spreadMethod: "pad" | "reflect" | "repeat";
+        "xlink:href": string;
+    }
+    namespace Gradient {
+        interface Linear extends Gradient {
+            x1: Length;
+            y1: Length;
+            "x1:y1": Point;
+            x2: Length;
+            y2: Length;
+            "x2:y2": Point;
+        }
+        interface Radial extends Gradient {
+            cx: Length;
+            cy: Length;
+            "cx:cy": Point;
+            r: Length;
+            fx: Length;
+            fy: Length;
+            "fx:fy": Point;
+        }
+        interface Stops {
+            [offset: number]: "currentColor" | Color | Inherit;
+        }
+    }
+}
+declare namespace SavageDOM.Elements.NonRenderable.PaintServer {
+    abstract class AbstractGradient<E extends SVGElement, GradientAttributes extends Attribute.NonRenderable.PaintServer.Gradient> extends AbstractPaintServer<E, GradientAttributes> {
+    }
+}
+declare namespace SavageDOM.Attribute.NonRenderable.PaintServer.Gradient {
+    interface Linear extends Gradient {
+        x1: Length;
+        y1: Length;
+        "x1:y1": Point;
+        x2: Length;
+        y2: Length;
+        "x2:y2": Point;
+    }
+}
+declare namespace SavageDOM.Elements.NonRenderable.PaintServer.Gradient {
+    class Linear extends AbstractGradient<SVGLinearGradientElement, Attribute.NonRenderable.PaintServer.Gradient.Linear> {
+        constructor(paper: Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable | Attribute.NonRenderable.PaintServer.Gradient.Linear>);
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        linearGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear;
+    }
+}
+declare namespace SavageDOM.Attribute.NonRenderable.PaintServer.Gradient {
+    interface Radial extends Gradient {
+        cx: Length;
+        cy: Length;
+        "cx:cy": Point;
+        r: Length;
+        fx: Length;
+        fy: Length;
+        "fx:fy": Point;
+    }
+}
+declare namespace SavageDOM.Elements.NonRenderable.PaintServer.Gradient {
+    class Radial extends AbstractGradient<SVGRadialGradientElement, Attribute.NonRenderable.PaintServer.Gradient.Radial> {
+        constructor(paper: Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable | Attribute.NonRenderable.PaintServer.Gradient.Radial>);
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        radialGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs: Attribute.NonRenderable.PaintServer.Gradient.Radial): Elements.NonRenderable.PaintServer.Gradient.Radial;
+    }
+}
+declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
+    interface Pattern {
+        patternUnits: "userSpaceOnUse" | "objectBoundingBox";
+        patternContentUnits: "userSpaceOnUse" | "objectBoundingBox";
+        patternTransform: List<Transform>;
+        x: Length;
+        y: Length;
+        "x:y": Point;
+        width: Length;
+        height: Length;
+        "width:height": Point;
+        "x:y:width:height": ViewBox;
+        "xlink:href": string;
+        preserveAspectRatio: PreserveAspectRatio;
+        viewBox: ViewBox;
+    }
+}
+declare namespace SavageDOM.Elements.NonRenderable.PaintServer {
+    class Pattern extends AbstractPaintServer<SVGPatternElement, Attribute.NonRenderable.PaintServer.Pattern> {
+        paper: Paper;
+        constructor(paper: Paper, w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox);
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        pattern(w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
+    }
+    interface Element<SVG extends SVGElement, Attrs> {
+        toPattern(w: number, h: number): Elements.NonRenderable.PaintServer.Pattern;
+        toPattern(w: number, h: number, x: number, y: number): Elements.NonRenderable.PaintServer.Pattern;
+        toPattern(w: number, h: number, x: number, y: number, view: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
+        toPattern(w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
+    }
+}
+declare namespace SavageDOM.Attribute.NonRenderable {
+    interface Marker {
+        markerUnits: "userSpaceOnUse" | "strokeWidth";
+        refX: Length;
+        refY: Length;
+        "refX:refY": Point;
+        markerWidth: Length;
+        markerHeight: Length;
+        "refX:refY:markerWidth:markerHeight": ViewBox;
+        orient: "auto" | "auto-start-reverse" | number | string;
+        viewBox: ViewBox;
+    }
+}
+declare namespace SavageDOM.Elements.NonRenderable {
+    class Marker extends AbstractNonRenderable<SVGMarkerElement, Attribute.NonRenderable.Marker> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.NonRenderable | Attribute.NonRenderable.Marker>);
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        marker(): Elements.NonRenderable.Marker;
+    }
+}
+declare namespace SavageDOM.Attribute.NonRenderable {
+    interface Mask {
+        maskUnits: "userSpaceOnUse" | "objectBoundingBox";
+        maskContentUnits: "userSpaceOnUse" | "objectBoundingBox";
         x: Length;
         y: Length;
         width: Length;
         height: Length;
-        constructor(x: Length, y: Length, width: Length, height: Length);
-        toString(): string;
-        parse(css: string | null): ViewBox;
-        get(element: Element<SVGElement, any>, attr: string): ViewBox;
-        set(element: Element<SVGElement, any>, attr: string, override?: ViewBox): void;
-        interpolate(from: ViewBox, t: number): ViewBox;
+        "width:height": Point;
+        "x:y:width:height": ViewBox;
     }
 }
-declare namespace SavageDOM {
-    const XMLNS = "http://www.w3.org/2000/svg";
-    const XLINK = "http://www.w3.org/1999/xlink";
-}
-declare namespace SavageDOM {
-    interface Dynamic<Attrs> {
-        element: Element<SVGElement, Attrs>;
-        defs: Dynamic.Defined<Attrs>;
-        progress: (now: number) => number | undefined;
-    }
-    namespace Dynamic {
-        interface Definition<A extends string> extends Setter {
-            set(element: Element<SVGElement, any>, attr: A): void;
-        }
-        type Defined<Attrs> = {
-            [A in keyof Attrs]?: Dynamic.Definition<A>;
-        };
-        class MousePosition<A extends string> extends Attribute.Point implements Definition<A> {
-            private xAttr;
-            private yAttr;
-            constructor(target?: Document | HTMLElement | SVGElement | Paper);
-        }
-    }
-}
-declare namespace SavageDOM {
-    class Element<SVG extends SVGElement, Attrs> {
+declare namespace SavageDOM.Elements.NonRenderable {
+    class Mask extends AbstractNonRenderable<SVGMaskElement, Attribute.NonRenderable.Mask> {
         paper: Paper;
-        node: SVG;
-        id: string;
-        private style;
-        constructor(paper: Paper, el: SVG);
-        constructor(paper: Paper, name: string, attrs?: Partial<Attrs>);
-        toString(): string;
-        setAttribute<Attr extends keyof Attrs>(name: Attr, val: Attrs[Attr]): void;
-        setAttributes(attrs: Partial<Attrs>): void;
-        getAttribute<Attr extends keyof Attrs>(name: Attr): string | null;
-        add(el: Element<SVGElement, any>): void;
-        getChildren(): Element<SVGElement, any>[];
-        dynamic(defs: Dynamic.Defined<Attrs>): void;
-        animate(attrs: Partial<Attrs>, duration: number, easing?: (t: number) => number): Promise<number>;
-        addEventListener(event: "focusin" | "focusout" | "mousedown" | "mouseup" | "mousemove" | "mouseover" | "mouseout", listener: (this: this, event: MouseEvent) => any): void;
-        addEventListener(event: "touchstart" | "touchend" | "touchmove" | "touchcancel", listener: (this: this, event: TouchEvent) => any): void;
-        toPattern(w: number, h: number): Elements.NonRenderable.PaintServer.Pattern;
-        toPattern(w: number, h: number, x: number, y: number): Elements.NonRenderable.PaintServer.Pattern;
-        toPattern(w: number, h: number, x: number, y: number, view: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
+        constructor(paper: Paper, w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox");
     }
-    namespace Elements {
+}
+declare namespace SavageDOM {
+    interface Paper {
+        mask(w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox"): Elements.NonRenderable.Mask;
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -791,244 +1096,80 @@ declare namespace SavageDOM.Elements {
         private addLights(lighting, lights);
     }
 }
-declare namespace SavageDOM.Attribute {
-    interface NonRenderable extends Presentation, HasStyle, HasClass {
-    }
-    namespace NonRenderable {
-        namespace PaintServer {
-            interface Gradient {
-                gradientUnits: "userSpaceOnUse" | "objectBoundingBox";
-                gradientTransform: List<Transform>;
-                spreadMethod: "pad" | "reflect" | "repeat";
-                "xlink:href": string;
-            }
-            namespace Gradient {
-                interface Linear extends Gradient {
-                    x1: Length;
-                    y1: Length;
-                    "x1:y1": Point;
-                    x2: Length;
-                    y2: Length;
-                    "x2:y2": Point;
-                }
-                interface Radial extends Gradient {
-                    cx: Length;
-                    cy: Length;
-                    "cx:cy": Point;
-                    r: Length;
-                    fx: Length;
-                    fy: Length;
-                    "fx:fy": Point;
-                }
-                interface Stops {
-                    [offset: number]: "currentColor" | Color | Inherit;
-                }
-            }
-            interface Pattern {
-                patternUnits: "userSpaceOnUse" | "objectBoundingBox";
-                patternContentUnits: "userSpaceOnUse" | "objectBoundingBox";
-                patternTransform: List<Transform>;
-                x: Length;
-                y: Length;
-                "x:y": Point;
-                width: Length;
-                height: Length;
-                "width:height": Point;
-                "x:y:width:height": ViewBox;
-                "xlink:href": string;
-                preserveAspectRatio: PreserveAspectRatio;
-                viewBox: ViewBox;
-            }
-        }
-        interface Marker {
-            markerUnits: "userSpaceOnUse" | "strokeWidth";
-            refX: Length;
-            refY: Length;
-            "refX:refY": Point;
-            markerWidth: Length;
-            markerHeight: Length;
-            "refX:refY:markerWidth:markerHeight": ViewBox;
-            orient: "auto" | "auto-start-reverse" | number | string;
-            viewBox: ViewBox;
-        }
-        interface Mask {
-            maskUnits: "userSpaceOnUse" | "objectBoundingBox";
-            maskContentUnits: "userSpaceOnUse" | "objectBoundingBox";
-            x: Length;
-            y: Length;
-            width: Length;
-            height: Length;
-            "width:height": Point;
-            "x:y:width:height": ViewBox;
-        }
-    }
-}
-declare namespace SavageDOM.Elements {
-    abstract class NonRenderable<E extends SVGElement, NonRenderableAttributes> extends Element<E, Attribute.NonRenderable & NonRenderableAttributes> {
-    }
-    namespace NonRenderable {
-        abstract class PaintServer<E extends SVGElement, PaintServerAttributes> extends NonRenderable<E, PaintServerAttributes> {
-        }
-        namespace PaintServer {
-            abstract class Gradient<E extends SVGElement, GradientAttributes extends Attribute.NonRenderable.PaintServer.Gradient> extends PaintServer<E, GradientAttributes> {
-            }
-            namespace Gradient {
-                class Linear extends Gradient<SVGLinearGradientElement, Attribute.NonRenderable.PaintServer.Gradient.Linear> {
-                    constructor(paper: Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable | Attribute.NonRenderable.PaintServer.Gradient.Linear>);
-                }
-                class Radial extends Gradient<SVGRadialGradientElement, Attribute.NonRenderable.PaintServer.Gradient.Radial> {
-                    constructor(paper: Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable | Attribute.NonRenderable.PaintServer.Gradient.Radial>);
-                }
-            }
-            class Pattern extends PaintServer<SVGPatternElement, Attribute.NonRenderable.PaintServer.Pattern> {
-                paper: Paper;
-                constructor(paper: Paper, w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox);
-            }
-        }
-        class Marker extends Element<SVGMarkerElement, Attribute.NonRenderable & Attribute.NonRenderable.Marker> {
-            constructor(paper: Paper, attrs?: Partial<Attribute.NonRenderable & Attribute.NonRenderable.Marker>);
-        }
-        class Mask extends Element<SVGMaskElement, Attribute.NonRenderable & Attribute.NonRenderable.Mask> {
-            paper: Paper;
-            constructor(paper: Paper, w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox");
-        }
-    }
-}
-declare namespace SavageDOM.Attribute {
-    interface Renderable extends Presentation, HasStyle, HasClass, Transformable {
-    }
-    namespace Renderable {
-        namespace Shape {
-            interface Circle {
-                cx: Length;
-                cy: Length;
-                "cx:cy": Point;
-                r: Length;
-            }
-            interface Ellipse {
-                cx: Length;
-                cy: Length;
-                "cx:cy": Point;
-                rx: Length;
-                ry: Length;
-                "rx:ry": Point;
-            }
-            interface Line {
-                x1: Length;
-                y1: Length;
-                "x1:y1": Point;
-                x2: Length;
-                y2: Length;
-                "x2:y2": Point;
-            }
-            interface Polygon {
-                points: List<Point>;
-            }
-            interface Polyline {
-                points: List<Point>;
-            }
-            interface Path {
-                d: List<PathSegment>;
-                pathLength: number;
-            }
-            interface Rect {
-                x: Length;
-                y: Length;
-                "x:y": Point;
-                width: Length;
-                height: Length;
-                "width:height": Point;
-                "x:y:width:height": ViewBox;
-                rx: Length;
-                ry: Length;
-                "rx:ry": Point;
-            }
-        }
-        interface Image {
-            x: Length;
-            y: Length;
-            "x:y": Point;
-            width: Length;
-            height: Length;
-            "width:height": Point;
-            "x:y:width:height": ViewBox;
-            "xlink:href": string;
-            preserveAspectRatio?: PreserveAspectRatio;
-            viewBox?: ViewBox;
-        }
-        interface Text {
-            x: Length;
-            y: Length;
-            "x:y": Point;
-            dx: Length;
-            dy: Length;
-            "dx:dy": Point;
-            textLength?: Length;
-        }
-    }
-}
-declare namespace SavageDOM.Elements {
-    abstract class Renderable<E extends SVGElement, RenderableAttributes> extends Element<E, Attribute.Renderable & RenderableAttributes> {
-    }
-    namespace Renderable {
-        abstract class Shape<E extends SVGElement, ShapeAttributes> extends Renderable<E, ShapeAttributes> {
-        }
-        namespace Shape {
-            class Circle extends Shape<SVGCircleElement, Attribute.Renderable.Shape.Circle> {
-                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Circle>);
-            }
-            class Ellipse extends Shape<SVGEllipseElement, Attribute.Renderable.Shape.Ellipse> {
-                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Ellipse>);
-            }
-            class Line extends Shape<SVGLineElement, Attribute.Renderable.Shape.Line> {
-                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Line>);
-            }
-            class Polygon extends Shape<SVGPolygonElement, Attribute.Renderable.Shape.Polygon> {
-                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Polygon>);
-            }
-            class Polyline extends Shape<SVGPolylineElement, Attribute.Renderable.Shape.Polyline> {
-                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Polyline>);
-            }
-            class Path extends Shape<SVGPathElement, Attribute.Renderable.Shape.Path> {
-                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Path>);
-            }
-            class Rect extends Shape<SVGRectElement, Attribute.Renderable.Shape.Rect> {
-                constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Rect>);
-            }
-        }
-        class Image extends Renderable<SVGImageElement, Attribute.Renderable.Image> {
-            constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Image>);
-        }
-        class Text extends Renderable<SVGTextElement, Attribute.Textual | Attribute.Renderable.Text> {
-            constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Textual | Attribute.Renderable.Text>);
-        }
-        class G extends Renderable<SVGGElement, void> {
-            constructor(paper: Paper, attrs?: Partial<Attribute.Renderable>);
-        }
+declare namespace SavageDOM {
+    interface Paper {
+        filter(): Elements.Filter;
     }
 }
 declare namespace SavageDOM {
-    class Paper {
-        private static runner;
-        root: SVGSVGElement;
-        defs: SVGDefsElement;
-        constructor();
-        constructor(id: string);
-        constructor(el: SVGSVGElement);
-        addDef(def: Element<SVGElement, any>): void;
+    interface Dynamic<Attrs> {
+        element: Element<SVGElement, Attrs>;
+        defs: Dynamic.Defined<Attrs>;
+        progress: (now: number) => number | undefined;
+    }
+    namespace Dynamic {
+        interface Definition<A extends string> extends Setter {
+            set(element: Element<SVGElement, any>, attr: A): void;
+        }
+        type Defined<Attrs> = {
+            [A in keyof Attrs]?: Dynamic.Definition<A>;
+        };
+        class MousePosition<A extends string> extends Attribute.Point implements Definition<A> {
+            private xAttr;
+            private yAttr;
+            constructor(target?: Document | HTMLElement | SVGElement | Paper);
+        }
+    }
+    interface Animation<Attrs> extends Dynamic<Attrs> {
+        from: Partial<Attrs>;
+        attrs: Animation.Defined<Attrs>;
+        resolve: (end: number) => any;
+    }
+    namespace Animation {
+        type Defined<Attrs> = {
+            [A in keyof Attrs]?: Attribute<Attrs[A]>;
+        };
+        namespace Easing {
+            const linear: (t: number) => number;
+            const quadraticIn: (t: number) => number;
+            const quadraticOut: (t: number) => number;
+            const quadratic: (t: number) => number;
+            const cubicIn: (t: number) => number;
+            const cubicOut: (t: number) => number;
+            const cubic: (t: number) => number;
+            const quarticIn: (t: number) => number;
+            const quarticOut: (t: number) => number;
+            const quartic: (t: number) => number;
+            const quinticIn: (t: number) => number;
+            const quinticOut: (t: number) => number;
+            const quintic: (t: number) => number;
+            const sineIn: (t: number) => number;
+            const sineOut: (t: number) => number;
+            const sine: (t: number) => number;
+            const exponentialIn: (t: number) => number;
+            const exponentialOut: (t: number) => number;
+            const exponential: (t: number) => number;
+            const circularIn: (t: number) => number;
+            const circularOut: (t: number) => number;
+            const circular: (t: number) => number;
+        }
+        const Runner: AnimationRunner;
+    }
+    class AnimationRunner {
+        private static requestAnimationFrame;
+        private running;
+        private queue;
         registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>): (enable: boolean) => void;
         registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>, isEnabled: () => boolean): void;
-        registerAnimation<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, attrs: Animation.Defined<Attrs>, duration: number, easing: (t: number) => number): Promise<any>;
-        g(els: Element<SVGElement, any>[]): Elements.Renderable.G;
-        circle(cx: Attribute.Length, cy: Attribute.Length, r: Attribute.Length): Elements.Renderable.Shape.Circle;
-        ellipse(cx: number, cy: number, rx: number, ry: number): Elements.Renderable.Shape.Ellipse;
-        filter(): Elements.Filter;
-        pattern(w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
-        linearGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear;
-        radialGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs: Attribute.NonRenderable.PaintServer.Gradient.Radial): Elements.NonRenderable.PaintServer.Gradient.Radial;
-        image(attrs: Attribute.Renderable.Image): Elements.Renderable.Image;
-        line(x1: Attribute.Length, y1: Attribute.Length, x2: Attribute.Length, y2: Attribute.Length): Elements.Renderable.Shape.Line;
-        mask(w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox"): Elements.NonRenderable.Mask;
-        path(d: Attribute.List<Attribute.PathSegment>, pathLength?: number): Elements.Renderable.Shape.Path;
+        registerAnimation<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, attrs: Animation.Defined<Attrs>, duration: number, easing: (t: number) => number): Promise<number>;
+        add(anim: Dynamic<any>): void;
+        private registerAnimationWithCallback<SVG, Attrs>(element, attrs, duration, easing, resolve);
+        private loop();
+        private stop();
+        private start();
+    }
+    interface Element<SVG extends SVGElement, Attrs> {
+        dynamic(defs: Dynamic.Defined<Attrs>): void;
+        animate(attrs: Partial<Attrs>, duration: number, easing?: (t: number) => number): Promise<number>;
     }
 }

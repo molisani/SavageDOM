@@ -58,41 +58,11 @@ namespace SavageDOM {
       }
       return elements;
     }
-    public dynamic(defs: Dynamic.Defined<Attrs>) {
-      this.paper.registerDynamic(this, defs);
-    }
-    public animate(attrs: Partial<Attrs>, duration: number, easing: (t: number) => number = Animation.Easing.linear): Promise<number> {
-      const defs = {} as Animation.Defined<Attrs>;
-      for (const prop in attrs) {
-        const a = attrs[prop];
-        if (a !== undefined) {
-          if (Attribute.isAttribute(a)) {
-            defs[prop] = a;
-          } else if (typeof a === "number") {
-            defs[prop] = new Attribute.Number(a as any as number) as Attribute<any>;
-          }
-        }
-      }
-      return this.paper.registerAnimation(this, defs, duration, easing);
-    }
     public addEventListener(event: "focusin" | "focusout" | "mousedown" | "mouseup" | "mousemove" | "mouseover" | "mouseout", listener: (this: this, event: MouseEvent) => any): void;
     public addEventListener(event: "touchstart" | "touchend" | "touchmove" | "touchcancel", listener: (this: this, event: TouchEvent) => any): void;
     public addEventListener(event: string, listener: (this: this, event: Event) => any): void {
       this.node.addEventListener(event, listener.bind(this));
     }
-    public toPattern(w: number, h: number): Elements.NonRenderable.PaintServer.Pattern;
-    public toPattern(w: number, h: number, x: number, y: number): Elements.NonRenderable.PaintServer.Pattern;
-    public toPattern(w: number, h: number, x: number, y: number, view: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
-    public toPattern(w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern {
-      const pattern = new Elements.NonRenderable.PaintServer.Pattern(this.paper, w, h, x, y, view);
-      const children = this.node.children;
-      for (let i = 0; i < children.length; ++i) {
-        pattern.node.appendChild(children.item(i));
-      }
-      return pattern;
-    }
   }
-
-  export namespace Elements {}
 
 }

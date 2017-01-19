@@ -240,3 +240,34 @@ namespace SavageDOM.Attribute {
   }
 
 }
+
+namespace SavageDOM.Attribute.Renderable.Shape {
+
+  export interface Path {
+    d: List<PathSegment>;
+    pathLength: number;
+  }
+
+}
+
+namespace SavageDOM.Elements.Renderable.Shape {
+
+  export class Path extends AbstractShape<SVGPathElement, Attribute.Renderable.Shape.Path> {
+    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Path>) {
+      super(paper, "path", attrs);
+    }
+  }
+
+}
+
+namespace SavageDOM {
+
+  export interface Paper {
+    path(d: Attribute.List<Attribute.PathSegment>, pathLength?: number): Elements.Renderable.Shape.Path;
+  }
+
+  Paper.prototype.path = function(this: SavageDOM.Paper, d: Attribute.List<Attribute.PathSegment>, pathLength?: number): Elements.Renderable.Shape.Path {
+    return new Elements.Renderable.Shape.Path(this, { d, pathLength });
+  };
+
+}

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AnimationRunner | savagedom</title>
+	<title>AnimationRunner | SavageDOM</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">savagedom</a>
+					<a href="../index.html" class="title">SavageDOM</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -94,6 +94,9 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.animationrunner.html#add" class="tsd-kind-icon">add</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="savagedom.animationrunner.html#loop" class="tsd-kind-icon">loop</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="savagedom.animationrunner.html#registeranimation" class="tsd-kind-icon">register<wbr>Animation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-private"><a href="savagedom.animationrunner.html#registeranimationwithcallback" class="tsd-kind-icon">register<wbr>Animation<wbr>With<wbr>Callback</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="savagedom.animationrunner.html#registerdynamic" class="tsd-kind-icon">register<wbr>Dynamic</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="savagedom.animationrunner.html#start" class="tsd-kind-icon">start</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="savagedom.animationrunner.html#stop" class="tsd-kind-icon">stop</a></li>
 							</ul>
@@ -109,7 +112,7 @@
 					<div class="tsd-signature tsd-kind-icon">queue<span class="tsd-signature-symbol">:</span> <a href="../modules/savagedom.dynamic.html" class="tsd-signature-type">Dynamic</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in animation.ts:53</li>
+							<li>Defined in animation.ts:87</li>
 						</ul>
 					</aside>
 				</section>
@@ -119,7 +122,7 @@
 					<div class="tsd-signature tsd-kind-icon">running<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in animation.ts:52</li>
+							<li>Defined in animation.ts:86</li>
 						</ul>
 					</aside>
 				</section>
@@ -129,7 +132,7 @@
 					<div class="tsd-signature tsd-kind-icon">request<wbr>Animation<wbr>Frame<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> =&nbsp;(window.requestAnimationFrame || window.webkitRequestAnimationFrame || window[&quot;mozRequestAnimationFrame&quot;] || window[&quot;oRequestAnimationFrame&quot;] || window[&quot;msRequestAnimationFrame&quot;] || function(this: Window, callback: FrameRequestCallback) { this.setTimeout(callback, 16); }).bind(window)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in animation.ts:51</li>
+							<li>Defined in animation.ts:85</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -167,7 +170,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in animation.ts:54</li>
+									<li>Defined in animation.ts:108</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -190,9 +193,243 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in animation.ts:60</li>
+									<li>Defined in animation.ts:128</li>
 								</ul>
 							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+					<a name="registeranimation" class="tsd-anchor"></a>
+					<h3>register<wbr>Animation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Animation&lt;SVG, Attrs&gt;<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVG</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">&gt;</span>, attrs<span class="tsd-signature-symbol">: </span><a href="../modules/savagedom.animation.html#defined" class="tsd-signature-type">Defined</a>, duration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, easing<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in animation.ts:105</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>SVG<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGElement</span></h4>
+								</li>
+								<li>
+									<h4>Attrs</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>element: <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVG</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>attrs: <a href="../modules/savagedom.animation.html#defined" class="tsd-signature-type">Defined</a></h5>
+								</li>
+								<li>
+									<h5>duration: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>easing: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>t: <span class="tsd-signature-type">number</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-private">
+					<a name="registeranimationwithcallback" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> register<wbr>Animation<wbr>With<wbr>Callback</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Animation<wbr>With<wbr>Callback&lt;SVG, Attrs&gt;<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVG</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">&gt;</span>, attrs<span class="tsd-signature-symbol">: </span><a href="../modules/savagedom.animation.html#defined" class="tsd-signature-type">Defined</a>, duration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, easing<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, resolve<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in animation.ts:114</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>SVG<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGElement</span></h4>
+								</li>
+								<li>
+									<h4>Attrs</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>element: <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVG</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>attrs: <a href="../modules/savagedom.animation.html#defined" class="tsd-signature-type">Defined</a></h5>
+								</li>
+								<li>
+									<h5>duration: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>easing: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>t: <span class="tsd-signature-type">number</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<h5>resolve: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>t: <span class="tsd-signature-type">number</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+					<a name="registerdynamic" class="tsd-anchor"></a>
+					<h3>register<wbr>Dynamic</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Dynamic&lt;SVG, Attrs&gt;<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVG</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">&gt;</span>, defs<span class="tsd-signature-symbol">: </span><a href="../modules/savagedom.dynamic.html#defined" class="tsd-signature-type">Defined</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Dynamic&lt;SVG, Attrs&gt;<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVG</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">&gt;</span>, defs<span class="tsd-signature-symbol">: </span><a href="../modules/savagedom.dynamic.html#defined" class="tsd-signature-type">Defined</a>, isEnabled<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in animation.ts:88</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>SVG<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGElement</span></h4>
+								</li>
+								<li>
+									<h4>Attrs</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>element: <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVG</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>defs: <a href="../modules/savagedom.dynamic.html#defined" class="tsd-signature-type">Defined</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>enable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>enable: <span class="tsd-signature-type">boolean</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in animation.ts:89</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>SVG<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGElement</span></h4>
+								</li>
+								<li>
+									<h4>Attrs</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>element: <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVG</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>defs: <a href="../modules/savagedom.dynamic.html#defined" class="tsd-signature-type">Defined</a></h5>
+								</li>
+								<li>
+									<h5>isEnabled: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -207,7 +444,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in animation.ts:103</li>
+									<li>Defined in animation.ts:171</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -224,7 +461,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in animation.ts:100</li>
+									<li>Defined in animation.ts:168</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -279,6 +516,15 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="savagedom.animationrunner.html#loop" class="tsd-kind-icon">loop</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<a href="savagedom.animationrunner.html#registeranimation" class="tsd-kind-icon">register<wbr>Animation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-private">
+								<a href="savagedom.animationrunner.html#registeranimationwithcallback" class="tsd-kind-icon">register<wbr>Animation<wbr>With<wbr>Callback</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<a href="savagedom.animationrunner.html#registerdynamic" class="tsd-kind-icon">register<wbr>Dynamic</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="savagedom.animationrunner.html#start" class="tsd-kind-icon">start</a>

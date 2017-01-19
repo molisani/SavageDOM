@@ -1,51 +1,96 @@
 module.exports = function(grunt) {
   "use strict";
 
-  const FILES_TO_COMMIT = [
-    "dist/SavageDOM.js",
-    "dist/SavageDOM.min.js",
-    "dist/SavageDOM.d.ts",
-    "bower.json",
-    "package.json"
-  ];
-
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
-    umd: {
-      all: {
-        src: "dist/SavageDOM.js",
-        objectToExport: "SavageDOM"
-      }
-    },
-    concat: {
-      header: {
-        src: ["HEADER.txt", "dist/SavageDOM.js"],
-        dest: "dist/SavageDOM.js"
-      }
-    },
     ts: {
-      dev: {
-        tsconfig: true
+      all: {
+        tsconfig: 'src/tsconfig.json'
       },
-      test: {
-        src: ["test/**/*.ts"],
-        out: "test/tests.js",
-        options: {
-          target: "es6",
-          sourceMap: false,
-          noImplicitAny: false,
-          noImplicitThis: true,
-          strictNullChecks: true,
-          alwaysStrict: true,
-          declaration: false,
-          removeComments: false
-        }
+      core: {
+        tsconfig: 'src/tsconfig.core.json'
+      },
+      elem: {
+        tsconfig: 'src/tsconfig.elem.json'
+      },
+      anim: {
+        tsconfig: 'src/tsconfig.anim.json'
       },
       verifyDefinitionFiles: {
         src: [
           "dist/SavageDOM.d.ts"
         ],
-        tsconfig: true
+        tsconfig: 'src/tsconfig.json'
+      }
+    },
+    umd: {
+      all: {
+        src: "dist/SavageDOM.js",
+        objectToExport: "SavageDOM"
+      },
+      core: {
+        src: "dist/SavageDOM.core.js",
+        objectToExport: "SavageDOM"
+      },
+      elem: {
+        src: "dist/SavageDOM.elem.js",
+        objectToExport: "SavageDOM"
+      },
+      anim: {
+        src: "dist/SavageDOM.anim.js",
+        objectToExport: "SavageDOM"
+      }
+    },
+    concat: {
+      all: {
+        src: ["HEADER.txt", "dist/SavageDOM.js"],
+        dest: "dist/SavageDOM.js"
+      },
+      core: {
+        src: ["HEADER.txt", "dist/SavageDOM.core.js"],
+        dest: "dist/SavageDOM.core.js"
+      },
+      elem: {
+        src: ["HEADER.txt", "dist/SavageDOM.elem.js"],
+        dest: "dist/SavageDOM.elem.js"
+      },
+      anim: {
+        src: ["HEADER.txt", "dist/SavageDOM.anim.js"],
+        dest: "dist/SavageDOM.anim.js"
+      }
+    },
+    sed: {
+      all: {
+        pattern: "@VERSION",
+        replacement: "<%= pkg.version %>",
+        path: "dist/SavageDOM.js"
+      },
+      core: {
+        pattern: "@VERSION",
+        replacement: "<%= pkg.version %>",
+        path: "dist/SavageDOM.core.js"
+      },
+      elem: {
+        pattern: "@VERSION",
+        replacement: "<%= pkg.version %>",
+        path: "dist/SavageDOM.elem.js"
+      },
+      anim: {
+        pattern: "@VERSION",
+        replacement: "<%= pkg.version %>",
+        path: "dist/SavageDOM.anim.js"
+      }
+    },
+    uglify: {
+      core: {
+        files: {
+          "dist/SavageDOM.core.min.js": ["dist/SavageDOM.core.js"]
+        }
+      },
+      elem: {
+        files: {
+          "dist/SavageDOM.elem.min.js": ["dist/SavageDOM.elem.js"]
+        }
       }
     },
     tslint: {
@@ -56,89 +101,66 @@ module.exports = function(grunt) {
         src: ["src/**/*.ts", "test/**/*.ts"]
       }
     },
-    typedoc: {
-      build: {
-        out: "./docs",
-        mode: "module",
-        name: "SavageDOM"
-      }
-    },
     parallelize: {
       tslint: {
         all: 4
       }
     },
-    watch: {
-      options: {
-        livereload: true,
-        spawn: false
-      },
-      rebuild: {
-        tasks: ["src-compile"],
-        files: ["src/**/*.ts"]
-      },
-      tests: {
-        tasks: ["test-compile"],
-        files: ["test/**/*.ts"]
-      }
-    },
-    connect: {
-      server: {
+    typedoc: {
+      build: {
         options: {
-          port: 9999,
-          hostname: "*",
-          base: "",
-          livereload: true
-        }
+          out: "./docs",
+          mode: "file",
+          name: "SavageDOM",
+          target: 'es6'
+        },
+        src: ['./src/**/*.ts']
       }
     },
+    
+    // watch: {
+    //   options: {
+    //     livereload: true,
+    //     spawn: false
+    //   },
+    //   rebuild: {
+    //     tasks: ["src-compile"],
+    //     files: ["src/**/*.ts"]
+    //   },
+    //   tests: {
+    //     tasks: ["test-compile"],
+    //     files: ["test/**/*.ts"]
+    //   }
+    // },
+    // connect: {
+    //   server: {
+    //     options: {
+    //       port: 9999,
+    //       hostname: "*",
+    //       base: "",
+    //       livereload: true
+    //     }
+    //   }
+    // },
+    
+    
     clean: {
       tscommand: ["tscommand*.tmp.txt"]
-    },
-    sed: {
-      versionNumber: {
-        pattern: "@VERSION",
-        replacement: "<%= pkg.version %>",
-        path: "dist/SavageDOM.js"
-      }
-    },
-    gitcommit: {
-      version: {
-        options: {
-          message: "Release version <%= pkg.version %>"
-        },
-        files: {
-          src: FILES_TO_COMMIT
-        }
-      },
-      built: {
-        options: {
-          message: "Update built files"
-        },
-        files: {
-          src: FILES_TO_COMMIT
-        }
-      }
     }
   });
 
   require("load-grunt-tasks")(grunt);
 
-  grunt.registerTask("test-compile", ["ts:test"]);
-  grunt.registerTask("src-compile", ["ts:dev", "generateJS"]);
-  grunt.registerTask("dev-compile", ["src-compile", "test-compile", "clean:tscommand"]);
-  grunt.registerTask("generateJS", ["umd:all", "concat:header", "sed:versionNumber"]);
+  grunt.registerTask("compile:all", ["ts:all", "umd:all", "concat:all", "sed:all"]);
+  grunt.registerTask("compile:core", ["ts:core", "umd:core", "uglify:core", "concat:core", "sed:core"]);
+  grunt.registerTask("compile:elem", ["ts:elem", "umd:elem", "uglify:elem", "concat:elem", "sed:elem"]);
+  grunt.registerTask("compile:anim", ["ts:anim", "umd:anim", "concat:anim", "sed:anim"]);
 
-  grunt.registerTask("release:patch", ["bump:patch", "dist-compile", "gitcommit:version"]);
-  grunt.registerTask("release:minor", ["bump:minor", "dist-compile", "gitcommit:version"]);
-  grunt.registerTask("release:major", ["bump:major", "dist-compile", "gitcommit:version"]);
+  grunt.registerTask("compile", ["compile:all", "compile:core", "compile:elem", "compile:anim", "clean:tscommand"]);
 
-  grunt.registerTask("dist-compile", ["test"]);
-
-  grunt.registerTask("commitjs", ["dist-compile", "gitcommit:built"]);
   grunt.registerTask("default", ["connect", "dev-compile", "watch-silent"]);
 
-  grunt.registerTask("test", ["dev-compile", "test-local"]);
+  grunt.registerTask("test", ["compile", "test-local"]);
   grunt.registerTask("test-local", ["ts:verifyDefinitionFiles", "lint"]);
   grunt.registerTask("test-sauce", ["connect", "saucelabs-mocha"]);
 
@@ -149,7 +171,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask("lint", ["parallelize:tslint"]);
 
-  grunt.registerTask("test-travis", ["dev-compile", "test-local"]);
+  grunt.registerTask("test-travis", ["compile", "test-local"]);
 
 
 

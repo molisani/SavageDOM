@@ -23,7 +23,9 @@ namespace SavageDOM.Attribute {
 
   export type Inherit = "inherit";
 
-  export type Paint = "none" | "currentColor" | Color | Elements.NonRenderable.PaintServer.Gradient.Linear | Elements.NonRenderable.PaintServer.Gradient.Radial | Elements.NonRenderable.PaintServer.Pattern | Inherit;
+  export interface PaintServer {};
+
+  export type Paint = "none" | "currentColor" | Color | PaintServer | Inherit;
 
   export type Length = number | Dimension<CSSAbsoluteLengths>;
 
