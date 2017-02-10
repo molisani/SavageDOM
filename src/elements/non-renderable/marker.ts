@@ -7,9 +7,9 @@ namespace SavageDOM.Attribute.NonRenderable {
     "refX:refY": Point;
     markerWidth: Length;
     markerHeight: Length;
-    "refX:refY:markerWidth:markerHeight": ViewBox;
+    "refX:refY:markerWidth:markerHeight": Box;
     orient: "auto" | "auto-start-reverse" | number | string;
-    viewBox: ViewBox;
+    viewBox: Box;
   }
 
 }

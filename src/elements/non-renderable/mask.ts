@@ -8,7 +8,7 @@ namespace SavageDOM.Attribute.NonRenderable {
     width: Length;
     height: Length;
     "width:height": Point;
-    "x:y:width:height": ViewBox;
+    "x:y:width:height": Box;
   }
 
 }

@@ -27,7 +27,7 @@ namespace SavageDOM.Attribute {
 
   export type Paint = "none" | "currentColor" | Color | PaintServer | Inherit;
 
-  export type Length = number | Dimension<CSSAbsoluteLengths>;
+  export type Length = number | Dimension<CSSAbsoluteLength | CSSRelativeLength>;
 
   export const _LengthParse = (css: string): Length => {
     const m = css.match(/(\d+|\d+\.\d+)(\w+|%)/i);
@@ -52,8 +52,7 @@ namespace SavageDOM.Attribute {
     }
   };
 
-  export type Angle = number | Dimension<CSSAngleUnits>;
-  export type Percentage = Dimension<"%">;
+  export type Angle = number | Dimension<CSSAngleUnit>;
 
   export interface Presentation {
     "alignment-baseline": "auto" | "baseline" | "before-edge" | "text-before-edge" | "middle" | "central" | "after-edge" | "text-after-edge" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | Inherit;

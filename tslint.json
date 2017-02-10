@@ -6,7 +6,7 @@
         "no-empty-interface": false,
         "no-namespace": false,
         "no-reference": true,
-        "prefer-for-of": true,
+        "prefer-for-of": false,
         "unified-signatures": false,
 
         "curly": true,

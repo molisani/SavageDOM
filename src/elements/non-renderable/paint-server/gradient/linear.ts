@@ -14,14 +14,8 @@ namespace SavageDOM.Attribute.NonRenderable.PaintServer.Gradient {
 namespace SavageDOM.Elements.NonRenderable.PaintServer.Gradient {
 
   export class Linear extends AbstractGradient<SVGLinearGradientElement, Attribute.NonRenderable.PaintServer.Gradient.Linear> {
-    constructor(paper: Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable | Attribute.NonRenderable.PaintServer.Gradient.Linear>) {
-      super(paper, "linearGradient", attrs);
-      Object.keys(stops).forEach(offset => {
-        const stop = window.document.createElementNS(XMLNS, "stop");
-        stop.setAttribute("offset", offset);
-        stop.setAttribute("stop-color", stops[offset]);
-        this.node.appendChild(stop);
-      });
+    constructor(paper: Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable & Attribute.NonRenderable.PaintServer.Gradient.Linear>) {
+      super(paper, "linearGradient", stops, attrs);
     }
   }
 
@@ -30,10 +24,10 @@ namespace SavageDOM.Elements.NonRenderable.PaintServer.Gradient {
 namespace SavageDOM {
 
   export interface Paper {
-    linearGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear;
+    linearGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear;
   }
 
-  Paper.prototype.linearGradient = function(this: SavageDOM.Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear {
+  Paper.prototype.linearGradient = function(this: SavageDOM.Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear {
     return new Elements.NonRenderable.PaintServer.Gradient.Linear(this, stops, attrs);
   };
 

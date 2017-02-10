@@ -32,12 +32,38 @@ namespace SavageDOM.Attribute.NonRenderable.PaintServer {
       [offset: number]: "currentColor" | Color | Inherit;
     }
 
+    export interface Stop {
+      offset: Percentage;
+      "stop-color": "currentColor" | Color | Inherit;
+    }
+
   }
 
 }
 
 namespace SavageDOM.Elements.NonRenderable.PaintServer {
 
-  export abstract class AbstractGradient<E extends SVGElement, GradientAttributes extends Attribute.NonRenderable.PaintServer.Gradient> extends AbstractPaintServer<E, GradientAttributes> {}
+  export abstract class AbstractGradient<E extends SVGElement, GradientAttributes extends Attribute.NonRenderable.PaintServer.Gradient> extends AbstractPaintServer<E, GradientAttributes> {
+    constructor(paper: Paper, name: string, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable & GradientAttributes>) {
+      super(paper, name, attrs);
+      this.paper.addDef(this);
+      const stopArr: Elements.NonRenderable.PaintServer.Gradient.Stop[] = [];
+      Object.keys(stops).forEach(offset => {
+        stopArr.push(new SavageDOM.Elements.NonRenderable.PaintServer.Gradient.Stop(paper, Number(offset), stops[offset]));
+      });
+      stopArr.sort((a, b) => {
+        return a.offset - b.offset;
+      });
+      stopArr.forEach(s => this.add(s));
+    }
+  }
+
+  export namespace Gradient {
+    export class Stop extends Element<SVGStopElement, Attribute.NonRenderable.PaintServer.Gradient.Stop> {
+      constructor(paper: Paper, public offset: number, color: "currentColor" | Attribute.Color | Attribute.Inherit) {
+        super(paper, "stop", { offset: new SavageDOM.Attribute.Dimension<"%">(offset * 100, "%"), "stop-color": color });
+      }
+    }
+  }
 
 }

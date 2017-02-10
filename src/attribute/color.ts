@@ -58,10 +58,10 @@ namespace SavageDOM.Attribute {
         h = 0;
         s = 0;
       } else {
-        s = (avg > 0.5) ? (d / (2 - d)) : (d / (max + min));
+        s = d / (1 - Math.abs(2 * avg - 1));
         switch (max) {
           case r:
-            h = ((g - b) / d) + ((g < b) ? 6 : 0);
+            h = ((g - b) / d) % 6;
             break;
           case g:
             h = ((b - r) / d) + 2;
@@ -87,11 +87,7 @@ namespace SavageDOM.Attribute {
           return new RGB(_lerp(from.r, this.r, t), _lerp(from.g, this.g, t), _lerp(from.b, this.b, t), _lerp(from.a, this.a, t));
         }
       } else if (modePrefix === "hsl") {
-        if (from instanceof HSL) {
-          return from.interpolate(this, 1 - t, mode);
-        } else {
-          return this.toHSL().interpolate(from, t, mode);
-        }
+        return this.toHSL().interpolate(from, t, mode);
       }
       return this;
     }
@@ -173,37 +169,34 @@ namespace SavageDOM.Attribute {
         if (from instanceof HSL) {
           let h1 = from.h;
           let h2 = this.h;
-          if (Math.abs(h1 - h2) > 180) {
+          const diff = h1 - h2;
+          if (Math.abs(diff) > 180) {
             if (mode === "hsl-shortest") {
-              if (h1 < h2) {
+              if (diff < 0) {
                 h1 += 360;
-              } else {
+              } else if (diff > 0) {
                 h2 += 360;
               }
             }
           } else {
             if (mode === "hsl-longest") {
-              if (h1 < h2) {
+              if (diff < 0) {
                 h1 += 360;
-              } else {
+              } else if (diff > 0) {
                 h2 += 360;
               }
             }
           }
-          if (mode === "hsl-clockwise") {
+          if (diff > 0 && mode === "hsl-clockwise") {
             h2 += 360;
           }
-          if (mode === "hsl-counterclockwise") {
+          if (diff < 0 && mode === "hsl-counterclockwise") {
             h1 += 360;
           }
           return new HSL(_lerp(h1, h2, t) % 360, _lerp(from.s, this.s, t), _lerp(from.l, this.l, t), _lerp(from.a, this.a, t));
         }
       } else if (modePrefix === "rgb") {
-        if (from instanceof RGB) {
-          return from.interpolate(this, 1 - t, mode);
-        } else {
-          return this.toRGB().interpolate(from, t, mode);
-        }
+        return this.toRGB().interpolate(from, t, mode);
       }
       return this;
     }

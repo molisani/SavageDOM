@@ -20,7 +20,7 @@ namespace SavageDOM {
 
   Paper.prototype.group = function(this: SavageDOM.Paper, els: Element<SVGElement, any>[]): Elements.Renderable.Group {
     const el = new Elements.Renderable.Group(this);
-    els.forEach(child => el.node.appendChild(child.node));
+    els.forEach(child => el.add(child));
     return el;
   };
 

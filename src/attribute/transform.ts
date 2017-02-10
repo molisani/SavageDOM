@@ -24,7 +24,7 @@ namespace SavageDOM.Attribute {
         element.setAttribute(attr, this.toString());
       }
     }
-    abstract interpolate(from: Transform, t: number): Transform;
+    abstract interpolate<T extends Transform>(from: T, t: number): T;
   }
 
   export namespace Transform {

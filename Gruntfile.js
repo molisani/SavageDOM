@@ -1,26 +1,34 @@
 module.exports = function(grunt) {
   "use strict";
 
+  var examples = grunt.file.expand({
+    filter: "isFile",
+    cwd: "test/examples"
+  }, ["*.ts"]).map(function(f) { return f.replace(".ts", ""); });
+
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
     ts: {
       all: {
-        tsconfig: 'src/tsconfig.json'
+        tsconfig: "src/tsconfig.json"
       },
       core: {
-        tsconfig: 'src/tsconfig.core.json'
+        tsconfig: "src/tsconfig.core.json"
       },
       elem: {
-        tsconfig: 'src/tsconfig.elem.json'
+        tsconfig: "src/tsconfig.elem.json"
       },
       anim: {
-        tsconfig: 'src/tsconfig.anim.json'
+        tsconfig: "src/tsconfig.anim.json"
+      },
+      examples: {
+        tsconfig: "test/examples/tsconfig.json"
       },
       verifyDefinitionFiles: {
         src: [
           "dist/SavageDOM.d.ts"
         ],
-        tsconfig: 'src/tsconfig.json'
+        tsconfig: "src/tsconfig.json"
       }
     },
     umd: {
@@ -112,51 +120,48 @@ module.exports = function(grunt) {
           out: "./docs",
           mode: "file",
           name: "SavageDOM",
-          target: 'es6'
+          target: "es6"
         },
-        src: ['./src/**/*.ts']
+        src: ["./src/**/*.ts"]
       }
     },
-    
-    // watch: {
-    //   options: {
-    //     livereload: true,
-    //     spawn: false
-    //   },
-    //   rebuild: {
-    //     tasks: ["src-compile"],
-    //     files: ["src/**/*.ts"]
-    //   },
-    //   tests: {
-    //     tasks: ["test-compile"],
-    //     files: ["test/**/*.ts"]
-    //   }
-    // },
-    // connect: {
-    //   server: {
-    //     options: {
-    //       port: 9999,
-    //       hostname: "*",
-    //       base: "",
-    //       livereload: true
-    //     }
-    //   }
-    // },
-    
-    
+    "compile-handlebars": {
+      examples: {
+        files: [{
+          src: "test/examples.hbs",
+          dest: "docs/examples.html"
+        }],
+        templateData: { 
+          examples: examples
+        }
+      }
+    },
+    shell: {
+      examples: {
+        command: "phantomjs render-examples.js",
+        options: {
+          execOptions: {
+            cwd: "test"
+          }
+        }
+      }
+    },
     clean: {
-      tscommand: ["tscommand*.tmp.txt"]
+      tscommand: ["tscommand*.tmp.txt"],
+      examples: ["docs/examples.html", "docs/examples/*"]
     }
   });
 
   require("load-grunt-tasks")(grunt);
 
-  grunt.registerTask("compile:all", ["ts:all", "umd:all", "concat:all", "sed:all"]);
-  grunt.registerTask("compile:core", ["ts:core", "umd:core", "uglify:core", "concat:core", "sed:core"]);
-  grunt.registerTask("compile:elem", ["ts:elem", "umd:elem", "uglify:elem", "concat:elem", "sed:elem"]);
-  grunt.registerTask("compile:anim", ["ts:anim", "umd:anim", "concat:anim", "sed:anim"]);
+  grunt.registerTask("compile:all", ["ts:all", "umd:all", "concat:all", "sed:all", "clean:tscommand"]);
+  grunt.registerTask("compile:core", ["ts:core", "umd:core", "uglify:core", "concat:core", "sed:core", "clean:tscommand"]);
+  grunt.registerTask("compile:elem", ["ts:elem", "umd:elem", "uglify:elem", "concat:elem", "sed:elem", "clean:tscommand"]);
+  grunt.registerTask("compile:anim", ["ts:anim", "umd:anim", "concat:anim", "sed:anim", "clean:tscommand"]);
 
   grunt.registerTask("compile", ["compile:all", "compile:core", "compile:elem", "compile:anim", "clean:tscommand"]);
+
+  grunt.registerTask("examples", ["clean:examples", "ts:examples", "shell:examples", "compile-handlebars:examples", "clean:tscommand"]);
 
   grunt.registerTask("default", ["connect", "dev-compile", "watch-silent"]);
 
@@ -172,9 +177,5 @@ module.exports = function(grunt) {
   grunt.registerTask("lint", ["parallelize:tslint"]);
 
   grunt.registerTask("test-travis", ["compile", "test-local"]);
-
-
-
-
 
 };

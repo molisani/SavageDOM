@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      .ref {
+        display: inline-block;
+      }
+      .ref-frame {
+        display: inline-block;
+        position: relative;
+        height: 250px;
+        width: 250px;
+        overflow: hidden;
+        border: 1px solid black;
+      }
+      .ref-frame > div {
+        position: absolute; 
+        right: 0; 
+        bottom: 0;
+      }
+      .live {
+        display: inline-block;
+      }
+      svg {
+        border: 1px solid black;
+      }
+    </style>
+    <script src="../dist/SavageDOM.elem.js"></script>
+  </head>
+  <body>
+    <div>
+      {{#each examples}}
+      <div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/{{.}}.png">
+          </div>
+        </div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/{{.}}.svg">
+          </div>
+        </div>
+        <div class="live">
+          <svg id="{{.}}" width="250" height="250"></svg>
+          <script src="../test/examples/{{.}}.js"></script>
+          <script>
+            window.buildExample["{{.}}"]("{{.}}");
+          </script>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </body>
+</html>

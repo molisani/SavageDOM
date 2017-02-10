@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      .ref {
+        display: inline-block;
+      }
+      .ref-frame {
+        display: inline-block;
+        position: relative;
+        height: 250px;
+        width: 250px;
+        overflow: hidden;
+        border: 1px solid black;
+      }
+      .ref-frame > div {
+        position: absolute; 
+        right: 0; 
+        bottom: 0;
+      }
+      .live {
+        display: inline-block;
+      }
+      svg {
+        border: 1px solid black;
+      }
+    </style>
+    <script src="../dist/SavageDOM.elem.js"></script>
+  </head>
+  <body>
+    <div>
+      <div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/color_interpolation.png">
+          </div>
+        </div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/color_interpolation.svg">
+          </div>
+        </div>
+        <div class="live">
+          <svg id="color_interpolation" width="250" height="250"></svg>
+          <script src="../test/examples/color_interpolation.js"></script>
+          <script>
+            window.buildExample["color_interpolation"]("color_interpolation");
+          </script>
+        </div>
+      </div>
+      <div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/gradient.png">
+          </div>
+        </div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/gradient.svg">
+          </div>
+        </div>
+        <div class="live">
+          <svg id="gradient" width="250" height="250"></svg>
+          <script src="../test/examples/gradient.js"></script>
+          <script>
+            window.buildExample["gradient"]("gradient");
+          </script>
+        </div>
+      </div>
+      <div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/pattern.png">
+          </div>
+        </div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/pattern.svg">
+          </div>
+        </div>
+        <div class="live">
+          <svg id="pattern" width="250" height="250"></svg>
+          <script src="../test/examples/pattern.js"></script>
+          <script>
+            window.buildExample["pattern"]("pattern");
+          </script>
+        </div>
+      </div>
+      <div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/shapes.png">
+          </div>
+        </div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/shapes.svg">
+          </div>
+        </div>
+        <div class="live">
+          <svg id="shapes" width="250" height="250"></svg>
+          <script src="../test/examples/shapes.js"></script>
+          <script>
+            window.buildExample["shapes"]("shapes");
+          </script>
+        </div>
+      </div>
+      <div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/text.png">
+          </div>
+        </div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/text.svg">
+          </div>
+        </div>
+        <div class="live">
+          <svg id="text" width="250" height="250"></svg>
+          <script src="../test/examples/text.js"></script>
+          <script>
+            window.buildExample["text"]("text");
+          </script>
+        </div>
+      </div>
+      <div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/transforms.png">
+          </div>
+        </div>
+        <div class="ref">
+          <div class="ref-frame">
+            <img src="./examples/transforms.svg">
+          </div>
+        </div>
+        <div class="live">
+          <svg id="transforms" width="250" height="250"></svg>
+          <script src="../test/examples/transforms.js"></script>
+          <script>
+            window.buildExample["transforms"]("transforms");
+          </script>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

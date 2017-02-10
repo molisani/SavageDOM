@@ -1,7 +1,8 @@
 namespace SavageDOM.Attribute {
 
-  export type CSSAbsoluteLengths = "px" | "in" | "cm" | "mm" | "pt" | "pc";
-  export type CSSAngleUnits = "deg" | "grad" | "rad" | "turn";
+  export type CSSAbsoluteLength = "px" | "in" | "cm" | "mm" | "pt" | "pc";
+  export type CSSRelativeLength = "em" | "ex";
+  export type CSSAngleUnit = "deg" | "grad" | "rad" | "turn";
 
   export class Dimension<Unit extends string> implements Attribute<Dimension<Unit>> {
     private static convert: { [unit: string]: number } = {
@@ -56,6 +57,12 @@ namespace SavageDOM.Attribute {
         }
       }
       return new Dimension<Unit>(_lerp(from.value, this.value, t), this.unit);
+    }
+  }
+
+  export class Percentage extends Dimension<"%"> {
+    constructor(value: number) {
+      super(value, "%");
     }
   }
 

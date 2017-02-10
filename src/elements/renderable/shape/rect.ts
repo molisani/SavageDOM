@@ -7,7 +7,7 @@ namespace SavageDOM.Attribute.Renderable.Shape {
     width: Length;
     height: Length;
     "width:height": Point;
-    "x:y:width:height": ViewBox;
+    "x:y:width:height": Box;
     rx: Length;
     ry: Length;
     "rx:ry": Point;
@@ -18,7 +18,7 @@ namespace SavageDOM.Attribute.Renderable.Shape {
 namespace SavageDOM.Elements.Renderable.Shape {
 
   export class Rect extends AbstractShape<SVGRectElement, Attribute.Renderable.Shape.Rect> {
-    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Rect>) {
+    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Rect>) {
       super(paper, "rect", attrs);
     }
   }

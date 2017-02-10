@@ -1,0 +1,13 @@
+.vscode/
+.tscache/
+node_modules/
+*.js
+*.js.map
+*.d.ts
+
+!Gruntfile.js
+!dist/*
+
+docs/
+src/
+test/

@@ -10,10 +10,10 @@ namespace SavageDOM.Attribute.NonRenderable.PaintServer {
     width: Length;
     height: Length;
     "width:height": Point;
-    "x:y:width:height": ViewBox;
+    "x:y:width:height": Box;
     "xlink:href": string;
     preserveAspectRatio: PreserveAspectRatio;
-    viewBox: ViewBox;
+    viewBox: Box;
   }
 
 }
@@ -21,25 +21,25 @@ namespace SavageDOM.Attribute.NonRenderable.PaintServer {
 namespace SavageDOM.Elements.NonRenderable.PaintServer {
 
   export class Pattern extends AbstractPaintServer<SVGPatternElement, Attribute.NonRenderable.PaintServer.Pattern> {
-    constructor(public paper: Paper, w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox) {
-      super(paper, "pattern");
+    constructor(paper: Paper, el: SVGPatternElement);
+    constructor(paper: Paper, w: number, h: number, x?: number, y?: number, view?: Attribute.Box);
+    constructor(public paper: Paper, w: number | SVGPatternElement, h: number = (w instanceof SVGPatternElement) ? 0 : w, x: number = 0, y: number = 0, view?: Attribute.Box) {
+      super(paper, (w instanceof SVGPatternElement) ? w : "pattern");
       this.paper.addDef(this);
-      this.setAttribute("width", w);
-      this.setAttribute("height", h);
-      if (x !== undefined || y !== undefined || view) {
-        this.setAttribute("patternUnits", "userSpaceOnUse");
-        if (x !== undefined) {
-          this.setAttribute("x", x);
-        }
-        if (y !== undefined) {
-          this.setAttribute("y", y);
-        }
+      if (!(w instanceof SVGPatternElement)) {
+        this.setAttribute("width", w);
+        this.setAttribute("height", h);
+        this.setAttribute("x", x);
+        this.setAttribute("y", y);
         if (view) {
           this.setAttribute("viewBox", view);
         } else {
-          this.setAttribute("viewBox", new Attribute.ViewBox(0, 0, w, h));
+          this.setAttribute("patternUnits", "userSpaceOnUse");
         }
       }
+    }
+    public clone(deep: boolean = true): Pattern {
+      return new Pattern(this.paper, super.cloneNode(deep));
     }
   }
 
@@ -48,26 +48,27 @@ namespace SavageDOM.Elements.NonRenderable.PaintServer {
 namespace SavageDOM {
 
   export interface Paper {
-    pattern(w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
+    pattern(w: number, h: number, x?: number, y?: number, view?: Attribute.Box): Elements.NonRenderable.PaintServer.Pattern;
   }
 
-  Paper.prototype.pattern = function(this: SavageDOM.Paper, w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern {
+  Paper.prototype.pattern = function(this: SavageDOM.Paper, w: number, h: number, x?: number, y?: number, view?: Attribute.Box): Elements.NonRenderable.PaintServer.Pattern {
     return new Elements.NonRenderable.PaintServer.Pattern(this, w, h, x, y, view);
   };
 
-  export interface Element<SVG extends SVGElement, Attrs> {
-    toPattern(w: number, h: number): Elements.NonRenderable.PaintServer.Pattern;
-    toPattern(w: number, h: number, x: number, y: number): Elements.NonRenderable.PaintServer.Pattern;
-    toPattern(w: number, h: number, x: number, y: number, view: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
-    toPattern(w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
+  export namespace Elements {
+    export namespace Renderable {
+      export interface Group {
+        toPattern(w: number, h: number): Elements.NonRenderable.PaintServer.Pattern;
+        toPattern(w: number, h: number, x: number, y: number): Elements.NonRenderable.PaintServer.Pattern;
+        toPattern(w: number, h: number, x: number, y: number, view: Attribute.Box): Elements.NonRenderable.PaintServer.Pattern;
+        toPattern(w: number, h: number, x?: number, y?: number, view?: Attribute.Box): Elements.NonRenderable.PaintServer.Pattern;
+      }
+    }
   }
 
-  Element.prototype.toPattern = function<SVG extends SVGElement, Attrs>(this: Element<SVG, Attrs>, w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern {
+  Elements.Renderable.Group.prototype.toPattern = function<SVG extends SVGElement, Attrs>(this: Elements.Renderable.Group, w: number, h: number, x?: number, y?: number, view?: Attribute.Box): Elements.NonRenderable.PaintServer.Pattern {
     const pattern = new Elements.NonRenderable.PaintServer.Pattern(this.paper, w, h, x, y, view);
-    const children = this.node.children;
-    for (let i = 0; i < children.length; ++i) {
-      pattern.node.appendChild(children.item(i));
-    }
+    this.getChildren().forEach(child => pattern.add(child));
     return pattern;
   };
 

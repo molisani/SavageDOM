@@ -1,35 +1,45 @@
 namespace SavageDOM {
 
+  const randomId = () => Math.random().toString(36).substring(2);
+
   export class Element<SVG extends SVGElement, Attrs> {
-    public node: SVG;
-    public id: string = Math.random().toString(36).substring(2);
-    private style: CSSStyleDeclaration;
+    protected _node: SVG;
+    protected _style: CSSStyleDeclaration;
+    private _id: string = randomId();
     constructor(paper: Paper, el: SVG);
     constructor(paper: Paper, name: string, attrs?: Partial<Attrs>);
+    constructor(paper: Paper, el: string | SVG, attrs?: Partial<Attrs>);
     constructor(public paper: Paper, el: string | SVG, attrs?: Partial<Attrs>) {
       if (typeof el === "string") {
-        this.node = window.document.createElementNS(XMLNS, el) as SVG;
+        this._node = window.document.createElementNS(XMLNS, el) as SVG;
         if (attrs !== undefined) {
           this.setAttributes(attrs);
         }
-        this.paper.root.appendChild(this.node);
-        this.node.setAttribute("id", this.id);
+        this.paper.root.appendChild(this._node);
+        this._node.setAttribute("id", this._id);
       } else {
-        this.node = el;
-        const id = this.node.getAttribute("id");
+        this._node = el;
+        const id = this._node.getAttribute("id");
         if (id !== null) {
-          this.id = id;
+          this._id = id;
         } else {
-          this.node.setAttribute("id", this.id);
+          this._node.setAttribute("id", this._id);
         }
       }
-      this.style = window.getComputedStyle(this.node);
+      this._style = window.getComputedStyle(this._node);
+    }
+    public get id(): string {
+      return this._id;
     }
     public toString(): string {
-      return `url(#${this.id})`;
+      return `url(#${this._id})`;
     }
     public setAttribute<Attr extends keyof Attrs>(name: Attr, val: Attrs[Attr]): void {
-      this.node.setAttribute(name, String(val));
+      if (Attribute.isAttribute(val)) {
+        val.set(this, name);
+      } else {
+        this._node.setAttribute(name, String(val));
+      }
     }
     public setAttributes(attrs: Partial<Attrs>): void {
       for (const name in attrs) {
@@ -40,28 +50,58 @@ namespace SavageDOM {
       }
     }
     public getAttribute<Attr extends keyof Attrs>(name: Attr): string | null {
-      const computed = this.style.getPropertyValue(name);
-      if (computed === "") {
-        return this.node.getAttribute(name);
+      return this._node.getAttribute(name) || this._style.getPropertyValue(name);
+    }
+    public copyStyleFrom(el: Element<SVGElement, Attrs>);
+    public copyStyleFrom(el: Element<SVGElement, Attrs>, includeExclude: { [A in keyof Attrs]: boolean }, defaultInclude: boolean);
+    public copyStyleFrom(el: Element<SVGElement, Attrs>, includeExclude?: { [A in keyof Attrs]: boolean }, defaultInclude: boolean = true): void {
+      const style: Attrs = {} as Attrs;
+      const attrs = el._node.attributes;
+      if (includeExclude) {
+        for (let i = 0; i < attrs.length; ++i) {
+          const attr = attrs.item(i).name;
+          if (includeExclude[attr as keyof Attrs] === true || defaultInclude) {
+            style[attr] = el._style.getPropertyValue(attr);
+          }
+        }
       } else {
-        return computed;
+        for (let i = 0; i < attrs.length; ++i) {
+          const attr = attrs.item(i).name;
+          style[attr] = el._style.getPropertyValue(attr);
+        }
       }
+      this.setAttributes(style);
+    }
+    public get boundingBox(): Attribute.Box {
+      const rect = this._node.getBoundingClientRect();
+      return new Attribute.Box(rect.left, rect.top, rect.width, rect.height);
     }
     public add(el: Element<SVGElement, any>) {
-      this.node.appendChild(el.node);
+      this._node.appendChild(el._node);
     }
     public getChildren(): Element<SVGElement, any>[] {
-      const children = this.node.children;
+      const children = this._node.childNodes;
       const elements: Element<SVGElement, any>[] = [];
       for (let i = 0; i < children.length; ++i) {
         elements.push(new Element(this.paper, children.item(i) as SVGElement));
       }
       return elements;
     }
+    public clone(deep: boolean = true): Element<SVG, Attrs> {
+      const copy = new Element<SVG, Attrs>(this.paper, this._node.cloneNode(deep) as SVG);
+      copy._id = randomId();
+      copy._node.setAttribute("id", copy._id);
+      return copy;
+    }
     public addEventListener(event: "focusin" | "focusout" | "mousedown" | "mouseup" | "mousemove" | "mouseover" | "mouseout", listener: (this: this, event: MouseEvent) => any): void;
     public addEventListener(event: "touchstart" | "touchend" | "touchmove" | "touchcancel", listener: (this: this, event: TouchEvent) => any): void;
     public addEventListener(event: string, listener: (this: this, event: Event) => any): void {
-      this.node.addEventListener(event, listener.bind(this));
+      this._node.addEventListener(event, listener.bind(this));
+    }
+    protected cloneNode(deep: boolean = true): SVG {
+      const clone = this._node.cloneNode(deep) as SVG;
+      clone.setAttribute("id", randomId());
+      return clone;
     }
   }
 

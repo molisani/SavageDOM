@@ -253,7 +253,7 @@ namespace SavageDOM.Attribute.Renderable.Shape {
 namespace SavageDOM.Elements.Renderable.Shape {
 
   export class Path extends AbstractShape<SVGPathElement, Attribute.Renderable.Shape.Path> {
-    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Path>) {
+    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Path>) {
       super(paper, "path", attrs);
     }
   }

@@ -2,7 +2,7 @@ namespace SavageDOM {
 
   export class Paper {
     public root: SVGSVGElement;
-    public defs: SVGDefsElement;
+    public defs: Element<SVGDefsElement, any>;
     constructor();
     constructor(id: string);
     constructor(el: SVGSVGElement);
@@ -27,14 +27,13 @@ namespace SavageDOM {
       this.root.setAttribute("version", "1.1");
       const defsElements = this.root.getElementsByTagName("defs");
       if (defsElements.length > 0) {
-        this.defs = defsElements.item(0);
+        this.defs = new Element<SVGDefsElement, any>(this, defsElements.item(0));
       } else {
-        this.defs = window.document.createElementNS(XMLNS, "defs") as SVGDefsElement;
-        this.root.appendChild(this.defs);
+        this.defs = new Element<SVGDefsElement, any>(this, "defs");
       }
     }
     public addDef(def: Element<SVGElement, any>) {
-      this.defs.appendChild(def.node);
+      this.defs.add(def);
     }
 
   }

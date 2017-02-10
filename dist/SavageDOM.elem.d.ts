@@ -19,11 +19,10 @@ declare namespace SavageDOM.Attribute {
     interface PaintServer {
     }
     type Paint = "none" | "currentColor" | Color | PaintServer | Inherit;
-    type Length = number | Dimension<CSSAbsoluteLengths>;
+    type Length = number | Dimension<CSSAbsoluteLength | CSSRelativeLength>;
     const _LengthParse: (css: string) => Length;
     const _LengthInterpolate: (a: Length, b: Length, t: number) => Length;
-    type Angle = number | Dimension<CSSAngleUnits>;
-    type Percentage = Dimension<"%">;
+    type Angle = number | Dimension<CSSAngleUnit>;
     interface Presentation {
         "alignment-baseline": "auto" | "baseline" | "before-edge" | "text-before-edge" | "middle" | "central" | "after-edge" | "text-after-edge" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | Inherit;
         "baseline-shift": "auto" | "baseline" | "super" | "sub" | number | Inherit;
@@ -133,8 +132,9 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute {
-    type CSSAbsoluteLengths = "px" | "in" | "cm" | "mm" | "pt" | "pc";
-    type CSSAngleUnits = "deg" | "grad" | "rad" | "turn";
+    type CSSAbsoluteLength = "px" | "in" | "cm" | "mm" | "pt" | "pc";
+    type CSSRelativeLength = "em" | "ex";
+    type CSSAngleUnit = "deg" | "grad" | "rad" | "turn";
     class Dimension<Unit extends string> implements Attribute<Dimension<Unit>> {
         value: number;
         unit: Unit;
@@ -145,6 +145,9 @@ declare namespace SavageDOM.Attribute {
         get(element: Element<SVGElement, any>, attr: string): Dimension<Unit>;
         set(element: Element<SVGElement, any>, attr: string, override?: Dimension<Unit>): void;
         interpolate(from: Dimension<Unit>, t: number): Dimension<Unit>;
+    }
+    class Percentage extends Dimension<"%"> {
+        constructor(value: number);
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -223,7 +226,7 @@ declare namespace SavageDOM.Attribute {
         parse(css: string | null): Transform;
         get(element: Element<SVGElement, any>, attr: string): Transform;
         set(element: Element<SVGElement, any>, attr: string, override?: Transform): void;
-        abstract interpolate(from: Transform, t: number): Transform;
+        abstract interpolate<T extends Transform>(from: T, t: number): T;
     }
     namespace Transform {
         class Matrix extends Transform {
@@ -287,23 +290,23 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute {
-    class ViewBox implements Attribute<ViewBox> {
+    class Box implements Attribute<Box> {
         x: Length;
         y: Length;
         width: Length;
         height: Length;
         constructor(x: Length, y: Length, width: Length, height: Length);
         toString(): string;
-        parse(css: string | null): ViewBox;
-        get(element: Element<SVGElement, any>, attr: string): ViewBox;
-        set(element: Element<SVGElement, any>, attr: string, override?: ViewBox): void;
-        interpolate(from: ViewBox, t: number): ViewBox;
+        parse(css: string | null): Box;
+        get(element: Element<SVGElement, any>, attr: string): Box;
+        set(element: Element<SVGElement, any>, attr: string, override?: Box): void;
+        interpolate(from: Box, t: number): Box;
     }
 }
 declare namespace SavageDOM {
     class Paper {
         root: SVGSVGElement;
-        defs: SVGDefsElement;
+        defs: Element<SVGDefsElement, any>;
         constructor();
         constructor(id: string);
         constructor(el: SVGSVGElement);
@@ -313,19 +316,28 @@ declare namespace SavageDOM {
 declare namespace SavageDOM {
     class Element<SVG extends SVGElement, Attrs> {
         paper: Paper;
-        node: SVG;
-        id: string;
-        private style;
+        protected _node: SVG;
+        protected _style: CSSStyleDeclaration;
+        private _id;
         constructor(paper: Paper, el: SVG);
         constructor(paper: Paper, name: string, attrs?: Partial<Attrs>);
+        constructor(paper: Paper, el: string | SVG, attrs?: Partial<Attrs>);
+        readonly id: string;
         toString(): string;
         setAttribute<Attr extends keyof Attrs>(name: Attr, val: Attrs[Attr]): void;
         setAttributes(attrs: Partial<Attrs>): void;
         getAttribute<Attr extends keyof Attrs>(name: Attr): string | null;
+        copyStyleFrom(el: Element<SVGElement, Attrs>): any;
+        copyStyleFrom(el: Element<SVGElement, Attrs>, includeExclude: {
+            [A in keyof Attrs]: boolean;
+        }, defaultInclude: boolean): any;
+        readonly boundingBox: Attribute.Box;
         add(el: Element<SVGElement, any>): void;
         getChildren(): Element<SVGElement, any>[];
+        clone(deep?: boolean): Element<SVG, Attrs>;
         addEventListener(event: "focusin" | "focusout" | "mousedown" | "mouseup" | "mousemove" | "mouseover" | "mouseout", listener: (this: this, event: MouseEvent) => any): void;
         addEventListener(event: "touchstart" | "touchend" | "touchmove" | "touchcancel", listener: (this: this, event: TouchEvent) => any): void;
+        protected cloneNode(deep?: boolean): SVG;
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -350,7 +362,7 @@ declare namespace SavageDOM.Attribute.Renderable.Shape {
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Circle extends AbstractShape<SVGCircleElement, Attribute.Renderable.Shape.Circle> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Circle>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Circle>);
     }
 }
 declare namespace SavageDOM {
@@ -370,7 +382,7 @@ declare namespace SavageDOM.Attribute.Renderable.Shape {
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Ellipse extends AbstractShape<SVGEllipseElement, Attribute.Renderable.Shape.Ellipse> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Ellipse>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Ellipse>);
     }
 }
 declare namespace SavageDOM {
@@ -390,7 +402,7 @@ declare namespace SavageDOM.Attribute.Renderable.Shape {
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Line extends AbstractShape<SVGLineElement, Attribute.Renderable.Shape.Line> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Line>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Line>);
     }
 }
 declare namespace SavageDOM {
@@ -544,7 +556,7 @@ declare namespace SavageDOM.Attribute.Renderable.Shape {
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Path extends AbstractShape<SVGPathElement, Attribute.Renderable.Shape.Path> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Path>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Path>);
     }
 }
 declare namespace SavageDOM {
@@ -559,7 +571,7 @@ declare namespace SavageDOM.Attribute.Renderable.Shape {
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Polygon extends AbstractShape<SVGPolygonElement, Attribute.Renderable.Shape.Polygon> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Polygon>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Polygon>);
     }
 }
 declare namespace SavageDOM {
@@ -574,7 +586,7 @@ declare namespace SavageDOM.Attribute.Renderable.Shape {
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Polyline extends AbstractShape<SVGPolylineElement, Attribute.Renderable.Shape.Polyline> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Polyline>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Polyline>);
     }
 }
 declare namespace SavageDOM {
@@ -590,7 +602,7 @@ declare namespace SavageDOM.Attribute.Renderable.Shape {
         width: Length;
         height: Length;
         "width:height": Point;
-        "x:y:width:height": ViewBox;
+        "x:y:width:height": Box;
         rx: Length;
         ry: Length;
         "rx:ry": Point;
@@ -598,7 +610,7 @@ declare namespace SavageDOM.Attribute.Renderable.Shape {
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Rect extends AbstractShape<SVGRectElement, Attribute.Renderable.Shape.Rect> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Shape.Rect>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Rect>);
     }
 }
 declare namespace SavageDOM {
@@ -626,20 +638,33 @@ declare namespace SavageDOM.Attribute.Renderable {
         width: Length;
         height: Length;
         "width:height": Point;
-        "x:y:width:height": ViewBox;
+        "x:y:width:height": Box;
         "xlink:href": string;
         preserveAspectRatio?: PreserveAspectRatio;
-        viewBox?: ViewBox;
+        viewBox?: Box;
     }
 }
 declare namespace SavageDOM.Elements.Renderable {
     class Image extends AbstractRenderable<SVGImageElement, Attribute.Renderable.Image> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Image>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Image>);
     }
 }
 declare namespace SavageDOM {
     interface Paper {
         image(attrs: Attribute.Renderable.Image): Elements.Renderable.Image;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    class TextContent implements Attribute<TextContent> {
+        private static escapeHtml(html);
+        private _str;
+        private _cb;
+        constructor(str: string);
+        constructor(cb: () => string);
+        parse(css: string | null): TextContent;
+        get<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A): TextContent;
+        set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A, override?: TextContent): void;
+        interpolate(from: TextContent, t: number): TextContent;
     }
 }
 declare namespace SavageDOM.Attribute.Renderable {
@@ -655,13 +680,27 @@ declare namespace SavageDOM.Attribute.Renderable {
     }
 }
 declare namespace SavageDOM.Elements.Renderable {
-    class Text extends AbstractRenderable<SVGTextElement, Attribute.Textual | Attribute.Renderable.Text> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Textual | Attribute.Renderable.Text>);
+    class TextSpan extends AbstractRenderable<SVGTSpanElement, Attribute.Textual & Attribute.Renderable.Text & {
+        textContent: Attribute.TextContent;
+    }> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text & {
+            textContent: Attribute.TextContent;
+        }>);
+        readonly computedLength: number;
+    }
+    class Text extends AbstractRenderable<SVGTextElement, Attribute.Textual & Attribute.Renderable.Text> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text>);
+        addSpan(content: Attribute.TextContent, lineHeight?: number | Attribute.Length, update?: boolean): TextSpan;
+        readonly computedLength: number;
+    }
+    class MultilineText extends Text {
+        constructor(paper: Paper, text: string, width: number, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text>);
     }
 }
 declare namespace SavageDOM {
     interface Paper {
-        text(x: Attribute.Length, y: Attribute.Length): Elements.Renderable.Text;
+        text(content: Attribute.TextContent[], x: Attribute.Length, y: Attribute.Length): Elements.Renderable.Text;
+        multilineText(content: Attribute.TextContent): any;
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -704,10 +743,21 @@ declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
         interface Stops {
             [offset: number]: "currentColor" | Color | Inherit;
         }
+        interface Stop {
+            offset: Percentage;
+            "stop-color": "currentColor" | Color | Inherit;
+        }
     }
 }
 declare namespace SavageDOM.Elements.NonRenderable.PaintServer {
     abstract class AbstractGradient<E extends SVGElement, GradientAttributes extends Attribute.NonRenderable.PaintServer.Gradient> extends AbstractPaintServer<E, GradientAttributes> {
+        constructor(paper: Paper, name: string, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable & GradientAttributes>);
+    }
+    namespace Gradient {
+        class Stop extends Element<SVGStopElement, Attribute.NonRenderable.PaintServer.Gradient.Stop> {
+            offset: number;
+            constructor(paper: Paper, offset: number, color: "currentColor" | Attribute.Color | Attribute.Inherit);
+        }
     }
 }
 declare namespace SavageDOM.Attribute.NonRenderable.PaintServer.Gradient {
@@ -722,12 +772,12 @@ declare namespace SavageDOM.Attribute.NonRenderable.PaintServer.Gradient {
 }
 declare namespace SavageDOM.Elements.NonRenderable.PaintServer.Gradient {
     class Linear extends AbstractGradient<SVGLinearGradientElement, Attribute.NonRenderable.PaintServer.Gradient.Linear> {
-        constructor(paper: Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable | Attribute.NonRenderable.PaintServer.Gradient.Linear>);
+        constructor(paper: Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable & Attribute.NonRenderable.PaintServer.Gradient.Linear>);
     }
 }
 declare namespace SavageDOM {
     interface Paper {
-        linearGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear;
+        linearGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear;
     }
 }
 declare namespace SavageDOM.Attribute.NonRenderable.PaintServer.Gradient {
@@ -743,12 +793,12 @@ declare namespace SavageDOM.Attribute.NonRenderable.PaintServer.Gradient {
 }
 declare namespace SavageDOM.Elements.NonRenderable.PaintServer.Gradient {
     class Radial extends AbstractGradient<SVGRadialGradientElement, Attribute.NonRenderable.PaintServer.Gradient.Radial> {
-        constructor(paper: Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable | Attribute.NonRenderable.PaintServer.Gradient.Radial>);
+        constructor(paper: Paper, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable & Attribute.NonRenderable.PaintServer.Gradient.Radial>);
     }
 }
 declare namespace SavageDOM {
     interface Paper {
-        radialGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs: Attribute.NonRenderable.PaintServer.Gradient.Radial): Elements.NonRenderable.PaintServer.Gradient.Radial;
+        radialGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Attribute.NonRenderable.PaintServer.Gradient.Radial): Elements.NonRenderable.PaintServer.Gradient.Radial;
     }
 }
 declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
@@ -762,27 +812,33 @@ declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
         width: Length;
         height: Length;
         "width:height": Point;
-        "x:y:width:height": ViewBox;
+        "x:y:width:height": Box;
         "xlink:href": string;
         preserveAspectRatio: PreserveAspectRatio;
-        viewBox: ViewBox;
+        viewBox: Box;
     }
 }
 declare namespace SavageDOM.Elements.NonRenderable.PaintServer {
     class Pattern extends AbstractPaintServer<SVGPatternElement, Attribute.NonRenderable.PaintServer.Pattern> {
         paper: Paper;
-        constructor(paper: Paper, w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox);
+        constructor(paper: Paper, el: SVGPatternElement);
+        constructor(paper: Paper, w: number, h: number, x?: number, y?: number, view?: Attribute.Box);
+        clone(deep?: boolean): Pattern;
     }
 }
 declare namespace SavageDOM {
     interface Paper {
-        pattern(w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
+        pattern(w: number, h: number, x?: number, y?: number, view?: Attribute.Box): Elements.NonRenderable.PaintServer.Pattern;
     }
-    interface Element<SVG extends SVGElement, Attrs> {
-        toPattern(w: number, h: number): Elements.NonRenderable.PaintServer.Pattern;
-        toPattern(w: number, h: number, x: number, y: number): Elements.NonRenderable.PaintServer.Pattern;
-        toPattern(w: number, h: number, x: number, y: number, view: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
-        toPattern(w: number, h: number, x?: number, y?: number, view?: Attribute.ViewBox): Elements.NonRenderable.PaintServer.Pattern;
+    namespace Elements {
+        namespace Renderable {
+            interface Group {
+                toPattern(w: number, h: number): Elements.NonRenderable.PaintServer.Pattern;
+                toPattern(w: number, h: number, x: number, y: number): Elements.NonRenderable.PaintServer.Pattern;
+                toPattern(w: number, h: number, x: number, y: number, view: Attribute.Box): Elements.NonRenderable.PaintServer.Pattern;
+                toPattern(w: number, h: number, x?: number, y?: number, view?: Attribute.Box): Elements.NonRenderable.PaintServer.Pattern;
+            }
+        }
     }
 }
 declare namespace SavageDOM.Attribute.NonRenderable {
@@ -793,9 +849,9 @@ declare namespace SavageDOM.Attribute.NonRenderable {
         "refX:refY": Point;
         markerWidth: Length;
         markerHeight: Length;
-        "refX:refY:markerWidth:markerHeight": ViewBox;
+        "refX:refY:markerWidth:markerHeight": Box;
         orient: "auto" | "auto-start-reverse" | number | string;
-        viewBox: ViewBox;
+        viewBox: Box;
     }
 }
 declare namespace SavageDOM.Elements.NonRenderable {
@@ -817,7 +873,7 @@ declare namespace SavageDOM.Attribute.NonRenderable {
         width: Length;
         height: Length;
         "width:height": Point;
-        "x:y:width:height": ViewBox;
+        "x:y:width:height": Box;
     }
 }
 declare namespace SavageDOM.Elements.NonRenderable {
@@ -838,26 +894,26 @@ declare namespace SavageDOM.Attribute {
         width: Length;
         height: Length;
         "width:height": Point;
-        "x:y:width:height": ViewBox;
+        "x:y:width:height": Box;
         result: string;
     }
     namespace FilterPrimitive {
         interface Blend {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
             in2: Elements.FilterPrimitive<any, any>;
             mode: "normal" | "multiply" | "screen" | "darken" | "lighten";
         }
         interface ColorMatrix {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
             type: "matrix" | "saturate" | "hueRotate" | "luminanceToAlpha";
             values: Attribute.ColorMatrix;
             "type:values": Attribute.ColorMatrix;
         }
         interface ComponentTransfer {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
         }
         interface Composite {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
             in2: Elements.FilterPrimitive<any, any>;
             operator: "over" | "in" | "out" | "atop" | "xor" | "arithmetic";
             k1: number;
@@ -866,7 +922,7 @@ declare namespace SavageDOM.Attribute {
             k4: number;
         }
         interface ConvolveMatrix {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
             order: NumberOptionalNumber;
             kernelMatrix: Matrix;
             divisor: number;
@@ -879,20 +935,20 @@ declare namespace SavageDOM.Attribute {
             preserveAlpha: boolean;
         }
         interface DiffuseLighting {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
             surfaceScale: number;
             diffuseConstant: number;
             kernelUnitLength: NumberOptionalNumber;
         }
         interface DisplacementMap {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
             in2: Elements.FilterPrimitive<any, any>;
             scale: number;
             xChannelSelector: "R" | "G" | "B" | "A";
             yChannelSelector: "R" | "G" | "B" | "A";
         }
         interface DropShadow {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
             stdDeviation: number;
             dx: Length;
             dy: Length;
@@ -902,7 +958,7 @@ declare namespace SavageDOM.Attribute {
             "flood-color": "currentColor" | Color;
         }
         interface GaussianBlur {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
             stdDeviation: number;
             edgeMode: "duplicate" | "wrap" | "none";
         }
@@ -911,28 +967,28 @@ declare namespace SavageDOM.Attribute {
             "xlink:href": string;
         }
         interface MergeNode {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
         }
         interface Morphology {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
             operator: "erode" | "dilate";
             radius: NumberOptionalNumber;
         }
         interface Offset {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
             dx: Length;
             dy: Length;
             "dx:dy": Point;
         }
         interface SpecularLighting {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
             surfaceScale: number;
             specularConstant: number;
             specularExponent: number;
             kernelUnitLength: NumberOptionalNumber;
         }
         interface Tile {
-            in: Elements.FilterPrimitive<any, any>;
+            in: FilterInput;
         }
         interface Turbulence {
             type: "fractalNoise" | "turbulence";
@@ -989,6 +1045,7 @@ declare namespace SavageDOM.Attribute {
         }
         type LightSource = LightSource.DistantLight | LightSource.PointLight | LightSource.SpotLight;
     }
+    type FilterInput = "SourceGraphic" | "SourceAlpha" | "BackgroundImage" | "BackgroundAlpha" | "FillPaint" | "StrokePaint" | Elements.FilterPrimitive<any, any>;
     interface Filter {
         x: Length;
         y: Length;
@@ -996,7 +1053,7 @@ declare namespace SavageDOM.Attribute {
         width: Length;
         height: Length;
         "width:height": Point;
-        "x:y:width:height": ViewBox;
+        "x:y:width:height": Box;
         filterUnits: "userSpaceOnUse" | "objectBoundingBox";
         primitiveUnits: "userSpaceOnUse" | "objectBoundingBox";
     }
@@ -1072,25 +1129,25 @@ declare namespace SavageDOM.Elements {
             }
         }
     }
-    class Filter {
+    class Filter extends Element<SVGFilterElement, Attribute.Filter> {
         paper: Paper;
         node: SVGFilterElement;
         constructor(paper: Paper);
         blend(mode: "normal" | "multiply" | "screen" | "darken" | "lighten", input1: Element<SVGElement, Attribute.FilterPrimitive>, input2?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.Blend;
-        colorMatrix(matrix: Attribute.ColorMatrix, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.ColorMatrix;
-        componentTransfer(r: Attribute.FilterPrimitive.TransferFunction, g: Attribute.FilterPrimitive.TransferFunction, b: Attribute.FilterPrimitive.TransferFunction, a?: Attribute.FilterPrimitive.TransferFunction, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.ComponentTransfer;
+        colorMatrix(matrix: Attribute.ColorMatrix, input?: Attribute.FilterInput): Elements.FilterPrimitive.ColorMatrix;
+        componentTransfer(r: Attribute.FilterPrimitive.TransferFunction, g: Attribute.FilterPrimitive.TransferFunction, b: Attribute.FilterPrimitive.TransferFunction, a?: Attribute.FilterPrimitive.TransferFunction, input?: Attribute.FilterInput): Elements.FilterPrimitive.ComponentTransfer;
         composite(operator: "over" | "in" | "out" | "atop" | "xor" | "arithmetic", k1: number, k2: number, k3: number, k4: number, input1?: Element<SVGElement, Attribute.FilterPrimitive>, input2?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.Composite;
-        convolveMatrix(attrs: Partial<Attribute.FilterPrimitive.ConvolveMatrix>, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.ConvolveMatrix;
-        diffuseLighting(attrs: Partial<Attribute.FilterPrimitive.DiffuseLighting>, lights?: Attribute.FilterPrimitive.LightSource[], input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.DiffuseLighting;
+        convolveMatrix(attrs: Partial<Attribute.FilterPrimitive.ConvolveMatrix>, input?: Attribute.FilterInput): Elements.FilterPrimitive.ConvolveMatrix;
+        diffuseLighting(attrs: Partial<Attribute.FilterPrimitive.DiffuseLighting>, lights?: Attribute.FilterPrimitive.LightSource[], input?: Attribute.FilterInput): Elements.FilterPrimitive.DiffuseLighting;
         displacementMap(attrs: Partial<Attribute.FilterPrimitive.DisplacementMap>, input1?: Elements.FilterPrimitive<any, any>, input2?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.DisplacementMap;
-        flood(color: Attribute.Color, area: Attribute.ViewBox): Elements.FilterPrimitive.Flood;
-        gaussianBlur(stdDeviation?: number, edgeMode?: "duplicate" | "wrap" | "none", input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.GaussianBlur;
+        flood(color: Attribute.Color, area: Attribute.Box): Elements.FilterPrimitive.Flood;
+        gaussianBlur(stdDeviation?: number, edgeMode?: "duplicate" | "wrap" | "none", input?: Attribute.FilterInput): Elements.FilterPrimitive.GaussianBlur;
         image(href: string, preserveAspectRatio?: Attribute.PreserveAspectRatio): Elements.FilterPrimitive.Image;
         merge(inputs: Elements.FilterPrimitive<any, any>[]): Elements.FilterPrimitive.Merge;
-        morphology(operator: "erode" | "dilate", radius: Attribute.NumberOptionalNumber, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.Morphology;
-        offset(d: Attribute.Point, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.Offset;
-        specularLighting(attrs: Partial<Attribute.FilterPrimitive.SpecularLighting>, lights?: Attribute.FilterPrimitive.LightSource[], input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.SpecularLighting;
-        tile(area: Attribute.ViewBox, input?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.Tile;
+        morphology(operator: "erode" | "dilate", radius: Attribute.NumberOptionalNumber, input?: Attribute.FilterInput): Elements.FilterPrimitive.Morphology;
+        offset(d: Attribute.Point, input?: Attribute.FilterInput): Elements.FilterPrimitive.Offset;
+        specularLighting(attrs: Partial<Attribute.FilterPrimitive.SpecularLighting>, lights?: Attribute.FilterPrimitive.LightSource[], input?: Attribute.FilterInput): Elements.FilterPrimitive.SpecularLighting;
+        tile(area: Attribute.Box, input?: Attribute.FilterInput): Elements.FilterPrimitive.Tile;
         turbulence(attrs: Partial<Attribute.FilterPrimitive.Turbulence>): Elements.FilterPrimitive.Turbulence;
         private addEffect(fe);
         private addLights(lighting, lights);

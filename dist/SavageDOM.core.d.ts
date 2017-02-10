@@ -223,7 +223,7 @@ declare namespace SavageDOM.Attribute {
         parse(css: string | null): Transform;
         get(element: Element<SVGElement, any>, attr: string): Transform;
         set(element: Element<SVGElement, any>, attr: string, override?: Transform): void;
-        abstract interpolate(from: Transform, t: number): Transform;
+        abstract interpolate<T extends Transform>(from: T, t: number): T;
     }
     namespace Transform {
         class Matrix extends Transform {
@@ -287,23 +287,23 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute {
-    class ViewBox implements Attribute<ViewBox> {
+    class Box implements Attribute<Box> {
         x: Length;
         y: Length;
         width: Length;
         height: Length;
         constructor(x: Length, y: Length, width: Length, height: Length);
         toString(): string;
-        parse(css: string | null): ViewBox;
-        get(element: Element<SVGElement, any>, attr: string): ViewBox;
-        set(element: Element<SVGElement, any>, attr: string, override?: ViewBox): void;
-        interpolate(from: ViewBox, t: number): ViewBox;
+        parse(css: string | null): Box;
+        get(element: Element<SVGElement, any>, attr: string): Box;
+        set(element: Element<SVGElement, any>, attr: string, override?: Box): void;
+        interpolate(from: Box, t: number): Box;
     }
 }
 declare namespace SavageDOM {
     class Paper {
         root: SVGSVGElement;
-        defs: SVGDefsElement;
+        defs: Element<SVGDefsElement, any>;
         constructor();
         constructor(id: string);
         constructor(el: SVGSVGElement);
@@ -313,17 +313,22 @@ declare namespace SavageDOM {
 declare namespace SavageDOM {
     class Element<SVG extends SVGElement, Attrs> {
         paper: Paper;
-        node: SVG;
-        id: string;
-        private style;
+        protected _node: SVG;
+        protected _style: CSSStyleDeclaration;
+        private _id;
         constructor(paper: Paper, el: SVG);
         constructor(paper: Paper, name: string, attrs?: Partial<Attrs>);
+        readonly id: string;
         toString(): string;
         setAttribute<Attr extends keyof Attrs>(name: Attr, val: Attrs[Attr]): void;
         setAttributes(attrs: Partial<Attrs>): void;
+        copyStyleFrom(el: Element<SVGElement, Attrs>): void;
         getAttribute<Attr extends keyof Attrs>(name: Attr): string | null;
+        innerHTML: string;
+        readonly boundingBox: Attribute.Box;
         add(el: Element<SVGElement, any>): void;
         getChildren(): Element<SVGElement, any>[];
+        clone(deep?: boolean): Element<SVG, Attrs>;
         addEventListener(event: "focusin" | "focusout" | "mousedown" | "mouseup" | "mousemove" | "mouseover" | "mouseout", listener: (this: this, event: MouseEvent) => any): void;
         addEventListener(event: "touchstart" | "touchend" | "touchmove" | "touchcancel", listener: (this: this, event: TouchEvent) => any): void;
     }

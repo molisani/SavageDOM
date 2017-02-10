@@ -7,10 +7,10 @@ namespace SavageDOM.Attribute.Renderable {
     width: Length;
     height: Length;
     "width:height": Point;
-    "x:y:width:height": ViewBox;
+    "x:y:width:height": Box;
     "xlink:href": string;
     preserveAspectRatio?: PreserveAspectRatio;
-    viewBox?: ViewBox;
+    viewBox?: Box;
   }
 
 }
@@ -18,7 +18,7 @@ namespace SavageDOM.Attribute.Renderable {
 namespace SavageDOM.Elements.Renderable {
 
   export class Image extends AbstractRenderable<SVGImageElement, Attribute.Renderable.Image> {
-    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable | Attribute.Renderable.Image>) {
+    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Image>) {
       super(paper, "image", attrs);
     }
   }

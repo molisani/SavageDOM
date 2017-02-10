@@ -31,7 +31,7 @@
         "attribute/point.ts",
         "attribute/preserve-aspect-ratio.ts",
         "attribute/transform.ts",
-        "attribute/view-box.ts",
+        "attribute/box.ts",
         "paper.ts",
         "element.ts"
     ],
