@@ -3,6 +3,13 @@ namespace SavageDOM.Attribute.NonRenderable.PaintServer {
   export interface Pattern {
     patternUnits: "userSpaceOnUse" | "objectBoundingBox";
     patternContentUnits: "userSpaceOnUse" | "objectBoundingBox";
+    "patternTransform.matrix": Transform.Matrix;
+    "patternTransform.translate": Transform.Translate;
+    "patternTransform.uniformScale": Transform.UniformScale;
+    "patternTransform.scale": Transform.Scale;
+    "patternTransform.rotate": Transform.Rotate;
+    "patternTransform.skewX": Transform.SkewX;
+    "patternTransform.skewY": Transform.SkewY;
     patternTransform: List<Transform>;
     x: Length;
     y: Length;

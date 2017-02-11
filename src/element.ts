@@ -5,11 +5,10 @@ namespace SavageDOM {
   export class Element<SVG extends SVGElement, Attrs> {
     protected _node: SVG;
     protected _style: CSSStyleDeclaration;
-    private _id: string = randomId();
-    constructor(paper: Paper, el: SVG);
-    constructor(paper: Paper, name: string, attrs?: Partial<Attrs>);
-    constructor(paper: Paper, el: string | SVG, attrs?: Partial<Attrs>);
-    constructor(public paper: Paper, el: string | SVG, attrs?: Partial<Attrs>) {
+    constructor(paper: Paper, el: SVG, attrs?: Partial<Attrs>);
+    constructor(paper: Paper, name: string, attrs?: Partial<Attrs>, id?: string);
+    constructor(paper: Paper, el: string | SVG, attrs?: Partial<Attrs>, id?: string);
+    constructor(public paper: Paper, el: string | SVG, attrs?: Partial<Attrs>, private _id: string = randomId()) {
       if (typeof el === "string") {
         this._node = window.document.createElementNS(XMLNS, el) as SVG;
         if (attrs !== undefined) {

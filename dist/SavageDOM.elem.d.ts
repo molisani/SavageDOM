@@ -12,6 +12,8 @@ declare namespace SavageDOM {
         set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A, override?: T): void;
         interpolate(from: T, t: number): T;
     }
+    function _defaultGet<T>(this: Attribute<T>, element: Element<SVGElement, any>, attr: string): T;
+    function _defaultSet<T>(this: T, element: Element<SVGElement, any>, attr: string, override?: T): void;
 }
 declare namespace SavageDOM.Attribute {
     const isAttribute: (obj: any) => obj is Attribute<any>;
@@ -67,9 +69,6 @@ declare namespace SavageDOM.Attribute {
     }
     interface HasClass {
         class: string;
-    }
-    interface Transformable {
-        transform: List<Transform>;
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -288,6 +287,16 @@ declare namespace SavageDOM.Attribute {
             interpolate(from: SkewY, t: number): SkewY;
         }
     }
+    interface Transformable {
+        "transform.matrix": Transform.Matrix;
+        "transform.translate": Transform.Translate;
+        "transform.uniformScale": Transform.UniformScale;
+        "transform.scale": Transform.Scale;
+        "transform.rotate": Transform.Rotate;
+        "transform.skewX": Transform.SkewX;
+        "transform.skewY": Transform.SkewY;
+        transform: List<Transform>;
+    }
 }
 declare namespace SavageDOM.Attribute {
     class Box implements Attribute<Box> {
@@ -316,12 +325,12 @@ declare namespace SavageDOM {
 declare namespace SavageDOM {
     class Element<SVG extends SVGElement, Attrs> {
         paper: Paper;
+        private _id;
         protected _node: SVG;
         protected _style: CSSStyleDeclaration;
-        private _id;
-        constructor(paper: Paper, el: SVG);
-        constructor(paper: Paper, name: string, attrs?: Partial<Attrs>);
-        constructor(paper: Paper, el: string | SVG, attrs?: Partial<Attrs>);
+        constructor(paper: Paper, el: SVG, attrs?: Partial<Attrs>);
+        constructor(paper: Paper, name: string, attrs?: Partial<Attrs>, id?: string);
+        constructor(paper: Paper, el: string | SVG, attrs?: Partial<Attrs>, id?: string);
         readonly id: string;
         toString(): string;
         setAttribute<Attr extends keyof Attrs>(name: Attr, val: Attrs[Attr]): void;
@@ -718,6 +727,13 @@ declare namespace SavageDOM.Elements.NonRenderable {
 declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
     interface Gradient {
         gradientUnits: "userSpaceOnUse" | "objectBoundingBox";
+        "gradientTransform.matrix": Transform.Matrix;
+        "gradientTransform.translate": Transform.Translate;
+        "gradientTransform.uniformScale": Transform.UniformScale;
+        "gradientTransform.scale": Transform.Scale;
+        "gradientTransform.rotate": Transform.Rotate;
+        "gradientTransform.skewX": Transform.SkewX;
+        "gradientTransform.skewY": Transform.SkewY;
         gradientTransform: List<Transform>;
         spreadMethod: "pad" | "reflect" | "repeat";
         "xlink:href": string;
@@ -805,6 +821,13 @@ declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
     interface Pattern {
         patternUnits: "userSpaceOnUse" | "objectBoundingBox";
         patternContentUnits: "userSpaceOnUse" | "objectBoundingBox";
+        "patternTransform.matrix": Transform.Matrix;
+        "patternTransform.translate": Transform.Translate;
+        "patternTransform.uniformScale": Transform.UniformScale;
+        "patternTransform.scale": Transform.Scale;
+        "patternTransform.rotate": Transform.Rotate;
+        "patternTransform.skewX": Transform.SkewX;
+        "patternTransform.skewY": Transform.SkewY;
         patternTransform: List<Transform>;
         x: Length;
         y: Length;

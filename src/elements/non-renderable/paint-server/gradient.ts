@@ -2,6 +2,13 @@ namespace SavageDOM.Attribute.NonRenderable.PaintServer {
 
   export interface Gradient {
     gradientUnits: "userSpaceOnUse" | "objectBoundingBox";
+    "gradientTransform.matrix": Transform.Matrix;
+    "gradientTransform.translate": Transform.Translate;
+    "gradientTransform.uniformScale": Transform.UniformScale;
+    "gradientTransform.scale": Transform.Scale;
+    "gradientTransform.rotate": Transform.Rotate;
+    "gradientTransform.skewX": Transform.SkewX;
+    "gradientTransform.skewY": Transform.SkewY;
     gradientTransform: List<Transform>;
     spreadMethod: "pad" | "reflect" | "repeat";
     "xlink:href": string;

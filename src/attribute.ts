@@ -13,6 +13,14 @@ namespace SavageDOM {
     interpolate(from: T, t: number): T;
   }
 
+  export function _defaultGet<T>(this: Attribute<T>, element: Element<SVGElement, any>, attr: string): T {
+      return this.parse(element.getAttribute(attr));
+    }
+
+  export function _defaultSet<T>(this: T, element: Element<SVGElement, any>, attr: string, override?: T) {
+    element.setAttribute(attr, (override === undefined) ? this : override);
+  };
+
 }
 
 namespace SavageDOM.Attribute {
@@ -101,10 +109,6 @@ namespace SavageDOM.Attribute {
 
   export interface HasClass {
     class: string;
-  };
-
-  export interface Transformable {
-    transform: List<Transform>;
   };
 
 }

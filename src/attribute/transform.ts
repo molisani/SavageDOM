@@ -15,13 +15,36 @@ namespace SavageDOM.Attribute {
       }
     }
     get(element: Element<SVGElement, any>, attr: string): Transform {
-      return this.parse(element.getAttribute(attr));
+      const toks = attr.split(".");
+      if (toks.length === 2 && toks[1] === this.type) {
+        const css = element.getAttribute(toks[0]);
+        if (css) {
+          const idx = css.indexOf(this.type);
+          if (idx > -1) {
+            return this.parse(css.substring(idx, css.indexOf(")") + 1));
+          }
+        }
+      }
+      return this.parse(null);
     }
     set(element: Element<SVGElement, any>, attr: string, override?: Transform): void {
-      if (override !== undefined) {
-        element.setAttribute(attr, override.toString());
+      const str = String((override === undefined) ? this : override);
+      const toks = attr.split(".");
+      if (toks.length === 2 && toks[1] === this.type) {
+        const css = element.getAttribute(toks[0]);
+        if (css) {
+          const start = css.indexOf(this.type);
+          const empty = (css === "none") || (css.length === 0);
+          if (start > -1 && !empty) {
+            element.setAttribute(toks[0], `${css.substr(0, start)}${str}${css.substr(css.indexOf(")") + 2)}`);
+          } else {
+            element.setAttribute(toks[0], empty ? str : `${css}\t${str}`);
+          }
+        } else {
+          element.setAttribute(toks[0], str);
+        }
       } else {
-        element.setAttribute(attr, this.toString());
+        element.setAttribute(attr, str);
       }
     }
     abstract interpolate<T extends Transform>(from: T, t: number): T;
@@ -167,5 +190,16 @@ namespace SavageDOM.Attribute {
       }
     }
   }
+
+  export interface Transformable {
+    "transform.matrix": Transform.Matrix;
+    "transform.translate": Transform.Translate;
+    "transform.uniformScale": Transform.UniformScale;
+    "transform.scale": Transform.Scale;
+    "transform.rotate": Transform.Rotate;
+    "transform.skewX": Transform.SkewX;
+    "transform.skewY": Transform.SkewY;
+    transform: List<Transform>;
+  };
 
 }
