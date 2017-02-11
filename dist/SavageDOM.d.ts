@@ -12,6 +12,8 @@ declare namespace SavageDOM {
         set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A, override?: T): void;
         interpolate(from: T, t: number): T;
     }
+    function _defaultGet<T>(this: Attribute<T>, element: Element<SVGElement, any>, attr: string): T;
+    function _defaultSet<T>(this: T, element: Element<SVGElement, any>, attr: string, override?: T): void;
 }
 declare namespace SavageDOM.Attribute {
     const isAttribute: (obj: any) => obj is Attribute<any>;
@@ -19,11 +21,10 @@ declare namespace SavageDOM.Attribute {
     interface PaintServer {
     }
     type Paint = "none" | "currentColor" | Color | PaintServer | Inherit;
-    type Length = number | Dimension<CSSAbsoluteLengths>;
+    type Length = number | Dimension<CSSAbsoluteLength | CSSRelativeLength>;
     const _LengthParse: (css: string) => Length;
     const _LengthInterpolate: (a: Length, b: Length, t: number) => Length;
-    type Angle = number | Dimension<CSSAngleUnits>;
-    type Percentage = Dimension<"%">;
+    type Angle = number | Dimension<CSSAngleUnit>;
     interface Presentation {
         "alignment-baseline": "auto" | "baseline" | "before-edge" | "text-before-edge" | "middle" | "central" | "after-edge" | "text-after-edge" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | Inherit;
         "baseline-shift": "auto" | "baseline" | "super" | "sub" | number | Inherit;
@@ -68,9 +69,6 @@ declare namespace SavageDOM.Attribute {
     }
     interface HasClass {
         class: string;
-    }
-    interface Transformable {
-        transform: List<Transform>;
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -133,8 +131,9 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute {
-    type CSSAbsoluteLengths = "px" | "in" | "cm" | "mm" | "pt" | "pc";
-    type CSSAngleUnits = "deg" | "grad" | "rad" | "turn";
+    type CSSAbsoluteLength = "px" | "in" | "cm" | "mm" | "pt" | "pc";
+    type CSSRelativeLength = "em" | "ex";
+    type CSSAngleUnit = "deg" | "grad" | "rad" | "turn";
     class Dimension<Unit extends string> implements Attribute<Dimension<Unit>> {
         value: number;
         unit: Unit;
@@ -145,6 +144,9 @@ declare namespace SavageDOM.Attribute {
         get(element: Element<SVGElement, any>, attr: string): Dimension<Unit>;
         set(element: Element<SVGElement, any>, attr: string, override?: Dimension<Unit>): void;
         interpolate(from: Dimension<Unit>, t: number): Dimension<Unit>;
+    }
+    class Percentage extends Dimension<"%"> {
+        constructor(value: number);
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -285,6 +287,16 @@ declare namespace SavageDOM.Attribute {
             interpolate(from: SkewY, t: number): SkewY;
         }
     }
+    interface Transformable {
+        "transform.matrix": Transform.Matrix;
+        "transform.translate": Transform.Translate;
+        "transform.uniformScale": Transform.UniformScale;
+        "transform.scale": Transform.Scale;
+        "transform.rotate": Transform.Rotate;
+        "transform.skewX": Transform.SkewX;
+        "transform.skewY": Transform.SkewY;
+        transform: List<Transform>;
+    }
 }
 declare namespace SavageDOM.Attribute {
     class Box implements Attribute<Box> {
@@ -313,24 +325,28 @@ declare namespace SavageDOM {
 declare namespace SavageDOM {
     class Element<SVG extends SVGElement, Attrs> {
         paper: Paper;
+        private _id;
         protected _node: SVG;
         protected _style: CSSStyleDeclaration;
-        private _id;
-        constructor(paper: Paper, el: SVG);
-        constructor(paper: Paper, name: string, attrs?: Partial<Attrs>);
+        constructor(paper: Paper, el: SVG, attrs?: Partial<Attrs>);
+        constructor(paper: Paper, name: string, attrs?: Partial<Attrs>, id?: string);
+        constructor(paper: Paper, el: string | SVG, attrs?: Partial<Attrs>, id?: string);
         readonly id: string;
         toString(): string;
         setAttribute<Attr extends keyof Attrs>(name: Attr, val: Attrs[Attr]): void;
         setAttributes(attrs: Partial<Attrs>): void;
-        copyStyleFrom(el: Element<SVGElement, Attrs>): void;
         getAttribute<Attr extends keyof Attrs>(name: Attr): string | null;
-        innerHTML: string;
+        copyStyleFrom(el: Element<SVGElement, Attrs>): any;
+        copyStyleFrom(el: Element<SVGElement, Attrs>, includeExclude: {
+            [A in keyof Attrs]: boolean;
+        }, defaultInclude: boolean): any;
         readonly boundingBox: Attribute.Box;
         add(el: Element<SVGElement, any>): void;
         getChildren(): Element<SVGElement, any>[];
         clone(deep?: boolean): Element<SVG, Attrs>;
         addEventListener(event: "focusin" | "focusout" | "mousedown" | "mouseup" | "mousemove" | "mouseover" | "mouseout", listener: (this: this, event: MouseEvent) => any): void;
         addEventListener(event: "touchstart" | "touchend" | "touchmove" | "touchcancel", listener: (this: this, event: TouchEvent) => any): void;
+        protected cloneNode(deep?: boolean): SVG;
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -674,18 +690,20 @@ declare namespace SavageDOM.Attribute.Renderable {
 }
 declare namespace SavageDOM.Elements.Renderable {
     class TextSpan extends AbstractRenderable<SVGTSpanElement, Attribute.Textual & Attribute.Renderable.Text & {
-        innerHTML: Attribute.TextContent;
+        textContent: Attribute.TextContent;
     }> {
         constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text & {
-            innerHTML: Attribute.TextContent;
+            textContent: Attribute.TextContent;
         }>);
+        readonly computedLength: number;
     }
     class Text extends AbstractRenderable<SVGTextElement, Attribute.Textual & Attribute.Renderable.Text> {
         constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text>);
-        addSpan(content: Attribute.TextContent, attrs?: Partial<Attribute.Textual & Attribute.Renderable.Text>): TextSpan;
+        addSpan(content: Attribute.TextContent, lineHeight?: number | Attribute.Length, update?: boolean): TextSpan;
+        readonly computedLength: number;
     }
-    class MultilineText extends AbstractRenderable<SVGTextElement, Attribute.Textual & Attribute.Renderable.Text> {
-        constructor(paper: Paper, text: string, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text>);
+    class MultilineText extends Text {
+        constructor(paper: Paper, text: string, width: number, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text>);
     }
 }
 declare namespace SavageDOM {
@@ -709,6 +727,13 @@ declare namespace SavageDOM.Elements.NonRenderable {
 declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
     interface Gradient {
         gradientUnits: "userSpaceOnUse" | "objectBoundingBox";
+        "gradientTransform.matrix": Transform.Matrix;
+        "gradientTransform.translate": Transform.Translate;
+        "gradientTransform.uniformScale": Transform.UniformScale;
+        "gradientTransform.scale": Transform.Scale;
+        "gradientTransform.rotate": Transform.Rotate;
+        "gradientTransform.skewX": Transform.SkewX;
+        "gradientTransform.skewY": Transform.SkewY;
         gradientTransform: List<Transform>;
         spreadMethod: "pad" | "reflect" | "repeat";
         "xlink:href": string;
@@ -735,16 +760,18 @@ declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
             [offset: number]: "currentColor" | Color | Inherit;
         }
         interface Stop {
-            offset: number;
+            offset: Percentage;
             "stop-color": "currentColor" | Color | Inherit;
         }
     }
 }
 declare namespace SavageDOM.Elements.NonRenderable.PaintServer {
     abstract class AbstractGradient<E extends SVGElement, GradientAttributes extends Attribute.NonRenderable.PaintServer.Gradient> extends AbstractPaintServer<E, GradientAttributes> {
+        constructor(paper: Paper, name: string, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Partial<Attribute.NonRenderable & GradientAttributes>);
     }
     namespace Gradient {
         class Stop extends Element<SVGStopElement, Attribute.NonRenderable.PaintServer.Gradient.Stop> {
+            offset: number;
             constructor(paper: Paper, offset: number, color: "currentColor" | Attribute.Color | Attribute.Inherit);
         }
     }
@@ -766,7 +793,7 @@ declare namespace SavageDOM.Elements.NonRenderable.PaintServer.Gradient {
 }
 declare namespace SavageDOM {
     interface Paper {
-        linearGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear;
+        linearGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear;
     }
 }
 declare namespace SavageDOM.Attribute.NonRenderable.PaintServer.Gradient {
@@ -787,13 +814,20 @@ declare namespace SavageDOM.Elements.NonRenderable.PaintServer.Gradient {
 }
 declare namespace SavageDOM {
     interface Paper {
-        radialGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs: Attribute.NonRenderable.PaintServer.Gradient.Radial): Elements.NonRenderable.PaintServer.Gradient.Radial;
+        radialGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Attribute.NonRenderable.PaintServer.Gradient.Radial): Elements.NonRenderable.PaintServer.Gradient.Radial;
     }
 }
 declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
     interface Pattern {
         patternUnits: "userSpaceOnUse" | "objectBoundingBox";
         patternContentUnits: "userSpaceOnUse" | "objectBoundingBox";
+        "patternTransform.matrix": Transform.Matrix;
+        "patternTransform.translate": Transform.Translate;
+        "patternTransform.uniformScale": Transform.UniformScale;
+        "patternTransform.scale": Transform.Scale;
+        "patternTransform.rotate": Transform.Rotate;
+        "patternTransform.skewX": Transform.SkewX;
+        "patternTransform.skewY": Transform.SkewY;
         patternTransform: List<Transform>;
         x: Length;
         y: Length;
@@ -810,7 +844,9 @@ declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
 declare namespace SavageDOM.Elements.NonRenderable.PaintServer {
     class Pattern extends AbstractPaintServer<SVGPatternElement, Attribute.NonRenderable.PaintServer.Pattern> {
         paper: Paper;
+        constructor(paper: Paper, el: SVGPatternElement);
         constructor(paper: Paper, w: number, h: number, x?: number, y?: number, view?: Attribute.Box);
+        clone(deep?: boolean): Pattern;
     }
 }
 declare namespace SavageDOM {
