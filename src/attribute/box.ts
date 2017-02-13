@@ -13,7 +13,7 @@ namespace SavageDOM.Attribute {
         return new Box(0, 0, 0, 0);
       }
     }
-    get(element: Element<SVGElement, any>, attr: string): Box {
+    get(element: Element<SVGElement, any, any>, attr: string): Box {
       const toks = attr.split(":");
       if (toks.length === 4) {
         const cssX = element.getAttribute(toks[0]);
@@ -29,7 +29,7 @@ namespace SavageDOM.Attribute {
         return this.parse(element.getAttribute(attr));
       }
     }
-    set(element: Element<SVGElement, any>, attr: string, override?: Box): void {
+    set(element: Element<SVGElement, any, any>, attr: string, override?: Box): void {
       const toks = attr.split(":");
       if (toks.length === 4) {
         if (override !== undefined) {

@@ -12,10 +12,10 @@ namespace SavageDOM.Attribute {
         return new Attribute.Number();
       }
     }
-    get(element: Element<SVGElement, any>, attr: string): Number {
+    get(element: Element<SVGElement, any, any>, attr: string): Number {
       return this.parse(element.getAttribute(attr));
     }
-    set(element: Element<SVGElement, any>, attr: string, override?: Number): void {
+    set(element: Element<SVGElement, any, any>, attr: string, override?: Number): void {
       if (override !== undefined) {
         element.setAttribute(attr, override.toString());
       } else {

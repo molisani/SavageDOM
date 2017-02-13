@@ -38,10 +38,10 @@ namespace SavageDOM.Attribute {
       }
       return new Dimension<Unit>(0, this.unit);
     }
-    get(element: Element<SVGElement, any>, attr: string): Dimension<Unit> {
+    get(element: Element<SVGElement, any, any>, attr: string): Dimension<Unit> {
       return this.parse(element.getAttribute(attr));
     }
-    set(element: Element<SVGElement, any>, attr: string, override?: Dimension<Unit>): void {
+    set(element: Element<SVGElement, any, any>, attr: string, override?: Dimension<Unit>): void {
       if (override !== undefined) {
         element.setAttribute(attr, override.toString());
       } else {

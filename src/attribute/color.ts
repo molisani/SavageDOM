@@ -251,10 +251,10 @@ namespace SavageDOM.Attribute {
         return new Color();
       }
     }
-    get(element: Element<SVGElement, any>, attr: string): Color {
+    get(element: Element<SVGElement, any, any>, attr: string): Color {
       return this.parse(element.getAttribute(attr));
     }
-    set(element: Element<SVGElement, any>, attr: string, override?: Color): void {
+    set(element: Element<SVGElement, any, any>, attr: string, override?: Color): void {
       if (override !== undefined) {
         element.setAttribute(attr, override.toString());
       } else {

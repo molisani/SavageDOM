@@ -4,8 +4,14 @@ namespace SavageDOM.Attribute {
 
 }
 
+namespace SavageDOM.Events {
+
+  export interface Renderable extends Mouse, SVG, Focus {}
+
+}
+
 namespace SavageDOM.Elements {
 
-  export abstract class AbstractRenderable<E extends SVGElement, A> extends Element<E, Attribute.Renderable & A> {}
+  export abstract class AbstractRenderable<E extends SVGElement, A, V> extends Element<E, Attribute.Renderable & A, Events.Renderable & V> {}
 
 }

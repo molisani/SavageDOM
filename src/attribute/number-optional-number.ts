@@ -17,10 +17,10 @@ namespace SavageDOM.Attribute {
         return new NumberOptionalNumber(0);
       }
     }
-    get(element: Element<SVGElement, any>, attr: string): NumberOptionalNumber {
+    get(element: Element<SVGElement, any, any>, attr: string): NumberOptionalNumber {
       return this.parse(element.getAttribute(attr));
     }
-    set(element: Element<SVGElement, any>, attr: string, override?: NumberOptionalNumber): void {
+    set(element: Element<SVGElement, any, any>, attr: string, override?: NumberOptionalNumber): void {
       if (override !== undefined) {
         element.setAttribute(attr, override.toString());
       } else {

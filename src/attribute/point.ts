@@ -13,7 +13,7 @@ namespace SavageDOM.Attribute {
         return new Point(0, 0);
       }
     }
-    get(element: Element<SVGElement, any>, attr: string): Point {
+    get(element: Element<SVGElement, any, any>, attr: string): Point {
       const toks = attr.split(":");
       if (toks.length === 2) {
         const cssX = element.getAttribute(toks[0]);
@@ -27,7 +27,7 @@ namespace SavageDOM.Attribute {
         return this.parse(element.getAttribute(attr));
       }
     }
-    set(element: Element<SVGElement, any>, attr: string, override?: Point): void {
+    set(element: Element<SVGElement, any, any>, attr: string, override?: Point): void {
       const toks = attr.split(":");
       if (toks.length === 2) {
         if (override !== undefined) {

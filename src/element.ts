@@ -2,7 +2,7 @@ namespace SavageDOM {
 
   const randomId = () => Math.random().toString(36).substring(2);
 
-  export class Element<SVG extends SVGElement, Attrs> {
+  export class Element<SVG extends SVGElement, Attrs, Events> {
     protected _node: SVG;
     protected _style: CSSStyleDeclaration;
     constructor(paper: Paper, el: SVG, attrs?: Partial<Attrs>);
@@ -51,9 +51,9 @@ namespace SavageDOM {
     public getAttribute<Attr extends keyof Attrs>(name: Attr): string | null {
       return this._node.getAttribute(name) || this._style.getPropertyValue(name);
     }
-    public copyStyleFrom(el: Element<SVGElement, Attrs>);
-    public copyStyleFrom(el: Element<SVGElement, Attrs>, includeExclude: { [A in keyof Attrs]: boolean }, defaultInclude: boolean);
-    public copyStyleFrom(el: Element<SVGElement, Attrs>, includeExclude?: { [A in keyof Attrs]: boolean }, defaultInclude: boolean = true): void {
+    public copyStyleFrom(el: Element<SVGElement, Attrs, any>);
+    public copyStyleFrom(el: Element<SVGElement, Attrs, any>, includeExclude: { [A in keyof Attrs]: boolean }, defaultInclude: boolean);
+    public copyStyleFrom(el: Element<SVGElement, Attrs, any>, includeExclude?: { [A in keyof Attrs]: boolean }, defaultInclude: boolean = true): void {
       const style: Attrs = {} as Attrs;
       const attrs = el._node.attributes;
       if (includeExclude) {
@@ -71,32 +71,33 @@ namespace SavageDOM {
       }
       this.setAttributes(style);
     }
+
+    public addEventListener<Event extends keyof Events>(event: Event, listener: (this: this, event: Events[Event]) => any): void {
+      this._node.addEventListener(event, listener.bind(this));
+    }
+
     public get boundingBox(): Attribute.Box {
       const rect = this._node.getBoundingClientRect();
       return new Attribute.Box(rect.left, rect.top, rect.width, rect.height);
     }
-    public add(el: Element<SVGElement, any>) {
+    public add(el: Element<SVGElement, any, any>) {
       this._node.appendChild(el._node);
     }
-    public getChildren(): Element<SVGElement, any>[] {
+    public getChildren(): Element<SVGElement, any, any>[] {
       const children = this._node.childNodes;
-      const elements: Element<SVGElement, any>[] = [];
+      const elements: Element<SVGElement, any, any>[] = [];
       for (let i = 0; i < children.length; ++i) {
         elements.push(new Element(this.paper, children.item(i) as SVGElement));
       }
       return elements;
     }
-    public clone(deep: boolean = true): Element<SVG, Attrs> {
-      const copy = new Element<SVG, Attrs>(this.paper, this._node.cloneNode(deep) as SVG);
-      copy._id = randomId();
+    public clone(deep: boolean = true, id: string = randomId()): Element<SVG, Attrs, Events> {
+      const copy = new Element<SVG, Attrs, Events>(this.paper, this._node.cloneNode(deep) as SVG);
+      copy._id = id;
       copy._node.setAttribute("id", copy._id);
       return copy;
     }
-    public addEventListener(event: "focusin" | "focusout" | "mousedown" | "mouseup" | "mousemove" | "mouseover" | "mouseout", listener: (this: this, event: MouseEvent) => any): void;
-    public addEventListener(event: "touchstart" | "touchend" | "touchmove" | "touchcancel", listener: (this: this, event: TouchEvent) => any): void;
-    public addEventListener(event: string, listener: (this: this, event: Event) => any): void {
-      this._node.addEventListener(event, listener.bind(this));
-    }
+
     protected cloneNode(deep: boolean = true): SVG {
       const clone = this._node.cloneNode(deep) as SVG;
       clone.setAttribute("id", randomId());

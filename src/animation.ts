@@ -1,14 +1,14 @@
 namespace SavageDOM {
 
   export interface Dynamic<Attrs> {
-    element: Element<SVGElement, Attrs>;
+    element: Element<SVGElement, Attrs, any>;
     defs: Dynamic.Defined<Attrs>;
     progress: (now: number) => number | undefined;
   }
   export namespace Dynamic {
 
     export interface Definition<A extends string> extends Setter {
-      set(element: Element<SVGElement, any>, attr: A): void;
+      set(element: Element<SVGElement, any, any>, attr: A): void;
     }
 
     export type Defined<Attrs> = {
@@ -85,9 +85,9 @@ namespace SavageDOM {
     private static requestAnimationFrame: (callback: FrameRequestCallback) => number = (window.requestAnimationFrame || window.webkitRequestAnimationFrame || window["mozRequestAnimationFrame"] || window["oRequestAnimationFrame"] || window["msRequestAnimationFrame"] || function(this: Window, callback: FrameRequestCallback) { this.setTimeout(callback, 16); }).bind(window);
     private running = false;
     private queue: Dynamic<any>[] = [];
-        public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>): (enable: boolean) => void;
-    public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>, isEnabled: () => boolean): void;
-    public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>, isEnabled?: () => boolean): void | ((enable: boolean) => void) {
+        public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>): (enable: boolean) => void;
+    public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>, isEnabled: () => boolean): void;
+    public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>, isEnabled?: () => boolean): void | ((enable: boolean) => void) {
       if (isEnabled !== undefined) {
         Animation.Runner.add({
           element, defs, progress: (now: number): number | undefined => isEnabled() ? now : undefined,
@@ -102,7 +102,7 @@ namespace SavageDOM {
         };
       }
     }
-    public registerAnimation<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, attrs: Animation.Defined<Attrs>, duration: number, easing: (t: number) => number): Promise<number> {
+    public registerAnimation<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, attrs: Animation.Defined<Attrs>, duration: number, easing: (t: number) => number): Promise<number> {
       return new Promise(resolve => this.registerAnimationWithCallback(element, attrs, duration, easing, resolve));
     }
     public add(anim: Dynamic<any>) {
@@ -111,7 +111,7 @@ namespace SavageDOM {
         this.start();
       }
     }
-    private registerAnimationWithCallback<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, attrs: Animation.Defined<Attrs>, duration: number, easing: (t: number) => number, resolve: (t: number) => void): void {
+    private registerAnimationWithCallback<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, attrs: Animation.Defined<Attrs>, duration: number, easing: (t: number) => number, resolve: (t: number) => void): void {
       const start = performance.now();
       const end = start + duration;
       const from = {} as Partial<Attrs>;
@@ -176,16 +176,16 @@ namespace SavageDOM {
     }
   }
 
-  export interface Element<SVG extends SVGElement, Attrs> {
+  export interface Element<SVG extends SVGElement, Attrs, Events> {
     dynamic(defs: Dynamic.Defined<Attrs>): void;
     animate(attrs: Partial<Attrs>, duration: number, easing?: (t: number) => number): Promise<number>;
   }
 
-  Element.prototype.dynamic = function<SVG extends SVGElement, Attrs>(this: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>) {
+  Element.prototype.dynamic = function<SVG extends SVGElement, Attrs>(this: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>) {
     Animation.Runner.registerDynamic(this, defs);
   };
 
-  Element.prototype.animate = function<SVG extends SVGElement, Attrs>(this: Element<SVG, Attrs>, attrs: Partial<Attrs>, duration: number, easing: (t: number) => number = Animation.Easing.linear): Promise<number> {
+  Element.prototype.animate = function<SVG extends SVGElement, Attrs>(this: Element<SVG, Attrs, any>, attrs: Partial<Attrs>, duration: number, easing: (t: number) => number = Animation.Easing.linear): Promise<number> {
     const defs = {} as Animation.Defined<Attrs>;
     for (const prop in attrs) {
       const a = attrs[prop];

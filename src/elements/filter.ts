@@ -14,7 +14,7 @@ namespace SavageDOM.Attribute {
 
     export interface Blend {
       in: FilterInput;
-      in2: Elements.FilterPrimitive<any, any>;
+      in2: FilterInput;
       mode: "normal" | "multiply" | "screen" | "darken" | "lighten";
     };
 
@@ -31,7 +31,7 @@ namespace SavageDOM.Attribute {
 
     export interface Composite {
       in: FilterInput;
-      in2: Elements.FilterPrimitive<any, any>;
+      in2: FilterInput;
       operator: "over" | "in" | "out" | "atop" | "xor" | "arithmetic";
       k1: number;
       k2: number;
@@ -204,9 +204,17 @@ namespace SavageDOM.Attribute {
 
 }
 
+namespace SavageDOM.Events {
+
+  export interface FilterPrimitive extends SVG {}
+
+  export interface Filter extends SVG {}
+
+}
+
 namespace SavageDOM.Elements {
 
-  export class FilterPrimitive<FE extends SVGElement, A> extends Element<FE, Attribute.FilterPrimitive & A> {
+  export class FilterPrimitive<FE extends SVGElement, A> extends Element<FE, Attribute.FilterPrimitive & A, Events.FilterPrimitive> {
     constructor(filter: Filter, name: string, attrs?: Partial<Attribute.FilterPrimitive & A>) {
       super(filter.paper, name, attrs);
       // filter.node.appendChild(this.node);
@@ -334,13 +342,13 @@ namespace SavageDOM.Elements {
     return obj;
   };
 
-  export class Filter extends Element<SVGFilterElement, Attribute.Filter> {
+  export class Filter extends Element<SVGFilterElement, Attribute.Filter, Events.Filter> {
     public node: SVGFilterElement;
     constructor(public paper: Paper) {
       super(paper, "filter");
       this.paper.defs.add(this);
     }
-    public blend(mode: "normal" | "multiply" | "screen" | "darken" | "lighten", input1: Element<SVGElement, Attribute.FilterPrimitive>, input2?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.Blend {
+    public blend(mode: "normal" | "multiply" | "screen" | "darken" | "lighten", input1: Attribute.FilterInput, input2?: Attribute.FilterInput): Elements.FilterPrimitive.Blend {
       const fe = new Elements.FilterPrimitive.Blend(this, {
         in: input1,
         in2: input2,
@@ -371,7 +379,7 @@ namespace SavageDOM.Elements {
       this.addEffect(componentTransfer);
       return componentTransfer;
     }
-    public composite(operator: "over" | "in" | "out" | "atop" | "xor" | "arithmetic", k1: number, k2: number, k3: number, k4: number, input1?: Element<SVGElement, Attribute.FilterPrimitive>, input2?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.Composite {
+    public composite(operator: "over" | "in" | "out" | "atop" | "xor" | "arithmetic", k1: number, k2: number, k3: number, k4: number, input1?: Attribute.FilterInput, input2?: Attribute.FilterInput): Elements.FilterPrimitive.Composite {
       const fe = new Elements.FilterPrimitive.Composite(this, {
         in: input1,
         in2: input2,
@@ -395,7 +403,7 @@ namespace SavageDOM.Elements {
       this.addEffect(fe);
       return fe;
     }
-    public displacementMap(attrs: Partial<Attribute.FilterPrimitive.DisplacementMap>, input1?: Elements.FilterPrimitive<any, any>, input2?: Elements.FilterPrimitive<any, any>): Elements.FilterPrimitive.DisplacementMap {
+    public displacementMap(attrs: Partial<Attribute.FilterPrimitive.DisplacementMap>, input1?: Attribute.FilterInput, input2?: Attribute.FilterInput): Elements.FilterPrimitive.DisplacementMap {
       const fe = new Elements.FilterPrimitive.DisplacementMap(this, merge(attrs, { in: input1, in2: input2 }));
       this.addEffect(fe);
       return fe;
@@ -428,10 +436,10 @@ namespace SavageDOM.Elements {
       this.addEffect(fe);
       return fe;
     }
-    public merge(inputs: Elements.FilterPrimitive<any, any>[]): Elements.FilterPrimitive.Merge {
+    public merge(inputs: Attribute.FilterInput[]): Elements.FilterPrimitive.Merge {
       const fe = new Elements.FilterPrimitive.Merge(this);
       inputs.forEach(input => {
-        const mergeNode = new SavageDOM.Element<SVGFEMergeNodeElement, Attribute.FilterPrimitive & { in: Attribute.FilterInput }>(this.paper, "feMergeNode", { in: input });
+        const mergeNode = new SavageDOM.Element<SVGFEMergeNodeElement, Attribute.FilterPrimitive & { in: Attribute.FilterInput }, Events.FilterPrimitive>(this.paper, "feMergeNode", { in: input });
         fe.add(mergeNode);
       });
       this.addEffect(fe);
@@ -481,7 +489,7 @@ namespace SavageDOM.Elements {
       fe.setAttribute("result", fe.id);
       this.add(fe);
     }
-    private addLights(lighting: Element<SVGFEDiffuseLightingElement | SVGFESpecularLightingElement, Attribute.FilterPrimitive>, lights: Attribute.FilterPrimitive.LightSource[]): void {
+    private addLights(lighting: Element<SVGFEDiffuseLightingElement | SVGFESpecularLightingElement, Attribute.FilterPrimitive, any>, lights: Attribute.FilterPrimitive.LightSource[]): void {
       lights.forEach(light => {
         switch (light.type) {
           case "point":

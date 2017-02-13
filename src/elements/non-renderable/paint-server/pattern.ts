@@ -73,7 +73,7 @@ namespace SavageDOM {
     }
   }
 
-  Elements.Renderable.Group.prototype.toPattern = function<SVG extends SVGElement, Attrs>(this: Elements.Renderable.Group, w: number, h: number, x?: number, y?: number, view?: Attribute.Box): Elements.NonRenderable.PaintServer.Pattern {
+  Elements.Renderable.Group.prototype.toPattern = function<SVG extends SVGElement, Attrs, Events>(this: Elements.Renderable.Group, w: number, h: number, x?: number, y?: number, view?: Attribute.Box): Elements.NonRenderable.PaintServer.Pattern {
     const pattern = new Elements.NonRenderable.PaintServer.Pattern(this.paper, w, h, x, y, view);
     this.getChildren().forEach(child => pattern.add(child));
     return pattern;

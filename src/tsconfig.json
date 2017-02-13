@@ -32,6 +32,7 @@
         "attribute/preserve-aspect-ratio.ts",
         "attribute/transform.ts",
         "attribute/box.ts",
+        "events.ts",
         "paper.ts",
         "element.ts",
         "elements/renderable.ts",

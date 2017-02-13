@@ -3,21 +3,21 @@ namespace SavageDOM {
   const _lerp = (a: number, b: number, t: number): number => a + ((b - a) * t);
 
   export interface Setter {
-    set<Attrs>(element: Element<SVGElement, Attrs>, attr: keyof Attrs, override?: any): void;
+    set<Attrs>(element: Element<SVGElement, Attrs, any>, attr: keyof Attrs, override?: any): void;
   }
 
   export interface Attribute<T> extends Setter {
     parse(css: string | null): T;
-    get<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A): T;
-    set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A, override?: T): void;
+    get<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A): T;
+    set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A, override?: T): void;
     interpolate(from: T, t: number): T;
   }
 
-  export function _defaultGet<T>(this: Attribute<T>, element: Element<SVGElement, any>, attr: string): T {
+  export function _defaultGet<T>(this: Attribute<T>, element: Element<SVGElement, any, any>, attr: string): T {
       return this.parse(element.getAttribute(attr));
     }
 
-  export function _defaultSet<T>(this: T, element: Element<SVGElement, any>, attr: string, override?: T) {
+  export function _defaultSet<T>(this: T, element: Element<SVGElement, any, any>, attr: string, override?: T) {
     element.setAttribute(attr, (override === undefined) ? this : override);
   };
 

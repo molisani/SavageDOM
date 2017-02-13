@@ -4,16 +4,16 @@ declare namespace SavageDOM {
 }
 declare namespace SavageDOM {
     interface Setter {
-        set<Attrs>(element: Element<SVGElement, Attrs>, attr: keyof Attrs, override?: any): void;
+        set<Attrs>(element: Element<SVGElement, Attrs, any>, attr: keyof Attrs, override?: any): void;
     }
     interface Attribute<T> extends Setter {
         parse(css: string | null): T;
-        get<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A): T;
-        set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A, override?: T): void;
+        get<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A): T;
+        set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A, override?: T): void;
         interpolate(from: T, t: number): T;
     }
-    function _defaultGet<T>(this: Attribute<T>, element: Element<SVGElement, any>, attr: string): T;
-    function _defaultSet<T>(this: T, element: Element<SVGElement, any>, attr: string, override?: T): void;
+    function _defaultGet<T>(this: Attribute<T>, element: Element<SVGElement, any, any>, attr: string): T;
+    function _defaultSet<T>(this: T, element: Element<SVGElement, any, any>, attr: string, override?: T): void;
 }
 declare namespace SavageDOM.Attribute {
     const isAttribute: (obj: any) => obj is Attribute<any>;
@@ -84,8 +84,8 @@ declare namespace SavageDOM.Attribute {
         constructor(format: "hsl", h: number, s: number, l: number, a?: number);
         toString(): string;
         parse(css: string | null): Color;
-        get(element: Element<SVGElement, any>, attr: string): Color;
-        set(element: Element<SVGElement, any>, attr: string, override?: Color): void;
+        get(element: Element<SVGElement, any, any>, attr: string): Color;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: Color): void;
         interpolate(from: Color, t: number): Color;
     }
 }
@@ -100,8 +100,8 @@ declare namespace SavageDOM.Attribute {
             arr: number[];
             constructor(values?: number[][]);
             parse(css: string | null): Raw;
-            get(element: Element<SVGElement, any>, attr: string): Raw;
-            set(element: Element<SVGElement, any>, attr: string, override?: Raw): void;
+            get(element: Element<SVGElement, any, any>, attr: string): Raw;
+            set(element: Element<SVGElement, any, any>, attr: string, override?: Raw): void;
             interpolate(from: Matrix, t: number): Raw;
         }
         class Saturate implements ColorMatrix, Attribute<Saturate> {
@@ -110,8 +110,8 @@ declare namespace SavageDOM.Attribute {
             constructor(value?: number);
             toString(): string;
             parse(css: string | null): Saturate;
-            get(element: Element<SVGElement, any>, attr: string): Saturate;
-            set(element: Element<SVGElement, any>, attr: string, override?: Saturate): void;
+            get(element: Element<SVGElement, any, any>, attr: string): Saturate;
+            set(element: Element<SVGElement, any, any>, attr: string, override?: Saturate): void;
             interpolate(from: Saturate, t: number): Saturate;
         }
         class HueRotate implements ColorMatrix, Attribute<HueRotate> {
@@ -120,8 +120,8 @@ declare namespace SavageDOM.Attribute {
             constructor(value?: number);
             toString(): string;
             parse(css: string | null): HueRotate;
-            get(element: Element<SVGElement, any>, attr: string): HueRotate;
-            set(element: Element<SVGElement, any>, attr: string, override?: HueRotate): void;
+            get(element: Element<SVGElement, any, any>, attr: string): HueRotate;
+            set(element: Element<SVGElement, any, any>, attr: string, override?: HueRotate): void;
             interpolate(from: HueRotate, t: number): HueRotate;
         }
         class LuminanceToAlphaColorMatrix implements ColorMatrix {
@@ -141,8 +141,8 @@ declare namespace SavageDOM.Attribute {
         constructor(value: number, unit: Unit);
         toString(): string;
         parse(css: string | null): Dimension<Unit>;
-        get(element: Element<SVGElement, any>, attr: string): Dimension<Unit>;
-        set(element: Element<SVGElement, any>, attr: string, override?: Dimension<Unit>): void;
+        get(element: Element<SVGElement, any, any>, attr: string): Dimension<Unit>;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: Dimension<Unit>): void;
         interpolate(from: Dimension<Unit>, t: number): Dimension<Unit>;
     }
     class Percentage extends Dimension<"%"> {
@@ -153,8 +153,8 @@ declare namespace SavageDOM.Attribute {
     class List<T extends Attribute<T>> extends Array<T> implements Attribute<List<T>> {
         toString(): string;
         parse(css: string | null): List<T>;
-        get(element: Element<SVGElement, any>, attr: string): List<T>;
-        set(element: Element<SVGElement, any>, attr: string, override?: List<T>): void;
+        get(element: Element<SVGElement, any, any>, attr: string): List<T>;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: List<T>): void;
         interpolate(from: List<T>, t: number): List<T>;
     }
 }
@@ -164,8 +164,8 @@ declare namespace SavageDOM.Attribute {
         constructor(values: number[][]);
         toString(): string;
         parse(css: string | null): Matrix;
-        get(element: Element<SVGElement, any>, attr: string): Matrix;
-        set(element: Element<SVGElement, any>, attr: string, override?: Matrix): void;
+        get(element: Element<SVGElement, any, any>, attr: string): Matrix;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: Matrix): void;
         interpolate(from: Matrix, t: number): Matrix;
     }
 }
@@ -175,8 +175,8 @@ declare namespace SavageDOM.Attribute {
         constructor(n?: number);
         toString(): string;
         parse(css: string | null): Number;
-        get(element: Element<SVGElement, any>, attr: string): Number;
-        set(element: Element<SVGElement, any>, attr: string, override?: Number): void;
+        get(element: Element<SVGElement, any, any>, attr: string): Number;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: Number): void;
         interpolate(from: Number, t: number): Number;
     }
 }
@@ -187,8 +187,8 @@ declare namespace SavageDOM.Attribute {
         constructor(n: number, o?: number);
         toString(): string;
         parse(css: string | null): NumberOptionalNumber;
-        get(element: Element<SVGElement, any>, attr: string): NumberOptionalNumber;
-        set(element: Element<SVGElement, any>, attr: string, override?: NumberOptionalNumber): void;
+        get(element: Element<SVGElement, any, any>, attr: string): NumberOptionalNumber;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: NumberOptionalNumber): void;
         interpolate(from: NumberOptionalNumber, t: number): NumberOptionalNumber;
     }
 }
@@ -199,8 +199,8 @@ declare namespace SavageDOM.Attribute {
         constructor(x: Length, y: Length);
         toString(): string;
         parse(css: string | null): Point;
-        get(element: Element<SVGElement, any>, attr: string): Point;
-        set(element: Element<SVGElement, any>, attr: string, override?: Point): void;
+        get(element: Element<SVGElement, any, any>, attr: string): Point;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: Point): void;
         interpolate(from: Point, t: number): Point;
     }
 }
@@ -223,8 +223,8 @@ declare namespace SavageDOM.Attribute {
         toString(): string;
         abstract parseArgs(args: string | null): Transform;
         parse(css: string | null): Transform;
-        get(element: Element<SVGElement, any>, attr: string): Transform;
-        set(element: Element<SVGElement, any>, attr: string, override?: Transform): void;
+        get(element: Element<SVGElement, any, any>, attr: string): Transform;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: Transform): void;
         abstract interpolate<T extends Transform>(from: T, t: number): T;
     }
     namespace Transform {
@@ -307,23 +307,53 @@ declare namespace SavageDOM.Attribute {
         constructor(x: Length, y: Length, width: Length, height: Length);
         toString(): string;
         parse(css: string | null): Box;
-        get(element: Element<SVGElement, any>, attr: string): Box;
-        set(element: Element<SVGElement, any>, attr: string, override?: Box): void;
+        get(element: Element<SVGElement, any, any>, attr: string): Box;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: Box): void;
         interpolate(from: Box, t: number): Box;
+    }
+}
+declare namespace SavageDOM.Events {
+    interface Mouse {
+        activate: MouseEvent;
+        click: MouseEvent;
+        mousedown: MouseEvent;
+        mousemove: MouseEvent;
+        mouseout: MouseEvent;
+        mouseover: MouseEvent;
+        mouseup: MouseEvent;
+    }
+    interface SVG {
+        SVGLoad: Event;
+        SVGUnload: Event;
+        SVGAbort: Event;
+        SVGError: Event;
+        SVGResize: Event;
+        SVGScroll: Event;
+        SVGZoom: SVGZoomEvent;
+    }
+    interface Touch {
+        touchstart: TouchEvent;
+        touchend: TouchEvent;
+        touchmove: TouchEvent;
+        touchcancel: TouchEvent;
+    }
+    interface Focus {
+        focusin: FocusEvent;
+        focusout: FocusEvent;
     }
 }
 declare namespace SavageDOM {
     class Paper {
         root: SVGSVGElement;
-        defs: Element<SVGDefsElement, any>;
+        defs: Element<SVGDefsElement, any, any>;
         constructor();
         constructor(id: string);
         constructor(el: SVGSVGElement);
-        addDef(def: Element<SVGElement, any>): void;
+        addDef(def: Element<SVGElement, any, any>): void;
     }
 }
 declare namespace SavageDOM {
-    class Element<SVG extends SVGElement, Attrs> {
+    class Element<SVG extends SVGElement, Attrs, Events> {
         paper: Paper;
         private _id;
         protected _node: SVG;
@@ -336,28 +366,27 @@ declare namespace SavageDOM {
         setAttribute<Attr extends keyof Attrs>(name: Attr, val: Attrs[Attr]): void;
         setAttributes(attrs: Partial<Attrs>): void;
         getAttribute<Attr extends keyof Attrs>(name: Attr): string | null;
-        copyStyleFrom(el: Element<SVGElement, Attrs>): any;
-        copyStyleFrom(el: Element<SVGElement, Attrs>, includeExclude: {
+        copyStyleFrom(el: Element<SVGElement, Attrs, any>): any;
+        copyStyleFrom(el: Element<SVGElement, Attrs, any>, includeExclude: {
             [A in keyof Attrs]: boolean;
         }, defaultInclude: boolean): any;
+        addEventListener<Event extends keyof Events>(event: Event, listener: (this: this, event: Events[Event]) => any): void;
         readonly boundingBox: Attribute.Box;
-        add(el: Element<SVGElement, any>): void;
-        getChildren(): Element<SVGElement, any>[];
-        clone(deep?: boolean): Element<SVG, Attrs>;
-        addEventListener(event: "focusin" | "focusout" | "mousedown" | "mouseup" | "mousemove" | "mouseover" | "mouseout", listener: (this: this, event: MouseEvent) => any): void;
-        addEventListener(event: "touchstart" | "touchend" | "touchmove" | "touchcancel", listener: (this: this, event: TouchEvent) => any): void;
+        add(el: Element<SVGElement, any, any>): void;
+        getChildren(): Element<SVGElement, any, any>[];
+        clone(deep?: boolean, id?: string): Element<SVG, Attrs, Events>;
         protected cloneNode(deep?: boolean): SVG;
     }
 }
 declare namespace SavageDOM {
     interface Dynamic<Attrs> {
-        element: Element<SVGElement, Attrs>;
+        element: Element<SVGElement, Attrs, any>;
         defs: Dynamic.Defined<Attrs>;
         progress: (now: number) => number | undefined;
     }
     namespace Dynamic {
         interface Definition<A extends string> extends Setter {
-            set(element: Element<SVGElement, any>, attr: A): void;
+            set(element: Element<SVGElement, any, any>, attr: A): void;
         }
         type Defined<Attrs> = {
             [A in keyof Attrs]?: Dynamic.Definition<A>;
@@ -407,16 +436,16 @@ declare namespace SavageDOM {
         private static requestAnimationFrame;
         private running;
         private queue;
-        registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>): (enable: boolean) => void;
-        registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, defs: Dynamic.Defined<Attrs>, isEnabled: () => boolean): void;
-        registerAnimation<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs>, attrs: Animation.Defined<Attrs>, duration: number, easing: (t: number) => number): Promise<number>;
+        registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>): (enable: boolean) => void;
+        registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>, isEnabled: () => boolean): void;
+        registerAnimation<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, attrs: Animation.Defined<Attrs>, duration: number, easing: (t: number) => number): Promise<number>;
         add(anim: Dynamic<any>): void;
         private registerAnimationWithCallback<SVG, Attrs>(element, attrs, duration, easing, resolve);
         private loop();
         private stop();
         private start();
     }
-    interface Element<SVG extends SVGElement, Attrs> {
+    interface Element<SVG extends SVGElement, Attrs, Events> {
         dynamic(defs: Dynamic.Defined<Attrs>): void;
         animate(attrs: Partial<Attrs>, duration: number, easing?: (t: number) => number): Promise<number>;
     }

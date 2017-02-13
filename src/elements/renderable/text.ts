@@ -18,10 +18,10 @@ namespace SavageDOM.Attribute {
     parse(css: string | null): TextContent {
       return new TextContent(css || "");
     }
-    get<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A): TextContent {
+    get<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A): TextContent {
       return this.parse(((element as any)._node as SVGTextElement).textContent);
     }
-    set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs>, attr: A, override?: TextContent): void {
+    set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A, override?: TextContent): void {
       let str: string = this._str;
       if (!str) {
         str = this._cb();
@@ -52,7 +52,7 @@ namespace SavageDOM.Attribute.Renderable {
 
 namespace SavageDOM.Elements.Renderable {
 
-  export class TextSpan extends AbstractRenderable<SVGTSpanElement, Attribute.Textual & Attribute.Renderable.Text & { textContent: Attribute.TextContent }> {
+  export class TextSpan extends AbstractRenderable<SVGTSpanElement, Attribute.Textual & Attribute.Renderable.Text & { textContent: Attribute.TextContent }, void> {
     constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text & { textContent: Attribute.TextContent }>) {
       super(paper, "tspan", attrs);
     }
@@ -61,7 +61,7 @@ namespace SavageDOM.Elements.Renderable {
     }
   }
 
-  export class Text extends AbstractRenderable<SVGTextElement, Attribute.Textual & Attribute.Renderable.Text> {
+  export class Text extends AbstractRenderable<SVGTextElement, Attribute.Textual & Attribute.Renderable.Text, void> {
     constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text>) {
       super(paper, "text", attrs);
     }
@@ -114,35 +114,6 @@ namespace SavageDOM.Elements.Renderable {
       });
     }
   }
-
-//   export class MultilineText extends PartyGameShow.GameComponents.SnapGroup {
-//   constructor(paper: Paper, x: number, y: number, max_width: number, line_height: number, text: string, attrs: any) {
-//     super(paper, true);
-//     let temp = this.paper.text(50, 50, '-').attr({ opacity: 0 });
-//     temp.attr(attrs);
-//     let space_width = temp.getBBox().width;
-//     let lines = [''];
-//     let current_width = 0;
-//     text.split(' ').forEach((word, i) => {
-//       temp.attr({ text: word });
-//       let word_width = temp.getBBox().w;
-//       if ((current_width + word_width) > max_width) {
-//         lines.push('');
-//         current_width = 0;
-//       }
-//       lines[lines.length - 1] += word + ' ';
-//       current_width += word_width + space_width;
-//     });
-//     temp.remove();
-//     this.el.remove();
-//     this.el = this.paper.text(x, y, lines);
-//     this.el.attr(attrs);
-//     this.el.selectAll('tspan:nth-child(n+2)').attr({
-//       dy: `${line_height}em`,
-//       x: x
-//     });
-//   }
-// }
 
 }
 

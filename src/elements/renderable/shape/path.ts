@@ -10,10 +10,10 @@ namespace SavageDOM.Attribute {
         return this.defaultInstance();
       }
     }
-    get(element: Element<SVGElement, any>, attr: string): PathSegment {
+    get(element: Element<SVGElement, any, any>, attr: string): PathSegment {
       return this.parse(element.getAttribute(attr));
     }
-    set(element: Element<SVGElement, any>, attr: string, override?: PathSegment): void {
+    set(element: Element<SVGElement, any, any>, attr: string, override?: PathSegment): void {
       if (override !== undefined) {
         element.setAttribute(attr, override.toString());
       } else {

@@ -14,7 +14,7 @@ namespace SavageDOM.Attribute {
         return this.parseArgs(css);
       }
     }
-    get(element: Element<SVGElement, any>, attr: string): Transform {
+    get(element: Element<SVGElement, any, any>, attr: string): Transform {
       const toks = attr.split(".");
       if (toks.length === 2 && toks[1] === this.type) {
         const css = element.getAttribute(toks[0]);
@@ -27,7 +27,7 @@ namespace SavageDOM.Attribute {
       }
       return this.parse(null);
     }
-    set(element: Element<SVGElement, any>, attr: string, override?: Transform): void {
+    set(element: Element<SVGElement, any, any>, attr: string, override?: Transform): void {
       const str = String((override === undefined) ? this : override);
       const toks = attr.split(".");
       if (toks.length === 2 && toks[1] === this.type) {

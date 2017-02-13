@@ -15,10 +15,10 @@ namespace SavageDOM.Attribute {
         return new Matrix([]);
       }
     }
-    get(element: Element<SVGElement, any>, attr: string): Matrix {
+    get(element: Element<SVGElement, any, any>, attr: string): Matrix {
       return this.parse(element.getAttribute(attr));
     }
-    set(element: Element<SVGElement, any>, attr: string, override?: Matrix): void {
+    set(element: Element<SVGElement, any, any>, attr: string, override?: Matrix): void {
       if (override !== undefined) {
         element.setAttribute(attr, override.toString());
       } else {

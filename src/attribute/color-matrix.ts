@@ -20,10 +20,10 @@ namespace SavageDOM.Attribute {
           return new Raw([]);
         }
       }
-      get(element: Element<SVGElement, any>, attr: string): Raw {
+      get(element: Element<SVGElement, any, any>, attr: string): Raw {
         return this.parse(element.getAttribute(attr));
       }
-      set(element: Element<SVGElement, any>, attr: string, override?: Raw): void {
+      set(element: Element<SVGElement, any, any>, attr: string, override?: Raw): void {
         if (override !== undefined) {
           element.setAttribute(attr, override.toString());
         } else {
@@ -48,10 +48,10 @@ namespace SavageDOM.Attribute {
           return new Saturate();
         }
       }
-      get(element: Element<SVGElement, any>, attr: string): Saturate {
+      get(element: Element<SVGElement, any, any>, attr: string): Saturate {
         return this.parse(element.getAttribute(attr));
       }
-      set(element: Element<SVGElement, any>, attr: string, override?: Saturate): void {
+      set(element: Element<SVGElement, any, any>, attr: string, override?: Saturate): void {
         if (override !== undefined) {
           element.setAttribute(attr, override.toString());
         } else {
@@ -76,10 +76,10 @@ namespace SavageDOM.Attribute {
           return new HueRotate();
         }
       }
-      get(element: Element<SVGElement, any>, attr: string): HueRotate {
+      get(element: Element<SVGElement, any, any>, attr: string): HueRotate {
         return this.parse(element.getAttribute(attr));
       }
-      set(element: Element<SVGElement, any>, attr: string, override?: HueRotate): void {
+      set(element: Element<SVGElement, any, any>, attr: string, override?: HueRotate): void {
         if (override !== undefined) {
           element.setAttribute(attr, override.toString());
         } else {
