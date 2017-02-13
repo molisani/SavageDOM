@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Paper | SavageDOM</title>
+	<title>Paper | savagedom</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">SavageDOM</a>
+					<a href="../index.html" class="title">savagedom</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -107,6 +107,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#lineargradient" class="tsd-kind-icon">linear<wbr>Gradient</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#marker" class="tsd-kind-icon">marker</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#mask" class="tsd-kind-icon">mask</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#multilinetext" class="tsd-kind-icon">multiline<wbr>Text</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#path" class="tsd-kind-icon">path</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#pattern" class="tsd-kind-icon">pattern</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#polygon" class="tsd-kind-icon">polygon</a></li>
@@ -174,7 +175,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="defs" class="tsd-anchor"></a>
 					<h3>defs</h3>
-					<div class="tsd-signature tsd-kind-icon">defs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SVGDefsElement</span></div>
+					<div class="tsd-signature tsd-kind-icon">defs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGDefsElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in paper.ts:5</li>
@@ -198,19 +199,19 @@
 					<a name="adddef" class="tsd-anchor"></a>
 					<h3>add<wbr>Def</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Def<span class="tsd-signature-symbol">(</span>def<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Def<span class="tsd-signature-symbol">(</span>def<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in paper.ts:36</li>
+									<li>Defined in paper.ts:35</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>def: <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>def: <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -288,7 +289,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/filter.ts:505</li>
+									<li>Defined in elements/filter.ts:514</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.elements.filter.html" class="tsd-signature-type">Filter</a></h4>
@@ -299,7 +300,7 @@
 					<a name="group" class="tsd-anchor"></a>
 					<h3>group</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">group<span class="tsd-signature-symbol">(</span>els<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.renderable.group.html" class="tsd-signature-type">Group</a></li>
+						<li class="tsd-signature tsd-kind-icon">group<span class="tsd-signature-symbol">(</span>els<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Group</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -311,10 +312,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>els: <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>els: <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="savagedom.elements.renderable.group.html" class="tsd-signature-type">Group</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Group</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -322,19 +323,43 @@
 					<a name="image" class="tsd-anchor"></a>
 					<h3>image</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">image<span class="tsd-signature-symbol">(</span>attrs<span class="tsd-signature-symbol">: </span><a href="../interfaces/savagedom.attribute.renderable.image.html" class="tsd-signature-type">Image</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.renderable.image.html" class="tsd-signature-type">Image</a></li>
+						<li class="tsd-signature tsd-kind-icon">image<span class="tsd-signature-symbol">(</span>href<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, onload<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span>, attrs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.renderable.image.html" class="tsd-signature-type">Image</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/renderable/image.ts:31</li>
+									<li>Defined in elements/renderable/image.ts:39</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>attrs: <a href="../interfaces/savagedom.attribute.renderable.image.html" class="tsd-signature-type">Image</a></h5>
+									<h5>href: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> onload: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>img<span class="tsd-signature-symbol">: </span><a href="savagedom.elements.renderable.image.html" class="tsd-signature-type">Image</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>img: <a href="savagedom.elements.renderable.image.html" class="tsd-signature-type">Image</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> attrs: <span class="tsd-signature-type">Partial</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.elements.renderable.image.html" class="tsd-signature-type">Image</a></h4>
@@ -377,13 +402,13 @@
 					<a name="lineargradient" class="tsd-anchor"></a>
 					<h3>linear<wbr>Gradient</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">linear<wbr>Gradient<span class="tsd-signature-symbol">(</span>stops<span class="tsd-signature-symbol">: </span><a href="../interfaces/savagedom.attribute.nonrenderable.paintserver.gradient.stops.html" class="tsd-signature-type">Stops</a>, attrs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Linear</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.nonrenderable.paintserver.gradient.linear.html" class="tsd-signature-type">Linear</a></li>
+						<li class="tsd-signature tsd-kind-icon">linear<wbr>Gradient<span class="tsd-signature-symbol">(</span>stops<span class="tsd-signature-symbol">: </span><a href="../interfaces/savagedom.attribute.nonrenderable.paintserver.gradient.stops.html" class="tsd-signature-type">Stops</a>, attrs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Linear</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.nonrenderable.paintserver.gradient.linear.html" class="tsd-signature-type">Linear</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/non-renderable/paint-server/gradient/linear.ts:33</li>
+									<li>Defined in elements/non-renderable/paint-server/gradient/linear.ts:27</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -392,7 +417,7 @@
 									<h5>stops: <a href="../interfaces/savagedom.attribute.nonrenderable.paintserver.gradient.stops.html" class="tsd-signature-type">Stops</a></h5>
 								</li>
 								<li>
-									<h5>attrs: <span class="tsd-signature-type">Linear</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> attrs: <span class="tsd-signature-type">Linear</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.elements.nonrenderable.paintserver.gradient.linear.html" class="tsd-signature-type">Linear</a></h4>
@@ -455,6 +480,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="multilinetext" class="tsd-anchor"></a>
+					<h3>multiline<wbr>Text</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">multiline<wbr>Text<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.textcontent.html" class="tsd-signature-type">TextContent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in elements/renderable/text.ts:124</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>content: <a href="savagedom.attribute.textcontent.html" class="tsd-signature-type">TextContent</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="path" class="tsd-anchor"></a>
 					<h3>path</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -484,13 +532,13 @@
 					<a name="pattern" class="tsd-anchor"></a>
 					<h3>pattern</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">pattern<span class="tsd-signature-symbol">(</span>w<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, h<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, view<span class="tsd-signature-symbol">?: </span><a href="savagedom.attribute.viewbox.html" class="tsd-signature-type">ViewBox</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.nonrenderable.paintserver.pattern.html" class="tsd-signature-type">Pattern</a></li>
+						<li class="tsd-signature tsd-kind-icon">pattern<span class="tsd-signature-symbol">(</span>w<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, h<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, view<span class="tsd-signature-symbol">?: </span><a href="savagedom.attribute.box.html" class="tsd-signature-type">Box</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.nonrenderable.paintserver.pattern.html" class="tsd-signature-type">Pattern</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/non-renderable/paint-server/pattern.ts:51</li>
+									<li>Defined in elements/non-renderable/paint-server/pattern.ts:58</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -508,7 +556,7 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> y: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> view: <a href="savagedom.attribute.viewbox.html" class="tsd-signature-type">ViewBox</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> view: <a href="savagedom.attribute.box.html" class="tsd-signature-type">Box</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.elements.nonrenderable.paintserver.pattern.html" class="tsd-signature-type">Pattern</a></h4>
@@ -565,13 +613,13 @@
 					<a name="radialgradient" class="tsd-anchor"></a>
 					<h3>radial<wbr>Gradient</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">radial<wbr>Gradient<span class="tsd-signature-symbol">(</span>stops<span class="tsd-signature-symbol">: </span><a href="../interfaces/savagedom.attribute.nonrenderable.paintserver.gradient.stops.html" class="tsd-signature-type">Stops</a>, attrs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Radial</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.nonrenderable.paintserver.gradient.radial.html" class="tsd-signature-type">Radial</a></li>
+						<li class="tsd-signature tsd-kind-icon">radial<wbr>Gradient<span class="tsd-signature-symbol">(</span>stops<span class="tsd-signature-symbol">: </span><a href="../interfaces/savagedom.attribute.nonrenderable.paintserver.gradient.stops.html" class="tsd-signature-type">Stops</a>, attrs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Radial</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.nonrenderable.paintserver.gradient.radial.html" class="tsd-signature-type">Radial</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/non-renderable/paint-server/gradient/radial.ts:34</li>
+									<li>Defined in elements/non-renderable/paint-server/gradient/radial.ts:28</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -580,7 +628,7 @@
 									<h5>stops: <a href="../interfaces/savagedom.attribute.nonrenderable.paintserver.gradient.stops.html" class="tsd-signature-type">Stops</a></h5>
 								</li>
 								<li>
-									<h5>attrs: <span class="tsd-signature-type">Radial</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> attrs: <span class="tsd-signature-type">Radial</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.elements.nonrenderable.paintserver.gradient.radial.html" class="tsd-signature-type">Radial</a></h4>
@@ -629,17 +677,20 @@
 					<a name="text" class="tsd-anchor"></a>
 					<h3>text</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><a href="../modules/savagedom.attribute.html#length" class="tsd-signature-type">Length</a>, y<span class="tsd-signature-symbol">: </span><a href="../modules/savagedom.attribute.html#length" class="tsd-signature-type">Length</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.renderable.text.html" class="tsd-signature-type">Text</a></li>
+						<li class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.textcontent.html" class="tsd-signature-type">TextContent</a><span class="tsd-signature-symbol">[]</span>, x<span class="tsd-signature-symbol">: </span><a href="../modules/savagedom.attribute.html#length" class="tsd-signature-type">Length</a>, y<span class="tsd-signature-symbol">: </span><a href="../modules/savagedom.attribute.html#length" class="tsd-signature-type">Length</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.renderable.text.html" class="tsd-signature-type">Text</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/renderable/text.ts:29</li>
+									<li>Defined in elements/renderable/text.ts:123</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>content: <a href="savagedom.attribute.textcontent.html" class="tsd-signature-type">TextContent</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
 								<li>
 									<h5>x: <a href="../modules/savagedom.attribute.html#length" class="tsd-signature-type">Length</a></h5>
 								</li>
@@ -673,6 +724,9 @@
 							</li>
 							<li class=" tsd-kind-module tsd-parent-kind-module">
 								<a href="../modules/savagedom.elements.html">Elements</a>
+							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-module">
+								<a href="../modules/savagedom.events.html">Events</a>
 							</li>
 						</ul>
 					</li>
@@ -731,6 +785,9 @@
 								<a href="savagedom.paper.html#mask" class="tsd-kind-icon">mask</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="savagedom.paper.html#multilinetext" class="tsd-kind-icon">multiline<wbr>Text</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="savagedom.paper.html#path" class="tsd-kind-icon">path</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -764,11 +821,20 @@
 					<li class=" tsd-kind-variable tsd-parent-kind-module">
 						<a href="../modules/savagedom.html#xmlns" class="tsd-kind-icon">XMLNS</a>
 					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../modules/savagedom.html#_defaultget" class="tsd-kind-icon">_default<wbr>Get</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../modules/savagedom.html#_defaultset" class="tsd-kind-icon">_default<wbr>Set</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
 						<a href="../modules/savagedom.html#_lerp" class="tsd-kind-icon">_lerp</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter tsd-is-not-exported">
 						<a href="../modules/savagedom.html#isanimation" class="tsd-kind-icon">is<wbr>Animation</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/savagedom.html#randomid" class="tsd-kind-icon">random<wbr>Id</a>
 					</li>
 				</ul>
 			</nav>

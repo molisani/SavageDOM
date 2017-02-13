@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Text | SavageDOM</title>
+	<title>Text | savagedom</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">SavageDOM</a>
+					<a href="../index.html" class="title">savagedom</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -111,7 +111,7 @@
 					<div class="tsd-signature tsd-kind-icon">dx<span class="tsd-signature-symbol">:</span> <a href="../modules/savagedom.attribute.html#length" class="tsd-signature-type">Length</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/text.ts:7</li>
+							<li>Defined in elements/renderable/text.ts:44</li>
 						</ul>
 					</aside>
 				</section>
@@ -121,7 +121,7 @@
 					<div class="tsd-signature tsd-kind-icon">dx:dy<span class="tsd-signature-symbol">:</span> <a href="../classes/savagedom.attribute.point.html" class="tsd-signature-type">Point</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/text.ts:9</li>
+							<li>Defined in elements/renderable/text.ts:46</li>
 						</ul>
 					</aside>
 				</section>
@@ -131,7 +131,7 @@
 					<div class="tsd-signature tsd-kind-icon">dy<span class="tsd-signature-symbol">:</span> <a href="../modules/savagedom.attribute.html#length" class="tsd-signature-type">Length</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/text.ts:8</li>
+							<li>Defined in elements/renderable/text.ts:45</li>
 						</ul>
 					</aside>
 				</section>
@@ -141,7 +141,7 @@
 					<div class="tsd-signature tsd-kind-icon">text-<wbr>anchor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"start"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"middle"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"end"</span><span class="tsd-signature-symbol"> | </span><a href="../modules/savagedom.attribute.html#inherit" class="tsd-signature-type">Inherit</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/text.ts:10</li>
+							<li>Defined in elements/renderable/text.ts:47</li>
 						</ul>
 					</aside>
 				</section>
@@ -151,7 +151,7 @@
 					<div class="tsd-signature tsd-kind-icon">text<wbr>Length<span class="tsd-signature-symbol">:</span> <a href="../modules/savagedom.attribute.html#length" class="tsd-signature-type">Length</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/text.ts:11</li>
+							<li>Defined in elements/renderable/text.ts:48</li>
 						</ul>
 					</aside>
 				</section>
@@ -161,7 +161,7 @@
 					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <a href="../modules/savagedom.attribute.html#length" class="tsd-signature-type">Length</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/text.ts:4</li>
+							<li>Defined in elements/renderable/text.ts:41</li>
 						</ul>
 					</aside>
 				</section>
@@ -171,7 +171,7 @@
 					<div class="tsd-signature tsd-kind-icon">x:y<span class="tsd-signature-symbol">:</span> <a href="../classes/savagedom.attribute.point.html" class="tsd-signature-type">Point</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/text.ts:6</li>
+							<li>Defined in elements/renderable/text.ts:43</li>
 						</ul>
 					</aside>
 				</section>
@@ -181,7 +181,7 @@
 					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <a href="../modules/savagedom.attribute.html#length" class="tsd-signature-type">Length</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/text.ts:5</li>
+							<li>Defined in elements/renderable/text.ts:42</li>
 						</ul>
 					</aside>
 				</section>
@@ -227,6 +227,9 @@
 							<li class=" tsd-kind-module tsd-parent-kind-module">
 								<a href="../modules/savagedom.elements.html">Elements</a>
 							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-module">
+								<a href="../modules/savagedom.events.html">Events</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -269,74 +272,95 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#alignment_baseline" class="tsd-kind-icon">alignment-<wbr>baseline</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#baseline_shift" class="tsd-kind-icon">baseline-<wbr>shift</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#class" class="tsd-kind-icon">class</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#color" class="tsd-kind-icon">color</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#color_interpolation" class="tsd-kind-icon">color-<wbr>interpolation</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#color_interpolation_filters" class="tsd-kind-icon">color-<wbr>interpolation-<wbr>filters</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#color_profile" class="tsd-kind-icon">color-<wbr>profile</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#color_rendering" class="tsd-kind-icon">color-<wbr>rendering</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#dominant_baseline" class="tsd-kind-icon">dominant-<wbr>baseline</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#fill" class="tsd-kind-icon">fill</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#fill_rule" class="tsd-kind-icon">fill-<wbr>rule</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#filter" class="tsd-kind-icon">filter</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#opacity" class="tsd-kind-icon">opacity</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#shape_rendering" class="tsd-kind-icon">shape-<wbr>rendering</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#stroke" class="tsd-kind-icon">stroke</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#stroke_dasharray" class="tsd-kind-icon">stroke-<wbr>dasharray</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#stroke_dashoffset" class="tsd-kind-icon">stroke-<wbr>dashoffset</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#stroke_linecap" class="tsd-kind-icon">stroke-<wbr>linecap</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#stroke_linejoin" class="tsd-kind-icon">stroke-<wbr>linejoin</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#stroke_miterlimit" class="tsd-kind-icon">stroke-<wbr>miterlimit</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#stroke_width" class="tsd-kind-icon">stroke-<wbr>width</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#style" class="tsd-kind-icon">style</a>
 					</li>
-					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
 						<a href="../modules/savagedom.attribute.renderable.html#transform" class="tsd-kind-icon">transform</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
+						<a href="../modules/savagedom.attribute.renderable.html#transform_matrix" class="tsd-kind-icon">transform.matrix</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
+						<a href="../modules/savagedom.attribute.renderable.html#transform_rotate" class="tsd-kind-icon">transform.rotate</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
+						<a href="../modules/savagedom.attribute.renderable.html#transform_scale" class="tsd-kind-icon">transform.scale</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
+						<a href="../modules/savagedom.attribute.renderable.html#transform_skewx" class="tsd-kind-icon">transform.skewX</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
+						<a href="../modules/savagedom.attribute.renderable.html#transform_skewy" class="tsd-kind-icon">transform.skewY</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
+						<a href="../modules/savagedom.attribute.renderable.html#transform_translate" class="tsd-kind-icon">transform.translate</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-inherited tsd-is-not-exported">
+						<a href="../modules/savagedom.attribute.renderable.html#transform_uniformscale" class="tsd-kind-icon">transform.uniform<wbr>Scale</a>
 					</li>
 				</ul>
 			</nav>

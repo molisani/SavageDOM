@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Transform | SavageDOM</title>
+	<title>Transform | savagedom</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">SavageDOM</a>
+					<a href="../index.html" class="title">savagedom</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -142,7 +142,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.attribute.transform.html#args" class="tsd-kind-icon">args</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.attribute.transform.html#get" class="tsd-kind-icon">get</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.attribute.transform.html#interpolate" class="tsd-kind-icon">interpolate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="savagedom.attribute.transform.html#interpolate" class="tsd-kind-icon">interpolate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.attribute.transform.html#parse" class="tsd-kind-icon">parse</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.attribute.transform.html#parseargs" class="tsd-kind-icon">parse<wbr>Args</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.attribute.transform.html#set" class="tsd-kind-icon">set</a></li>
@@ -214,7 +214,7 @@
 					<a name="get" class="tsd-anchor"></a>
 					<h3>get</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.transform.html" class="tsd-signature-type">Transform</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.transform.html" class="tsd-signature-type">Transform</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -226,7 +226,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>element: <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>element: <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>attr: <span class="tsd-signature-type">string</span></h5>
@@ -236,29 +236,35 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="interpolate" class="tsd-anchor"></a>
 					<h3>interpolate</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">interpolate<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.transform.html" class="tsd-signature-type">Transform</a>, t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.transform.html" class="tsd-signature-type">Transform</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">interpolate&lt;T&gt;<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in attribute/transform.ts:27</li>
+									<li>Defined in attribute/transform.ts:50</li>
 								</ul>
 							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.transform.html" class="tsd-signature-type">Transform</a></h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>from: <a href="savagedom.attribute.transform.html" class="tsd-signature-type">Transform</a></h5>
+									<h5>from: <span class="tsd-signature-type">T</span></h5>
 								</li>
 								<li>
 									<h5>t: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="savagedom.attribute.transform.html" class="tsd-signature-type">Transform</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -312,19 +318,19 @@
 					<a name="set" class="tsd-anchor"></a>
 					<h3>set</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, override<span class="tsd-signature-symbol">?: </span><a href="savagedom.attribute.transform.html" class="tsd-signature-type">Transform</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, override<span class="tsd-signature-symbol">?: </span><a href="savagedom.attribute.transform.html" class="tsd-signature-type">Transform</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in attribute/transform.ts:20</li>
+									<li>Defined in attribute/transform.ts:30</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>element: <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>element: <span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>attr: <span class="tsd-signature-type">string</span></h5>
@@ -391,6 +397,9 @@
 							<li class=" tsd-kind-module tsd-parent-kind-module">
 								<a href="../modules/savagedom.elements.html">Elements</a>
 							</li>
+							<li class=" tsd-kind-module tsd-parent-kind-module">
+								<a href="../modules/savagedom.events.html">Events</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -435,7 +444,7 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="savagedom.attribute.transform.html#get" class="tsd-kind-icon">get</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="savagedom.attribute.transform.html#interpolate" class="tsd-kind-icon">interpolate</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
