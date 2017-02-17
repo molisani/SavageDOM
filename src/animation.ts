@@ -72,8 +72,6 @@ namespace SavageDOM {
       export const circular = inout(circularIn, circularOut);
     }
 
-    export const Runner: AnimationRunner = new AnimationRunner();
-
   }
 
   function isAnimation<SVG extends SVGElement, Attrs>(dynamic: Dynamic<Attrs>): dynamic is Animation<Attrs> {
@@ -89,11 +87,13 @@ namespace SavageDOM {
     public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>, isEnabled: () => boolean): void;
     public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>, isEnabled?: () => boolean): void | ((enable: boolean) => void) {
       if (isEnabled !== undefined) {
+        // tslint:disable-next-line:no-use-before-declare
         Animation.Runner.add({
           element, defs, progress: (now: number): number | undefined => isEnabled() ? now : undefined,
         });
       } else {
         let enabled = true;
+        // tslint:disable-next-line:no-use-before-declare
         Animation.Runner.add({
           element, defs, progress: (now: number): number | undefined => enabled ? now : undefined,
         });
@@ -123,6 +123,7 @@ namespace SavageDOM {
         element, attrs, resolve, from, defs,
         progress: (now: number): number | undefined => (now > start && now <= end) ? easing((now - start) / duration) : undefined,
       };
+      // tslint:disable-next-line:no-use-before-declare
       Animation.Runner.add(anim);
     }
     private loop() {
@@ -174,6 +175,12 @@ namespace SavageDOM {
         this.loop();
       });
     }
+  }
+
+  export namespace Animation {
+
+    export const Runner: AnimationRunner = new AnimationRunner();
+
   }
 
   export interface Element<SVG extends SVGElement, Attrs, Events> {

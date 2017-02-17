@@ -1281,7 +1281,6 @@ declare namespace SavageDOM {
             const circularOut: (t: number) => number;
             const circular: (t: number) => number;
         }
-        const Runner: AnimationRunner;
     }
     class AnimationRunner {
         private static requestAnimationFrame;
@@ -1295,6 +1294,9 @@ declare namespace SavageDOM {
         private loop();
         private stop();
         private start();
+    }
+    namespace Animation {
+        const Runner: AnimationRunner;
     }
     interface Element<SVG extends SVGElement, Attrs, Events> {
         dynamic(defs: Dynamic.Defined<Attrs>): void;
