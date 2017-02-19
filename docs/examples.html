@@ -144,5 +144,66 @@
         </div>
       </div>
     </div>
+    <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1" width="500" height="500" id="easing"></svg>
+    <script>
+      let paper = new SavageDOM.Paper("easing");
+
+      let x1 = 50;
+      let y1 = 450;
+      let x2 = 450;
+      let y2 = 50;
+
+      const transformX = (t) => (x2 - x1) * t + x1;
+      const transformY = (t) => (y2 - y1) * t + y1;
+
+      let c = paper.circle(10, 10, 5);
+      let linear = paper.line(x1, y1, x2, y2);
+      linear.setAttributes({ "stroke-width": 1, "stroke": new SavageDOM.Attribute.Color("#000000") });
+
+      let polyline = new SavageDOM.Elements.Renderable.Shape.Polyline(paper, {
+        "stroke-width": 2, 
+        "fill": new SavageDOM.Attribute.Color("rgb", 0, 0, 0, 0),
+        "stroke": new SavageDOM.Attribute.Color("rgb", 255, 0, 0, 0.5),
+      });
+
+      let control1 = paper.line(x1, y1, x1, y1);
+      control1.setAttributes({
+        "stroke-width": 2, 
+        "fill": new SavageDOM.Attribute.Color("rgb", 0, 0, 0, 0),
+        "stroke": new SavageDOM.Attribute.Color("rgb", 0, 0, 255, 0.5),
+      });
+      let control2 = paper.line(x2, y2, x2, y2);
+      control2.setAttributes({
+        "stroke-width": 2, 
+        "fill": new SavageDOM.Attribute.Color("rgb", 0, 0, 0, 0),
+        "stroke": new SavageDOM.Attribute.Color("rgb", 0, 0, 255, 0.5),
+      });
+
+      let mid = paper.line(0, 0, 0, 0);
+      mid.setAttributes({
+        "stroke-width": 2, 
+        "fill": new SavageDOM.Attribute.Color("rgb", 0, 0, 0, 0),
+        "stroke": new SavageDOM.Attribute.Color("rgb", 0, 255, 0, 0.5),
+      });
+
+      let samples = 100;
+      function visualizeEasing(easing) {
+        let points = new SavageDOM.Attribute.List();
+        for (let i = 0; i <= samples; ++i) {
+          let p = i / samples;
+          let x = transformX(p);
+          let y = transformY(easing(p));
+          points.push(new SavageDOM.Attribute.Point(x, y));
+        }
+        polyline.setAttribute("points", points);
+      }
+
+      window.testEasing = function(easing) {
+        c.setAttributes({ cx: x1, cy: y1 });
+        c.animate({ cx: x2 }, 2000, SavageDOM.Animation.Easing.linear);
+        c.animate({ cy: y2 }, 2000, easing);
+        visualizeEasing(easing);
+      };
+    </script>
   </body>
 </html>

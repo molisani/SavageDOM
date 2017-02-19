@@ -1258,6 +1258,7 @@ declare namespace SavageDOM {
             [A in keyof Attrs]?: Attribute<Attrs[A]>;
         };
         namespace Easing {
+            const cubicBezier: (p1x: number, p1y: number, p2x: number, p2y: number) => (x: number) => number;
             const linear: (t: number) => number;
             const quadraticIn: (t: number) => number;
             const quadraticOut: (t: number) => number;
@@ -1280,6 +1281,12 @@ declare namespace SavageDOM {
             const circularIn: (t: number) => number;
             const circularOut: (t: number) => number;
             const circular: (t: number) => number;
+            const backIn: (t: number) => number;
+            const backOut: (t: number) => number;
+            const back: (t: number) => number;
+            const elasticIn: (t: number) => number;
+            const elasticOut: (t: number) => number;
+            const elastic: (t: number) => number;
         }
     }
     class AnimationRunner {
