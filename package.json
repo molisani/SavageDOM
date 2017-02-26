@@ -1,6 +1,6 @@
 {
   "name": "savagedom",
-  "version": "1.0.0-alpha.8",
+  "version": "1.0.0-alpha.9",
   "description": "Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript",
   "keywords": [
     "svg",
@@ -19,13 +19,12 @@
   "main": "dist/SavageDOM.js",
   "types": "dist/SavageDOM.d.ts",
   "scripts": {
-    "prepublish": "grunt test-travis",
-    "test": "grunt test-travis"
+    "prepublish": "grunt prepublish"
   },
   "devDependencies": {
     "@types/bluebird": "^3.0.37",
-    "@types/node": "^6.0.46",
-    "es6-shim": "^0.35.2",
+    "@types/node": "^7.0.5",
+    "es6-shim": "^0.35.3",
     "grunt": "^1.0.1",
     "grunt-bump": "^0.8.0",
     "grunt-cli": "^1.2.0",
@@ -33,23 +32,23 @@
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-connect": "^1.0.2",
-    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-uglify": "^2.1.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-git": "^1.0.3",
     "grunt-parallel": "^0.5.1",
     "grunt-parallelize": "^1.1.7",
     "grunt-sed": "^0.1.1",
     "grunt-shell": "^2.1.0",
-    "grunt-ts": "^6.0.0-beta.3",
-    "grunt-tslint": "^4.0.0",
+    "grunt-ts": "^6.0.0-beta.11",
+    "grunt-tslint": "^4.0.1",
     "grunt-typedoc": "^0.2.4",
     "grunt-umd": "^2.4.0",
     "load-grunt-tasks": "^3.5.2",
     "phantomjs-prebuilt": "^2.1.14",
-    "requirejs": "^2.3.2",
-    "systemjs": "^0.19.41",
-    "tslint": "^4.3.1",
-    "typedoc": "^0.5.3",
-    "typescript": "^2.1.6"
+    "requirejs": "^2.3.3",
+    "systemjs": "^0.20.9",
+    "tslint": "^4.4.2",
+    "typedoc": "^0.5.7",
+    "typescript": "^2.2.1"
   }
 }

@@ -36,6 +36,8 @@ namespace SavageDOM {
     public setAttribute<Attr extends keyof Attrs>(name: Attr, val: Attrs[Attr]): void {
       if (Attribute.isAttribute(val)) {
         val.set(this, name);
+      } else if (Array.isArray(val)) {
+        this._node.setAttribute(name, val.join("\t"));
       } else {
         this._node.setAttribute(name, String(val));
       }
@@ -49,12 +51,13 @@ namespace SavageDOM {
       }
     }
     public getAttribute<Attr extends keyof Attrs>(name: Attr): string | null {
-      return this._node.getAttribute(name) || this._style.getPropertyValue(name);
+      const val = this._node.getAttribute(name) || this._style.getPropertyValue(name);
+      return (val === "" || val === "none") ? null : val;
     }
     public copyStyleFrom(el: Element<SVGElement, Attrs, any>);
     public copyStyleFrom(el: Element<SVGElement, Attrs, any>, includeExclude: { [A in keyof Attrs]: boolean }, defaultInclude: boolean);
     public copyStyleFrom(el: Element<SVGElement, Attrs, any>, includeExclude?: { [A in keyof Attrs]: boolean }, defaultInclude: boolean = true): void {
-      const style: Attrs = {} as Attrs;
+      const style = {} as Attrs;
       const attrs = el._node.attributes;
       if (includeExclude) {
         for (let i = 0; i < attrs.length; ++i) {

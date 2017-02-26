@@ -1,6 +1,6 @@
 namespace SavageDOM.Attribute.Renderable {
 
-  export interface Image {
+  export interface Image extends HasOverflow {
     x: Length;
     y: Length;
     "x:y": Point;
@@ -11,6 +11,8 @@ namespace SavageDOM.Attribute.Renderable {
     href: string;
     preserveAspectRatio?: PreserveAspectRatio;
     viewBox?: Box;
+    "color-profile": "auto" | "sRGB" | string | Inherit;
+    "image-rendering": "auto" | "optimizeSpeed" | "optimizeQuality" | Inherit;
   }
 
 }

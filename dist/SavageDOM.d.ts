@@ -7,9 +7,10 @@ declare namespace SavageDOM {
         set<Attrs>(element: Element<SVGElement, Attrs, any>, attr: keyof Attrs, override?: any): void;
     }
     interface Attribute<T> extends Setter {
+        toString(override?: T): string;
         parse(css: string | null): T;
-        get<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A): T;
-        set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A, override?: T): void;
+        get<Attrs>(element: Element<SVGElement, Attrs, any>, attr: keyof Attrs): T;
+        set<Attrs>(element: Element<SVGElement, Attrs, any>, attr: keyof Attrs, override?: T): void;
         interpolate(from: T, t: number): T;
     }
     function _defaultGet<T>(this: Attribute<T>, element: Element<SVGElement, any, any>, attr: string): T;
@@ -18,57 +19,73 @@ declare namespace SavageDOM {
 declare namespace SavageDOM.Attribute {
     const isAttribute: (obj: any) => obj is Attribute<any>;
     type Inherit = "inherit";
-    interface PaintServer {
+    type None = "none";
+    namespace NonRenderable {
+        interface PaintServer {
+        }
     }
-    type Paint = "none" | "currentColor" | Color | PaintServer | Inherit;
+    type CurrentColor = "currentColor";
+    type Paint = None | CurrentColor | Color | NonRenderable.PaintServer | Inherit;
     type Length = number | Dimension<CSSAbsoluteLength | CSSRelativeLength>;
+    type Angle = number | Dimension<CSSAngleUnit>;
     const _LengthParse: (css: string) => Length;
     const _LengthInterpolate: (a: Length, b: Length, t: number) => Length;
-    type Angle = number | Dimension<CSSAngleUnit>;
-    interface Presentation {
-        "alignment-baseline": "auto" | "baseline" | "before-edge" | "text-before-edge" | "middle" | "central" | "after-edge" | "text-after-edge" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | Inherit;
-        "baseline-shift": "auto" | "baseline" | "super" | "sub" | number | Inherit;
-        "color": Color | Inherit;
-        "color-interpolation": "auto" | "sRGB" | "linearRGB" | Inherit;
-        "color-interpolation-filters": "auto" | "sRGB" | "linearRGB" | Inherit;
-        "color-profile": "auto" | "sRGB" | string | Inherit;
-        "color-rendering": "auto" | "optimizeSpeed" | "optimizeQuality" | Inherit;
-        "dominant-baseline": "auto" | "use-script" | "no-change" | "reset-size" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | "central" | "middle" | "text-after-edge" | "text-before-edge" | Inherit;
-        "fill": Paint;
-        "fill-rule": "nonzero" | "evenodd" | Inherit;
-        "filter": string | "none" | Inherit;
-        "opacity": number | Inherit;
-        "shape-rendering": "auto" | "optimizeSpeed" | "crispEdges" | "geometricPrecision" | Inherit;
-        "stroke": Paint;
-        "stroke-dasharray": "none" | List<Number> | Inherit;
-        "stroke-dashoffset": Percentage | Length | Inherit;
-        "stroke-linecap": "butt" | "round" | "square" | Inherit;
-        "stroke-linejoin": "miter" | "round" | "bevel" | Inherit;
-        "stroke-miterlimit": number | Inherit;
-        "stroke-width": Length | Percentage | Inherit;
-    }
-    interface Textual {
-        "direction": "ltr" | "rtl" | Inherit;
-        "font-family": string | Inherit;
-        "font-size": Length | Inherit;
-        "font-size-adjust": number | "none" | Inherit;
-        "font-stretch": "normal" | "wider" | "narrower" | "ultra-condensed" | "extra-condensed" | "condensed" | "semi-condensed" | "semi-expanded" | "expanded" | "extra-expanded" | "ultra-expanded" | Inherit;
-        "font-style": "normal" | "italic" | "oblique" | Inherit;
-        "font-variant": "normal" | "small-caps" | Inherit;
-        "font-weight": "normal" | "bold" | "bolder" | "lighter" | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | Inherit;
-        "kerning": "auto" | Length | Inherit;
-        "letter-spacing": "normal" | Length | Inherit;
-        "text-anchor": "start" | "middle" | "end" | Inherit;
-        "text-decoration": "none" | "underline" | "overline" | "line-through" | "blink" | Inherit;
-        "text-rendering": "auto" | "optimizeSpeed" | "optimizeLegibility" | "geometericPrecision" | Inherit;
-        "word-spacing": "normal" | Length | Inherit;
-        "writing-mode": "lr-tb" | "rl-tb" | "tb-rl" | "lr" | "rl" | "tb" | Inherit;
-    }
     interface HasStyle {
         style: string;
     }
     interface HasClass {
         class: string;
+    }
+    interface HasOverflow {
+        overflow: "visible" | "hidden" | "scroll" | "auto" | Inherit;
+    }
+    interface HasColor {
+        color: Color | Inherit;
+    }
+    interface HasColorInterpolation {
+        "color-interpolation": "auto" | "sRGB" | "linearRGB" | Inherit;
+    }
+    interface HasColorRendering {
+        "color-rendering": "auto" | "optimizeSpeed" | "optimizeQuality" | Inherit;
+    }
+    interface HasCursor {
+        cursor: "auto" | "crosshair" | "default" | "pointer" | "move" | "e-resize" | "ne-resize" | "nw-resize" | "n-resize" | "se-resize" | "sw-resize" | "s-resize" | "w-resize" | "text" | "wait" | "help" | Inherit;
+    }
+    interface HasFill {
+        fill: Paint;
+        "fill-opacity": number | Inherit;
+        "fill-rule": "nonzero" | "evenodd" | Inherit;
+    }
+    interface HasOpacity {
+        opacity: number | Inherit;
+    }
+    type DashArray = (Length | Percentage)[];
+    interface HasStroke {
+        stroke: Paint;
+        "stroke-dasharray": None | DashArray | Inherit;
+        "stroke-dashoffset": Percentage | Length | Inherit;
+        "stroke-linecap": "butt" | "round" | "square" | Inherit;
+        "stroke-linejoin": "miter" | "round" | "bevel" | Inherit;
+        "stroke-miterlimit": number | Inherit;
+        "stroke-opacity": number | Inherit;
+        "stroke-width": Length | Percentage | Inherit;
+    }
+    interface HasVisibility {
+        visibility: "visible" | "hidden" | "collapse" | Inherit;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    class Box implements Attribute<Box> {
+        x: Length;
+        y: Length;
+        width: Length;
+        height: Length;
+        constructor(x: Length, y: Length, width: Length, height: Length);
+        toString(): string;
+        parse(css: string | null): Box;
+        get(element: Element<SVGElement, any, any>, attr: string): Box;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: Box): void;
+        interpolate(from: Box, t: number): Box;
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -150,15 +167,6 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute {
-    class List<T extends Attribute<T>> extends Array<T> implements Attribute<List<T>> {
-        toString(): string;
-        parse(css: string | null): List<T>;
-        get(element: Element<SVGElement, any, any>, attr: string): List<T>;
-        set(element: Element<SVGElement, any, any>, attr: string, override?: List<T>): void;
-        interpolate(from: List<T>, t: number): List<T>;
-    }
-}
-declare namespace SavageDOM.Attribute {
     class Matrix implements Attribute<Matrix> {
         arr: number[];
         constructor(values: number[][]);
@@ -167,17 +175,6 @@ declare namespace SavageDOM.Attribute {
         get(element: Element<SVGElement, any, any>, attr: string): Matrix;
         set(element: Element<SVGElement, any, any>, attr: string, override?: Matrix): void;
         interpolate(from: Matrix, t: number): Matrix;
-    }
-}
-declare namespace SavageDOM.Attribute {
-    class Number implements Attribute<Number> {
-        n: number;
-        constructor(n?: number);
-        toString(): string;
-        parse(css: string | null): Number;
-        get(element: Element<SVGElement, any, any>, attr: string): Number;
-        set(element: Element<SVGElement, any, any>, attr: string, override?: Number): void;
-        interpolate(from: Number, t: number): Number;
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -295,21 +292,27 @@ declare namespace SavageDOM.Attribute {
         "transform.rotate": Transform.Rotate;
         "transform.skewX": Transform.SkewX;
         "transform.skewY": Transform.SkewY;
-        transform: List<Transform>;
+        transform: Transform[];
     }
 }
 declare namespace SavageDOM.Attribute {
-    class Box implements Attribute<Box> {
-        x: Length;
-        y: Length;
-        width: Length;
-        height: Length;
-        constructor(x: Length, y: Length, width: Length, height: Length);
+    class NumberWrapper implements Attribute<NumberWrapper | number> {
+        n: number;
+        constructor(n?: number);
         toString(): string;
-        parse(css: string | null): Box;
-        get(element: Element<SVGElement, any, any>, attr: string): Box;
-        set(element: Element<SVGElement, any, any>, attr: string, override?: Box): void;
-        interpolate(from: Box, t: number): Box;
+        parse(css: string | null): NumberWrapper;
+        get(element: Element<SVGElement, any, any>, attr: string): NumberWrapper;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: NumberWrapper): void;
+        interpolate(from: NumberWrapper, t: number): NumberWrapper;
+    }
+    class ArrayWrapper<T extends Attribute<T>> implements Attribute<ArrayWrapper<T>> {
+        arr: T[];
+        constructor(arr?: T[]);
+        toString(): string;
+        parse(css: string | null): ArrayWrapper<T>;
+        get(element: Element<SVGElement, any, any>, attr: string): ArrayWrapper<T>;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: ArrayWrapper<T>): void;
+        interpolate(from: ArrayWrapper<T>, t: number): ArrayWrapper<T>;
     }
 }
 declare namespace SavageDOM.Events {
@@ -379,7 +382,23 @@ declare namespace SavageDOM {
     }
 }
 declare namespace SavageDOM.Attribute {
-    interface Renderable extends Presentation, HasStyle, HasClass, Transformable {
+    interface Renderable extends Presentation, HasStyle, HasClass, HasColor, Transformable {
+        "display": "inline" | "block" | "list-item" | "run-in" | "compact" | "marker" | "table" | "inline-table" | "table-row-group" | "table-header-group" | "table-footer-group" | "table-row" | "table-column-group" | "table-column" | "table-cell" | "table-caption" | None | Inherit;
+        "pointer-events": "visiblePainted" | "visibleFill" | "visibleStroke" | "visible" | "painted" | "fill" | "stroke" | "all" | None | Inherit;
+        "stroke": Paint;
+        "stroke-dasharray": None | number[] | Inherit;
+        "stroke-dashoffset": Percentage | Length | Inherit;
+        "stroke-linecap": "butt" | "round" | "square" | Inherit;
+        "stroke-linejoin": "miter" | "round" | "bevel" | Inherit;
+        "stroke-miterlimit": number | Inherit;
+        "stroke-width": Length | Percentage | Inherit;
+    }
+}
+declare namespace SavageDOM.Attribute.Renderable {
+    interface Containers extends HasColorInterpolation, HasColorRendering, HasCursor, HasMask {
+    }
+    interface Graphics extends HasColorInterpolation, HasColorRendering, HasCursor, HasMask, HasOpacity, HasVisibility {
+        "pointer-events": "visiblePainted" | "visibleFill" | "visibleStroke" | "visible" | "painted" | "fill" | "stroke" | "all" | None | Inherit;
     }
 }
 declare namespace SavageDOM.Events {
@@ -390,8 +409,13 @@ declare namespace SavageDOM.Elements {
     abstract class AbstractRenderable<E extends SVGElement, A, V> extends Element<E, Attribute.Renderable & A, Events.Renderable & V> {
     }
 }
+declare namespace SavageDOM.Attribute.Renderable {
+    interface Shape extends Graphics, HasFill, HasStroke {
+        "shape-rendering": "auto" | "optimizeSpeed" | "crispEdges" | "geometricPrecision" | Inherit;
+    }
+}
 declare namespace SavageDOM.Elements.Renderable {
-    abstract class AbstractShape<E extends SVGElement, A> extends AbstractRenderable<E, A, void> {
+    abstract class AbstractShape<E extends SVGElement, A> extends AbstractRenderable<E, Attribute.Renderable.Shape & A, void> {
     }
 }
 declare namespace SavageDOM.Attribute.Renderable.Shape {
@@ -404,7 +428,7 @@ declare namespace SavageDOM.Attribute.Renderable.Shape {
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Circle extends AbstractShape<SVGCircleElement, Attribute.Renderable.Shape.Circle> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Circle>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape & Attribute.Renderable.Shape.Circle>);
     }
 }
 declare namespace SavageDOM {
@@ -424,7 +448,7 @@ declare namespace SavageDOM.Attribute.Renderable.Shape {
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Ellipse extends AbstractShape<SVGEllipseElement, Attribute.Renderable.Shape.Ellipse> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Ellipse>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape & Attribute.Renderable.Shape.Ellipse>);
     }
 }
 declare namespace SavageDOM {
@@ -433,7 +457,7 @@ declare namespace SavageDOM {
     }
 }
 declare namespace SavageDOM.Attribute.Renderable.Shape {
-    interface Line {
+    interface Line extends HasMarker {
         x1: Length;
         y1: Length;
         "x1:y1": Point;
@@ -444,7 +468,7 @@ declare namespace SavageDOM.Attribute.Renderable.Shape {
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Line extends AbstractShape<SVGLineElement, Attribute.Renderable.Shape.Line> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Line>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape & Attribute.Renderable.Shape.Line>);
     }
 }
 declare namespace SavageDOM {
@@ -591,49 +615,49 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute.Renderable.Shape {
-    interface Path {
-        d: List<PathSegment>;
+    interface Path extends HasMarker {
+        d: PathSegment[];
         pathLength: number;
     }
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Path extends AbstractShape<SVGPathElement, Attribute.Renderable.Shape.Path> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Path>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape & Attribute.Renderable.Shape.Path>);
     }
 }
 declare namespace SavageDOM {
     interface Paper {
-        path(d: Attribute.List<Attribute.PathSegment>, pathLength?: number): Elements.Renderable.Shape.Path;
+        path(d: Attribute.PathSegment[], pathLength?: number): Elements.Renderable.Shape.Path;
     }
 }
 declare namespace SavageDOM.Attribute.Renderable.Shape {
-    interface Polygon {
-        points: List<Point>;
+    interface Polygon extends HasMarker {
+        points: Point[];
     }
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Polygon extends AbstractShape<SVGPolygonElement, Attribute.Renderable.Shape.Polygon> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Polygon>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape & Attribute.Renderable.Shape.Polygon>);
     }
 }
 declare namespace SavageDOM {
     interface Paper {
-        polygon(points: Attribute.List<Attribute.Point>): Elements.Renderable.Shape.Polygon;
+        polygon(points: Attribute.Point[]): Elements.Renderable.Shape.Polygon;
     }
 }
 declare namespace SavageDOM.Attribute.Renderable.Shape {
-    interface Polyline {
-        points: List<Point>;
+    interface Polyline extends HasMarker {
+        points: Point[];
     }
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Polyline extends AbstractShape<SVGPolylineElement, Attribute.Renderable.Shape.Polyline> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Polyline>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape & Attribute.Renderable.Shape.Polyline>);
     }
 }
 declare namespace SavageDOM {
     interface Paper {
-        polyline(points: Attribute.List<Attribute.Point>): Elements.Renderable.Shape.Polyline;
+        polyline(points: Attribute.Point[]): Elements.Renderable.Shape.Polyline;
     }
 }
 declare namespace SavageDOM.Attribute.Renderable.Shape {
@@ -652,7 +676,7 @@ declare namespace SavageDOM.Attribute.Renderable.Shape {
 }
 declare namespace SavageDOM.Elements.Renderable.Shape {
     class Rect extends AbstractShape<SVGRectElement, Attribute.Renderable.Shape.Rect> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Rect>);
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape & Attribute.Renderable.Shape.Rect>);
     }
 }
 declare namespace SavageDOM {
@@ -660,9 +684,13 @@ declare namespace SavageDOM {
         rect(x: Attribute.Length, y: Attribute.Length, width: Attribute.Length, height: Attribute.Length, rx?: Attribute.Length, ry?: Attribute.Length): Elements.Renderable.Shape.Rect;
     }
 }
+declare namespace SavageDOM.Attribute.Renderable {
+    interface Group extends Containers, HasOpacity {
+    }
+}
 declare namespace SavageDOM.Elements {
     namespace Renderable {
-        class Group extends AbstractRenderable<SVGGElement, void, void> {
+        class Group extends AbstractRenderable<SVGGElement, Attribute.Renderable.Group, void> {
             constructor(paper: Paper, attrs?: Partial<Attribute.Renderable>);
         }
     }
@@ -673,7 +701,7 @@ declare namespace SavageDOM {
     }
 }
 declare namespace SavageDOM.Attribute.Renderable {
-    interface Image {
+    interface Image extends HasOverflow {
         x: Length;
         y: Length;
         "x:y": Point;
@@ -684,6 +712,8 @@ declare namespace SavageDOM.Attribute.Renderable {
         href: string;
         preserveAspectRatio?: PreserveAspectRatio;
         viewBox?: Box;
+        "color-profile": "auto" | "sRGB" | string | Inherit;
+        "image-rendering": "auto" | "optimizeSpeed" | "optimizeQuality" | Inherit;
     }
 }
 declare namespace SavageDOM.Events {
@@ -702,6 +732,28 @@ declare namespace SavageDOM {
     }
 }
 declare namespace SavageDOM.Attribute {
+    interface Textual extends HasFill, HasStroke, HasVisibility {
+        "direction": "ltr" | "rtl" | Inherit;
+        "dominant-baseline": "auto" | "use-script" | "no-change" | "reset-size" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | "central" | "middle" | "text-after-edge" | "text-before-edge" | Inherit;
+        "font-family": string | Inherit;
+        "font-size": Length | Inherit;
+        "font-size-adjust": number | None | Inherit;
+        "font-stretch": "normal" | "wider" | "narrower" | "ultra-condensed" | "extra-condensed" | "condensed" | "semi-condensed" | "semi-expanded" | "expanded" | "extra-expanded" | "ultra-expanded" | Inherit;
+        "font-style": "normal" | "italic" | "oblique" | Inherit;
+        "font-variant": "normal" | "small-caps" | Inherit;
+        "font-weight": "normal" | "bold" | "bolder" | "lighter" | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | Inherit;
+        "kerning": "auto" | Length | Inherit;
+        "letter-spacing": "normal" | Length | Inherit;
+        "text-anchor": "start" | "middle" | "end" | Inherit;
+        "text-decoration": None | "underline" | "overline" | "line-through" | "blink" | Inherit;
+        "text-rendering": "auto" | "optimizeSpeed" | "optimizeLegibility" | "geometricPrecision" | Inherit;
+        "word-spacing": "normal" | Length | Inherit;
+        "writing-mode": "lr-tb" | "rl-tb" | "tb-rl" | "lr" | "rl" | "tb" | Inherit;
+    }
+    interface TextualChild {
+        "alignment-baseline": "auto" | "baseline" | "before-edge" | "text-before-edge" | "middle" | "central" | "after-edge" | "text-after-edge" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | Inherit;
+        "baseline-shift": "auto" | "baseline" | "super" | "sub" | number | Inherit;
+    }
     class TextContent implements Attribute<TextContent> {
         private static escapeHtml(html);
         private _str;
@@ -715,28 +767,26 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute.Renderable {
-    interface Text {
+    interface Text extends Textual, Graphics {
         x: Length;
         y: Length;
         "x:y": Point;
         dx: Length;
         dy: Length;
         "dx:dy": Point;
-        "text-anchor"?: "start" | "middle" | "end" | Inherit;
         textLength?: Length;
+    }
+    interface TextSpan extends Text, TextualChild {
+        textContent: Attribute.TextContent;
     }
 }
 declare namespace SavageDOM.Elements.Renderable {
-    class TextSpan extends AbstractRenderable<SVGTSpanElement, Attribute.Textual & Attribute.Renderable.Text & {
-        textContent: Attribute.TextContent;
-    }, void> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text & {
-            textContent: Attribute.TextContent;
-        }>);
+    class TextSpan extends AbstractRenderable<SVGTSpanElement, Attribute.Renderable.TextSpan, void> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.TextSpan>);
         readonly computedLength: number;
     }
-    class Text extends AbstractRenderable<SVGTextElement, Attribute.Textual & Attribute.Renderable.Text, void> {
-        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text>);
+    class Text extends AbstractRenderable<SVGTextElement, Attribute.Renderable.Text, void> {
+        constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Text>);
         addSpan(content: Attribute.TextContent, lineHeight?: number | Attribute.Length, update?: boolean): TextSpan;
         readonly computedLength: number;
     }
@@ -762,8 +812,38 @@ declare namespace SavageDOM.Elements {
     abstract class AbstractNonRenderable<E extends SVGElement, NonRenderableAttributes> extends Element<E, Attribute.NonRenderable & NonRenderableAttributes, Events.NonRenderable> {
     }
 }
+declare namespace SavageDOM.Attribute {
+    interface Clippable {
+        clip: "auto" | SavageDOM.Elements.Renderable.AbstractShape<any, any> | Inherit;
+        "clip-path": Elements.NonRenderable.ClipPath | None | Inherit;
+        "clip-rule": "nonzero" | "evenodd" | Inherit;
+    }
+}
+declare namespace SavageDOM.Attribute.NonRenderable {
+    interface ClipPath {
+        maskUnits: "userSpaceOnUse" | "objectBoundingBox";
+        maskContentUnits: "userSpaceOnUse" | "objectBoundingBox";
+        x: Length;
+        y: Length;
+        width: Length;
+        height: Length;
+        "width:height": Point;
+        "x:y:width:height": Box;
+    }
+}
 declare namespace SavageDOM.Elements.NonRenderable {
-    abstract class AbstractPaintServer<E extends SVGElement, PaintServerAttributes> extends AbstractNonRenderable<E, PaintServerAttributes> implements Attribute.PaintServer {
+    class ClipPath extends AbstractNonRenderable<SVGMaskElement, Attribute.NonRenderable.Mask> {
+        paper: Paper;
+        constructor(paper: Paper, w?: number, h?: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox");
+    }
+}
+declare namespace SavageDOM {
+    interface Paper {
+        clipPath(w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox"): Elements.NonRenderable.ClipPath;
+    }
+}
+declare namespace SavageDOM.Elements.NonRenderable {
+    abstract class AbstractPaintServer<E extends SVGElement, PaintServerAttributes> extends AbstractNonRenderable<E, PaintServerAttributes> implements Attribute.NonRenderable.PaintServer {
     }
 }
 declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
@@ -776,7 +856,7 @@ declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
         "gradientTransform.rotate": Transform.Rotate;
         "gradientTransform.skewX": Transform.SkewX;
         "gradientTransform.skewY": Transform.SkewY;
-        gradientTransform: List<Transform>;
+        gradientTransform: Transform[];
         spreadMethod: "pad" | "reflect" | "repeat";
         "xlink:href": string;
     }
@@ -804,6 +884,7 @@ declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
         interface Stop {
             offset: Percentage;
             "stop-color": "currentColor" | Color | Inherit;
+            "stop-opacity": number | Inherit;
         }
     }
 }
@@ -860,7 +941,7 @@ declare namespace SavageDOM {
     }
 }
 declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
-    interface Pattern {
+    interface Pattern extends HasOverflow, HasOpacity {
         patternUnits: "userSpaceOnUse" | "objectBoundingBox";
         patternContentUnits: "userSpaceOnUse" | "objectBoundingBox";
         "patternTransform.matrix": Transform.Matrix;
@@ -870,7 +951,7 @@ declare namespace SavageDOM.Attribute.NonRenderable.PaintServer {
         "patternTransform.rotate": Transform.Rotate;
         "patternTransform.skewX": Transform.SkewX;
         "patternTransform.skewY": Transform.SkewY;
-        patternTransform: List<Transform>;
+        patternTransform: Transform[];
         x: Length;
         y: Length;
         "x:y": Point;
@@ -906,8 +987,15 @@ declare namespace SavageDOM {
         }
     }
 }
+declare namespace SavageDOM.Attribute.Renderable {
+    interface HasMarker {
+        "marker-start": None | Elements.NonRenderable.Marker | Inherit;
+        "marker-mid": None | Elements.NonRenderable.Marker | Inherit;
+        "marker-end": None | Elements.NonRenderable.Marker | Inherit;
+    }
+}
 declare namespace SavageDOM.Attribute.NonRenderable {
-    interface Marker {
+    interface Marker extends HasOverflow, HasOpacity {
         markerUnits: "userSpaceOnUse" | "strokeWidth";
         refX: Length;
         refY: Length;
@@ -929,6 +1017,11 @@ declare namespace SavageDOM {
         marker(): Elements.NonRenderable.Marker;
     }
 }
+declare namespace SavageDOM.Attribute {
+    interface HasMask {
+        "mask": Elements.NonRenderable.Mask | None | Inherit;
+    }
+}
 declare namespace SavageDOM.Attribute.NonRenderable {
     interface Mask {
         maskUnits: "userSpaceOnUse" | "objectBoundingBox";
@@ -944,7 +1037,7 @@ declare namespace SavageDOM.Attribute.NonRenderable {
 declare namespace SavageDOM.Elements.NonRenderable {
     class Mask extends AbstractNonRenderable<SVGMaskElement, Attribute.NonRenderable.Mask> {
         paper: Paper;
-        constructor(paper: Paper, w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox");
+        constructor(paper: Paper, w?: number, h?: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox");
     }
 }
 declare namespace SavageDOM {
@@ -953,6 +1046,9 @@ declare namespace SavageDOM {
     }
 }
 declare namespace SavageDOM.Attribute {
+    interface Presentation {
+        "filter": Elements.Filter | string | None | Inherit;
+    }
     interface FilterPrimitive extends Presentation, HasClass, HasStyle {
         x: Length;
         y: Length;
@@ -961,8 +1057,12 @@ declare namespace SavageDOM.Attribute {
         "width:height": Point;
         "x:y:width:height": Box;
         result: string;
+        "color-interpolation-filters": "auto" | "sRGB" | "linearRGB" | Inherit;
     }
     namespace FilterPrimitive {
+        interface Lighting extends HasColor {
+            "lighting-color": CurrentColor | Color | Inherit;
+        }
         interface Blend {
             in: FilterInput;
             in2: FilterInput;
@@ -995,11 +1095,11 @@ declare namespace SavageDOM.Attribute {
             targetX: number;
             targetY: number;
             "targetX:targetY": Point;
-            edgeMode: "duplicate" | "wrap" | "none";
+            edgeMode: "duplicate" | "wrap" | None;
             kernelUnitLength: NumberOptionalNumber;
             preserveAlpha: boolean;
         }
-        interface DiffuseLighting {
+        interface DiffuseLighting extends Lighting {
             in: FilterInput;
             surfaceScale: number;
             diffuseConstant: number;
@@ -1019,13 +1119,14 @@ declare namespace SavageDOM.Attribute {
             dy: Length;
             "dx:dy": Point;
         }
-        interface Flood {
-            "flood-color": "currentColor" | Color;
+        interface Flood extends HasColor {
+            "flood-color": CurrentColor | Color | Inherit;
+            "flood-opacity": number | Inherit;
         }
         interface GaussianBlur {
             in: FilterInput;
             stdDeviation: number;
-            edgeMode: "duplicate" | "wrap" | "none";
+            edgeMode: "duplicate" | "wrap" | None;
         }
         interface Image {
             preserveAspectRatio: PreserveAspectRatio;
@@ -1045,7 +1146,7 @@ declare namespace SavageDOM.Attribute {
             dy: Length;
             "dx:dy": Point;
         }
-        interface SpecularLighting {
+        interface SpecularLighting extends Lighting {
             in: FilterInput;
             surfaceScale: number;
             specularConstant: number;
@@ -1067,7 +1168,7 @@ declare namespace SavageDOM.Attribute {
         }
         interface TabularFunction {
             type: "table" | "discrete";
-            tableValues: List<Number>;
+            tableValues: number[];
         }
         interface LinearFunction {
             type: "linear";
@@ -1121,6 +1222,9 @@ declare namespace SavageDOM.Attribute {
         "x:y:width:height": Box;
         filterUnits: "userSpaceOnUse" | "objectBoundingBox";
         primitiveUnits: "userSpaceOnUse" | "objectBoundingBox";
+    }
+    interface HasFilter {
+        filter: Events.Filter | None | Inherit;
     }
 }
 declare namespace SavageDOM.Events {
@@ -1212,7 +1316,7 @@ declare namespace SavageDOM.Elements {
         diffuseLighting(attrs: Partial<Attribute.FilterPrimitive.DiffuseLighting>, lights?: Attribute.FilterPrimitive.LightSource[], input?: Attribute.FilterInput): Elements.FilterPrimitive.DiffuseLighting;
         displacementMap(attrs: Partial<Attribute.FilterPrimitive.DisplacementMap>, input1?: Attribute.FilterInput, input2?: Attribute.FilterInput): Elements.FilterPrimitive.DisplacementMap;
         flood(color: Attribute.Color, area: Attribute.Box): Elements.FilterPrimitive.Flood;
-        gaussianBlur(stdDeviation?: number, edgeMode?: "duplicate" | "wrap" | "none", input?: Attribute.FilterInput): Elements.FilterPrimitive.GaussianBlur;
+        gaussianBlur(stdDeviation?: number, edgeMode?: "duplicate" | "wrap" | Attribute.None, input?: Attribute.FilterInput): Elements.FilterPrimitive.GaussianBlur;
         image(href: string, preserveAspectRatio?: Attribute.PreserveAspectRatio): Elements.FilterPrimitive.Image;
         merge(inputs: Attribute.FilterInput[]): Elements.FilterPrimitive.Merge;
         morphology(operator: "erode" | "dilate", radius: Attribute.NumberOptionalNumber, input?: Attribute.FilterInput): Elements.FilterPrimitive.Morphology;
@@ -1290,20 +1394,22 @@ declare namespace SavageDOM {
         }
     }
     class AnimationRunner {
+        static getInstance(): AnimationRunner;
+        private static _instance;
         private static requestAnimationFrame;
         private running;
         private queue;
+        private hooks;
         registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>): (enable: boolean) => void;
         registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>, isEnabled: () => boolean): void;
         registerAnimation<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, attrs: Animation.Defined<Attrs>, duration: number, easing: (t: number) => number): Promise<number>;
         add(anim: Dynamic<any>): void;
+        addAnimationFrameHook(hook: (now: number) => void): void;
+        removeAnimationFrameHook(hook: (now: number) => void): void;
         private registerAnimationWithCallback<SVG, Attrs>(element, attrs, duration, easing, resolve);
         private loop();
         private stop();
         private start();
-    }
-    namespace Animation {
-        const Runner: AnimationRunner;
     }
     interface Element<SVG extends SVGElement, Attrs, Events> {
         dynamic(defs: Dynamic.Defined<Attrs>): void;

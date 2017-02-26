@@ -1,6 +1,6 @@
 namespace SavageDOM.Attribute.NonRenderable.PaintServer {
 
-  export interface Pattern {
+  export interface Pattern extends HasOverflow, HasOpacity {
     patternUnits: "userSpaceOnUse" | "objectBoundingBox";
     patternContentUnits: "userSpaceOnUse" | "objectBoundingBox";
     "patternTransform.matrix": Transform.Matrix;
@@ -10,7 +10,7 @@ namespace SavageDOM.Attribute.NonRenderable.PaintServer {
     "patternTransform.rotate": Transform.Rotate;
     "patternTransform.skewX": Transform.SkewX;
     "patternTransform.skewY": Transform.SkewY;
-    patternTransform: List<Transform>;
+    patternTransform: Transform[];
     x: Length;
     y: Length;
     "x:y": Point;

@@ -34,11 +34,10 @@ namespace SavageDOM.Attribute {
         const css = element.getAttribute(toks[0]);
         if (css) {
           const start = css.indexOf(this.type);
-          const empty = (css === "none") || (css.length === 0);
-          if (start > -1 && !empty) {
-            element.setAttribute(toks[0], `${css.substr(0, start)}${str}${css.substr(css.indexOf(")") + 2)}`);
+          if (start > -1) {
+            element.setAttribute(toks[0], `${css.substr(0, start)}${str}${css.substr(css.indexOf(")") + 1)}`);
           } else {
-            element.setAttribute(toks[0], empty ? str : `${css}\t${str}`);
+            element.setAttribute(toks[0], str);
           }
         } else {
           element.setAttribute(toks[0], str);
@@ -199,7 +198,7 @@ namespace SavageDOM.Attribute {
     "transform.rotate": Transform.Rotate;
     "transform.skewX": Transform.SkewX;
     "transform.skewY": Transform.SkewY;
-    transform: List<Transform>;
+    transform: Transform[];
   };
 
 }

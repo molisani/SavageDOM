@@ -1,6 +1,6 @@
 namespace SavageDOM.Attribute.Renderable.Shape {
 
-  export interface Line {
+  export interface Line extends HasMarker {
     x1: Length;
     y1: Length;
     "x1:y1": Point;
@@ -14,7 +14,7 @@ namespace SavageDOM.Attribute.Renderable.Shape {
 namespace SavageDOM.Elements.Renderable.Shape {
 
   export class Line extends AbstractShape<SVGLineElement, Attribute.Renderable.Shape.Line> {
-    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Line>) {
+    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape & Attribute.Renderable.Shape.Line>) {
       super(paper, "line", attrs);
     }
   }

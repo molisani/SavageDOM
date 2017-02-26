@@ -14,7 +14,7 @@ namespace SavageDOM.Attribute.Renderable.Shape {
 namespace SavageDOM.Elements.Renderable.Shape {
 
   export class Ellipse extends AbstractShape<SVGEllipseElement, Attribute.Renderable.Shape.Ellipse> {
-    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Ellipse>) {
+    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape & Attribute.Renderable.Shape.Ellipse>) {
       super(paper, "ellipse", attrs);
     }
   }

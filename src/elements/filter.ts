@@ -1,5 +1,9 @@
 namespace SavageDOM.Attribute {
 
+  export interface Presentation {
+    "filter": Elements.Filter | string | None | Inherit;
+  }
+
   export interface FilterPrimitive extends Presentation, HasClass, HasStyle {
     x: Length;
     y: Length;
@@ -8,9 +12,14 @@ namespace SavageDOM.Attribute {
     "width:height": Point;
     "x:y:width:height": Box;
     result: string;
+    "color-interpolation-filters": "auto" | "sRGB" | "linearRGB" | Inherit;
   }
 
   export namespace FilterPrimitive {
+
+    export interface Lighting extends HasColor {
+      "lighting-color": CurrentColor | Color | Inherit;
+    }
 
     export interface Blend {
       in: FilterInput;
@@ -48,12 +57,12 @@ namespace SavageDOM.Attribute {
       targetX: number;
       targetY: number;
       "targetX:targetY": Point;
-      edgeMode: "duplicate" | "wrap" | "none";
+      edgeMode: "duplicate" | "wrap" | None;
       kernelUnitLength: NumberOptionalNumber;
       preserveAlpha: boolean;
     };
 
-    export interface DiffuseLighting {
+    export interface DiffuseLighting extends Lighting {
       in: FilterInput;
       surfaceScale: number;
       diffuseConstant: number;
@@ -76,14 +85,15 @@ namespace SavageDOM.Attribute {
       "dx:dy": Point;
     };
 
-    export interface Flood {
-      "flood-color": "currentColor" | Color;
+    export interface Flood extends HasColor {
+      "flood-color": CurrentColor | Color | Inherit;
+      "flood-opacity": number | Inherit;
     };
 
     export interface GaussianBlur {
       in: FilterInput;
       stdDeviation: number;
-      edgeMode: "duplicate" | "wrap" | "none";
+      edgeMode: "duplicate" | "wrap" | None;
     };
 
     export interface Image {
@@ -108,7 +118,7 @@ namespace SavageDOM.Attribute {
       "dx:dy": Point;
     };
 
-    export interface SpecularLighting {
+    export interface SpecularLighting extends Lighting {
       in: FilterInput;
       surfaceScale: number;
       specularConstant: number;
@@ -134,7 +144,7 @@ namespace SavageDOM.Attribute {
 
     export interface TabularFunction {
       type: "table" | "discrete";
-      tableValues: List<Number>;
+      tableValues: number[];
     };
 
     export interface LinearFunction {
@@ -201,6 +211,10 @@ namespace SavageDOM.Attribute {
     filterUnits: "userSpaceOnUse" | "objectBoundingBox";
     primitiveUnits: "userSpaceOnUse" | "objectBoundingBox";
   };
+
+  export interface HasFilter {
+    filter: Events.Filter | None | Inherit;
+  }
 
 }
 
@@ -419,7 +433,7 @@ namespace SavageDOM.Elements {
       this.addEffect(fe);
       return fe;
     }
-    public gaussianBlur(stdDeviation: number = 0, edgeMode: "duplicate" | "wrap" | "none" = "duplicate", input?: Attribute.FilterInput): Elements.FilterPrimitive.GaussianBlur {
+    public gaussianBlur(stdDeviation: number = 0, edgeMode: "duplicate" | "wrap" | Attribute.None = "duplicate", input?: Attribute.FilterInput): Elements.FilterPrimitive.GaussianBlur {
       const fe = new Elements.FilterPrimitive.GaussianBlur(this, {
         in: input,
         stdDeviation,

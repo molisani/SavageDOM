@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Paper | savagedom</title>
+	<title>Paper | SavageDOM</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">savagedom</a>
+					<a href="../index.html" class="title">SavageDOM</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -99,6 +99,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#adddef" class="tsd-kind-icon">add<wbr>Def</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#circle" class="tsd-kind-icon">circle</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#clippath" class="tsd-kind-icon">clip<wbr>Path</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#ellipse" class="tsd-kind-icon">ellipse</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#filter" class="tsd-kind-icon">filter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="savagedom.paper.html#group" class="tsd-kind-icon">group</a></li>
@@ -248,6 +249,44 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="clippath" class="tsd-anchor"></a>
+					<h3>clip<wbr>Path</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">clip<wbr>Path<span class="tsd-signature-symbol">(</span>w<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, h<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, x<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, units<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"userSpaceOnUse"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"objectBoundingBox"</span>, contentUnits<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">"userSpaceOnUse"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"objectBoundingBox"</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.nonrenderable.clippath.html" class="tsd-signature-type">ClipPath</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in elements/non-renderable/clip-path.ts:58</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>w: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>h: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> x: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> y: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> units: <span class="tsd-signature-type">"userSpaceOnUse"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"objectBoundingBox"</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> contentUnits: <span class="tsd-signature-type">"userSpaceOnUse"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"objectBoundingBox"</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="savagedom.elements.nonrenderable.clippath.html" class="tsd-signature-type">ClipPath</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="ellipse" class="tsd-anchor"></a>
 					<h3>ellipse</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -289,7 +328,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/filter.ts:514</li>
+									<li>Defined in elements/filter.ts:528</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.elements.filter.html" class="tsd-signature-type">Filter</a></h4>
@@ -306,7 +345,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/renderable/group.ts:18</li>
+									<li>Defined in elements/renderable/group.ts:26</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -329,7 +368,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/renderable/image.ts:39</li>
+									<li>Defined in elements/renderable/image.ts:41</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -434,7 +473,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/non-renderable/marker.ts:30</li>
+									<li>Defined in elements/non-renderable/marker.ts:40</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.elements.nonrenderable.marker.html" class="tsd-signature-type">Marker</a></h4>
@@ -451,7 +490,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/non-renderable/mask.ts:44</li>
+									<li>Defined in elements/non-renderable/mask.ts:56</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -489,7 +528,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/renderable/text.ts:124</li>
+									<li>Defined in elements/renderable/text.ts:147</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -506,7 +545,7 @@
 					<a name="path" class="tsd-anchor"></a>
 					<h3>path</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.list.html" class="tsd-signature-type">List</a><span class="tsd-signature-symbol">&lt;</span><a href="savagedom.attribute.pathsegment.html" class="tsd-signature-type">PathSegment</a><span class="tsd-signature-symbol">&gt;</span>, pathLength<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.renderable.shape.path.html" class="tsd-signature-type">Path</a></li>
+						<li class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.pathsegment.html" class="tsd-signature-type">PathSegment</a><span class="tsd-signature-symbol">[]</span>, pathLength<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.renderable.shape.path.html" class="tsd-signature-type">Path</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -518,7 +557,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>d: <a href="savagedom.attribute.list.html" class="tsd-signature-type">List</a><span class="tsd-signature-symbol">&lt;</span><a href="savagedom.attribute.pathsegment.html" class="tsd-signature-type">PathSegment</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>d: <a href="savagedom.attribute.pathsegment.html" class="tsd-signature-type">PathSegment</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> pathLength: <span class="tsd-signature-type">number</span></h5>
@@ -567,7 +606,7 @@
 					<a name="polygon" class="tsd-anchor"></a>
 					<h3>polygon</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">polygon<span class="tsd-signature-symbol">(</span>points<span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.list.html" class="tsd-signature-type">List</a><span class="tsd-signature-symbol">&lt;</span><a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.renderable.shape.polygon.html" class="tsd-signature-type">Polygon</a></li>
+						<li class="tsd-signature tsd-kind-icon">polygon<span class="tsd-signature-symbol">(</span>points<span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.renderable.shape.polygon.html" class="tsd-signature-type">Polygon</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -579,7 +618,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>points: <a href="savagedom.attribute.list.html" class="tsd-signature-type">List</a><span class="tsd-signature-symbol">&lt;</span><a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>points: <a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.elements.renderable.shape.polygon.html" class="tsd-signature-type">Polygon</a></h4>
@@ -590,7 +629,7 @@
 					<a name="polyline" class="tsd-anchor"></a>
 					<h3>polyline</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">polyline<span class="tsd-signature-symbol">(</span>points<span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.list.html" class="tsd-signature-type">List</a><span class="tsd-signature-symbol">&lt;</span><a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.renderable.shape.polyline.html" class="tsd-signature-type">Polyline</a></li>
+						<li class="tsd-signature tsd-kind-icon">polyline<span class="tsd-signature-symbol">(</span>points<span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.elements.renderable.shape.polyline.html" class="tsd-signature-type">Polyline</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -602,7 +641,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>points: <a href="savagedom.attribute.list.html" class="tsd-signature-type">List</a><span class="tsd-signature-symbol">&lt;</span><a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>points: <a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.elements.renderable.shape.polyline.html" class="tsd-signature-type">Polyline</a></h4>
@@ -683,7 +722,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/renderable/text.ts:123</li>
+									<li>Defined in elements/renderable/text.ts:146</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -761,6 +800,9 @@
 								<a href="savagedom.paper.html#circle" class="tsd-kind-icon">circle</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="savagedom.paper.html#clippath" class="tsd-kind-icon">clip<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="savagedom.paper.html#ellipse" class="tsd-kind-icon">ellipse</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -815,6 +857,9 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="../interfaces/savagedom.setter.html" class="tsd-kind-icon">Setter</a>
 					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/savagedom.html#raf" class="tsd-kind-icon">RAF</a>
+					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module">
 						<a href="../modules/savagedom.html#xlink" class="tsd-kind-icon">XLINK</a>
 					</li>
@@ -826,6 +871,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="../modules/savagedom.html#_defaultset" class="tsd-kind-icon">_default<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/savagedom.html#_ensureattribute" class="tsd-kind-icon">_ensure<wbr>Attribute</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
 						<a href="../modules/savagedom.html#_lerp" class="tsd-kind-icon">_lerp</a>

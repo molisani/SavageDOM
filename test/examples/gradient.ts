@@ -12,7 +12,7 @@ window["buildExample"]["gradient"] = (root) => {
     0: new SavageDOM.Attribute.Color("rgb", 127, 127, 0, 1),
     1: new SavageDOM.Attribute.Color("rgb", 255, 0, 127, 0),
   });
-  const gradient1Stroketf = new SavageDOM.Attribute.List<SavageDOM.Attribute.Transform>();
+  const gradient1Stroketf: SavageDOM.Attribute.Transform[] = [];
   gradient1Stroketf.push(new SavageDOM.Attribute.Transform.Rotate(45));
   gradient1Stroke.setAttribute("gradientTransform", gradient1Stroketf);
 
@@ -26,7 +26,7 @@ window["buildExample"]["gradient"] = (root) => {
     0.5: new SavageDOM.Attribute.Color("rgb", 127, 127, 127, 0),
     0.75: new SavageDOM.Attribute.Color("rgb", 255, 255, 255, 0.5),
   });
-  const gradient2Filltf = new SavageDOM.Attribute.List<SavageDOM.Attribute.Transform>();
+  const gradient2Filltf: SavageDOM.Attribute.Transform[] = [];
   gradient2Filltf.push(new SavageDOM.Attribute.Transform.Rotate(90));
   gradient2Fill.setAttribute("gradientTransform", gradient2Filltf);
 
@@ -36,7 +36,7 @@ window["buildExample"]["gradient"] = (root) => {
     1: new SavageDOM.Attribute.Color("#0000FF"),
   });
 
-  const outer2Points = new SavageDOM.Attribute.List<SavageDOM.Attribute.Point>();
+  const outer2Points: SavageDOM.Attribute.Point[] = [];
   outer2Points.push(new SavageDOM.Attribute.Point(175, 25));
   outer2Points.push(new SavageDOM.Attribute.Point(225, 75));
   outer2Points.push(new SavageDOM.Attribute.Point(150, 150));
@@ -50,7 +50,7 @@ window["buildExample"]["gradient"] = (root) => {
     0: new SavageDOM.Attribute.Color("#7700FF"),
     1: new SavageDOM.Attribute.Color("rgb", 0, 0, 127, 0),
   });
-  const gradient3tf = new SavageDOM.Attribute.List<SavageDOM.Attribute.Transform>();
+  const gradient3tf: SavageDOM.Attribute.Transform[] = [];
   gradient3tf.push(new SavageDOM.Attribute.Transform.Scale(1, 2));
   gradient3.setAttribute("gradientTransform", gradient3tf);
 

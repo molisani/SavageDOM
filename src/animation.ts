@@ -135,22 +135,27 @@ namespace SavageDOM {
 
   }
 
+  type RAF = (callback: FrameRequestCallback) => number;
+
   export class AnimationRunner {
-    private static requestAnimationFrame: (callback: FrameRequestCallback) => number = (window.requestAnimationFrame || window.webkitRequestAnimationFrame || window["mozRequestAnimationFrame"] || window["oRequestAnimationFrame"] || window["msRequestAnimationFrame"] || function(this: Window, callback: FrameRequestCallback) { this.setTimeout(callback, 16); }).bind(window);
+    public static getInstance(): AnimationRunner {
+      return AnimationRunner._instance;
+    }
+    private static _instance = new AnimationRunner();
+    private static requestAnimationFrame: RAF = (window.requestAnimationFrame || window.webkitRequestAnimationFrame || window["mozRequestAnimationFrame"] || window["oRequestAnimationFrame"] || window["msRequestAnimationFrame"] || function(this: Window, callback: FrameRequestCallback) { this.setTimeout(callback, 16); }).bind(window);
     private running = false;
     private queue: Dynamic<any>[] = [];
-        public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>): (enable: boolean) => void;
+    private hooks: ((now: number) => void)[] = [];
+    public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>): (enable: boolean) => void;
     public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>, isEnabled: () => boolean): void;
     public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>, isEnabled?: () => boolean): void | ((enable: boolean) => void) {
       if (isEnabled !== undefined) {
-        // tslint:disable-next-line:no-use-before-declare
-        Animation.Runner.add({
+        AnimationRunner.getInstance().add({
           element, defs, progress: (now: number): number | undefined => isEnabled() ? now : undefined,
         });
       } else {
         let enabled = true;
-        // tslint:disable-next-line:no-use-before-declare
-        Animation.Runner.add({
+        AnimationRunner.getInstance().add({
           element, defs, progress: (now: number): number | undefined => enabled ? now : undefined,
         });
         return (enable: boolean) => {
@@ -167,6 +172,15 @@ namespace SavageDOM {
         this.start();
       }
     }
+    public addAnimationFrameHook(hook: (now: number) => void): void {
+      this.hooks.push(hook);
+      if (!this.running) {
+        this.start();
+      }
+    }
+    public removeAnimationFrameHook(hook: (now: number) => void): void {
+      this.hooks.splice(this.hooks.indexOf(hook), 1);
+    }
     private registerAnimationWithCallback<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, attrs: Animation.Defined<Attrs>, duration: number, easing: (t: number) => number, resolve: (t: number) => void): void {
       const start = performance.now();
       const end = start + duration;
@@ -179,8 +193,7 @@ namespace SavageDOM {
         element, attrs, resolve, from, defs,
         progress: (now: number): number | undefined => (now > start && now <= end) ? easing((now - start) / duration) : undefined,
       };
-      // tslint:disable-next-line:no-use-before-declare
-      Animation.Runner.add(anim);
+      AnimationRunner.getInstance().add(anim);
     }
     private loop() {
       const now = performance.now();
@@ -202,19 +215,16 @@ namespace SavageDOM {
             dyn.resolve(now);
           }
         } else {
-          if (t !== undefined) {
-            for (const prop in dyn.defs) {
-              (dyn.defs[prop] as Dynamic.Definition<any>).set(dyn.element, prop);
-            }
-          } else {
+          if (t === undefined) {
             this.queue.splice(i, 1);
-            for (const prop in dyn.defs) {
-              (dyn.defs[prop] as Dynamic.Definition<any>).set(dyn.element, prop);
-            }
+          }
+          for (const prop in dyn.defs) {
+            (dyn.defs[prop] as Dynamic.Definition<any>).set(dyn.element, prop);
           }
         }
       }
-      if (this.queue.length === 0) {
+      this.hooks.forEach(hook => hook(now));
+      if (this.queue.length === 0 && this.hooks.length === 0) {
         this.stop();
       } else if (this.running) {
         AnimationRunner.requestAnimationFrame(() => {
@@ -233,34 +243,37 @@ namespace SavageDOM {
     }
   }
 
-  export namespace Animation {
-
-    export const Runner: AnimationRunner = new AnimationRunner();
-
-  }
-
   export interface Element<SVG extends SVGElement, Attrs, Events> {
     dynamic(defs: Dynamic.Defined<Attrs>): void;
     animate(attrs: Partial<Attrs>, duration: number, easing?: (t: number) => number): Promise<number>;
   }
 
   Element.prototype.dynamic = function<SVG extends SVGElement, Attrs>(this: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>) {
-    Animation.Runner.registerDynamic(this, defs);
+    AnimationRunner.getInstance().registerDynamic(this, defs);
   };
+
+  function _ensureAttribute(a: any): Attribute<any> | undefined {
+    if (Attribute.isAttribute(a)) {
+      return a;
+    } else if (Array.isArray(a)) {
+      return new Attribute.ArrayWrapper<any>(a.map(_ensureAttribute).filter(b => b !== undefined));
+    } else if (typeof a === "number") {
+      return new Attribute.NumberWrapper(a);
+    }
+  }
 
   Element.prototype.animate = function<SVG extends SVGElement, Attrs>(this: Element<SVG, Attrs, any>, attrs: Partial<Attrs>, duration: number, easing: (t: number) => number = Animation.Easing.linear): Promise<number> {
     const defs = {} as Animation.Defined<Attrs>;
     for (const prop in attrs) {
       const a = attrs[prop];
       if (a !== undefined) {
-        if (Attribute.isAttribute(a)) {
-          defs[prop] = a;
-        } else if (typeof a === "number") {
-          defs[prop] = new Attribute.Number(a as any as number) as Attribute<any>;
+        const attr = _ensureAttribute(a);
+        if (attr !== undefined) {
+          defs[prop] = attr;
         }
       }
     }
-    return Animation.Runner.registerAnimation(this, defs, duration, easing);
+    return AnimationRunner.getInstance().registerAnimation(this, defs, duration, easing);
   };
 
 }

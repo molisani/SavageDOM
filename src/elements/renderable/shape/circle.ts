@@ -12,7 +12,7 @@ namespace SavageDOM.Attribute.Renderable.Shape {
 namespace SavageDOM.Elements.Renderable.Shape {
 
   export class Circle extends AbstractShape<SVGCircleElement, Attribute.Renderable.Shape.Circle> {
-    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Circle>) {
+    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape & Attribute.Renderable.Shape.Circle>) {
       super(paper, "circle", attrs);
     }
   }

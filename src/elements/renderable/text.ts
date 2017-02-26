@@ -1,5 +1,29 @@
 namespace SavageDOM.Attribute {
 
+  export interface Textual extends HasFill, HasStroke, HasVisibility {
+    "direction": "ltr" | "rtl" | Inherit;
+    "dominant-baseline": "auto" | "use-script" | "no-change" | "reset-size" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | "central" | "middle" | "text-after-edge" | "text-before-edge" | Inherit;
+    "font-family": string | Inherit;
+    "font-size": Length | Inherit;
+    "font-size-adjust": number | None | Inherit;
+    "font-stretch": "normal" | "wider" | "narrower" | "ultra-condensed" | "extra-condensed" | "condensed" | "semi-condensed" | "semi-expanded" | "expanded" | "extra-expanded" | "ultra-expanded" | Inherit;
+    "font-style": "normal" | "italic" | "oblique" | Inherit;
+    "font-variant": "normal" | "small-caps" | Inherit;
+    "font-weight": "normal" | "bold" | "bolder" | "lighter" | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | Inherit;
+    "kerning": "auto" | Length | Inherit;
+    "letter-spacing": "normal" | Length | Inherit;
+    "text-anchor": "start" | "middle" | "end" | Inherit;
+    "text-decoration": None | "underline" | "overline" | "line-through" | "blink" | Inherit;
+    "text-rendering": "auto" | "optimizeSpeed" | "optimizeLegibility" | "geometricPrecision" | Inherit;
+    "word-spacing": "normal" | Length | Inherit;
+    "writing-mode": "lr-tb" | "rl-tb" | "tb-rl" | "lr" | "rl" | "tb" | Inherit;
+  }
+
+  export interface TextualChild {
+    "alignment-baseline": "auto" | "baseline" | "before-edge" | "text-before-edge" | "middle" | "central" | "after-edge" | "text-after-edge" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | Inherit;
+    "baseline-shift": "auto" | "baseline" | "super" | "sub" | number | Inherit;
+  }
+
   export class TextContent implements Attribute<TextContent> {
     private static escapeHtml(html: string): string {
       return html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -22,11 +46,7 @@ namespace SavageDOM.Attribute {
       return this.parse(((element as any)._node as SVGTextElement).textContent);
     }
     set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A, override?: TextContent): void {
-      let str: string = this._str;
-      if (!str) {
-        str = this._cb();
-      }
-      ((element as any)._node as SVGTextElement).textContent = TextContent.escapeHtml(str);
+      ((element as any)._node as SVGTextElement).textContent = TextContent.escapeHtml(this._str || this._cb());
     }
     interpolate(from: TextContent, t: number): TextContent {
       return t < 0.5 ? from : this;
@@ -37,23 +57,26 @@ namespace SavageDOM.Attribute {
 
 namespace SavageDOM.Attribute.Renderable {
 
-  export interface Text {
+  export interface Text extends Textual, Graphics {
     x: Length;
     y: Length;
     "x:y": Point;
     dx: Length;
     dy: Length;
     "dx:dy": Point;
-    "text-anchor"?: "start" | "middle" | "end" | Inherit;
     textLength?: Length;
+  }
+
+  export interface TextSpan extends Text, TextualChild {
+    textContent: Attribute.TextContent;
   }
 
 }
 
 namespace SavageDOM.Elements.Renderable {
 
-  export class TextSpan extends AbstractRenderable<SVGTSpanElement, Attribute.Textual & Attribute.Renderable.Text & { textContent: Attribute.TextContent }, void> {
-    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text & { textContent: Attribute.TextContent }>) {
+  export class TextSpan extends AbstractRenderable<SVGTSpanElement, Attribute.Renderable.TextSpan, void> {
+    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.TextSpan>) {
       super(paper, "tspan", attrs);
     }
     public get computedLength(): number {
@@ -61,8 +84,8 @@ namespace SavageDOM.Elements.Renderable {
     }
   }
 
-  export class Text extends AbstractRenderable<SVGTextElement, Attribute.Textual & Attribute.Renderable.Text, void> {
-    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Textual & Attribute.Renderable.Text>) {
+  export class Text extends AbstractRenderable<SVGTextElement, Attribute.Renderable.Text, void> {
+    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Text>) {
       super(paper, "text", attrs);
     }
     addSpan(content: Attribute.TextContent, lineHeight?: number | Attribute.Length, update: boolean = true): TextSpan {

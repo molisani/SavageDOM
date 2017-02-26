@@ -9,7 +9,7 @@ namespace SavageDOM.Attribute.NonRenderable.PaintServer {
     "gradientTransform.rotate": Transform.Rotate;
     "gradientTransform.skewX": Transform.SkewX;
     "gradientTransform.skewY": Transform.SkewY;
-    gradientTransform: List<Transform>;
+    gradientTransform: Transform[];
     spreadMethod: "pad" | "reflect" | "repeat";
     "xlink:href": string;
   }
@@ -42,6 +42,7 @@ namespace SavageDOM.Attribute.NonRenderable.PaintServer {
     export interface Stop {
       offset: Percentage;
       "stop-color": "currentColor" | Color | Inherit;
+      "stop-opacity": number | Inherit;
     }
 
   }

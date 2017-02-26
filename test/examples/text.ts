@@ -12,6 +12,7 @@ window["buildExample"]["text"] = (root) => {
   t1.setAttribute("font-size", 12);
   t1.setAttribute("font-weight", "normal");
   t1.setAttribute("fill", new SavageDOM.Attribute.Color("#000000"));
+  t1.setAttribute("text-rendering", "geometricPrecision");
 
   const t2content1 = new SavageDOM.Attribute.TextContent("[test string]");
   const t2content2 = new SavageDOM.Attribute.TextContent("[more text content]");
@@ -22,12 +23,14 @@ window["buildExample"]["text"] = (root) => {
   t2.setAttribute("font-size", 12);
   t2.setAttribute("font-weight", "normal");
   t2.setAttribute("fill", new SavageDOM.Attribute.Color("#000000"));
+  t2.setAttribute("text-rendering", "geometricPrecision");
 
   const t3 = paper.text([], 15, 225);
   t3.setAttribute("font-family", "Arial Black");
   t3.setAttribute("font-size", 30);
   t3.setAttribute("font-weight", "bold");
   t3.setAttribute("fill", new SavageDOM.Attribute.Color("#000000"));
+  t3.setAttribute("text-rendering", "geometricPrecision");
 
   ((t3 as any)._node as SVGTextElement).textContent = "overrideText";
 
@@ -37,6 +40,7 @@ window["buildExample"]["text"] = (root) => {
   });
   // t4.setAttribute("font-family", "Arial Black");
   t4.setAttribute("fill", new SavageDOM.Attribute.Color("#000000"));
+  t4.setAttribute("text-rendering", "geometricPrecision");
 
   const margin = paper.line(175, 0, 175, t4.boundingBox.height);
   margin.setAttribute("stroke-width", 1);

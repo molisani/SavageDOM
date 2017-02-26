@@ -27,7 +27,7 @@ window["buildExample"]["pattern"] = (root) => {
   });
 
   const pattern2A = paper.group([inner2A]).toPattern(30, 30);
-  const pattern2Atf = new SavageDOM.Attribute.List<SavageDOM.Attribute.Transform>();
+  const pattern2Atf: SavageDOM.Attribute.Transform[] = [];
   pattern2Atf.push(new SavageDOM.Attribute.Transform.SkewX(25));
   pattern2A.setAttribute("patternTransform", pattern2Atf);
 
@@ -39,11 +39,11 @@ window["buildExample"]["pattern"] = (root) => {
   });
 
   const pattern2B = paper.group([inner2B]).toPattern(30, 30);
-  const pattern2Btf = new SavageDOM.Attribute.List<SavageDOM.Attribute.Transform>();
+  const pattern2Btf: SavageDOM.Attribute.Transform[] = [];
   pattern2Btf.push(new SavageDOM.Attribute.Transform.SkewX(25));
   pattern2B.setAttribute("patternTransform", pattern2Btf);
 
-  const outer2Points = new SavageDOM.Attribute.List<SavageDOM.Attribute.Point>();
+  const outer2Points: SavageDOM.Attribute.Point[] = [];
   outer2Points.push(new SavageDOM.Attribute.Point(175, 25));
   outer2Points.push(new SavageDOM.Attribute.Point(225, 75));
   outer2Points.push(new SavageDOM.Attribute.Point(150, 150));
@@ -56,7 +56,7 @@ window["buildExample"]["pattern"] = (root) => {
   const rectLine = paper.rect(0, 0, 15, 30);
   rectLine.setAttribute("fill", new SavageDOM.Attribute.Color("#FF7700"));
   const pattern3 = paper.group([rectLine]).toPattern(30, 30);
-  const pattern3tf = new SavageDOM.Attribute.List<SavageDOM.Attribute.Transform>();
+  const pattern3tf: SavageDOM.Attribute.Transform[] = [];
   pattern3tf.push(new SavageDOM.Attribute.Transform.SkewX(25));
   pattern3tf.push(new SavageDOM.Attribute.Transform.UniformScale(0.25));
   pattern3.setAttribute("patternTransform", pattern3tf);

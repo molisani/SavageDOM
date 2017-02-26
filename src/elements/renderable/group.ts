@@ -1,8 +1,16 @@
+namespace SavageDOM.Attribute.Renderable {
+
+  export interface Group extends Containers, HasOpacity {
+
+  }
+
+}
+
 namespace SavageDOM.Elements {
 
   export namespace Renderable {
 
-    export class Group extends AbstractRenderable<SVGGElement, void, void> {
+    export class Group extends AbstractRenderable<SVGGElement, Attribute.Renderable.Group, void> {
     constructor(paper: Paper, attrs?: Partial<Attribute.Renderable>) {
         super(paper, "g", attrs);
       }

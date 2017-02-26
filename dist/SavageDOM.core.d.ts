@@ -7,9 +7,10 @@ declare namespace SavageDOM {
         set<Attrs>(element: Element<SVGElement, Attrs, any>, attr: keyof Attrs, override?: any): void;
     }
     interface Attribute<T> extends Setter {
+        toString(override?: T): string;
         parse(css: string | null): T;
-        get<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A): T;
-        set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A, override?: T): void;
+        get<Attrs>(element: Element<SVGElement, Attrs, any>, attr: keyof Attrs): T;
+        set<Attrs>(element: Element<SVGElement, Attrs, any>, attr: keyof Attrs, override?: T): void;
         interpolate(from: T, t: number): T;
     }
     function _defaultGet<T>(this: Attribute<T>, element: Element<SVGElement, any, any>, attr: string): T;
@@ -18,57 +19,73 @@ declare namespace SavageDOM {
 declare namespace SavageDOM.Attribute {
     const isAttribute: (obj: any) => obj is Attribute<any>;
     type Inherit = "inherit";
-    interface PaintServer {
+    type None = "none";
+    namespace NonRenderable {
+        interface PaintServer {
+        }
     }
-    type Paint = "none" | "currentColor" | Color | PaintServer | Inherit;
+    type CurrentColor = "currentColor";
+    type Paint = None | CurrentColor | Color | NonRenderable.PaintServer | Inherit;
     type Length = number | Dimension<CSSAbsoluteLength | CSSRelativeLength>;
+    type Angle = number | Dimension<CSSAngleUnit>;
     const _LengthParse: (css: string) => Length;
     const _LengthInterpolate: (a: Length, b: Length, t: number) => Length;
-    type Angle = number | Dimension<CSSAngleUnit>;
-    interface Presentation {
-        "alignment-baseline": "auto" | "baseline" | "before-edge" | "text-before-edge" | "middle" | "central" | "after-edge" | "text-after-edge" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | Inherit;
-        "baseline-shift": "auto" | "baseline" | "super" | "sub" | number | Inherit;
-        "color": Color | Inherit;
-        "color-interpolation": "auto" | "sRGB" | "linearRGB" | Inherit;
-        "color-interpolation-filters": "auto" | "sRGB" | "linearRGB" | Inherit;
-        "color-profile": "auto" | "sRGB" | string | Inherit;
-        "color-rendering": "auto" | "optimizeSpeed" | "optimizeQuality" | Inherit;
-        "dominant-baseline": "auto" | "use-script" | "no-change" | "reset-size" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | "central" | "middle" | "text-after-edge" | "text-before-edge" | Inherit;
-        "fill": Paint;
-        "fill-rule": "nonzero" | "evenodd" | Inherit;
-        "filter": string | "none" | Inherit;
-        "opacity": number | Inherit;
-        "shape-rendering": "auto" | "optimizeSpeed" | "crispEdges" | "geometricPrecision" | Inherit;
-        "stroke": Paint;
-        "stroke-dasharray": "none" | List<Number> | Inherit;
-        "stroke-dashoffset": Percentage | Length | Inherit;
-        "stroke-linecap": "butt" | "round" | "square" | Inherit;
-        "stroke-linejoin": "miter" | "round" | "bevel" | Inherit;
-        "stroke-miterlimit": number | Inherit;
-        "stroke-width": Length | Percentage | Inherit;
-    }
-    interface Textual {
-        "direction": "ltr" | "rtl" | Inherit;
-        "font-family": string | Inherit;
-        "font-size": Length | Inherit;
-        "font-size-adjust": number | "none" | Inherit;
-        "font-stretch": "normal" | "wider" | "narrower" | "ultra-condensed" | "extra-condensed" | "condensed" | "semi-condensed" | "semi-expanded" | "expanded" | "extra-expanded" | "ultra-expanded" | Inherit;
-        "font-style": "normal" | "italic" | "oblique" | Inherit;
-        "font-variant": "normal" | "small-caps" | Inherit;
-        "font-weight": "normal" | "bold" | "bolder" | "lighter" | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | Inherit;
-        "kerning": "auto" | Length | Inherit;
-        "letter-spacing": "normal" | Length | Inherit;
-        "text-anchor": "start" | "middle" | "end" | Inherit;
-        "text-decoration": "none" | "underline" | "overline" | "line-through" | "blink" | Inherit;
-        "text-rendering": "auto" | "optimizeSpeed" | "optimizeLegibility" | "geometericPrecision" | Inherit;
-        "word-spacing": "normal" | Length | Inherit;
-        "writing-mode": "lr-tb" | "rl-tb" | "tb-rl" | "lr" | "rl" | "tb" | Inherit;
-    }
     interface HasStyle {
         style: string;
     }
     interface HasClass {
         class: string;
+    }
+    interface HasOverflow {
+        overflow: "visible" | "hidden" | "scroll" | "auto" | Inherit;
+    }
+    interface HasColor {
+        color: Color | Inherit;
+    }
+    interface HasColorInterpolation {
+        "color-interpolation": "auto" | "sRGB" | "linearRGB" | Inherit;
+    }
+    interface HasColorRendering {
+        "color-rendering": "auto" | "optimizeSpeed" | "optimizeQuality" | Inherit;
+    }
+    interface HasCursor {
+        cursor: "auto" | "crosshair" | "default" | "pointer" | "move" | "e-resize" | "ne-resize" | "nw-resize" | "n-resize" | "se-resize" | "sw-resize" | "s-resize" | "w-resize" | "text" | "wait" | "help" | Inherit;
+    }
+    interface HasFill {
+        fill: Paint;
+        "fill-opacity": number | Inherit;
+        "fill-rule": "nonzero" | "evenodd" | Inherit;
+    }
+    interface HasOpacity {
+        opacity: number | Inherit;
+    }
+    type DashArray = (Length | Percentage)[];
+    interface HasStroke {
+        stroke: Paint;
+        "stroke-dasharray": None | DashArray | Inherit;
+        "stroke-dashoffset": Percentage | Length | Inherit;
+        "stroke-linecap": "butt" | "round" | "square" | Inherit;
+        "stroke-linejoin": "miter" | "round" | "bevel" | Inherit;
+        "stroke-miterlimit": number | Inherit;
+        "stroke-opacity": number | Inherit;
+        "stroke-width": Length | Percentage | Inherit;
+    }
+    interface HasVisibility {
+        visibility: "visible" | "hidden" | "collapse" | Inherit;
+    }
+}
+declare namespace SavageDOM.Attribute {
+    class Box implements Attribute<Box> {
+        x: Length;
+        y: Length;
+        width: Length;
+        height: Length;
+        constructor(x: Length, y: Length, width: Length, height: Length);
+        toString(): string;
+        parse(css: string | null): Box;
+        get(element: Element<SVGElement, any, any>, attr: string): Box;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: Box): void;
+        interpolate(from: Box, t: number): Box;
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -150,15 +167,6 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute {
-    class List<T extends Attribute<T>> extends Array<T> implements Attribute<List<T>> {
-        toString(): string;
-        parse(css: string | null): List<T>;
-        get(element: Element<SVGElement, any, any>, attr: string): List<T>;
-        set(element: Element<SVGElement, any, any>, attr: string, override?: List<T>): void;
-        interpolate(from: List<T>, t: number): List<T>;
-    }
-}
-declare namespace SavageDOM.Attribute {
     class Matrix implements Attribute<Matrix> {
         arr: number[];
         constructor(values: number[][]);
@@ -167,17 +175,6 @@ declare namespace SavageDOM.Attribute {
         get(element: Element<SVGElement, any, any>, attr: string): Matrix;
         set(element: Element<SVGElement, any, any>, attr: string, override?: Matrix): void;
         interpolate(from: Matrix, t: number): Matrix;
-    }
-}
-declare namespace SavageDOM.Attribute {
-    class Number implements Attribute<Number> {
-        n: number;
-        constructor(n?: number);
-        toString(): string;
-        parse(css: string | null): Number;
-        get(element: Element<SVGElement, any, any>, attr: string): Number;
-        set(element: Element<SVGElement, any, any>, attr: string, override?: Number): void;
-        interpolate(from: Number, t: number): Number;
     }
 }
 declare namespace SavageDOM.Attribute {
@@ -295,21 +292,27 @@ declare namespace SavageDOM.Attribute {
         "transform.rotate": Transform.Rotate;
         "transform.skewX": Transform.SkewX;
         "transform.skewY": Transform.SkewY;
-        transform: List<Transform>;
+        transform: Transform[];
     }
 }
 declare namespace SavageDOM.Attribute {
-    class Box implements Attribute<Box> {
-        x: Length;
-        y: Length;
-        width: Length;
-        height: Length;
-        constructor(x: Length, y: Length, width: Length, height: Length);
+    class NumberWrapper implements Attribute<NumberWrapper | number> {
+        n: number;
+        constructor(n?: number);
         toString(): string;
-        parse(css: string | null): Box;
-        get(element: Element<SVGElement, any, any>, attr: string): Box;
-        set(element: Element<SVGElement, any, any>, attr: string, override?: Box): void;
-        interpolate(from: Box, t: number): Box;
+        parse(css: string | null): NumberWrapper;
+        get(element: Element<SVGElement, any, any>, attr: string): NumberWrapper;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: NumberWrapper): void;
+        interpolate(from: NumberWrapper, t: number): NumberWrapper;
+    }
+    class ArrayWrapper<T extends Attribute<T>> implements Attribute<ArrayWrapper<T>> {
+        arr: T[];
+        constructor(arr?: T[]);
+        toString(): string;
+        parse(css: string | null): ArrayWrapper<T>;
+        get(element: Element<SVGElement, any, any>, attr: string): ArrayWrapper<T>;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: ArrayWrapper<T>): void;
+        interpolate(from: ArrayWrapper<T>, t: number): ArrayWrapper<T>;
     }
 }
 declare namespace SavageDOM.Events {

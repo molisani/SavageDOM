@@ -117,12 +117,13 @@ module.exports = function(grunt) {
     typedoc: {
       build: {
         options: {
-          out: "./docs",
+          out: "docs",
           mode: "file",
           name: "SavageDOM",
-          target: "es6"
+          target: "ES2015",
+          project: "src/tsconfig.json"
         },
-        src: ["./src/**/*.ts"]
+        src: ["src"]
       }
     },
     "compile-handlebars": {
@@ -163,19 +164,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask("examples", ["clean:examples", "ts:examples", "shell:examples", "compile-handlebars:examples", "clean:tscommand"]);
 
-  grunt.registerTask("default", ["connect", "dev-compile", "watch-silent"]);
-
-  grunt.registerTask("test", ["compile", "test-local"]);
-  grunt.registerTask("test-local", ["ts:verifyDefinitionFiles", "lint"]);
-  grunt.registerTask("test-sauce", ["connect", "saucelabs-mocha"]);
-
-  grunt.registerTask("watch-silent", function() {
-    grunt.log.header = function() {};
-    grunt.task.run(["watch"]);
-  });
-
   grunt.registerTask("lint", ["parallelize:tslint"]);
 
-  grunt.registerTask("test-travis", ["compile", "test-local"]);
+  grunt.registerTask("prepublish", ["lint", "compile", "ts:verifyDefinitionFiles", "typedoc:build"]);
 
 };

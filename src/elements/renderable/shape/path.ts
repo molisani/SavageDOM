@@ -33,7 +33,7 @@ namespace SavageDOM.Attribute {
       toString(): string {
         return `${this.type} ${this.p.toString()}`;
       }
-      parseArgs(css: string): SinglePoint { 
+      parseArgs(css: string): SinglePoint {
         return this.buildInstance(this.p.parse(css));
       }
       interpolate(from: SinglePoint, t: number): SinglePoint {
@@ -243,8 +243,8 @@ namespace SavageDOM.Attribute {
 
 namespace SavageDOM.Attribute.Renderable.Shape {
 
-  export interface Path {
-    d: List<PathSegment>;
+  export interface Path extends HasMarker {
+    d: PathSegment[];
     pathLength: number;
   }
 
@@ -253,7 +253,7 @@ namespace SavageDOM.Attribute.Renderable.Shape {
 namespace SavageDOM.Elements.Renderable.Shape {
 
   export class Path extends AbstractShape<SVGPathElement, Attribute.Renderable.Shape.Path> {
-    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape.Path>) {
+    constructor(paper: Paper, attrs?: Partial<Attribute.Renderable & Attribute.Renderable.Shape & Attribute.Renderable.Shape.Path>) {
       super(paper, "path", attrs);
     }
   }
@@ -263,10 +263,10 @@ namespace SavageDOM.Elements.Renderable.Shape {
 namespace SavageDOM {
 
   export interface Paper {
-    path(d: Attribute.List<Attribute.PathSegment>, pathLength?: number): Elements.Renderable.Shape.Path;
+    path(d: Attribute.PathSegment[], pathLength?: number): Elements.Renderable.Shape.Path;
   }
 
-  Paper.prototype.path = function(this: SavageDOM.Paper, d: Attribute.List<Attribute.PathSegment>, pathLength?: number): Elements.Renderable.Shape.Path {
+  Paper.prototype.path = function(this: SavageDOM.Paper, d: Attribute.PathSegment[], pathLength?: number): Elements.Renderable.Shape.Path {
     return new Elements.Renderable.Shape.Path(this, { d, pathLength });
   };
 

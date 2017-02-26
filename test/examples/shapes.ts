@@ -36,7 +36,7 @@ window["buildExample"]["shapes"] = (root) => {
     x1: 230, y1: 15, x2: 230, y2: 65,
     stroke: new SavageDOM.Attribute.Color("#0000FF"), "stroke-width": 5,
   });
-  const segments1 = new SavageDOM.Attribute.List<SavageDOM.Attribute.PathSegment>();
+  const segments1: SavageDOM.Attribute.PathSegment[] = [];
   segments1.push(new SavageDOM.Attribute.PathSegment.MoveToAbs(new SavageDOM.Attribute.Point(15, 80)));
   segments1.push(new SavageDOM.Attribute.PathSegment.LineToRel(new SavageDOM.Attribute.Point(20, 5)));
   segments1.push(new SavageDOM.Attribute.PathSegment.LineToRel(new SavageDOM.Attribute.Point(5, 20)));
@@ -54,7 +54,7 @@ window["buildExample"]["shapes"] = (root) => {
     stroke: new SavageDOM.Attribute.Color("#00FFFF"),
     "stroke-width": 2.5,
   });
-  const segments2A = new SavageDOM.Attribute.List<SavageDOM.Attribute.PathSegment>();
+  const segments2A: SavageDOM.Attribute.PathSegment[] = [];
   segments2A.push(new SavageDOM.Attribute.PathSegment.MoveToAbs(new SavageDOM.Attribute.Point(120, 80)));
   segments2A.push(new SavageDOM.Attribute.PathSegment.LineToRel(new SavageDOM.Attribute.Point(40, 50)));
   segments2A.push(new SavageDOM.Attribute.PathSegment.LineToRel(new SavageDOM.Attribute.Point(10, 0)));
@@ -72,7 +72,7 @@ window["buildExample"]["shapes"] = (root) => {
     stroke: new SavageDOM.Attribute.Color("#0077FF"),
     "stroke-width": 2.5,
   });
-  const segments2B = new SavageDOM.Attribute.List<SavageDOM.Attribute.PathSegment>(...segments2A.slice());
+  const segments2B: SavageDOM.Attribute.PathSegment[] = segments2A.slice();
   segments2B[0] = new SavageDOM.Attribute.PathSegment.MoveToAbs(new SavageDOM.Attribute.Point(180, 80));
   const path2B = new SavageDOM.Elements.Renderable.Shape.Path(paper, {
     d: segments2B, "fill-rule": "evenodd",
@@ -80,7 +80,7 @@ window["buildExample"]["shapes"] = (root) => {
     stroke: new SavageDOM.Attribute.Color("#7700FF"),
     "stroke-width": 2.5,
   });
-  const polygonPoints = new SavageDOM.Attribute.List<SavageDOM.Attribute.Point>();
+  const polygonPoints: SavageDOM.Attribute.Point[] = [];
   polygonPoints.push(new SavageDOM.Attribute.Point(20, 150));
   polygonPoints.push(new SavageDOM.Attribute.Point(20, 235));
   polygonPoints.push(new SavageDOM.Attribute.Point(125, 210));
@@ -91,7 +91,7 @@ window["buildExample"]["shapes"] = (root) => {
     stroke: new SavageDOM.Attribute.Color("#770077"),
     "stroke-width": 5,
   });
-  const polylinePoints = new SavageDOM.Attribute.List<SavageDOM.Attribute.Point>();
+  const polylinePoints: SavageDOM.Attribute.Point[] = [];
   polylinePoints.push(new SavageDOM.Attribute.Point(230, 150));
   polylinePoints.push(new SavageDOM.Attribute.Point(230, 235));
   polylinePoints.push(new SavageDOM.Attribute.Point(150, 210));
