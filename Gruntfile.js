@@ -149,7 +149,8 @@ module.exports = function(grunt) {
     },
     clean: {
       tscommand: ["tscommand*.tmp.txt"],
-      examples: ["docs/examples.html", "docs/examples/*"]
+      examples: ["docs/examples.html", "docs/examples/*"],
+      docs: ["docs/*"]
     }
   });
 
@@ -164,10 +165,12 @@ module.exports = function(grunt) {
 
   grunt.registerTask("examples", ["clean:examples", "ts:examples", "shell:examples", "compile-handlebars:examples", "clean:tscommand"]);
 
+  grunt.registerTask("docs", ["clean:docs", "typedoc:build"]);
+
   grunt.registerTask("lint", ["parallelize:tslint"]);
 
-  grunt.registerTask("prepublish", ["lint", "compile", "ts:verifyDefinitionFiles", "typedoc:build"]);
-
   grunt.registerTask("test", ["lint", "compile", "ts:verifyDefinitionFiles"]);
+
+  grunt.registerTask("prepublish", ["test", "docs"]);
 
 };
