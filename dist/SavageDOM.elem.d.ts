@@ -1235,7 +1235,9 @@ declare namespace SavageDOM.Events {
 }
 declare namespace SavageDOM.Elements {
     class FilterPrimitive<FE extends SVGElement, A> extends Element<FE, Attribute.FilterPrimitive & A, Events.FilterPrimitive> {
+        private _referenced;
         constructor(filter: Filter, name: string, attrs?: Partial<Attribute.FilterPrimitive & A>);
+        toString(): string;
     }
     namespace FilterPrimitive {
         class Blend extends FilterPrimitive<SVGFEBlendElement, Attribute.FilterPrimitive.Blend> {
@@ -1324,7 +1326,6 @@ declare namespace SavageDOM.Elements {
         specularLighting(attrs: Partial<Attribute.FilterPrimitive.SpecularLighting>, lights?: Attribute.FilterPrimitive.LightSource[], input?: Attribute.FilterInput): Elements.FilterPrimitive.SpecularLighting;
         tile(area: Attribute.Box, input?: Attribute.FilterInput): Elements.FilterPrimitive.Tile;
         turbulence(attrs: Partial<Attribute.FilterPrimitive.Turbulence>): Elements.FilterPrimitive.Turbulence;
-        private addEffect(fe);
         private addLights(lighting, lights);
     }
 }
