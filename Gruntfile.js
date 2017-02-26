@@ -169,8 +169,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask("lint", ["parallelize:tslint"]);
 
-  grunt.registerTask("test", ["lint", "compile", "ts:verifyDefinitionFiles"]);
+  grunt.registerTask("check", ["lint", "compile", "ts:verifyDefinitionFiles"]);
 
-  grunt.registerTask("prepublish", ["test", "docs"]);
+  grunt.registerTask("prepublish", ["check", "docs"]);
 
 };

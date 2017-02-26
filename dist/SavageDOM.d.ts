@@ -701,7 +701,7 @@ declare namespace SavageDOM {
     }
 }
 declare namespace SavageDOM.Attribute.Renderable {
-    interface Image extends HasOverflow {
+    interface Image extends Graphics, HasOverflow {
         x: Length;
         y: Length;
         "x:y": Point;

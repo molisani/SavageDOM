@@ -1,6 +1,6 @@
 namespace SavageDOM.Attribute.Renderable {
 
-  export interface Image extends HasOverflow {
+  export interface Image extends Graphics, HasOverflow {
     x: Length;
     y: Length;
     "x:y": Point;
