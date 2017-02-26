@@ -19,7 +19,8 @@
   "main": "dist/SavageDOM.js",
   "types": "dist/SavageDOM.d.ts",
   "scripts": {
-    "prepublish": "grunt prepublish"
+    "prepublish": "grunt prepublish",
+    "test": "grunt test"
   },
   "devDependencies": {
     "@types/bluebird": "^3.0.37",

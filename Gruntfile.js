@@ -168,4 +168,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask("prepublish", ["lint", "compile", "ts:verifyDefinitionFiles", "typedoc:build"]);
 
+  grunt.registerTask("test", ["lint", "compile", "ts:verifyDefinitionFiles"]);
+
 };
