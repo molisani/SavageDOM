@@ -395,9 +395,9 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute.Renderable {
-    interface Containers extends HasColorInterpolation, HasColorRendering, HasCursor, HasMask {
+    interface Containers extends HasColorInterpolation, HasColorRendering, HasCursor, HasClipPath, HasMask {
     }
-    interface Graphics extends HasColorInterpolation, HasColorRendering, HasCursor, HasMask, HasOpacity, HasVisibility {
+    interface Graphics extends HasColorInterpolation, HasColorRendering, HasCursor, HasClipPath, HasMask, HasOpacity, HasVisibility {
         "pointer-events": "visiblePainted" | "visibleFill" | "visibleStroke" | "visible" | "painted" | "fill" | "stroke" | "all" | None | Inherit;
     }
 }
@@ -478,7 +478,8 @@ declare namespace SavageDOM {
 }
 declare namespace SavageDOM.Attribute {
     abstract class PathSegment implements Attribute<PathSegment> {
-        type: "M" | "m" | "L" | "l" | "Q" | "q" | "T" | "t" | "C" | "c" | "S" | "s" | "A" | "a" | "Z";
+        command: PathSegment.Command;
+        constructor(command: PathSegment.Command);
         abstract toString(): string;
         parse(css: string | null): PathSegment;
         get(element: Element<SVGElement, any, any>, attr: string): PathSegment;
@@ -488,10 +489,19 @@ declare namespace SavageDOM.Attribute {
         abstract interpolate(from: PathSegment, t: number): PathSegment;
     }
     namespace PathSegment {
+        type Command = "M" | "m" | "Z" | "z" | "L" | "l" | "H" | "h" | "V" | "v" | "C" | "c" | "S" | "s" | "Q" | "q" | "T" | "t" | "A" | "a";
+        abstract class SingleLength extends PathSegment {
+            l: Length;
+            constructor(command: "H" | "h" | "V" | "v", l?: Length);
+            toString(): string;
+            parseArgs(css: string): SingleLength;
+            interpolate(from: SingleLength, t: number): SingleLength;
+            abstract buildInstance(l: Length): SingleLength;
+            abstract defaultInstance(): SingleLength;
+        }
         abstract class SinglePoint extends PathSegment {
             p: Point;
-            abstract type: "M" | "m" | "L" | "l" | "T" | "t";
-            constructor(p?: Point);
+            constructor(command: "M" | "m" | "L" | "l" | "T" | "t", p?: Point);
             toString(): string;
             parseArgs(css: string): SinglePoint;
             interpolate(from: SinglePoint, t: number): SinglePoint;
@@ -501,8 +511,7 @@ declare namespace SavageDOM.Attribute {
         abstract class DoublePoint extends PathSegment {
             p1: Point;
             p2: Point;
-            abstract type: "Q" | "q" | "S" | "s";
-            constructor(p1?: Point, p2?: Point);
+            constructor(command: "Q" | "q" | "S" | "s", p1?: Point, p2?: Point);
             toString(): string;
             parseArgs(css: string): DoublePoint;
             interpolate(from: DoublePoint, t: number): DoublePoint;
@@ -513,8 +522,7 @@ declare namespace SavageDOM.Attribute {
             p1: Point;
             p2: Point;
             p3: Point;
-            abstract type: "C" | "c";
-            constructor(p1?: Point, p2?: Point, p3?: Point);
+            constructor(command: "C" | "c", p1?: Point, p2?: Point, p3?: Point);
             toString(): string;
             parseArgs(css: string): TriplePoint;
             interpolate(from: TriplePoint, t: number): TriplePoint;
@@ -522,64 +530,103 @@ declare namespace SavageDOM.Attribute {
             abstract defaultInstance(): TriplePoint;
         }
         class MoveToAbs extends SinglePoint {
-            type: "M";
+            constructor(p?: Point);
+            constructor(x: Length, y: Length);
             buildInstance(p: Point): MoveToAbs;
             defaultInstance(): MoveToAbs;
         }
         class MoveToRel extends SinglePoint {
-            type: "m";
+            constructor(p?: Point);
+            constructor(x: Length, y: Length);
             buildInstance(p: Point): MoveToRel;
             defaultInstance(): MoveToRel;
         }
+        class ClosePath extends PathSegment {
+            constructor();
+            toString(): string;
+            parseArgs(css: string): ClosePath;
+            defaultInstance(): ClosePath;
+            interpolate(from: ClosePath, t: number): ClosePath;
+        }
         class LineToAbs extends SinglePoint {
-            type: "L";
+            constructor(p?: Point);
+            constructor(x: Length, y: Length);
             buildInstance(p: Point): LineToAbs;
             defaultInstance(): LineToAbs;
         }
         class LineToRel extends SinglePoint {
-            type: "l";
+            constructor(p?: Point);
+            constructor(x: Length, y: Length);
             buildInstance(p: Point): LineToRel;
             defaultInstance(): LineToRel;
         }
+        class LineToHorizontalAbs extends SingleLength {
+            constructor(h?: Length);
+            buildInstance(h: Length): LineToHorizontalAbs;
+            defaultInstance(): LineToHorizontalAbs;
+        }
+        class LineToHorizontalRel extends SingleLength {
+            constructor(h?: Length);
+            buildInstance(h: Length): LineToHorizontalRel;
+            defaultInstance(): LineToHorizontalRel;
+        }
+        class LineToVerticalAbs extends SingleLength {
+            constructor(v?: Length);
+            buildInstance(v: Length): LineToVerticalAbs;
+            defaultInstance(): LineToVerticalAbs;
+        }
+        class LineToVerticalRel extends SingleLength {
+            constructor(v?: Length);
+            buildInstance(v: Length): LineToVerticalAbs;
+            defaultInstance(): LineToVerticalAbs;
+        }
+        class CurveToCubicAbs extends TriplePoint {
+            constructor(c1?: Point, c2?: Point, p?: Point);
+            constructor(c1x: Length, c1y: Length, c2x: Length, c2y: Length, px: Length, py: Length);
+            buildInstance(c1: Point, c2: Point, p: Point): CurveToCubicAbs;
+            defaultInstance(): CurveToCubicAbs;
+        }
+        class CurveToCubicRel extends TriplePoint {
+            constructor(c1?: Point, c2?: Point, p?: Point);
+            constructor(c1x: Length, c1y: Length, c2x: Length, c2y: Length, px: Length, py: Length);
+            buildInstance(c1: Point, c2: Point, p: Point): CurveToCubicRel;
+            defaultInstance(): CurveToCubicRel;
+        }
+        class CurveToCubicSmoothAbs extends DoublePoint {
+            constructor(c2?: Point, p?: Point);
+            constructor(c2x: Length, c2y: Length, px: Length, py: Length);
+            buildInstance(c2: Point, p: Point): CurveToCubicSmoothAbs;
+            defaultInstance(): CurveToCubicSmoothAbs;
+        }
+        class CurveToCubicSmoothRel extends DoublePoint {
+            constructor(c2?: Point, p?: Point);
+            constructor(c2x: Length, c2y: Length, px: Length, py: Length);
+            buildInstance(c2: Point, p: Point): CurveToCubicSmoothRel;
+            defaultInstance(): CurveToCubicSmoothRel;
+        }
         class CurveToQuadraticAbs extends DoublePoint {
-            type: "Q";
-            buildInstance(p1: Point, p2: Point): CurveToQuadraticAbs;
+            constructor(c1?: Point, p?: Point);
+            constructor(c1x: Length, c1y: Length, px: Length, py: Length);
+            buildInstance(c1: Point, p: Point): CurveToQuadraticAbs;
             defaultInstance(): CurveToQuadraticAbs;
         }
         class CurveToQuadraticRel extends DoublePoint {
-            type: "q";
-            buildInstance(p1: Point, p2: Point): CurveToQuadraticRel;
+            constructor(c1?: Point, p?: Point);
+            constructor(c1x: Length, c1y: Length, px: Length, py: Length);
+            buildInstance(c1: Point, p: Point): CurveToQuadraticRel;
             defaultInstance(): CurveToQuadraticRel;
         }
         class CurveToQuadraticSmoothAbs extends SinglePoint {
-            type: "T";
+            constructor(p?: Point);
+            constructor(x: Length, y: Length);
             buildInstance(p: Point): CurveToQuadraticSmoothAbs;
             defaultInstance(): CurveToQuadraticSmoothAbs;
         }
         class CurveToQuadraticSmoothRel extends SinglePoint {
-            type: "t";
+            constructor(p?: Point);
+            constructor(x: Length, y: Length);
             buildInstance(p: Point): CurveToQuadraticSmoothRel;
             defaultInstance(): CurveToQuadraticSmoothRel;
-        }
-        class CurveToCubicAbs extends TriplePoint {
-            type: "C";
-            buildInstance(p1: Point, p2: Point, p3: Point): CurveToCubicAbs;
-            defaultInstance(): CurveToCubicAbs;
-        }
-        class CurveToCubicRel extends TriplePoint {
-            type: "c";
-            buildInstance(p1: Point, p2: Point, p3: Point): CurveToCubicRel;
-            defaultInstance(): CurveToCubicRel;
-        }
-        class CurveToCubicSmoothAbs extends DoublePoint {
-            type: "S";
-            buildInstance(p1: Point, p2: Point): CurveToCubicSmoothAbs;
-            defaultInstance(): CurveToCubicSmoothAbs;
-        }
-        class CurveToCubicSmoothRel extends DoublePoint {
-            type: "s";
-            buildInstance(p1: Point, p2: Point): CurveToCubicSmoothRel;
-            defaultInstance(): CurveToCubicSmoothRel;
         }
         abstract class ArcTo extends PathSegment {
             r: Point;
@@ -587,8 +634,7 @@ declare namespace SavageDOM.Attribute {
             xAxisRotate: number;
             largeArc: boolean;
             sweepClockwise: boolean;
-            abstract type: "A" | "a";
-            constructor(r?: Point, p?: Point, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean);
+            constructor(command: "A" | "a", r?: Point, p?: Point, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean);
             toString(): string;
             parseArgs(css: string): ArcTo;
             interpolate(from: ArcTo, t: number): ArcTo;
@@ -596,21 +642,16 @@ declare namespace SavageDOM.Attribute {
             abstract defaultInstance(): ArcTo;
         }
         class ArcToAbs extends ArcTo {
-            type: "A";
+            constructor(r?: Point, p?: Point, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean);
+            constructor(rx: Length, ry: Length, px: Length, py: Length, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean);
             buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise: any): ArcToAbs;
             defaultInstance(): ArcToAbs;
         }
         class ArcToRel extends ArcTo {
-            type: "a";
+            constructor(r?: Point, p?: Point, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean);
+            constructor(rx: Length, ry: Length, px: Length, py: Length, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean);
             buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise: any): ArcToRel;
             defaultInstance(): ArcToRel;
-        }
-        class ClosePath extends PathSegment {
-            type: "Z";
-            toString(): string;
-            parseArgs(css: string): ClosePath;
-            defaultInstance(): ClosePath;
-            interpolate(from: ClosePath, t: number): ClosePath;
         }
     }
 }
@@ -813,8 +854,7 @@ declare namespace SavageDOM.Elements {
     }
 }
 declare namespace SavageDOM.Attribute {
-    interface Clippable {
-        clip: "auto" | SavageDOM.Elements.Renderable.AbstractShape<any, any> | Inherit;
+    interface HasClipPath {
         "clip-path": Elements.NonRenderable.ClipPath | None | Inherit;
         "clip-rule": "nonzero" | "evenodd" | Inherit;
     }

@@ -1,7 +1,6 @@
 namespace SavageDOM.Attribute {
 
-  export interface Clippable {
-    clip: "auto" | SavageDOM.Elements.Renderable.AbstractShape<any, any> | Inherit;
+  export interface HasClipPath {
     "clip-path": Elements.NonRenderable.ClipPath | None | Inherit;
     "clip-rule": "nonzero" | "evenodd" | Inherit;
   }

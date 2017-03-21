@@ -16,11 +16,11 @@ namespace SavageDOM.Attribute {
 
 namespace SavageDOM.Attribute.Renderable {
 
-  export interface Containers extends HasColorInterpolation, HasColorRendering, HasCursor, HasMask {
+  export interface Containers extends HasColorInterpolation, HasColorRendering, HasCursor, HasClipPath, HasMask {
 
   }
 
-  export interface Graphics extends HasColorInterpolation, HasColorRendering, HasCursor, HasMask, HasOpacity, HasVisibility {
+  export interface Graphics extends HasColorInterpolation, HasColorRendering, HasCursor, HasClipPath, HasMask, HasOpacity, HasVisibility {
     "pointer-events": "visiblePainted" | "visibleFill" | "visibleStroke" | "visible" | "painted" | "fill" | "stroke" | "all" | None | Inherit;
   }
 

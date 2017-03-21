@@ -1,7 +1,7 @@
 namespace SavageDOM.Attribute {
 
   export abstract class PathSegment implements Attribute<PathSegment> {
-    type: "M" | "m" | "L" | "l" | "Q" | "q" | "T" | "t" | "C" | "c" | "S" | "s" | "A" | "a" | "Z";
+    constructor(public command: PathSegment.Command) {}
     abstract toString(): string;
     parse(css: string | null): PathSegment {
       if (css !== null) {
@@ -25,13 +25,31 @@ namespace SavageDOM.Attribute {
     abstract interpolate(from: PathSegment, t: number): PathSegment;
   }
   export namespace PathSegment {
-    export abstract class SinglePoint extends PathSegment {
-      abstract type: "M" | "m" | "L" | "l" | "T" | "t";
-      constructor(public p: Point = new Point(0, 0)) {
-        super();
+
+    export type Command = "M" | "m" | "Z" | "z" | "L" | "l" | "H" | "h" | "V" | "v" | "C" | "c" | "S" | "s" | "Q" | "q" | "T" | "t" | "A" | "a";
+
+    export abstract class SingleLength extends PathSegment {
+      constructor(command: "H" | "h" | "V" | "v", public l: Length = 0) {
+        super(command);
       }
       toString(): string {
-        return `${this.type} ${this.p.toString()}`;
+        return `${this.command} ${this.l.toString()}`;
+      }
+      parseArgs(css: string): SingleLength {
+        return this.buildInstance(_LengthParse(css));
+      }
+      interpolate(from: SingleLength, t: number): SingleLength {
+        return this.buildInstance(_LengthInterpolate(from.l, this.l, t));
+      }
+      abstract buildInstance(l: Length): SingleLength;
+      abstract defaultInstance(): SingleLength;
+    }
+    export abstract class SinglePoint extends PathSegment {
+      constructor(command: "M" | "m" | "L" | "l" | "T" | "t", public p: Point = new Point(0, 0)) {
+        super(command);
+      }
+      toString(): string {
+        return `${this.command} ${this.p.toString()}`;
       }
       parseArgs(css: string): SinglePoint {
         return this.buildInstance(this.p.parse(css));
@@ -43,12 +61,11 @@ namespace SavageDOM.Attribute {
       abstract defaultInstance(): SinglePoint;
     }
     export abstract class DoublePoint extends PathSegment {
-      abstract type: "Q" | "q" | "S" | "s";
-      constructor(public p1: Point = new Point(0, 0), public p2: Point = new Point(0, 0)) {
-        super();
+      constructor(command: "Q" | "q" | "S" | "s", public p1: Point = new Point(0, 0), public p2: Point = new Point(0, 0)) {
+        super(command);
       }
       toString(): string {
-        return `${this.type} ${this.p1.toString()} ${this.p2.toString()}`;
+        return `${this.command} ${this.p1.toString()} ${this.p2.toString()}`;
       }
       parseArgs(css: string): DoublePoint {
         const toks = css.split(" ");
@@ -61,12 +78,11 @@ namespace SavageDOM.Attribute {
       abstract defaultInstance(): DoublePoint;
     }
     export abstract class TriplePoint extends PathSegment {
-      abstract type: "C" | "c";
-      constructor(public p1: Point = new Point(0, 0), public p2: Point = new Point(0, 0), public p3: Point = new Point(0, 0)) {
-        super();
+      constructor(command: "C" | "c", public p1: Point = new Point(0, 0), public p2: Point = new Point(0, 0), public p3: Point = new Point(0, 0)) {
+        super(command);
       }
       toString(): string {
-        return `${this.type} ${this.p1.toString()} ${this.p2.toString()} ${this.p3.toString()}`;
+        return `${this.command} ${this.p1.toString()} ${this.p2.toString()} ${this.p3.toString()}`;
       }
       parseArgs(css: string): TriplePoint {
         const toks = css.split(" ");
@@ -78,8 +94,13 @@ namespace SavageDOM.Attribute {
       abstract buildInstance(p1: Point, p2: Point, p3: Point): TriplePoint;
       abstract defaultInstance(): TriplePoint;
     }
+
     export class MoveToAbs extends SinglePoint {
-      type: "M" = "M";
+      constructor(p?: Point)
+      constructor(x: Length, y: Length)
+      constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
+        super("M", p instanceof Point ? p : new Point(p, y));
+      }
       buildInstance(p: Point): MoveToAbs {
         return new MoveToAbs(p);
       }
@@ -88,7 +109,11 @@ namespace SavageDOM.Attribute {
       }
     }
     export class MoveToRel extends SinglePoint {
-      type: "m" = "m";
+      constructor(p?: Point)
+      constructor(x: Length, y: Length)
+      constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
+        super("m", p instanceof Point ? p : new Point(p, y));
+      }
       buildInstance(p: Point): MoveToRel {
         return new MoveToRel(p);
       }
@@ -96,8 +121,31 @@ namespace SavageDOM.Attribute {
         return new MoveToRel();
       }
     }
+
+    export class ClosePath extends PathSegment {
+      constructor() {
+        super("Z");
+      }
+      toString(): string {
+        return "Z";
+      }
+      parseArgs(css: string): ClosePath {
+        return new ClosePath();
+      }
+      defaultInstance(): ClosePath {
+        return new ClosePath();
+      }
+      interpolate(from: ClosePath, t: number): ClosePath {
+        return new ClosePath();
+      }
+    }
+
     export class LineToAbs extends SinglePoint {
-      type: "L" = "L";
+      constructor(p?: Point)
+      constructor(x: Length, y: Length)
+      constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
+        super("L", p instanceof Point ? p : new Point(p, y));
+      }
       buildInstance(p: Point): LineToAbs {
         return new LineToAbs(p);
       }
@@ -106,7 +154,11 @@ namespace SavageDOM.Attribute {
       }
     }
     export class LineToRel extends SinglePoint {
-      type: "l" = "l";
+      constructor(p?: Point)
+      constructor(x: Length, y: Length)
+      constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
+        super("l", p instanceof Point ? p : new Point(p, y));
+      }
       buildInstance(p: Point): LineToRel {
         return new LineToRel(p);
       }
@@ -114,26 +166,154 @@ namespace SavageDOM.Attribute {
         return new LineToRel();
       }
     }
+
+    export class LineToHorizontalAbs extends SingleLength {
+      constructor(h: Length = 0) {
+        super("H", h);
+      }
+      buildInstance(h: Length): LineToHorizontalAbs {
+        return new LineToHorizontalAbs(h);
+      }
+      defaultInstance(): LineToHorizontalAbs {
+        return new LineToHorizontalAbs();
+      }
+    }
+    export class LineToHorizontalRel extends SingleLength {
+      constructor(h: Length = 0) {
+        super("h", h);
+      }
+      buildInstance(h: Length): LineToHorizontalRel {
+        return new LineToHorizontalRel(h);
+      }
+      defaultInstance(): LineToHorizontalRel {
+        return new LineToHorizontalRel();
+      }
+    }
+
+    export class LineToVerticalAbs extends SingleLength {
+      constructor(v: Length = 0) {
+        super("V", v);
+      }
+      buildInstance(v: Length): LineToVerticalAbs {
+        return new LineToVerticalAbs(v);
+      }
+      defaultInstance(): LineToVerticalAbs {
+        return new LineToVerticalAbs();
+      }
+    }
+    export class LineToVerticalRel extends SingleLength {
+      constructor(v: Length = 0) {
+        super("v", v);
+      }
+      buildInstance(v: Length): LineToVerticalAbs {
+        return new LineToVerticalAbs(v);
+      }
+      defaultInstance(): LineToVerticalAbs {
+        return new LineToVerticalAbs();
+      }
+    }
+
+    export class CurveToCubicAbs extends TriplePoint {
+      constructor(c1?: Point, c2?: Point, p?: Point)
+      constructor(c1x: Length, c1y: Length, c2x: Length, c2y: Length, px: Length, py: Length)
+      constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c: Length | Point = new Point(0, 0), d?: Length, e?: Length, f?: Length) {
+        const c1: Point = a instanceof Point ? a : new Point(a, b as Length);
+        const c2: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
+        const p: Point = c instanceof Point ? c : new Point(e as Length, f as Length);
+        super("C", c1, c2, p);
+      }
+      buildInstance(c1: Point, c2: Point, p: Point): CurveToCubicAbs {
+        return new CurveToCubicAbs(c1, c2, p);
+      }
+      defaultInstance(): CurveToCubicAbs {
+        return new CurveToCubicAbs();
+      }
+    }
+    export class CurveToCubicRel extends TriplePoint {
+      constructor(c1?: Point, c2?: Point, p?: Point)
+      constructor(c1x: Length, c1y: Length, c2x: Length, c2y: Length, px: Length, py: Length)
+      constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c: Length | Point = new Point(0, 0), d?: Length, e?: Length, f?: Length) {
+        const c1: Point = a instanceof Point ? a : new Point(a, b as Length);
+        const c2: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
+        const p: Point = c instanceof Point ? c : new Point(e as Length, f as Length);
+        super("c", c1, c2, p);
+      }
+      buildInstance(c1: Point, c2: Point, p: Point): CurveToCubicRel {
+        return new CurveToCubicRel(c1, c2, p);
+      }
+      defaultInstance(): CurveToCubicRel {
+        return new CurveToCubicRel();
+      }
+    }
+
+    export class CurveToCubicSmoothAbs extends DoublePoint {
+      constructor(c2?: Point, p?: Point)
+      constructor(c2x: Length, c2y: Length, px: Length, py: Length)
+      constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c?: Length, d?: Length) {
+        const c2: Point = a instanceof Point ? a : new Point(a as Length, b as Length);
+        const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
+        super("S", c2, p);
+      }
+      buildInstance(c2: Point, p: Point): CurveToCubicSmoothAbs {
+        return new CurveToCubicSmoothAbs(c2, p);
+      }
+      defaultInstance(): CurveToCubicSmoothAbs {
+        return new CurveToCubicSmoothAbs();
+      }
+    }
+    export class CurveToCubicSmoothRel extends DoublePoint {
+      constructor(c2?: Point, p?: Point)
+      constructor(c2x: Length, c2y: Length, px: Length, py: Length)
+      constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c?: Length, d?: Length) {
+        const c2: Point = a instanceof Point ? a : new Point(a as Length, b as Length);
+        const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
+        super("s", c2, p);
+      }
+      buildInstance(c2: Point, p: Point): CurveToCubicSmoothRel {
+        return new CurveToCubicSmoothRel(c2, p);
+      }
+      defaultInstance(): CurveToCubicSmoothRel {
+        return new CurveToCubicSmoothRel();
+      }
+    }
+
     export class CurveToQuadraticAbs extends DoublePoint {
-      type: "Q" = "Q";
-      buildInstance(p1: Point, p2: Point): CurveToQuadraticAbs {
-        return new CurveToQuadraticAbs(p1, p2);
+      constructor(c1?: Point, p?: Point)
+      constructor(c1x: Length, c1y: Length, px: Length, py: Length)
+      constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c?: Length, d?: Length) {
+        const c1: Point = a instanceof Point ? a : new Point(a as Length, b as Length);
+        const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
+        super("Q", c1, p);
+      }
+      buildInstance(c1: Point, p: Point): CurveToQuadraticAbs {
+        return new CurveToQuadraticAbs(c1, p);
       }
       defaultInstance(): CurveToQuadraticAbs {
         return new CurveToQuadraticAbs();
       }
     }
     export class CurveToQuadraticRel extends DoublePoint {
-      type: "q" = "q";
-      buildInstance(p1: Point, p2: Point): CurveToQuadraticRel {
-        return new CurveToQuadraticRel(p1, p2);
+      constructor(c1?: Point, p?: Point)
+      constructor(c1x: Length, c1y: Length, px: Length, py: Length)
+      constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c?: Length, d?: Length) {
+        const c1: Point = a instanceof Point ? a : new Point(a as Length, b as Length);
+        const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
+        super("q", c1, p);
+      }
+      buildInstance(c1: Point, p: Point): CurveToQuadraticRel {
+        return new CurveToQuadraticRel(c1, p);
       }
       defaultInstance(): CurveToQuadraticRel {
         return new CurveToQuadraticRel();
       }
     }
+
     export class CurveToQuadraticSmoothAbs extends SinglePoint {
-      type: "T" = "T";
+      constructor(p?: Point)
+      constructor(x: Length, y: Length)
+      constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
+        super("T", p instanceof Point ? p : new Point(p, y));
+      }
       buildInstance(p: Point): CurveToQuadraticSmoothAbs {
         return new CurveToQuadraticSmoothAbs(p);
       }
@@ -142,7 +322,11 @@ namespace SavageDOM.Attribute {
       }
     }
     export class CurveToQuadraticSmoothRel extends SinglePoint {
-      type: "t" = "t";
+      constructor(p?: Point)
+      constructor(x: Length, y: Length)
+      constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
+        super("t", p instanceof Point ? p : new Point(p, y));
+      }
       buildInstance(p: Point): CurveToQuadraticSmoothRel {
         return new CurveToQuadraticSmoothRel(p);
       }
@@ -150,46 +334,10 @@ namespace SavageDOM.Attribute {
         return new CurveToQuadraticSmoothRel();
       }
     }
-    export class CurveToCubicAbs extends TriplePoint {
-      type: "C" = "C";
-      buildInstance(p1: Point, p2: Point, p3: Point): CurveToCubicAbs {
-        return new CurveToCubicAbs(p1, p2, p3);
-      }
-      defaultInstance(): CurveToCubicAbs {
-        return new CurveToCubicAbs();
-      }
-    }
-    export class CurveToCubicRel extends TriplePoint {
-      type: "c" = "c";
-      buildInstance(p1: Point, p2: Point, p3: Point): CurveToCubicRel {
-        return new CurveToCubicRel(p1, p2, p3);
-      }
-      defaultInstance(): CurveToCubicRel {
-        return new CurveToCubicRel();
-      }
-    }
-    export class CurveToCubicSmoothAbs extends DoublePoint {
-      type: "S" = "S";
-      buildInstance(p1: Point, p2: Point): CurveToCubicSmoothAbs {
-        return new CurveToCubicSmoothAbs(p1, p2);
-      }
-      defaultInstance(): CurveToCubicSmoothAbs {
-        return new CurveToCubicSmoothAbs();
-      }
-    }
-    export class CurveToCubicSmoothRel extends DoublePoint {
-      type: "s" = "s";
-      buildInstance(p1: Point, p2: Point): CurveToCubicSmoothRel {
-        return new CurveToCubicSmoothRel(p1, p2);
-      }
-      defaultInstance(): CurveToCubicSmoothRel {
-        return new CurveToCubicSmoothRel();
-      }
-    }
+
     export abstract class ArcTo extends PathSegment {
-      abstract type: "A" | "a";
-      constructor(public r: Point = new Point(0, 0), public p: Point = new Point(0, 0), public xAxisRotate: number = 0, public largeArc: boolean = false, public sweepClockwise: boolean = true) {
-        super();
+      constructor(command: "A" | "a", public r: Point = new Point(0, 0), public p: Point = new Point(0, 0), public xAxisRotate: number = 0, public largeArc: boolean = false, public sweepClockwise: boolean = true) {
+        super(command);
       }
       toString(): string {
         return `${this.r.toString()} ${this.xAxisRotate} ${this.largeArc ? 1 : 0} ${this.sweepClockwise ? 1 : 0} ${this.p.toString()}`;
@@ -204,8 +352,39 @@ namespace SavageDOM.Attribute {
       abstract buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise): ArcTo;
       abstract defaultInstance(): ArcTo;
     }
+
     export class ArcToAbs extends ArcTo {
-      type: "A" = "A";
+      constructor(r?: Point, p?: Point, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean)
+      constructor(rx: Length, ry: Length, px: Length, py: Length, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean)
+      constructor(a: Point | Length = new Point(0, 0), b: Point | Length = new Point(0, 0), c?: number | Length, d?: boolean | Length, e?: boolean | number, f?: boolean, g?: boolean) {
+        const r: Point = a instanceof Point ? a : new Point(a, b as Length);
+        const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
+        let xAxisRotate: number = 0;
+        let largeArc: boolean = false;
+        let sweepClockwise: boolean = true;
+        if (a instanceof Point && b instanceof Point) {
+          if (typeof c !== "undefined") {
+            xAxisRotate = c as number;
+          }
+          if (typeof d !== "undefined") {
+            largeArc = d as boolean;
+          }
+          if (typeof e !== "undefined") {
+            sweepClockwise = e as boolean;
+          }
+        } else {
+          if (typeof e !== "undefined") {
+            xAxisRotate = e as number;
+          }
+          if (typeof f !== "undefined") {
+            largeArc = f as boolean;
+          }
+          if (typeof g !== "undefined") {
+            sweepClockwise = g as boolean;
+          }
+        }
+        super("A", r, p, xAxisRotate, largeArc, sweepClockwise);
+      }
       buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise): ArcToAbs {
         return new ArcToAbs(r, p, xAxisRotate, largeArc, sweepClockwise);
       }
@@ -214,27 +393,42 @@ namespace SavageDOM.Attribute {
       }
     }
     export class ArcToRel extends ArcTo {
-      type: "a" = "a";
+      constructor(r?: Point, p?: Point, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean)
+      constructor(rx: Length, ry: Length, px: Length, py: Length, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean)
+      constructor(a: Point | Length = new Point(0, 0), b: Point | Length = new Point(0, 0), c?: number | Length, d?: boolean | Length, e?: boolean | number, f?: boolean, g?: boolean) {
+        const r: Point = a instanceof Point ? a : new Point(a, b as Length);
+        const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
+        let xAxisRotate: number = 0;
+        let largeArc: boolean = false;
+        let sweepClockwise: boolean = true;
+        if (a instanceof Point && b instanceof Point) {
+          if (typeof c !== "undefined") {
+            xAxisRotate = c as number;
+          }
+          if (typeof d !== "undefined") {
+            largeArc = d as boolean;
+          }
+          if (typeof e !== "undefined") {
+            sweepClockwise = e as boolean;
+          }
+        } else {
+          if (typeof e !== "undefined") {
+            xAxisRotate = e as number;
+          }
+          if (typeof f !== "undefined") {
+            largeArc = f as boolean;
+          }
+          if (typeof g !== "undefined") {
+            sweepClockwise = g as boolean;
+          }
+        }
+        super("a", r, p, xAxisRotate, largeArc, sweepClockwise);
+      }
       buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise): ArcToRel {
         return new ArcToRel(r, p, xAxisRotate, largeArc, sweepClockwise);
       }
       defaultInstance(): ArcToRel {
         return new ArcToRel();
-      }
-    }
-    export class ClosePath extends PathSegment {
-      type: "Z" = "Z";
-      toString(): string {
-        return "Z";
-      }
-      parseArgs(css: string): ClosePath {
-        return new ClosePath();
-      }
-      defaultInstance(): ClosePath {
-        return new ClosePath();
-      }
-      interpolate(from: ClosePath, t: number): ClosePath {
-        return new ClosePath();
       }
     }
   }

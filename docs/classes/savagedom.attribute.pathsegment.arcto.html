@@ -109,17 +109,17 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="savagedom.attribute.pathsegment.arcto.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="savagedom.attribute.pathsegment.arcto.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="savagedom.attribute.pathsegment.arcto.html#command" class="tsd-kind-icon">command</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="savagedom.attribute.pathsegment.arcto.html#largearc" class="tsd-kind-icon">large<wbr>Arc</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="savagedom.attribute.pathsegment.arcto.html#p" class="tsd-kind-icon">p</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="savagedom.attribute.pathsegment.arcto.html#r" class="tsd-kind-icon">r</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="savagedom.attribute.pathsegment.arcto.html#sweepclockwise" class="tsd-kind-icon">sweep<wbr>Clockwise</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="savagedom.attribute.pathsegment.arcto.html#type" class="tsd-kind-icon">type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="savagedom.attribute.pathsegment.arcto.html#xaxisrotate" class="tsd-kind-icon">x<wbr>Axis<wbr>Rotate</a></li>
 							</ul>
 						</section>
@@ -141,21 +141,25 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Arc<wbr>To<span class="tsd-signature-symbol">(</span>r<span class="tsd-signature-symbol">?: </span><a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a>, p<span class="tsd-signature-symbol">?: </span><a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a>, xAxisRotate<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, largeArc<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, sweepClockwise<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.pathsegment.arcto.html" class="tsd-signature-type">ArcTo</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Arc<wbr>To<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"A"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"a"</span>, r<span class="tsd-signature-symbol">?: </span><a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a>, p<span class="tsd-signature-symbol">?: </span><a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a>, xAxisRotate<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, largeArc<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, sweepClockwise<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.attribute.pathsegment.arcto.html" class="tsd-signature-type">ArcTo</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="savagedom.attribute.pathsegment.html">PathSegment</a>.<a href="savagedom.attribute.pathsegment.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in elements/renderable/shape/path.ts:190</li>
+									<li>Defined in elements/renderable/shape/path.ts:338</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>command: <span class="tsd-signature-type">"A"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"a"</span></h5>
+								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> r: <a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol"> =&nbsp;new Point(0, 0)</span></h5>
 								</li>
@@ -179,13 +183,24 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="command" class="tsd-anchor"></a>
+					<h3>command</h3>
+					<div class="tsd-signature tsd-kind-icon">command<span class="tsd-signature-symbol">:</span> <a href="savagedom.attribute.pathsegment.html#command" class="tsd-signature-type">Command</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="savagedom.attribute.pathsegment.html">PathSegment</a>.<a href="savagedom.attribute.pathsegment.html#command-1">command</a></p>
+						<ul>
+							<li>Defined in elements/renderable/shape/path.ts:4</li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="largearc" class="tsd-anchor"></a>
 					<h3>large<wbr>Arc</h3>
 					<div class="tsd-signature tsd-kind-icon">large<wbr>Arc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/shape/path.ts:191</li>
+							<li>Defined in elements/renderable/shape/path.ts:339</li>
 						</ul>
 					</aside>
 				</section>
@@ -195,7 +210,7 @@
 					<div class="tsd-signature tsd-kind-icon">p<span class="tsd-signature-symbol">:</span> <a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/shape/path.ts:191</li>
+							<li>Defined in elements/renderable/shape/path.ts:339</li>
 						</ul>
 					</aside>
 				</section>
@@ -205,7 +220,7 @@
 					<div class="tsd-signature tsd-kind-icon">r<span class="tsd-signature-symbol">:</span> <a href="savagedom.attribute.point.html" class="tsd-signature-type">Point</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/shape/path.ts:191</li>
+							<li>Defined in elements/renderable/shape/path.ts:339</li>
 						</ul>
 					</aside>
 				</section>
@@ -215,18 +230,7 @@
 					<div class="tsd-signature tsd-kind-icon">sweep<wbr>Clockwise<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/shape/path.ts:191</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-					<a name="type" class="tsd-anchor"></a>
-					<h3>type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"A"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"a"</span></div>
-					<aside class="tsd-sources">
-						<p>Overrides <a href="savagedom.attribute.pathsegment.html">PathSegment</a>.<a href="savagedom.attribute.pathsegment.html#type">type</a></p>
-						<ul>
-							<li>Defined in elements/renderable/shape/path.ts:190</li>
+							<li>Defined in elements/renderable/shape/path.ts:339</li>
 						</ul>
 					</aside>
 				</section>
@@ -236,7 +240,7 @@
 					<div class="tsd-signature tsd-kind-icon">x<wbr>Axis<wbr>Rotate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in elements/renderable/shape/path.ts:191</li>
+							<li>Defined in elements/renderable/shape/path.ts:339</li>
 						</ul>
 					</aside>
 				</section>
@@ -253,7 +257,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in elements/renderable/shape/path.ts:204</li>
+									<li>Defined in elements/renderable/shape/path.ts:352</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -289,7 +293,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="savagedom.attribute.pathsegment.html">PathSegment</a>.<a href="savagedom.attribute.pathsegment.html#defaultinstance">defaultInstance</a></p>
 								<ul>
-									<li>Defined in elements/renderable/shape/path.ts:205</li>
+									<li>Defined in elements/renderable/shape/path.ts:353</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.attribute.pathsegment.arcto.html" class="tsd-signature-type">ArcTo</a></h4>
@@ -334,7 +338,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="savagedom.attribute.pathsegment.html">PathSegment</a>.<a href="savagedom.attribute.pathsegment.html#interpolate">interpolate</a></p>
 								<ul>
-									<li>Defined in elements/renderable/shape/path.ts:201</li>
+									<li>Defined in elements/renderable/shape/path.ts:349</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -385,7 +389,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="savagedom.attribute.pathsegment.html">PathSegment</a>.<a href="savagedom.attribute.pathsegment.html#parseargs">parseArgs</a></p>
 								<ul>
-									<li>Defined in elements/renderable/shape/path.ts:197</li>
+									<li>Defined in elements/renderable/shape/path.ts:345</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -439,7 +443,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="savagedom.attribute.pathsegment.html">PathSegment</a>.<a href="savagedom.attribute.pathsegment.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in elements/renderable/shape/path.ts:194</li>
+									<li>Defined in elements/renderable/shape/path.ts:342</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -500,8 +504,11 @@
 							<li class="current tsd-kind-class tsd-parent-kind-class">
 								<a href="savagedom.attribute.pathsegment.arcto.html" class="tsd-kind-icon">Arc<wbr>To</a>
 								<ul>
-									<li class=" tsd-kind-constructor tsd-parent-kind-class">
+									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 										<a href="savagedom.attribute.pathsegment.arcto.html#constructor" class="tsd-kind-icon">constructor</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="savagedom.attribute.pathsegment.arcto.html#command" class="tsd-kind-icon">command</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="savagedom.attribute.pathsegment.arcto.html#largearc" class="tsd-kind-icon">large<wbr>Arc</a>
@@ -514,9 +521,6 @@
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="savagedom.attribute.pathsegment.arcto.html#sweepclockwise" class="tsd-kind-icon">sweep<wbr>Clockwise</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-										<a href="savagedom.attribute.pathsegment.arcto.html#type" class="tsd-kind-icon">type</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="savagedom.attribute.pathsegment.arcto.html#xaxisrotate" class="tsd-kind-icon">x<wbr>Axis<wbr>Rotate</a>
@@ -587,7 +591,19 @@
 								<a href="savagedom.attribute.pathsegment.linetoabs.html" class="tsd-kind-icon">Line<wbr>ToAbs</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-class">
+								<a href="savagedom.attribute.pathsegment.linetohorizontalabs.html" class="tsd-kind-icon">Line<wbr>ToHorizontal<wbr>Abs</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-class">
+								<a href="savagedom.attribute.pathsegment.linetohorizontalrel.html" class="tsd-kind-icon">Line<wbr>ToHorizontal<wbr>Rel</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-class">
 								<a href="savagedom.attribute.pathsegment.linetorel.html" class="tsd-kind-icon">Line<wbr>ToRel</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-class">
+								<a href="savagedom.attribute.pathsegment.linetoverticalabs.html" class="tsd-kind-icon">Line<wbr>ToVertical<wbr>Abs</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-class">
+								<a href="savagedom.attribute.pathsegment.linetoverticalrel.html" class="tsd-kind-icon">Line<wbr>ToVertical<wbr>Rel</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-class">
 								<a href="savagedom.attribute.pathsegment.movetoabs.html" class="tsd-kind-icon">Move<wbr>ToAbs</a>
@@ -596,13 +612,22 @@
 								<a href="savagedom.attribute.pathsegment.movetorel.html" class="tsd-kind-icon">Move<wbr>ToRel</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-class">
+								<a href="savagedom.attribute.pathsegment.singlelength.html" class="tsd-kind-icon">Single<wbr>Length</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-class">
 								<a href="savagedom.attribute.pathsegment.singlepoint.html" class="tsd-kind-icon">Single<wbr>Point</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-class">
 								<a href="savagedom.attribute.pathsegment.triplepoint.html" class="tsd-kind-icon">Triple<wbr>Point</a>
 							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-class tsd-is-static">
+								<a href="savagedom.attribute.pathsegment.html#command" class="tsd-kind-icon">Command</a>
+							</li>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="savagedom.attribute.pathsegment.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="savagedom.attribute.pathsegment.html#type" class="tsd-kind-icon">type</a>
+								<a href="savagedom.attribute.pathsegment.html#command-1" class="tsd-kind-icon">command</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="savagedom.attribute.pathsegment.html#defaultinstance" class="tsd-kind-icon">default<wbr>Instance</a>
