@@ -24,7 +24,7 @@ namespace SavageDOM.Attribute.NonRenderable {
 
 namespace SavageDOM.Elements.NonRenderable {
 
-  export class ClipPath extends AbstractNonRenderable<SVGMaskElement, Attribute.NonRenderable.Mask> {
+  export class ClipPath extends AbstractNonRenderable<SVGMaskElement, Attribute.NonRenderable.ClipPath> {
     constructor(public paper: Paper, w?: number, h?: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox") {
       super(paper, "clipPath");
       this.paper.addDef(this);

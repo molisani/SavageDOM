@@ -1,10 +1,10 @@
 namespace SavageDOM.Attribute {
 
-  export interface Presentation {
+  export interface HasFilter {
     "filter": Elements.Filter | string | None | Inherit;
   }
 
-  export interface FilterPrimitive extends Presentation, HasClass, HasStyle {
+  export interface FilterPrimitive extends HasClass, HasStyle {
     x: Length;
     y: Length;
     width: Length;
@@ -212,10 +212,6 @@ namespace SavageDOM.Attribute {
     primitiveUnits: "userSpaceOnUse" | "objectBoundingBox";
   };
 
-  export interface HasFilter {
-    filter: Events.Filter | None | Inherit;
-  }
-
 }
 
 namespace SavageDOM.Events {
@@ -371,21 +367,21 @@ namespace SavageDOM.Elements {
     }
     public blend(mode: "normal" | "multiply" | "screen" | "darken" | "lighten", input1: Attribute.FilterInput, input2?: Attribute.FilterInput): Elements.FilterPrimitive.Blend {
       return new Elements.FilterPrimitive.Blend(this, {
-        in: input1,
-        in2: input2,
+        "in": input1,
+        "in2": input2,
         mode,
       });
     }
     public colorMatrix(matrix: Attribute.ColorMatrix, input?: Attribute.FilterInput): Elements.FilterPrimitive.ColorMatrix {
       return new Elements.FilterPrimitive.ColorMatrix(this, {
-        in: input,
-        type: matrix.type,
-        values: matrix,
+        "in": input,
+        "type": matrix.type,
+        "values": matrix,
       });
     }
     public componentTransfer(r: Attribute.FilterPrimitive.TransferFunction, g: Attribute.FilterPrimitive.TransferFunction, b: Attribute.FilterPrimitive.TransferFunction, a?: Attribute.FilterPrimitive.TransferFunction, input?: Attribute.FilterInput): Elements.FilterPrimitive.ComponentTransfer {
       const componentTransfer = new Elements.FilterPrimitive.ComponentTransfer(this, {
-        in: input,
+        "in": input,
       });
       componentTransfer.add(new Elements.FilterPrimitive.TransferFunction(this, "R", r));
       componentTransfer.add(new Elements.FilterPrimitive.TransferFunction(this, "G", g));
@@ -397,8 +393,8 @@ namespace SavageDOM.Elements {
     }
     public composite(operator: "over" | "in" | "out" | "atop" | "xor" | "arithmetic", k1: number, k2: number, k3: number, k4: number, input1?: Attribute.FilterInput, input2?: Attribute.FilterInput): Elements.FilterPrimitive.Composite {
       return new Elements.FilterPrimitive.Composite(this, {
-        in: input1,
-        in2: input2,
+        "in": input1,
+        "in2": input2,
         operator,
         k1,
         k2,
@@ -407,29 +403,29 @@ namespace SavageDOM.Elements {
       });
     }
     public convolveMatrix(attrs: Partial<Attribute.FilterPrimitive.ConvolveMatrix>, input?: Attribute.FilterInput): Elements.FilterPrimitive.ConvolveMatrix {
-      return new Elements.FilterPrimitive.ConvolveMatrix(this, merge(attrs, { in: input }));
+      return new Elements.FilterPrimitive.ConvolveMatrix(this, merge(attrs, { "in": input }));
     }
     public diffuseLighting(attrs: Partial<Attribute.FilterPrimitive.DiffuseLighting>, lights: Attribute.FilterPrimitive.LightSource[] = [], input?: Attribute.FilterInput): Elements.FilterPrimitive.DiffuseLighting {
-      const fe = new Elements.FilterPrimitive.DiffuseLighting(this, merge(attrs, { in: input }));
+      const fe = new Elements.FilterPrimitive.DiffuseLighting(this, merge(attrs, { "in": input }));
       this.addLights(fe, lights);
       return fe;
     }
     public displacementMap(attrs: Partial<Attribute.FilterPrimitive.DisplacementMap>, input1?: Attribute.FilterInput, input2?: Attribute.FilterInput): Elements.FilterPrimitive.DisplacementMap {
-      return new Elements.FilterPrimitive.DisplacementMap(this, merge(attrs, { in: input1, in2: input2 }));
+      return new Elements.FilterPrimitive.DisplacementMap(this, merge(attrs, { "in": input1, "in2": input2 }));
     }
     public flood(color: Attribute.Color, area: Attribute.Box): Elements.FilterPrimitive.Flood {
       const fe = new Elements.FilterPrimitive.Flood(this, { "flood-color": color });
       fe.setAttributes({
-        x: area.x,
-        y: area.y,
-        width: area.width,
-        height: area.height,
+        "x": area.x,
+        "y": area.y,
+        "width": area.width,
+        "height": area.height,
       });
       return fe;
     }
     public gaussianBlur(stdDeviation: number = 0, edgeMode: "duplicate" | "wrap" | Attribute.None = "duplicate", input?: Attribute.FilterInput): Elements.FilterPrimitive.GaussianBlur {
       return new Elements.FilterPrimitive.GaussianBlur(this, {
-        in: input,
+        "in": input,
         stdDeviation,
         edgeMode,
       });
@@ -443,23 +439,23 @@ namespace SavageDOM.Elements {
     public merge(inputs: Attribute.FilterInput[]): Elements.FilterPrimitive.Merge {
       const fe = new Elements.FilterPrimitive.Merge(this);
       inputs.forEach(input => {
-        const mergeNode = new SavageDOM.Element<SVGFEMergeNodeElement, Attribute.FilterPrimitive & { in: Attribute.FilterInput }, Events.FilterPrimitive>(this.paper, "feMergeNode", { in: input });
+        const mergeNode = new SavageDOM.Element<SVGFEMergeNodeElement, Attribute.FilterPrimitive & { in: Attribute.FilterInput }, Events.FilterPrimitive>(this.paper, "feMergeNode", { "in": input });
         fe.add(mergeNode);
       });
       return fe;
     }
     public morphology(operator: "erode" | "dilate", radius: Attribute.NumberOptionalNumber, input?: Attribute.FilterInput): Elements.FilterPrimitive.Morphology {
       return new Elements.FilterPrimitive.Morphology(this, {
-        in: input,
+        "in": input,
         operator,
         radius,
       });
     }
     public offset(d: Attribute.Point, input?: Attribute.FilterInput): Elements.FilterPrimitive.Offset {
       return new Elements.FilterPrimitive.Offset(this, {
-        in: input,
-        dx: d.x,
-        dy: d.y,
+        "in": input,
+        "dx": d.x,
+        "dy": d.y,
       });
     }
     public specularLighting(attrs: Partial<Attribute.FilterPrimitive.SpecularLighting>, lights: Attribute.FilterPrimitive.LightSource[] = [], input?: Attribute.FilterInput): Elements.FilterPrimitive.SpecularLighting {
@@ -468,12 +464,12 @@ namespace SavageDOM.Elements {
       return fe;
     }
     public tile(area: Attribute.Box, input?: Attribute.FilterInput): Elements.FilterPrimitive.Tile {
-      const fe = new Elements.FilterPrimitive.Tile(this, { in: input });
+      const fe = new Elements.FilterPrimitive.Tile(this, { "in": input });
       fe.setAttributes({
-        x: area.x,
-        y: area.y,
-        width: area.width,
-        height: area.height,
+        "x": area.x,
+        "y": area.y,
+        "width": area.width,
+        "height": area.height,
       });
       return fe;
     }

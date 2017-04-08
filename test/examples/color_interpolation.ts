@@ -8,9 +8,9 @@ window["buildExample"]["color_interpolation"] = (root) => {
 
   const buildGradient = (y: number, cA: SavageDOM.Attribute.Color, cB: SavageDOM.Attribute.Color) => {
     for (let i = 0; i <= incr; ++i) {
-      const rect = new SavageDOM.Elements.Renderable.Shape.Rect(paper, { 
-        x: i * width, y, width, height,
-        fill: cB.interpolate(cA, i * (1 / incr)),
+      const rect = new SavageDOM.Elements.Renderable.Shape.Rect(paper, {
+        "x": i * width, y, width, height,
+        "fill": cB.interpolate(cA, i * (1 / incr)),
       });
     }
   };

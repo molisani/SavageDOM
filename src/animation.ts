@@ -54,9 +54,9 @@ namespace SavageDOM {
 
       const _calcConstants = (p1: number, p2: number): Constants => {
         return {
-          a: 1 - 3 * p2 + 3 * p1,
-          b: 3 * p2 - 6 * p1,
-          c: 3 * p1,
+          "a": 1 - 3 * p2 + 3 * p1,
+          "b": 3 * p2 - 6 * p1,
+          "c": 3 * p1,
         };
       };
 
@@ -151,12 +151,12 @@ namespace SavageDOM {
     public registerDynamic<SVG extends SVGElement, Attrs>(element: Element<SVG, Attrs, any>, defs: Dynamic.Defined<Attrs>, isEnabled?: () => boolean): void | ((enable: boolean) => void) {
       if (isEnabled !== undefined) {
         AnimationRunner.getInstance().add({
-          element, defs, progress: (now: number): number | undefined => isEnabled() ? now : undefined,
+          element, defs, "progress": (now: number): number | undefined => isEnabled() ? now : undefined,
         });
       } else {
         let enabled = true;
         AnimationRunner.getInstance().add({
-          element, defs, progress: (now: number): number | undefined => enabled ? now : undefined,
+          element, defs, "progress": (now: number): number | undefined => enabled ? now : undefined,
         });
         return (enable: boolean) => {
           enabled = enable;
@@ -191,7 +191,7 @@ namespace SavageDOM {
       const defs = {} as Dynamic.Defined<any>;
       const anim: Animation<Attrs> = {
         element, attrs, resolve, from, defs,
-        progress: (now: number): number | undefined => (now > start && now <= end) ? easing((now - start) / duration) : undefined,
+        "progress": (now: number): number | undefined => (now > start && now <= end) ? easing((now - start) / duration) : undefined,
       };
       AnimationRunner.getInstance().add(anim);
     }

@@ -1,6 +1,6 @@
 namespace SavageDOM.Attribute {
 
-  export interface NonRenderable extends Presentation, HasStyle, HasClass {};
+  export interface NonRenderable extends HasStyle, HasClass {};
 
 }
 

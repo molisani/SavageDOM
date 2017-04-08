@@ -6,23 +6,23 @@ window["buildExample"]["pattern"] = (root) => {
   const paper = new SavageDOM.Paper(root);
 
   const inner1 = new SavageDOM.Elements.Renderable.Shape.Circle(paper, {
-    "cx:cy": new SavageDOM.Attribute.Point(15, 15), r: 10,
-    fill: new SavageDOM.Attribute.Color("#00FFFF"),
-    stroke: new SavageDOM.Attribute.Color("#007777"),
+    "cx:cy": new SavageDOM.Attribute.Point(15, 15), "r": 10,
+    "fill": new SavageDOM.Attribute.Color("#00FFFF"),
+    "stroke": new SavageDOM.Attribute.Color("#007777"),
     "stroke-width": 5,
   });
 
   const pattern1 = paper.group([inner1]).toPattern(30, 30);
 
   const outer1 = new SavageDOM.Elements.Renderable.Shape.Circle(paper, {
-    "cx:cy": new SavageDOM.Attribute.Point(105, 105), r: 90,
-    fill: pattern1, stroke: new SavageDOM.Attribute.Color("#770077"), "stroke-width": 5,
+    "cx:cy": new SavageDOM.Attribute.Point(105, 105), "r": 90,
+    "fill": pattern1, "stroke": new SavageDOM.Attribute.Color("#770077"), "stroke-width": 5,
   });
 
   const inner2A = new SavageDOM.Elements.Renderable.Shape.Rect(paper, {
-    "x:y": new SavageDOM.Attribute.Point(2.5, 2.5), width: 25, height: 25,
-    fill: new SavageDOM.Attribute.Color("#FF7777"),
-    stroke: new SavageDOM.Attribute.Color("#FF0000"),
+    "x:y": new SavageDOM.Attribute.Point(2.5, 2.5), "width": 25, "height": 25,
+    "fill": new SavageDOM.Attribute.Color("#FF7777"),
+    "stroke": new SavageDOM.Attribute.Color("#FF0000"),
     "stroke-width": 2.5,
   });
 
@@ -32,9 +32,9 @@ window["buildExample"]["pattern"] = (root) => {
   pattern2A.setAttribute("patternTransform", pattern2Atf);
 
   const inner2B = new SavageDOM.Elements.Renderable.Shape.Rect(paper, {
-    "x:y": new SavageDOM.Attribute.Point(2.5, 2.5), width: 25, height: 25,
-    fill: new SavageDOM.Attribute.Color("#77FF77"),
-    stroke: new SavageDOM.Attribute.Color("#007700"),
+    "x:y": new SavageDOM.Attribute.Point(2.5, 2.5), "width": 25, "height": 25,
+    "fill": new SavageDOM.Attribute.Color("#77FF77"),
+    "stroke": new SavageDOM.Attribute.Color("#007700"),
     "stroke-width": 2.5,
   });
 
@@ -49,8 +49,8 @@ window["buildExample"]["pattern"] = (root) => {
   outer2Points.push(new SavageDOM.Attribute.Point(150, 150));
   outer2Points.push(new SavageDOM.Attribute.Point(75, 125));
   const outer2 = new SavageDOM.Elements.Renderable.Shape.Polygon(paper, {
-    points: outer2Points,
-    fill: pattern2A, stroke: pattern2B, "stroke-width": 15,
+    "points": outer2Points,
+    "fill": pattern2A, "stroke": pattern2B, "stroke-width": 15,
   });
 
   const rectLine = paper.rect(0, 0, 15, 30);

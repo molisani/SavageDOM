@@ -42,7 +42,7 @@
         "interface-name": [false],
         "interface-over-type-literal": true,
         "no-consecutive-blank-lines": [true],
-        "object-literal-key-quotes": [true, "as-needed"],
+        "object-literal-key-quotes": [true, "always"],
         "one-variable-per-declaration": [true],
         "semicolon": [true, "always", "ignore-interfaces"],
         "space-before-function-paren": [true, "never"],

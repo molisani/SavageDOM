@@ -25,11 +25,11 @@ window["buildExample"]["transforms"] = (root) => {
   const buildGroup = (g: number, t: string): SavageDOM.Elements.Renderable.Group => {
     const c = gray(g);
     const box = new SavageDOM.Elements.Renderable.Shape.Rect(paper, {
-      x: 0 - side / 2, y: 0 - side / 2, width: side, height: side,
-      fill: clear, stroke: c, "stroke-width": 2,
+      "x": 0 - side / 2, "y": 0 - side / 2, "width": side, "height": side,
+      "fill": clear, "stroke": c, "stroke-width": 2,
     });
     const text = new SavageDOM.Elements.Renderable.Text(paper, {
-      x: 0, y: 0, fill: c,
+      "x": 0, "y": 0, "fill": c,
       "font-size": 20, "font-family": "Courier New", "text-anchor": "middle",
     });
     text.addSpan(new SavageDOM.Attribute.TextContent(t));
@@ -44,7 +44,7 @@ window["buildExample"]["transforms"] = (root) => {
 
     const origin = paper.circle(0, 0, 2);
     origin.setAttribute("fill", red);
-    
+
     const start = buildGroup(0.5, type);
 
     const mid = buildGroup(0.25, type);

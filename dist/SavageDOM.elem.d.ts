@@ -382,22 +382,15 @@ declare namespace SavageDOM {
     }
 }
 declare namespace SavageDOM.Attribute {
-    interface Renderable extends Presentation, HasStyle, HasClass, HasColor, Transformable {
+    interface Renderable extends HasStyle, HasClass, HasColor, Transformable {
         "display": "inline" | "block" | "list-item" | "run-in" | "compact" | "marker" | "table" | "inline-table" | "table-row-group" | "table-header-group" | "table-footer-group" | "table-row" | "table-column-group" | "table-column" | "table-cell" | "table-caption" | None | Inherit;
         "pointer-events": "visiblePainted" | "visibleFill" | "visibleStroke" | "visible" | "painted" | "fill" | "stroke" | "all" | None | Inherit;
-        "stroke": Paint;
-        "stroke-dasharray": None | number[] | Inherit;
-        "stroke-dashoffset": Percentage | Length | Inherit;
-        "stroke-linecap": "butt" | "round" | "square" | Inherit;
-        "stroke-linejoin": "miter" | "round" | "bevel" | Inherit;
-        "stroke-miterlimit": number | Inherit;
-        "stroke-width": Length | Percentage | Inherit;
     }
 }
 declare namespace SavageDOM.Attribute.Renderable {
-    interface Containers extends HasColorInterpolation, HasColorRendering, HasCursor, HasClipPath, HasMask {
+    interface Containers extends HasFilter, HasColorInterpolation, HasColorRendering, HasCursor, HasClipPath, HasMask {
     }
-    interface Graphics extends HasColorInterpolation, HasColorRendering, HasCursor, HasClipPath, HasMask, HasOpacity, HasVisibility {
+    interface Graphics extends HasFilter, HasColorInterpolation, HasColorRendering, HasCursor, HasClipPath, HasMask, HasOpacity, HasVisibility {
         "pointer-events": "visiblePainted" | "visibleFill" | "visibleStroke" | "visible" | "painted" | "fill" | "stroke" | "all" | None | Inherit;
     }
 }
@@ -842,7 +835,7 @@ declare namespace SavageDOM {
     }
 }
 declare namespace SavageDOM.Attribute {
-    interface NonRenderable extends Presentation, HasStyle, HasClass {
+    interface NonRenderable extends HasStyle, HasClass {
     }
 }
 declare namespace SavageDOM.Events {
@@ -872,7 +865,7 @@ declare namespace SavageDOM.Attribute.NonRenderable {
     }
 }
 declare namespace SavageDOM.Elements.NonRenderable {
-    class ClipPath extends AbstractNonRenderable<SVGMaskElement, Attribute.NonRenderable.Mask> {
+    class ClipPath extends AbstractNonRenderable<SVGMaskElement, Attribute.NonRenderable.ClipPath> {
         paper: Paper;
         constructor(paper: Paper, w?: number, h?: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox");
     }
@@ -1086,10 +1079,10 @@ declare namespace SavageDOM {
     }
 }
 declare namespace SavageDOM.Attribute {
-    interface Presentation {
+    interface HasFilter {
         "filter": Elements.Filter | string | None | Inherit;
     }
-    interface FilterPrimitive extends Presentation, HasClass, HasStyle {
+    interface FilterPrimitive extends HasClass, HasStyle {
         x: Length;
         y: Length;
         width: Length;
@@ -1262,9 +1255,6 @@ declare namespace SavageDOM.Attribute {
         "x:y:width:height": Box;
         filterUnits: "userSpaceOnUse" | "objectBoundingBox";
         primitiveUnits: "userSpaceOnUse" | "objectBoundingBox";
-    }
-    interface HasFilter {
-        filter: Events.Filter | None | Inherit;
     }
 }
 declare namespace SavageDOM.Events {

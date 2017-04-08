@@ -6,16 +6,16 @@ namespace SavageDOM.Attribute {
 
   export class Dimension<Unit extends string> implements Attribute<Dimension<Unit>> {
     private static convert: { [unit: string]: number } = {
-      px: 1,
-      in: 96,
-      cm: 254 / 96,
-      mm: 25.4 / 96,
-      pt: 3 / 4,
-      pc: 9,
-      deg: 1,
-      grad: 9 / 10,
-      rad: 180 / Math.PI,
-      turn: 360,
+      "px": 1,
+      "in": 96,
+      "cm": 254 / 96,
+      "mm": 25.4 / 96,
+      "pt": 3 / 4,
+      "pc": 9,
+      "deg": 1,
+      "grad": 9 / 10,
+      "rad": 180 / Math.PI,
+      "turn": 360,
     };
     constructor(public value: number, public unit: Unit) {}
     toString(): string {

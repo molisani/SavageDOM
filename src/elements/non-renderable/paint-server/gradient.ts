@@ -69,7 +69,7 @@ namespace SavageDOM.Elements.NonRenderable.PaintServer {
   export namespace Gradient {
     export class Stop extends Element<SVGStopElement, Attribute.NonRenderable.PaintServer.Gradient.Stop, Events.NonRenderable> {
       constructor(paper: Paper, public offset: number, color: "currentColor" | Attribute.Color | Attribute.Inherit) {
-        super(paper, "stop", { offset: new SavageDOM.Attribute.Dimension<"%">(offset * 100, "%"), "stop-color": color });
+        super(paper, "stop", { "offset": new SavageDOM.Attribute.Dimension<"%">(offset * 100, "%"), "stop-color": color });
       }
     }
   }
