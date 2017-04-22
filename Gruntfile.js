@@ -89,18 +89,6 @@ module.exports = function(grunt) {
         path: "dist/SavageDOM.anim.js"
       }
     },
-    uglify: {
-      core: {
-        files: {
-          "dist/SavageDOM.core.min.js": ["dist/SavageDOM.core.js"]
-        }
-      },
-      elem: {
-        files: {
-          "dist/SavageDOM.elem.min.js": ["dist/SavageDOM.elem.js"]
-        }
-      }
-    },
     tslint: {
       options: {
         configuration: grunt.file.readJSON("tslint.json")
@@ -157,8 +145,8 @@ module.exports = function(grunt) {
   require("load-grunt-tasks")(grunt);
 
   grunt.registerTask("compile:all", ["ts:all", "umd:all", "concat:all", "sed:all", "clean:tscommand"]);
-  grunt.registerTask("compile:core", ["ts:core", "umd:core", "uglify:core", "concat:core", "sed:core", "clean:tscommand"]);
-  grunt.registerTask("compile:elem", ["ts:elem", "umd:elem", "uglify:elem", "concat:elem", "sed:elem", "clean:tscommand"]);
+  grunt.registerTask("compile:core", ["ts:core", "umd:core", "concat:core", "sed:core", "clean:tscommand"]);
+  grunt.registerTask("compile:elem", ["ts:elem", "umd:elem", "concat:elem", "sed:elem", "clean:tscommand"]);
   grunt.registerTask("compile:anim", ["ts:anim", "umd:anim", "concat:anim", "sed:anim", "clean:tscommand"]);
 
   grunt.registerTask("compile", ["compile:all", "compile:core", "compile:elem", "compile:anim", "clean:tscommand"]);

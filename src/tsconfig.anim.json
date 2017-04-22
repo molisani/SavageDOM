@@ -18,19 +18,10 @@
         "alwaysStrict": true,
         "removeComments": true
     },
-    "files": [
+    "include": [
         "constants.ts",
         "attribute.ts",
-        "attribute/box.ts",
-        "attribute/color.ts",
-        "attribute/color-matrix.ts",
-        "attribute/dimension.ts",
-        "attribute/matrix.ts",
-        "attribute/number-optional-number.ts",
-        "attribute/point.ts",
-        "attribute/preserve-aspect-ratio.ts",
-        "attribute/transform.ts",
-        "attribute/wrappers.ts",
+        "attribute/*.ts",
         "events.ts",
         "paper.ts",
         "element.ts",

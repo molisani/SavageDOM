@@ -6,10 +6,10 @@ Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript.
 ### Installation
 
 - Direct downloads are available in the [dist](./dist/) directory, and come in several versions:
-  - Core [ES5] [.js](./dist/SavageDOM.core.js), [.min.js](./dist/SavageDOM.core.min.js), [.d.ts](./dist/SavageDOM.core.d.ts)
-  - Elements [ES5] [.js](./dist/SavageDOM.elem.js), [.min.js](./dist/SavageDOM.elem.min.js), [.d.ts](./dist/SavageDOM.elem.d.ts)
-  - Animation [ES6] [.js](./dist/SavageDOM.anim.js), [.d.ts](./dist/SavageDOM.anim.d.ts)
-  - Everything [ES6] [.js](./dist/SavageDOM.js), [.d.ts](./dist/SavageDOM.d.ts)
+  - Core [.js](./dist/SavageDOM.core.js), [.d.ts](./dist/SavageDOM.core.d.ts)
+  - Elements [.js](./dist/SavageDOM.elem.js), [.d.ts](./dist/SavageDOM.elem.d.ts)
+  - Animation [.js](./dist/SavageDOM.anim.js), [.d.ts](./dist/SavageDOM.anim.d.ts)
+  - Everything [.js](./dist/SavageDOM.js), [.d.ts](./dist/SavageDOM.d.ts)
 - `npm install SavageDOM --save`
 - `bower install SavageDOM --save`
 

@@ -2,12 +2,12 @@
     "compilerOptions": {
         "lib": [
             "dom",
-            "es5"
+            "es6"
         ],
         "types": [
             "node"
         ],
-        "target": "es5",
+        "target": "es6",
         "module": "amd",
         "outFile": "../dist/SavageDOM.elem.js",
         "declaration": true,
@@ -18,44 +18,14 @@
         "alwaysStrict": true,
         "removeComments": true
     },
-    "files": [
+    "include": [
         "constants.ts",
         "attribute.ts",
-        "attribute/box.ts",
-        "attribute/color.ts",
-        "attribute/color-matrix.ts",
-        "attribute/dimension.ts",
-        "attribute/matrix.ts",
-        "attribute/number-optional-number.ts",
-        "attribute/point.ts",
-        "attribute/preserve-aspect-ratio.ts",
-        "attribute/transform.ts",
-        "attribute/wrappers.ts",
+        "attribute/*.ts",
         "events.ts",
         "paper.ts",
         "element.ts",
-        "elements/renderable.ts",
-        "elements/renderable/shape.ts",
-        "elements/renderable/shape/circle.ts",
-        "elements/renderable/shape/ellipse.ts",
-        "elements/renderable/shape/line.ts",
-        "elements/renderable/shape/path.ts",
-        "elements/renderable/shape/polygon.ts",
-        "elements/renderable/shape/polyline.ts",
-        "elements/renderable/shape/rect.ts",
-        "elements/renderable/group.ts",
-        "elements/renderable/image.ts",
-        "elements/renderable/text.ts",
-        "elements/non-renderable.ts",
-        "elements/non-renderable/clip-path.ts",
-        "elements/non-renderable/paint-server.ts",
-        "elements/non-renderable/paint-server/gradient.ts",
-        "elements/non-renderable/paint-server/gradient/linear.ts",
-        "elements/non-renderable/paint-server/gradient/radial.ts",
-        "elements/non-renderable/paint-server/pattern.ts",
-        "elements/non-renderable/marker.ts",
-        "elements/non-renderable/mask.ts",
-        "elements/filter.ts"
+        "elements/**/*.ts"
     ],
     "exclude": [
         "../node_modules"

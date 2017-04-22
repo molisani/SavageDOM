@@ -44,7 +44,7 @@ namespace SavageDOM.Attribute {
 
   export type Paint = None | CurrentColor | Color | NonRenderable.PaintServer | Inherit;
 
-  export type Length = number | Dimension<CSSAbsoluteLength | CSSRelativeLength>;
+  export type Length = number | Dimension<CSSAbsoluteLength | CSSRelativeLength | "%">;
 
   export type Angle = number | Dimension<CSSAngleUnit>;
 

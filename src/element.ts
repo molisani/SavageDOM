@@ -83,8 +83,12 @@ namespace SavageDOM {
       const rect = this._node.getBoundingClientRect();
       return new Attribute.Box(rect.left, rect.top, rect.width, rect.height);
     }
-    public add(el: Element<SVGElement, any, any>) {
-      this._node.appendChild(el._node);
+    public add(el: Element<SVGElement, any, any> | SVGElement) {
+      if (el instanceof SVGElement) {
+        this._node.appendChild(el);
+      } else {
+        this._node.appendChild(el._node);
+      }
     }
     public getChildren(): Element<SVGElement, any, any>[] {
       const children = this._node.childNodes;
