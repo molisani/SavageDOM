@@ -1,6 +1,6 @@
 {
   "name": "savagedom",
-  "version": "1.0.0-alpha.14",
+  "version": "1.0.0-alpha.15",
   "description": "Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript",
   "keywords": [
     "svg",

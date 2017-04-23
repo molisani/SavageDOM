@@ -89,6 +89,24 @@ declare namespace SavageDOM.Attribute {
     }
 }
 declare namespace SavageDOM.Attribute {
+    const _lerp: (a: number, b: number, t: number) => number;
+    type InterpolationMode = "rgb" | "hsl-shortest" | "hsl-longest" | "hsl-clockwise" | "hsl-counterclockwise";
+    class Color implements Attribute<Color> {
+        static DEFAULT_MODE: InterpolationMode;
+        mode: InterpolationMode;
+        private impl;
+        constructor();
+        constructor(css: string);
+        constructor(format: "rgb", r: number, g: number, b: number, a?: number);
+        constructor(format: "hsl", h: number, s: number, l: number, a?: number);
+        toString(): string;
+        parse(css: string | null): Color;
+        get(element: Element<SVGElement, any, any>, attr: string): Color;
+        set(element: Element<SVGElement, any, any>, attr: string, override?: Color): void;
+        interpolate(from: Color, t: number): Color;
+    }
+}
+declare namespace SavageDOM.Attribute {
     interface ColorMatrix {
         type: "matrix" | "saturate" | "hueRotate" | "luminanceToAlpha";
         toString(): string;
@@ -127,24 +145,6 @@ declare namespace SavageDOM.Attribute {
             type: "luminanceToAlpha";
             toString(): string;
         }
-    }
-}
-declare namespace SavageDOM.Attribute {
-    const _lerp: (a: number, b: number, t: number) => number;
-    type InterpolationMode = "rgb" | "hsl-shortest" | "hsl-longest" | "hsl-clockwise" | "hsl-counterclockwise";
-    class Color implements Attribute<Color> {
-        static DEFAULT_MODE: InterpolationMode;
-        mode: InterpolationMode;
-        private impl;
-        constructor();
-        constructor(css: string);
-        constructor(format: "rgb", r: number, g: number, b: number, a?: number);
-        constructor(format: "hsl", h: number, s: number, l: number, a?: number);
-        toString(): string;
-        parse(css: string | null): Color;
-        get(element: Element<SVGElement, any, any>, attr: string): Color;
-        set(element: Element<SVGElement, any, any>, attr: string, override?: Color): void;
-        interpolate(from: Color, t: number): Color;
     }
 }
 declare namespace SavageDOM.Attribute {
