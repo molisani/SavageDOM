@@ -1,7 +1,7 @@
 
 window["buildExample"] = window["buildExample"] || {};
 window["buildExample"]["color_interpolation"] = (root) => {
-  const paper = new SavageDOM.Paper(root);
+  const paper = new SavageDOM.Context(root);
   const incr = 15;
   const width = 250 / (incr + 1);
   const height = 250 / incr;

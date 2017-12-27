@@ -109,7 +109,7 @@ module.exports = function(grunt) {
           mode: "file",
           name: "SavageDOM",
           target: "ES2015",
-          project: "src/tsconfig.json"
+          project: "tsconfig.json",
         },
         src: ["src"]
       }

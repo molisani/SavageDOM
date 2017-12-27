@@ -3,7 +3,7 @@ window["buildExample"] = window["buildExample"] || {};
 window["buildExample"]["shapes"] = (root) => {
   const gray = percent => new SavageDOM.Attribute.Color("rgb", percent * 255, percent * 255, percent * 255);
 
-  const paper = new SavageDOM.Paper(root);
+  const paper = new SavageDOM.Context(root);
   const circle = new SavageDOM.Elements.Renderable.Shape.Circle(paper, {
     "cx:cy": new SavageDOM.Attribute.Point(40, 40), "r": 25,
     "fill": gray(0.75), "stroke": gray(0.125), "stroke-width": 5,

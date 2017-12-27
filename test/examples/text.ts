@@ -1,7 +1,7 @@
 
 window["buildExample"] = window["buildExample"] || {};
 window["buildExample"]["text"] = (root) => {
-  const paper = new SavageDOM.Paper(root);
+  const paper = new SavageDOM.Context(root);
 
   const t1content1 = new SavageDOM.Attribute.TextContent("[test string]");
   const t1content2 = new SavageDOM.Attribute.TextContent("[more text content]");

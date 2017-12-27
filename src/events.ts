@@ -1,6 +1,10 @@
-namespace SavageDOM.Events {
+namespace SavageDOM {
 
-  export interface Mouse {
+  export interface BaseEvents {
+    [event: string]: any;
+  }
+
+  export interface Mouse_Events extends BaseEvents {
     activate: MouseEvent;
     click: MouseEvent;
     mousedown: MouseEvent;
@@ -10,7 +14,7 @@ namespace SavageDOM.Events {
     mouseup: MouseEvent;
   }
 
-  export interface SVG {
+  export interface SVG_Events extends BaseEvents {
     SVGLoad: Event;
     SVGUnload: Event;
     SVGAbort: Event;
@@ -20,14 +24,14 @@ namespace SavageDOM.Events {
     SVGZoom: SVGZoomEvent;
   }
 
-  export interface Touch {
+  export interface Touch_Events extends BaseEvents {
     touchstart: TouchEvent;
     touchend: TouchEvent;
     touchmove: TouchEvent;
     touchcancel: TouchEvent;
   }
 
-  export interface Focus {
+  export interface Focus_Events extends BaseEvents {
     focusin: FocusEvent;
     focusout: FocusEvent;
   }

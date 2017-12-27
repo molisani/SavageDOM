@@ -3,7 +3,7 @@ window["buildExample"] = window["buildExample"] || {};
 window["buildExample"]["pattern"] = (root) => {
   const gray = percent => new SavageDOM.Attribute.Color("rgb", percent * 255, percent * 255, percent * 255);
 
-  const paper = new SavageDOM.Paper(root);
+  const paper = new SavageDOM.Context(root);
 
   const inner1 = new SavageDOM.Elements.Renderable.Shape.Circle(paper, {
     "cx:cy": new SavageDOM.Attribute.Point(15, 15), "r": 10,

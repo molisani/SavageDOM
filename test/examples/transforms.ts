@@ -9,7 +9,7 @@ window["buildExample"]["transforms"] = (root) => {
   const red = new SavageDOM.Attribute.Color("#FF0000");
   const gray = percent => new SavageDOM.Attribute.Color("rgb", percent * 255, percent * 255, percent * 255);
 
-  const paper = new SavageDOM.Paper(root);
+  const paper = new SavageDOM.Context(root);
 
   const transforms: SavageDOM.Attribute.Transform[] = [
     new SavageDOM.Attribute.Transform.UniformScale(0.8),

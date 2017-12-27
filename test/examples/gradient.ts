@@ -1,7 +1,7 @@
 
 window["buildExample"] = window["buildExample"] || {};
 window["buildExample"]["gradient"] = (root) => {
-  const paper = new SavageDOM.Paper(root);
+  const paper = new SavageDOM.Context(root);
 
   const gradient1Fill = paper.radialGradient({
     "0": new SavageDOM.Attribute.Color("#007700"),

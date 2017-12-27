@@ -1,0 +1,9 @@
+{
+    "extends": "./tsconfig",
+    "compilerOptions": {},
+    "exclude": [
+        "**/*.spec.ts",
+        "**/test/*",
+        "node_modules"
+    ]
+}
