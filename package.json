@@ -1,6 +1,6 @@
 {
   "name": "savagedom",
-  "version": "1.0.0-alpha.16",
+  "version": "1.0.0-alpha.17",
   "description": "Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript",
   "keywords": [
     "svg",
@@ -19,7 +19,8 @@
   "main": "dist/SavageDOM.js",
   "types": "dist/SavageDOM.d.ts",
   "scripts": {
-    "test": "grunt check"
+    "test": "grunt check",
+    "prepublish": "grunt prepublish"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
