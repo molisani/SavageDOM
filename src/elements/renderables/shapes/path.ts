@@ -12,3 +12,16 @@ namespace SavageDOM.Elements.Renderables.Shapes {
   }
 
 }
+
+namespace SavageDOM {
+
+  export interface Context {
+    path(d: Attributes.PathSegment[], pathLength?: number): Elements.Renderables.Shapes.Path;
+  }
+
+  Context.prototype.path = function(d: Attributes.PathSegment[], pathLength?: number): Elements.Renderables.Shapes.Path {
+    const attrs = { d, pathLength };
+    return new Elements.Renderables.Shapes.Path(this, attrs);
+  };
+
+}

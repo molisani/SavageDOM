@@ -18,7 +18,7 @@ namespace SavageDOM {
         if (attrs !== undefined) {
           this.setAttributes(attrs);
         }
-        this.context.root.appendChild(this._node);
+        this.context.addChild(this._node);
         this._node.setAttribute("id", this._id);
       } else {
         this._node = el;
@@ -33,7 +33,6 @@ namespace SavageDOM {
       this._subject.subscribe((update) => {
         Animation.Renderer.Renderer.getInstance().queueUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, update.name, update.val);
       });
-      this.context.root.appendChild(this._node);
     }
     public get id(): string {
       return this._id;

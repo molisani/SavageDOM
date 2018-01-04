@@ -26,3 +26,19 @@ namespace SavageDOM.Elements.Renderables {
   }
 
 }
+
+namespace SavageDOM {
+
+  export interface Context {
+    image(href: string): Promise<Elements.Renderables.Image>;
+  }
+
+  Context.prototype.image = function(this: Context, href: string): Promise<Elements.Renderables.Image> {
+    const img = new Elements.Renderables.Image(this);
+    const promise = img.getEvent("load").take(1).toPromise();
+    img.setAttribute("href", href);
+    this.addChild(img);
+    return promise.then(() => img);
+  };
+
+}

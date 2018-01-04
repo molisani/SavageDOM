@@ -11,3 +11,16 @@ namespace SavageDOM.Elements.Renderables.Shapes {
   }
 
 }
+
+namespace SavageDOM {
+
+  export interface Context {
+    polygon(points: Attributes.Point[]): Elements.Renderables.Shapes.Polygon;
+  }
+
+  Context.prototype.polygon = function(points: Attributes.Point[]): Elements.Renderables.Shapes.Polygon {
+    const attrs = { points };
+    return new Elements.Renderables.Shapes.Polygon(this, attrs);
+  };
+
+}

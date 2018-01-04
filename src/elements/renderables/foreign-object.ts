@@ -20,3 +20,18 @@ namespace SavageDOM.Elements.Renderables {
   }
 
 }
+
+namespace SavageDOM {
+
+  export interface Context {
+    foreignObject(html: HTMLElement, x: Attributes.Length, y: Attributes.Length, width: Attributes.Length, height: Attributes.Length): Elements.Renderables.ForeignObject;
+  }
+
+  Context.prototype.foreignObject = function(this: Context, html: HTMLElement, x: Attributes.Length, y: Attributes.Length, width: Attributes.Length, height: Attributes.Length): Elements.Renderables.ForeignObject {
+    const el = new Elements.Renderables.ForeignObject(this, { x, y, width, height });
+    el.addHTML(html);
+    this.addChild(el);
+    return el;
+  };
+
+}

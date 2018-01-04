@@ -35,7 +35,7 @@ namespace SavageDOM.Elements {
     public node: SVGFilterElement;
     constructor(public context: Context) {
       super(context, "filter");
-      this.context.defs.add(this);
+      this.context.addDef(this);
     }
     public blend(mode: "normal" | "multiply" | "screen" | "darken" | "lighten", input1: FilterInput, input2?: FilterInput): FilterPrimitives.Blend {
       return new FilterPrimitives.Blend(this, {

@@ -10,16 +10,10 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON("package.json"),
     ts: {
       all: {
-        tsconfig: "src/tsconfig.json"
+        tsconfig: "tsconfig.json"
       },
-      core: {
-        tsconfig: "src/tsconfig.core.json"
-      },
-      elem: {
-        tsconfig: "src/tsconfig.elem.json"
-      },
-      anim: {
-        tsconfig: "src/tsconfig.anim.json"
+      amd: {
+        tsconfig: "tsconfig.amd.json"
       },
       examples: {
         tsconfig: "test/examples/tsconfig.json"
@@ -33,61 +27,24 @@ module.exports = function(grunt) {
     },
     umd: {
       all: {
-        src: "dist/SavageDOM.js",
-        objectToExport: "SavageDOM"
+        src: "dist/savagedom.amd.js",
+        dest: "dist/savagedom.umd.js",
+        objectToExport: "SavageDOM",
+        template: "unit",
       },
-      core: {
-        src: "dist/SavageDOM.core.js",
-        objectToExport: "SavageDOM"
-      },
-      elem: {
-        src: "dist/SavageDOM.elem.js",
-        objectToExport: "SavageDOM"
-      },
-      anim: {
-        src: "dist/SavageDOM.anim.js",
-        objectToExport: "SavageDOM"
-      }
     },
     concat: {
       all: {
-        src: ["HEADER.txt", "dist/SavageDOM.js"],
-        dest: "dist/SavageDOM.js"
+        src: ["HEADER.txt", "dist/savagedom.umd.js"],
+        dest: "dist/savagedom.js"
       },
-      core: {
-        src: ["HEADER.txt", "dist/SavageDOM.core.js"],
-        dest: "dist/SavageDOM.core.js"
-      },
-      elem: {
-        src: ["HEADER.txt", "dist/SavageDOM.elem.js"],
-        dest: "dist/SavageDOM.elem.js"
-      },
-      anim: {
-        src: ["HEADER.txt", "dist/SavageDOM.anim.js"],
-        dest: "dist/SavageDOM.anim.js"
-      }
     },
     sed: {
       all: {
         pattern: "@VERSION",
         replacement: "<%= pkg.version %>",
-        path: "dist/SavageDOM.js"
+        path: "dist/savagedom.js"
       },
-      core: {
-        pattern: "@VERSION",
-        replacement: "<%= pkg.version %>",
-        path: "dist/SavageDOM.core.js"
-      },
-      elem: {
-        pattern: "@VERSION",
-        replacement: "<%= pkg.version %>",
-        path: "dist/SavageDOM.elem.js"
-      },
-      anim: {
-        pattern: "@VERSION",
-        replacement: "<%= pkg.version %>",
-        path: "dist/SavageDOM.anim.js"
-      }
     },
     tslint: {
       options: {
@@ -144,12 +101,7 @@ module.exports = function(grunt) {
 
   require("load-grunt-tasks")(grunt);
 
-  grunt.registerTask("compile:all", ["ts:all", "umd:all", "concat:all", "sed:all", "clean:tscommand"]);
-  grunt.registerTask("compile:core", ["ts:core", "umd:core", "concat:core", "sed:core", "clean:tscommand"]);
-  grunt.registerTask("compile:elem", ["ts:elem", "umd:elem", "concat:elem", "sed:elem", "clean:tscommand"]);
-  grunt.registerTask("compile:anim", ["ts:anim", "umd:anim", "concat:anim", "sed:anim", "clean:tscommand"]);
-
-  grunt.registerTask("compile", ["compile:all", "compile:core", "compile:elem", "compile:anim", "clean:tscommand"]);
+  grunt.registerTask("build", ["ts:amd", "umd:all", "concat:all", "sed:all", "clean:tscommand"]);
 
   grunt.registerTask("examples", ["clean:examples", "ts:examples", "shell:examples", "compile-handlebars:examples", "clean:tscommand"]);
 
@@ -157,7 +109,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask("lint", ["parallelize:tslint"]);
 
-  grunt.registerTask("check", ["lint", "compile", "ts:verifyDefinitionFiles"]);
+  grunt.registerTask("check", ["lint", "build"]);
 
   grunt.registerTask("prepublish", ["check", "docs"]);
 

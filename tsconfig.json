@@ -16,9 +16,11 @@
         "noImplicitThis": true,
         "strictNullChecks": true,
         "alwaysStrict": true,
-        "removeComments": true
+        "removeComments": true,
+        "rootDir": "src"
     },
     "exclude": [
-        "../node_modules"
+        "node_modules",
+        "dist"
     ]
 }

@@ -11,3 +11,16 @@ namespace SavageDOM.Elements.Renderables.Shapes {
   }
 
 }
+
+namespace SavageDOM {
+
+  export interface Context {
+    polyline(points: Attributes.Point[]): Elements.Renderables.Shapes.Polyline;
+  }
+
+  Context.prototype.polyline = function(this: Context, points: Attributes.Point[]): Elements.Renderables.Shapes.Polyline {
+    const attrs = { points };
+    return new Elements.Renderables.Shapes.Polyline(this, attrs);
+  };
+
+}

@@ -1,4 +1,4 @@
-namespace SavageDOM.Elements {
+namespace SavageDOM.Elements.Renderables {
 
   export interface Textual_Attributes extends Attributes.HasFill, Attributes.HasStroke, Attributes.HasVisibility {
     "direction": "ltr" | "rtl" | Attributes.Inherit;
@@ -100,5 +100,22 @@ namespace SavageDOM.Elements {
       });
     }
   }
+
+}
+
+namespace SavageDOM {
+
+  export interface Context {
+    text(content: Attributes.TextContent[], p: Attributes.Point): Elements.Renderables.Text;
+    text(content: Attributes.TextContent[], x: Attributes.Length, y: Attributes.Length): Elements.Renderables.Text;
+  }
+
+  Context.prototype.text = function(this: Context, content: Attributes.TextContent[], a1: Attributes.Point | Attributes.Length, a2?: Attributes.Length): Elements.Renderables.Text {
+    const attrs = (a1 instanceof Attributes.Point) ? { "x:y": a1 } : { x: a1, y: a2 };
+    const t = new Elements.Renderables.Text(this, attrs);
+    content.forEach(c => t.addSpan(c));
+    this.addChild(t);
+    return t;
+  };
 
 }

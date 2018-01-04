@@ -5,35 +5,35 @@ window["buildExample"]["transforms"] = (root) => {
   const gap = 15;
   const scale = 0.75;
 
-  const clear = new SavageDOM.Attribute.Color("rgb", 0, 0, 0, 0);
-  const red = new SavageDOM.Attribute.Color("#FF0000");
-  const gray = percent => new SavageDOM.Attribute.Color("rgb", percent * 255, percent * 255, percent * 255);
+  const clear = new SavageDOM.Attributes.Color("rgb", 0, 0, 0, 0);
+  const red = new SavageDOM.Attributes.Color("#FF0000");
+  const gray = percent => new SavageDOM.Attributes.Color("rgb", percent * 255, percent * 255, percent * 255);
 
-  const paper = new SavageDOM.Context(root);
+  const context = new SavageDOM.Context(root);
 
-  const transforms: SavageDOM.Attribute.Transform[] = [
-    new SavageDOM.Attribute.Transform.UniformScale(0.8),
-    new SavageDOM.Attribute.Transform.Scale(0.8, 1.2),
-    new SavageDOM.Attribute.Transform.Rotate(15),
-    new SavageDOM.Attribute.Transform.SkewX(15),
+  const transforms: SavageDOM.Attributes.Transform[] = [
+    new SavageDOM.Attributes.Transforms.UniformScale(0.8),
+    new SavageDOM.Attributes.Transforms.Scale(0.8, 1.2),
+    new SavageDOM.Attributes.Transforms.Rotate(15),
+    new SavageDOM.Attributes.Transforms.SkewX(15),
   ];
 
   const sqrtLength = Math.ceil(Math.sqrt(transforms.length));
   const length = (width - (2 + sqrtLength - 1) * gap) / sqrtLength;
   const side = (scale * length);
 
-  const buildGroup = (g: number, t: string): SavageDOM.Elements.Renderable.Group => {
+  const buildGroup = (g: number, t: string): SavageDOM.Elements.Renderables.Group => {
     const c = gray(g);
-    const box = new SavageDOM.Elements.Renderable.Shape.Rect(paper, {
-      "x": 0 - side / 2, "y": 0 - side / 2, "width": side, "height": side,
-      "fill": clear, "stroke": c, "stroke-width": 2,
+    const box = new SavageDOM.Elements.Renderables.Shapes.Rect(context, {
+      x: 0 - side / 2, y: 0 - side / 2, width: side, height: side,
+      fill: clear, stroke: c, "stroke-width": 2,
     });
-    const text = new SavageDOM.Elements.Renderable.Text(paper, {
-      "x": 0, "y": 0, "fill": c,
+    const text = new SavageDOM.Elements.Renderables.Text(context, {
+      x: 0, y: 0, fill: c,
       "font-size": 20, "font-family": "Courier New", "text-anchor": "middle",
     });
-    text.addSpan(new SavageDOM.Attribute.TextContent(t));
-    return paper.group([box, text]);
+    text.addSpan(new SavageDOM.Attributes.TextContent(t));
+    return context.group([box, text]);
   };
 
   transforms.forEach((tf, i: number) => {
@@ -42,7 +42,7 @@ window["buildExample"]["transforms"] = (root) => {
 
     const type = tf.type;
 
-    const origin = paper.circle(0, 0, 2);
+    const origin = context.circle(0, 0, 2);
     origin.setAttribute("fill", red);
 
     const start = buildGroup(0.5, type);
@@ -55,8 +55,8 @@ window["buildExample"]["transforms"] = (root) => {
     const endTF = tf;
     end.setAttribute(`transform.${type}` as any, endTF);
 
-    const g = paper.group([origin, start, mid, end]);
-    g.setAttribute("transform.translate", new SavageDOM.Attribute.Transform.Translate(x, y));
+    const g = context.group([origin, start, mid, end]);
+    g.setAttribute("transform.translate", new SavageDOM.Attributes.Transforms.Translate(x, y));
   });
 
 };

@@ -9,3 +9,18 @@ namespace SavageDOM.Elements.Renderables {
   }
 
 }
+
+namespace SavageDOM {
+
+  export interface Context {
+    group(els: Element<SVGElement, any, any>[]): Elements.Renderables.Group;
+  }
+
+  Context.prototype.group = function(this: Context, els: Element<SVGElement, any, any>[] = []): Elements.Renderables.Group {
+    const el = new Elements.Renderables.Group(this);
+    els.forEach(child => el.add(child));
+    this.addChild(el);
+    return el;
+  };
+
+}
