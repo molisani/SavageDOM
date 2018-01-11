@@ -14,7 +14,7 @@ namespace SavageDOM {
     constructor(context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, id?: string);
     constructor(public context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, private _id: string = randomId()) {
       if (typeof el === "string") {
-        this._node = window.document.createElementNS(XMLNS, el) as SVG;
+        this._node = this.context.window.document.createElementNS(XMLNS, el) as SVG;
         if (attrs !== undefined) {
           this.setAttributes(attrs);
         }
@@ -29,7 +29,7 @@ namespace SavageDOM {
           this._node.setAttribute("id", this._id);
         }
       }
-      this._style = window.getComputedStyle(this._node);
+      this._style = this.context.window.getComputedStyle(this._node);
       this._subject.subscribe((update) => {
         Animation.Renderer.Renderer.getInstance().queueUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, update.name, update.val);
       });

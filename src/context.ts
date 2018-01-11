@@ -1,31 +1,21 @@
 namespace SavageDOM {
 
-  function initializeRoot(root: SVGSVGElement): SVGDefsElement {
-    root.setAttribute("xmlns", XMLNS);
-    root.setAttributeNS(XMLNS, "xlink", XLINK);
-    root.setAttribute("version", "1.1");
-    const defs = root.querySelector("defs");
-    if (defs !== null) {
-      return defs;
-    }
-    return root.appendChild(window.document.createElementNS(XMLNS, "defs"));
-  }
-
   interface ElementConstructor<E, Attrs> {
     new(context: Context, attrs?: Partial<Attrs>): E;
   }
 
   export class Context {
+    public static DEFAULT_WINDOW: Window = window;
     private _root: SVGSVGElement;
     private _defs: Element<SVGDefsElement, any, any>;
     private _target: SVGElement;
     constructor();
-    constructor(id: string);
-    constructor(el: SVGSVGElement);
-    constructor(root?: string | SVGSVGElement) {
+    constructor(id: string, window?: Window);
+    constructor(el: SVGSVGElement, window?: Window);
+    constructor(root?: string | SVGSVGElement, private _window: Window = Context.DEFAULT_WINDOW) {
       if (root) {
         if (typeof root === "string") {
-          const el = window.document.getElementById(root);
+          const el = this._window.document.getElementById(root);
           if (el instanceof SVGSVGElement) {
             this._root = el;
           } else {
@@ -35,8 +25,8 @@ namespace SavageDOM {
           this._root = root;
         }
       } else {
-        this._root = window.document.createElementNS(XMLNS, "svg") as SVGSVGElement;
-        window.document.body.appendChild(this._root);
+        this._root = this._window.document.createElementNS(XMLNS, "svg") as SVGSVGElement;
+        this._window.document.body.appendChild(this._root);
       }
       this._root.setAttribute("xmlns", XMLNS);
       this._root.setAttributeNS(XMLNS, "xlink", XLINK);
@@ -49,7 +39,10 @@ namespace SavageDOM {
       }
       this._target = this._root;
     }
-    public addDef(def: Element<SVGElement, any, any>) {
+    public get window(): Window {
+      return this._window;
+    }
+    public addDef(def: SVGElement | Element<SVGElement, any, any>) {
       this._defs.add(def);
     }
     public addChild(el: SVGElement | Element<SVGElement, any, any>) {
