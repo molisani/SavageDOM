@@ -1,14 +1,14 @@
 namespace SavageDOM.Elements.Renderables {
 
-  export class ExternalSVG extends Group {
-    constructor(context: Context, doc: ExternalDocument, attrs?: Partial<Renderable_Attributes>) {
-      super(context, attrs);
-      doc.children.forEach((child) => {
-        const importedNode = context.window.document.importNode(child, true);
-        context.addChild(importedNode);
-      });
-    }
-  }
+  // export class ExternalSVG extends Group {
+  //   constructor(context: Context, doc: ExternalDocument, attrs?: Partial<Renderable_Attributes>) {
+  //     super(context, attrs);
+  //     doc.children.forEach((child) => {
+  //       const importedNode = context.window.document.importNode(child, true);
+  //       context.addChild(importedNode);
+  //     });
+  //   }
+  // }
 
 }
 
@@ -59,14 +59,14 @@ namespace SavageDOM {
     });
   };
 
-  export interface Context {
-    load(url: string): Promise<Elements.Renderables.ExternalSVG>;
-  }
+  // export interface Context {
+  //   load(url: string): Promise<Elements.Renderables.ExternalSVG>;
+  // }
 
-  Context.prototype.load = async function(this: Context, url: string): Promise<Elements.Renderables.ExternalSVG> {
-    const xmlDocument = await makeRequest("GET", url);
-    const externalDocument = new ExternalDocument(this, xmlDocument);
-    return new Elements.Renderables.ExternalSVG(this, externalDocument);
-  };
+  // Context.prototype.load = async function(this: Context, url: string): Promise<Elements.Renderables.ExternalSVG> {
+  //   const xmlDocument = await makeRequest("GET", url);
+  //   const externalDocument = new ExternalDocument(this, xmlDocument);
+  //   return new Elements.Renderables.ExternalSVG(this, externalDocument);
+  // };
 
 }

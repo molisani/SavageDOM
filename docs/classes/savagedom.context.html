@@ -87,12 +87,20 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="savagedom.context.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="savagedom.context.html#_defs" class="tsd-kind-icon">_defs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="savagedom.context.html#_root" class="tsd-kind-icon">_root</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="savagedom.context.html#_target" class="tsd-kind-icon">_target</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="savagedom.context.html#_window" class="tsd-kind-icon">_window</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="savagedom.context.html#default_window" class="tsd-kind-icon">DEFAULT_<wbr>WINDOW</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="savagedom.context.html#window" class="tsd-kind-icon">window</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -123,14 +131,14 @@
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">new <wbr>Context<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.context.html" class="tsd-signature-type">Context</a></li>
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Context<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.context.html" class="tsd-signature-type">Context</a></li>
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Context<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGSVGElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.context.html" class="tsd-signature-type">Context</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Context<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, window<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Window</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.context.html" class="tsd-signature-type">Context</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Context<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGSVGElement</span>, window<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Window</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="savagedom.context.html" class="tsd-signature-type">Context</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/context.ts#L21">context.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/context.ts#L11">context.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.context.html" class="tsd-signature-type">Context</a></h4>
@@ -138,7 +146,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/context.ts#L22">context.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/context.ts#L12">context.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -146,13 +154,16 @@
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> window: <span class="tsd-signature-type">Window</span></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.context.html" class="tsd-signature-type">Context</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/context.ts#L23">context.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/context.ts#L13">context.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -160,13 +171,16 @@
 								<li>
 									<h5>el: <span class="tsd-signature-type">SVGSVGElement</span></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> window: <span class="tsd-signature-type">Window</span></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="savagedom.context.html" class="tsd-signature-type">Context</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_defs" class="tsd-anchor"></a>
@@ -174,7 +188,7 @@
 					<div class="tsd-signature tsd-kind-icon">_defs<span class="tsd-signature-symbol">:</span> <a href="savagedom.element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGDefsElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/context.ts#L20">context.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/context.ts#L10">context.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -184,7 +198,7 @@
 					<div class="tsd-signature tsd-kind-icon">_root<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SVGSVGElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/context.ts#L19">context.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/context.ts#L9">context.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,9 +208,49 @@
 					<div class="tsd-signature tsd-kind-icon">_target<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SVGElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/context.ts#L21">context.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/context.ts#L11">context.ts:11</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="_window" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _window</h3>
+					<div class="tsd-signature tsd-kind-icon">_window<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Window</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/context.ts#L15">context.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="default_window" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> DEFAULT_<wbr>WINDOW</h3>
+					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>WINDOW<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Window</span><span class="tsd-signature-symbol"> =&nbsp;window</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/context.ts#L8">context.ts:8</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="window" class="tsd-anchor"></a>
+					<h3>window</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> window<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Window</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/context.ts#L42">context.ts:42</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Window</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -211,7 +265,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/context.ts#L55">context.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/context.ts#L48">context.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -228,19 +282,19 @@
 					<a name="adddef" class="tsd-anchor"></a>
 					<h3>add<wbr>Def</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Def<span class="tsd-signature-symbol">(</span>def<span class="tsd-signature-symbol">: </span><a href="savagedom.element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Def<span class="tsd-signature-symbol">(</span>def<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol"> | </span><a href="savagedom.element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/context.ts#L52">context.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/context.ts#L45">context.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>def: <a href="savagedom.element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>def: <span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol"> | </span><a href="savagedom.element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -258,7 +312,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/circle.ts#L21">elements/renderables/shapes/circle.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/circle.ts#L21">elements/renderables/shapes/circle.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -275,7 +329,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/circle.ts#L22">elements/renderables/shapes/circle.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/circle.ts#L22">elements/renderables/shapes/circle.ts:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -305,7 +359,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/ellipse.ts#L23">elements/renderables/shapes/ellipse.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/ellipse.ts#L23">elements/renderables/shapes/ellipse.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -322,7 +376,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/ellipse.ts#L24">elements/renderables/shapes/ellipse.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/ellipse.ts#L24">elements/renderables/shapes/ellipse.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -354,7 +408,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/foreign-object.ts#L27">elements/renderables/foreign-object.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/foreign-object.ts#L27">elements/renderables/foreign-object.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -389,7 +443,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/group.ts#L16">elements/renderables/group.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/group.ts#L16">elements/renderables/group.ts:16</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -412,7 +466,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/image.ts#L33">elements/renderables/image.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/image.ts#L33">elements/renderables/image.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -436,7 +490,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/line.ts#L23">elements/renderables/shapes/line.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/line.ts#L23">elements/renderables/shapes/line.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -453,7 +507,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/line.ts#L24">elements/renderables/shapes/line.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/line.ts#L24">elements/renderables/shapes/line.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -485,7 +539,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/path.ts#L19">elements/renderables/shapes/path.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/path.ts#L19">elements/renderables/shapes/path.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -511,7 +565,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/polygon.ts#L18">elements/renderables/shapes/polygon.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/polygon.ts#L18">elements/renderables/shapes/polygon.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -534,7 +588,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/polyline.ts#L18">elements/renderables/shapes/polyline.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/polyline.ts#L18">elements/renderables/shapes/polyline.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -561,7 +615,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/rect.ts#L27">elements/renderables/shapes/rect.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/rect.ts#L27">elements/renderables/shapes/rect.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -578,7 +632,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/rect.ts#L28">elements/renderables/shapes/rect.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/rect.ts#L28">elements/renderables/shapes/rect.ts:28</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -598,7 +652,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/rect.ts#L29">elements/renderables/shapes/rect.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/rect.ts#L29">elements/renderables/shapes/rect.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -621,7 +675,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/rect.ts#L30">elements/renderables/shapes/rect.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/rect.ts#L30">elements/renderables/shapes/rect.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -647,7 +701,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/shapes/rect.ts#L31">elements/renderables/shapes/rect.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/shapes/rect.ts#L31">elements/renderables/shapes/rect.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -683,7 +737,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/text.ts#L109">elements/renderables/text.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/text.ts#L109">elements/renderables/text.ts:109</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -700,7 +754,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/51ba1cf/src/elements/renderables/text.ts#L110">elements/renderables/text.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/af4261f/src/elements/renderables/text.ts#L110">elements/renderables/text.ts:110</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -762,6 +816,15 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="savagedom.context.html#_target" class="tsd-kind-icon">_target</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="savagedom.context.html#_window" class="tsd-kind-icon">_window</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="savagedom.context.html#default_window" class="tsd-kind-icon">DEFAULT_<wbr>WINDOW</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="savagedom.context.html#window" class="tsd-kind-icon">window</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="savagedom.context.html#addchild" class="tsd-kind-icon">add<wbr>Child</a>
 							</li>
@@ -808,6 +871,9 @@
 					<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="savagedom.element.html" class="tsd-kind-icon">Element</a>
 					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="savagedom.externaldocument.html" class="tsd-kind-icon">External<wbr>Document</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="../interfaces/savagedom.attribute.html" class="tsd-kind-icon">Attribute</a>
 					</li>
@@ -851,10 +917,10 @@
 						<a href="../modules/savagedom.html#_lerp" class="tsd-kind-icon">_lerp</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/savagedom.html#initializeroot" class="tsd-kind-icon">initialize<wbr>Root</a>
+						<a href="../modules/savagedom.html#isattribute" class="tsd-kind-icon">is<wbr>Attribute</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/savagedom.html#isattribute" class="tsd-kind-icon">is<wbr>Attribute</a>
+						<a href="../modules/savagedom.html#makerequest" class="tsd-kind-icon">make<wbr>Request</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="../modules/savagedom.html#randomid" class="tsd-kind-icon">random<wbr>Id</a>
