@@ -1,35 +1,29 @@
-namespace SavageDOM.Elements.NonRenderables {
+import { HasOpacity, HasOverflow, Inherit, Length, None } from "../../attributes/base";
+import { Box } from "../../attributes/box";
+import { Point } from "../../attributes/point";
+import { Context } from "../../context";
+import { AbstractNonRenderable, NonRenderable_Attributes } from "../non-renderable";
 
-  export interface HasMarker {
-    "marker-start": Attributes.None | Marker | Attributes.Inherit;
-    "marker-mid": Attributes.None | Marker | Attributes.Inherit;
-    "marker-end": Attributes.None | Marker | Attributes.Inherit;
+export interface HasMarker {
+  "marker-start": None | Marker | Inherit;
+  "marker-mid": None | Marker | Inherit;
+  "marker-end": None | Marker | Inherit;
+}
+
+export interface Marker_Attributes extends HasOverflow, HasOpacity {
+  markerUnits: "userSpaceOnUse" | "strokeWidth";
+  refX: Length;
+  refY: Length;
+  "refX:refY": Point;
+  markerWidth: Length;
+  markerHeight: Length;
+  "refX:refY:markerWidth:markerHeight": Box;
+  orient: "auto" | "auto-start-reverse" | number | string;
+  viewBox: Box;
+}
+
+export class Marker extends AbstractNonRenderable<SVGMarkerElement, Marker_Attributes> {
+  constructor(context: Context, attrs?: Partial<NonRenderable_Attributes | Marker_Attributes>) {
+    super(context, "marker", attrs);
   }
-
-  export interface Marker_Attributes extends Attributes.HasOverflow, Attributes.HasOpacity {
-    markerUnits: "userSpaceOnUse" | "strokeWidth";
-    refX: Attributes.Length;
-    refY: Attributes.Length;
-    "refX:refY": Attributes.Point;
-    markerWidth: Attributes.Length;
-    markerHeight: Attributes.Length;
-    "refX:refY:markerWidth:markerHeight": Attributes.Box;
-    orient: "auto" | "auto-start-reverse" | number | string;
-    viewBox: Attributes.Box;
-  }
-
-  export class Marker extends AbstractNonRenderable<SVGMarkerElement, Marker_Attributes> {
-    constructor(context: Context, attrs?: Partial<NonRenderable_Attributes | Marker_Attributes>) {
-      super(context, "marker", attrs);
-    }
-  }
-
-// export interface Context {
-//   marker(): Elements.NonRenderable.Marker;
-// }
-
-// Context.prototype.marker = function(this: SavageDOM.Context): Elements.NonRenderable.Marker {
-//   return new Elements.NonRenderable.Marker(this, {});
-// };
-
 }

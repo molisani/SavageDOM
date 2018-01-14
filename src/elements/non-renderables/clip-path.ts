@@ -1,19 +1,23 @@
-namespace SavageDOM.Elements.NonRenderables {
+import { Inherit, Length, None } from "../../attributes/base";
+import { Box } from "../../attributes/box";
+import { Point } from "../../attributes/point";
+import { Context } from "../../context";
+import { AbstractNonRenderable } from "../non-renderable";
 
 export interface HasClipPath {
-  "clip-path": ClipPath | Attributes.None | Attributes.Inherit;
-  "clip-rule": "nonzero" | "evenodd" | Attributes.Inherit;
+  "clip-path": ClipPath | None | Inherit;
+  "clip-rule": "nonzero" | "evenodd" | Inherit;
 }
 
 export interface ClipPath_Attributes {
   maskUnits: "userSpaceOnUse" | "objectBoundingBox";
   maskContentUnits: "userSpaceOnUse" | "objectBoundingBox";
-  x: Attributes.Length;
-  y: Attributes.Length;
-  width: Attributes.Length;
-  height: Attributes.Length;
-  "width:height": Attributes.Point;
-  "x:y:width:height": Attributes.Box;
+  x: Length;
+  y: Length;
+  width: Length;
+  height: Length;
+  "width:height": Point;
+  "x:y:width:height": Box;
 }
 
 export class ClipPath extends AbstractNonRenderable<SVGMaskElement, ClipPath_Attributes> {
@@ -39,14 +43,4 @@ export class ClipPath extends AbstractNonRenderable<SVGMaskElement, ClipPath_Att
       this.setAttribute("maskContentUnits", contentUnits);
     }
   }
-}
-
-  // export interface Context {
-  //   clipPath(w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox"): Elements.NonRenderable.ClipPath;
-  // }
-
-  // Context.prototype.clipPath = function(this: SavageDOM.Context, w?: number, h?: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox"): Elements.NonRenderable.ClipPath {
-  //   return new Elements.NonRenderable.ClipPath(this, w, h, x, y, units, contentUnits);
-  // };
-
 }

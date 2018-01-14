@@ -1,26 +1,20 @@
-namespace SavageDOM.Elements.NonRenderables.PaintServers.Gradients {
+import { Length } from "../../../../attributes/base";
+import { Point } from "../../../../attributes/point";
+import { Context } from "../../../../context";
+import { NonRenderable_Attributes } from "../../../non-renderable";
+import { AbstractGradient, Gradient_Attributes, Stops } from "../gradient";
 
-  export interface Linear_Attributes extends Gradient_Attributes {
-    x1: Attributes.Length;
-    y1: Attributes.Length;
-    "x1:y1": Attributes.Point;
-    x2: Attributes.Length;
-    y2: Attributes.Length;
-    "x2:y2": Attributes.Point;
+export interface LinearGradient_Attributes extends Gradient_Attributes {
+  x1: Length;
+  y1: Length;
+  "x1:y1": Point;
+  x2: Length;
+  y2: Length;
+  "x2:y2": Point;
+}
+
+export class LinearGradient extends AbstractGradient<SVGLinearGradientElement, LinearGradient_Attributes> {
+  constructor(context: Context, stops: Stops, attrs?: Partial<NonRenderable_Attributes & LinearGradient_Attributes>) {
+    super(context, "linearGradient", stops, attrs);
   }
-
-  export class Linear extends AbstractGradient<SVGLinearGradientElement, Linear_Attributes> {
-    constructor(context: Context, stops: Stops, attrs?: Partial<NonRenderable_Attributes & Linear_Attributes>) {
-      super(context, "linearGradient", stops, attrs);
-    }
-  }
-
-  // export interface Context {
-  //   linearGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear;
-  // }
-
-  // Context.prototype.linearGradient = function(this: SavageDOM.Context, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Attribute.NonRenderable.PaintServer.Gradient.Linear): Elements.NonRenderable.PaintServer.Gradient.Linear {
-  //   return new Elements.NonRenderable.PaintServer.Gradient.Linear(this, stops, attrs);
-  // };
-
 }

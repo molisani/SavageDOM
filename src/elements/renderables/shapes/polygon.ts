@@ -1,26 +1,15 @@
-namespace SavageDOM.Elements.Renderables.Shapes {
+import { Point } from "../../../attributes/point";
+import { Context } from "../../../context";
+import { HasMarker } from "../../non-renderables/marker";
+import { Renderable_Attributes } from "../../renderable";
+import { AbstractShape, Shape_Attributes } from "../shape";
 
-  export interface Polygon_Attributes extends Elements.NonRenderables.HasMarker {
-    points: Attributes.Point[];
-  }
-
-  export class Polygon extends AbstractShape<SVGPolygonElement, Polygon_Attributes> {
-    constructor(context: Context, attrs?: Partial<Renderable_Attributes & Shape_Attributes & Polygon_Attributes>) {
-      super(context, "polygon", attrs);
-    }
-  }
-
+export interface Polygon_Attributes extends HasMarker {
+  points: Point[];
 }
 
-namespace SavageDOM {
-
-  export interface Context {
-    polygon(points: Attributes.Point[]): Elements.Renderables.Shapes.Polygon;
+export class Polygon extends AbstractShape<SVGPolygonElement, Polygon_Attributes> {
+  constructor(context: Context, attrs?: Partial<Renderable_Attributes & Shape_Attributes & Polygon_Attributes>) {
+    super(context, "polygon", attrs);
   }
-
-  Context.prototype.polygon = function(points: Attributes.Point[]): Elements.Renderables.Shapes.Polygon {
-    const attrs = { points };
-    return new Elements.Renderables.Shapes.Polygon(this, attrs);
-  };
-
 }

@@ -1,26 +1,15 @@
-namespace SavageDOM.Elements.Renderables.Shapes {
+import { Point } from "../../../attributes/point";
+import { Context } from "../../../context";
+import { HasMarker } from "../../non-renderables/marker";
+import { Renderable_Attributes } from "../../renderable";
+import { AbstractShape, Shape_Attributes } from "../shape";
 
-  export interface Polyline_Attributes extends Elements.NonRenderables.HasMarker {
-    points: Attributes.Point[];
-  }
-
-  export class Polyline extends AbstractShape<SVGPolylineElement, Polyline_Attributes> {
-    constructor(context: Context, attrs?: Partial<Renderable_Attributes & Shape_Attributes & Polyline_Attributes>) {
-      super(context, "polyline", attrs);
-    }
-  }
-
+export interface Polyline_Attributes extends HasMarker {
+  points: Point[];
 }
 
-namespace SavageDOM {
-
-  export interface Context {
-    polyline(points: Attributes.Point[]): Elements.Renderables.Shapes.Polyline;
+export class Polyline extends AbstractShape<SVGPolylineElement, Polyline_Attributes> {
+  constructor(context: Context, attrs?: Partial<Renderable_Attributes & Shape_Attributes & Polyline_Attributes>) {
+    super(context, "polyline", attrs);
   }
-
-  Context.prototype.polyline = function(this: Context, points: Attributes.Point[]): Elements.Renderables.Shapes.Polyline {
-    const attrs = { points };
-    return new Elements.Renderables.Shapes.Polyline(this, attrs);
-  };
-
 }

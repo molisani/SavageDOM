@@ -1,26 +1,21 @@
-namespace SavageDOM.Elements.Renderables {
+import { HasOpacity } from "../../attributes/base";
+import { Box } from "../../attributes/box";
+import { Context } from "../../context";
+import { Pattern } from "../non-renderables/paint-servers/pattern";
+import { AbstractRenderable, Containers_Attributes, Renderable_Attributes } from "../renderable";
 
-  export interface Group_Attributes extends Containers_Attributes, Attributes.HasOpacity {}
+export interface Group_Attributes extends Containers_Attributes, HasOpacity {}
 
-  export class Group extends AbstractRenderable<SVGGElement, Group_Attributes, {}> {
-    constructor(context: Context, attrs?: Partial<Renderable_Attributes>) {
-      super(context, "g", attrs);
-    }
+export class Group extends AbstractRenderable<SVGGElement, Group_Attributes, {}> {
+  constructor(context: Context, attrs?: Partial<Renderable_Attributes>) {
+    super(context, "g", attrs);
   }
-
-}
-
-namespace SavageDOM {
-
-  export interface Context {
-    group(els: Element<SVGElement, any, any>[]): Elements.Renderables.Group;
+  public toPattern(w: number, h: number): Pattern;
+  public toPattern(w: number, h: number, x: number, y: number): Pattern;
+  public toPattern(w: number, h: number, x: number, y: number, view: Box): Pattern;
+  public toPattern(w: number, h: number, x?: number, y?: number, view?: Box): Pattern {
+    const pattern = new Pattern(this.context, w, h, x, y, view);
+    this.getChildren().forEach(child => pattern.add(child));
+    return pattern;
   }
-
-  Context.prototype.group = function(this: Context, els: Element<SVGElement, any, any>[] = []): Elements.Renderables.Group {
-    const el = new Elements.Renderables.Group(this);
-    els.forEach(child => el.add(child));
-    this.addChild(el);
-    return el;
-  };
-
 }

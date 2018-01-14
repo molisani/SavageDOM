@@ -1,27 +1,21 @@
-namespace SavageDOM.Elements.NonRenderables.PaintServers.Gradients {
+import { Length } from "../../../../attributes/base";
+import { Point } from "../../../../attributes/point";
+import { Context } from "../../../../context";
+import { NonRenderable_Attributes } from "../../../non-renderable";
+import { AbstractGradient, Gradient_Attributes, Stops } from "../gradient";
 
-  export interface Radial_Attributes extends Gradient_Attributes {
-    cx: Attributes.Length;
-    cy: Attributes.Length;
-    "cx:cy": Attributes.Point;
-    r: Attributes.Length;
-    fx: Attributes.Length;
-    fy: Attributes.Length;
-    "fx:fy": Attributes.Point;
+export interface RadialGradient_Attributes extends Gradient_Attributes {
+  cx: Length;
+  cy: Length;
+  "cx:cy": Point;
+  r: Length;
+  fx: Length;
+  fy: Length;
+  "fx:fy": Point;
+}
+
+export class RadialGradient extends AbstractGradient<SVGRadialGradientElement, RadialGradient_Attributes> {
+  constructor(context: Context, stops: Stops, attrs?: Partial<NonRenderable_Attributes & RadialGradient_Attributes>) {
+    super(context, "radialGradient", stops, attrs);
   }
-
-  export class Radial extends AbstractGradient<SVGRadialGradientElement, Radial_Attributes> {
-    constructor(context: Context, stops: Stops, attrs?: Partial<NonRenderable_Attributes & Radial_Attributes>) {
-      super(context, "radialGradient", stops, attrs);
-    }
-  }
-
-  // export interface Context {
-  //   radialGradient(stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Attribute.NonRenderable.PaintServer.Gradient.Radial): Elements.NonRenderable.PaintServer.Gradient.Radial;
-  // }
-
-  // Context.prototype.radialGradient = function(this: SavageDOM.Context, stops: Attribute.NonRenderable.PaintServer.Gradient.Stops, attrs?: Attribute.NonRenderable.PaintServer.Gradient.Radial): Elements.NonRenderable.PaintServer.Gradient.Radial {
-  //   return new Elements.NonRenderable.PaintServer.Gradient.Radial(this, stops, attrs);
-  // };
-
 }

@@ -1,14 +1,19 @@
-namespace SavageDOM.Elements {
+import { HasClass, HasStyle, Inherit, Length } from "../attributes/base";
+import { Box } from "../attributes/box";
+import { Point } from "../attributes/point";
+import { Element } from "../element";
+import { SVG_Events } from "../events";
+import { Filter } from "./filter";
 
-export interface FilterPrimitive_Attributes extends Attributes.HasClass, Attributes.HasStyle {
-  x: Attributes.Length;
-  y: Attributes.Length;
-  width: Attributes.Length;
-  height: Attributes.Length;
-  "width:height": Attributes.Point;
-  "x:y:width:height": Attributes.Box;
+export interface FilterPrimitive_Attributes extends HasClass, HasStyle {
+  x: Length;
+  y: Length;
+  width: Length;
+  height: Length;
+  "width:height": Point;
+  "x:y:width:height": Box;
   result: string;
-  "color-interpolation-filters": "auto" | "sRGB" | "linearRGB" | Attributes.Inherit;
+  "color-interpolation-filters": "auto" | "sRGB" | "linearRGB" | Inherit;
 }
 
 export interface FilterPrimitive_Events extends SVG_Events {}
@@ -26,6 +31,4 @@ export class FilterPrimitive<FE extends SVGElement, A> extends Element<FE, Filte
     }
     return this.id;
   }
-}
-
 }
