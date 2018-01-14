@@ -1,6 +1,6 @@
 {
   "name": "savagedom",
-  "version": "1.0.0-alpha.17",
+  "version": "1.0.0-alpha.18",
   "description": "Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript",
   "keywords": [
     "svg",
@@ -16,8 +16,8 @@
   },
   "license": "LGPL-3.0",
   "author": "Michael Molisani <michael@molisani.us> (http://molisani.us)",
-  "main": "dist/SavageDOM.js",
-  "types": "dist/SavageDOM.d.ts",
+  "main": "dist/savagedom.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "grunt check",
     "prepublish": "grunt prepublish"
@@ -39,6 +39,7 @@
     "grunt-tslint": "^5.0.1",
     "grunt-typedoc": "^0.2.4",
     "grunt-umd": "^3.0.0",
+    "grunt-webpack": "^3.0.2",
     "load-grunt-tasks": "^3.5.2",
     "phantomjs-prebuilt": "^2.1.16",
     "requirejs": "^2.3.5",

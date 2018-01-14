@@ -1,6 +1,8 @@
 module.exports = function(grunt) {
   "use strict";
 
+  const webpackConfig = require('./webpack.config');
+
   var examples = grunt.file.expand({
     filter: "isFile",
     cwd: "test/examples"
@@ -9,33 +11,16 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
     ts: {
-      all: {
+      lib: {
         tsconfig: "tsconfig.json"
       },
-      amd: {
-        tsconfig: "tsconfig.amd.json"
-      },
-      examples: {
-        tsconfig: "test/examples/tsconfig.json"
-      },
-      verifyDefinitionFiles: {
-        src: [
-          "dist/SavageDOM.d.ts"
-        ],
-        tsconfig: "src/tsconfig.json"
-      }
     },
-    umd: {
-      all: {
-        src: "dist/savagedom.amd.js",
-        dest: "dist/savagedom.umd.js",
-        objectToExport: "SavageDOM",
-        template: "unit",
-      },
+    webpack: {
+      all: webpackConfig,
     },
     concat: {
       all: {
-        src: ["HEADER.txt", "dist/savagedom.umd.js"],
+        src: ["HEADER.txt", "dist/savagedom.js"],
         dest: "dist/savagedom.js"
       },
     },
@@ -101,9 +86,7 @@ module.exports = function(grunt) {
 
   require("load-grunt-tasks")(grunt);
 
-  grunt.registerTask("build", ["ts:amd", "umd:all", "concat:all", "sed:all", "clean:tscommand"]);
-
-  grunt.registerTask("examples", ["clean:examples", "ts:examples", "shell:examples", "compile-handlebars:examples", "clean:tscommand"]);
+  grunt.registerTask("build", ["ts:lib", "webpack:all", "concat:all", "sed:all", "clean:tscommand"]);
 
   grunt.registerTask("docs", ["clean:docs", "typedoc:build"]);
 

@@ -17,7 +17,8 @@
         "strictNullChecks": true,
         "alwaysStrict": true,
         "removeComments": true,
-        "rootDir": "src"
+        "rootDir": "src",
+        "outDir": "lib"
     },
     "exclude": [
         "node_modules",
