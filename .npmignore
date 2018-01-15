@@ -7,7 +7,7 @@ node_modules/
 
 !Gruntfile.js
 !dist/*
-!lib/
+!lib/*
 
 docs/
 src/

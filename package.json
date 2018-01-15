@@ -1,6 +1,6 @@
 {
   "name": "savagedom",
-  "version": "1.0.0-alpha.19",
+  "version": "1.0.0-alpha.20",
   "description": "Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript",
   "keywords": [
     "svg",
@@ -16,7 +16,7 @@
   },
   "license": "LGPL-3.0",
   "author": "Michael Molisani <michael@molisani.us> (http://molisani.us)",
-  "main": "dist/savagedom.js",
+  "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "grunt check",
