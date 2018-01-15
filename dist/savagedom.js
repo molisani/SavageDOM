@@ -1,5 +1,5 @@
 /*
- * SavageDOM 1.0.0-alpha.20 (https://github.com/molisani/SavageDOM) 
+ * SavageDOM 1.0.0-alpha.21 (https://github.com/molisani/SavageDOM) 
  * Copyright 2018 Michael Molisani
  * Licensed under LGPL-3.0 (https://github.com/molisani/SavageDOM/blob/master/LICENSE)
  */
