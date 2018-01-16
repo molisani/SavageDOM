@@ -14,7 +14,7 @@ export class SVGDocument {
     });
   }
   public get children(): SVGElement[] {
-    return Array.of<SVGElement>(this._document.documentElement.children as any);
+    return Array.prototype.slice.call(this._document.documentElement.children);
   }
 }
 

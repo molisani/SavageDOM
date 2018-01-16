@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>PartyGame.Show Host</title>
+
+  <script src="./node_modules/rxjs/bundles/Rx.js"></script>
+  <script src="./dist/savagedom.js"></script>
+
+  <style>
+    html, body { margin:0 }
+    svg { display:block; position:absolute; top:0; left:0; height:100%; width:100% }
+  </style>
+</head>
+<body>
+  <svg id="root" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1920 1080"></svg>
+  <script type="application/javascript">
+    window.root = new SavageDOM.Context("root");
+  </script>
+</body>
+</html>

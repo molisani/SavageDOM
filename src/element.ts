@@ -15,7 +15,6 @@ export type BaseElement = Element<SVGElement, BaseAttributes, BaseEvents>;
 export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, EVENTS extends BaseEvents> {
   protected _node: SVG;
   protected _style: CSSStyleDeclaration;
-  private _subject = new Subject<AttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES>>();
   private _dynamicSubscriptions = {} as { [ATTR in keyof ATTRIBUTES]: Subscription };
   constructor(context: Context, el: SVG, attrs?: Partial<ATTRIBUTES>);
   constructor(context: Context, name: string, attrs?: Partial<ATTRIBUTES>, id?: string);
@@ -23,10 +22,10 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   constructor(public context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, private _id: string = randomId()) {
     if (typeof el === "string") {
       this._node = this.context.window.document.createElementNS(XMLNS, el) as SVG;
+      this.context.addChild(this._node);
       if (attrs !== undefined) {
         this.setAttributes(attrs);
       }
-      this.context.addChild(this._node);
       this._node.setAttribute("id", this._id);
     } else {
       this._node = el;
@@ -38,9 +37,6 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
       }
     }
     this._style = this.context.window.getComputedStyle(this._node);
-    this._subject.subscribe((update) => {
-      Renderer.getInstance().queueUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, update.name, update.val);
-    });
   }
   public get id(): string {
     return this._id;
@@ -61,7 +57,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     }
   }
   public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
-    this._subject.next({ name, val });
+    Renderer.getInstance().queueUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, name, val);
   }
   public setAttributes(attrs: Partial<ATTRIBUTES>): void {
     for (const name in attrs) {
@@ -74,9 +70,6 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   public getAttribute<Attr extends keyof ATTRIBUTES>(name: Attr): string | null {
     const val = this._node.getAttribute(name) || this._style.getPropertyValue(name);
     return (val === "" || val === "none") ? null : val;
-  }
-  public get attributes(): Observable<AttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES>> {
-    return this._subject.asObservable();
   }
   public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>);
   public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean);

@@ -8,7 +8,7 @@ export class ExternalSVG extends Group {
     super(context, attrs);
     doc.children.forEach((child) => {
       const importedNode = context.window.document.importNode(child, true);
-      context.addChild(importedNode);
+      this.add(importedNode);
     });
   }
 }
