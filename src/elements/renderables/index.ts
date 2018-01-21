@@ -1,3 +1,4 @@
+export * from "./component";
 export * from "./external";
 export * from "./foreign-object";
 export * from "./group";

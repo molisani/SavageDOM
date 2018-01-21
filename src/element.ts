@@ -1,14 +1,15 @@
 import { AttributeUpdate, Renderer } from "./animation/renderer";
-import { isAttribute } from "./attribute";
+import { isAttribute, Attribute } from "./attribute";
 import { BaseAttributes } from "./attributes/base";
 import { XMLNS } from "./constants";
 import { Context } from "./context";
 import { BaseEvents } from "./events";
 
 import { Observable, Subject, Subscription } from "rxjs";
+import { EasingFunction } from "./animation/easing";
 import { Box } from "./attributes/box";
-
-const randomId = () => Math.random().toString(36).substring(2);
+import { NumberWrapper } from "./attributes/wrappers";
+import { randomShortStringId } from "./id";
 
 export type BaseElement = Element<SVGElement, BaseAttributes, BaseEvents>;
 
@@ -19,7 +20,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   constructor(context: Context, el: SVG, attrs?: Partial<ATTRIBUTES>);
   constructor(context: Context, name: string, attrs?: Partial<ATTRIBUTES>, id?: string);
   constructor(context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, id?: string);
-  constructor(public context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, private _id: string = randomId()) {
+  constructor(public context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, private _id: string = randomShortStringId()) {
     if (typeof el === "string") {
       this._node = this.context.window.document.createElementNS(XMLNS, el) as SVG;
       this.context.addChild(this._node);
@@ -49,7 +50,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   }
   public renderAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
     if (isAttribute(val)) {
-      val.set(this, name);
+      val.set(this._node, name);
     } else if (Array.isArray(val)) {
       this._node.setAttribute(name, val.join("\t"));
     } else {
@@ -57,7 +58,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     }
   }
   public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
-    Renderer.getInstance().queueUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, name, val);
+    Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, name, val);
   }
   public setAttributes(attrs: Partial<ATTRIBUTES>): void {
     for (const name in attrs) {
@@ -66,6 +67,18 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
         this.setAttribute(name, attr);
       }
     }
+  }
+  public animateAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr], duration: number, easing: EasingFunction): Promise<number> | undefined {
+    let attr: Attribute<any>;
+    if (typeof val === "number") {
+      attr = new NumberWrapper(val);
+    } else if (isAttribute(val)) {
+      attr = val;
+    } else {
+      return;
+    }
+    const from = attr.get(this._node, name);
+    return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolate.bind(attr, from), duration, easing);
   }
   public getAttribute<Attr extends keyof ATTRIBUTES>(name: Attr): string | null {
     const val = this._node.getAttribute(name) || this._style.getPropertyValue(name);
@@ -115,7 +128,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     }
     return elements;
   }
-  public clone(deep: boolean = true, id: string = randomId()): Element<SVG, ATTRIBUTES, EVENTS> {
+  public clone(deep: boolean = true, id: string = randomShortStringId()): Element<SVG, ATTRIBUTES, EVENTS> {
     const copy = new Element<SVG, ATTRIBUTES, EVENTS>(this.context, this._node.cloneNode(deep) as SVG);
     copy._id = id;
     copy._node.setAttribute("id", copy._id);
@@ -124,7 +137,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
 
   protected cloneNode(deep: boolean = true): SVG {
     const clone = this._node.cloneNode(deep) as SVG;
-    clone.setAttribute("id", randomId());
+    clone.setAttribute("id", randomShortStringId());
     return clone;
   }
 }

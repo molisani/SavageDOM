@@ -23,10 +23,10 @@ export namespace ColorMatrix {
         return new Raw([]);
       }
     }
-    public get(element: Element<SVGElement, any, any>, attr: string): Raw {
+    public get(element: SVGElement, attr: string): Raw {
       return this.parse(element.getAttribute(attr));
     }
-    public set(element: Element<SVGElement, any, any>, attr: string, override?: Raw): void {
+    public set(element: SVGElement, attr: string, override?: Raw): void {
       if (override !== undefined) {
         element.setAttribute(attr, override.toString());
       } else {
@@ -51,10 +51,10 @@ export namespace ColorMatrix {
         return new Saturate();
       }
     }
-    public get(element: Element<SVGElement, any, any>, attr: string): Saturate {
+    public get(element: SVGElement, attr: string): Saturate {
       return this.parse(element.getAttribute(attr));
     }
-    public set(element: Element<SVGElement, any, any>, attr: string, override?: Saturate): void {
+    public set(element: SVGElement, attr: string, override?: Saturate): void {
       if (override !== undefined) {
         element.setAttribute(attr, override.toString());
       } else {
@@ -79,10 +79,10 @@ export namespace ColorMatrix {
         return new HueRotate();
       }
     }
-    public get(element: Element<SVGElement, any, any>, attr: string): HueRotate {
+    public get(element: SVGElement, attr: string): HueRotate {
       return this.parse(element.getAttribute(attr));
     }
-    public set(element: Element<SVGElement, any, any>, attr: string, override?: HueRotate): void {
+    public set(element: SVGElement, attr: string, override?: HueRotate): void {
       if (override !== undefined) {
         element.setAttribute(attr, override.toString());
       } else {

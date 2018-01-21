@@ -53,6 +53,8 @@ const inout = (easeIn: (t: number) => number, easeOut: (t: number) => number) =>
 const s = 1.70158;
 const p = 0.075;
 
+export type EasingFunction = (t: number) => number;
+
 export const linear = (t: number) => t;
 
 export const quadraticIn = (t: number) => t ** 2;

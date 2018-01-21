@@ -251,10 +251,10 @@ export class Color implements Attribute<Color> {
       return new Color();
     }
   }
-  public get(element: Element<SVGElement, any, any>, attr: string): Color {
+  public get(element: SVGElement, attr: string): Color {
     return this.parse(element.getAttribute(attr));
   }
-  public set(element: Element<SVGElement, any, any>, attr: string, override?: Color): void {
+  public set(element: SVGElement, attr: string, override?: Color): void {
     if (override !== undefined) {
       element.setAttribute(attr, override.toString());
     } else {

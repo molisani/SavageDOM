@@ -2,6 +2,9 @@ import { Element } from "../element";
 import { BaseEvents } from "../events";
 
 import { Observable, Scheduler, Subject } from "rxjs";
+import { Attribute } from "../attribute";
+import { randomShortStringId } from "../id";
+import { EasingFunction } from "./easing";
 
 export interface TimeResolvable {
   resolve(t: number): void;
@@ -12,14 +15,22 @@ export interface AttributeUpdate<Attrs, Attr extends keyof Attrs> {
   val: Attrs[Attr];
 }
 
-export interface ElementUpdateRender<Attrs, E extends Element<SVGElement, Attrs, BaseEvents>> {
+export interface ElementUpdateRender<Attrs, E extends Element<any, Attrs, any>> {
   el: E;
   attribute: AttributeUpdate<Attrs, keyof Attrs>;
 }
 
-export interface DynamicElementRender<Attrs, E extends Element<SVGElement, Attrs, BaseEvents>> extends TimeResolvable {
+export interface AttributeInterpolation<Attrs, Attr extends keyof Attrs> {
+  name: Attr;
+  val(t: number): Attrs[Attr];
+}
+
+export interface ElementInterpolateRender<Attrs, E extends Element<any, Attrs, any>> extends TimeResolvable {
   el: E;
-  calculate(time: number): AttributeUpdate<Attrs, keyof Attrs>[] | null;
+  attributes: AttributeInterpolation<Attrs, keyof Attrs>[];
+  start: number;
+  duration: number;
+  easing: EasingFunction;
 }
 
 export class Renderer {
@@ -28,53 +39,46 @@ export class Renderer {
   }
   private static _instance = new Renderer();
   private _animationFrame = Observable.interval(0, Scheduler.animationFrame);
-  private _updates = new Subject<ElementUpdateRender<any, Element<any, any, any>>>();
-  // private _dynamics = new Subject<DynamicElementRender<any, Element<any, any, any>>>();
+  private _attributeUpdates = new Subject<ElementUpdateRender<any, Element<any, any, any>>>();
+  private _attributeInterpolations: { [key: string]: ElementInterpolateRender<any, Element<any, any, any>> } = {};
   constructor() {
-    this._updates.bufferWhen(() => this._animationFrame).subscribe((events) => {
+    this._attributeUpdates.bufferWhen(() => this._animationFrame).subscribe((updates) => {
       const now = performance.now();
-      events.forEach(({ el, attribute }) => {
+      updates.forEach(({ el, attribute }) => {
         el.renderAttribute(attribute.name, attribute.val);
       });
+      Object.keys(this._attributeInterpolations).forEach((key) => {
+        const interpolation = this._attributeInterpolations[key];
+        const finalRender = now > (interpolation.start + interpolation.duration);
+        const t = (finalRender) ? 1 : interpolation.easing((now - interpolation.start) / interpolation.duration);
+        interpolation.attributes.forEach((attribute) => {
+          const val = attribute.val(t);
+          interpolation.el.renderAttribute(attribute.name, val);
+        });
+        if (finalRender) {
+          delete this._attributeInterpolations[key];
+          interpolation.resolve(now);
+        }
+      });
     });
-    // this._dynamics.bufferWhen(() => this._animationFrame).subscribe((dynamics) => {
-    //   const now = performance.now();
-    //   dynamics.forEach((dynamic) => {
-    //     const attributes = dynamic.calculate(now);
-    //     if (attributes === null) {
-    //       dynamic.resolve(now);
-    //     } else {
-    //       attributes.forEach(({ name, val }) => {
-    //         dynamic.el.renderAttribute(name, val);
-    //       });
-    //       this._dynamics.next(dynamic);
-    //     }
-    //   });
-    // });
   }
-  public queueUpdate<Attrs, E extends Element<any, Attrs, any>>(el: E, attrs: Attrs): void;
-  public queueUpdate<Attrs, K extends keyof Attrs, E extends Element<any, Attrs, any>>(el: E, attr: K, val: Attrs[K]): void;
-  public queueUpdate<Attrs, K extends keyof Attrs, E extends Element<any, Attrs, any>>(a1: E, a2: K | Attrs, a3?: Attrs[K]): void {
+  public queueAttributeUpdate<Attrs, E extends Element<any, Attrs, any>>(el: E, attrs: Attrs): void;
+  public queueAttributeUpdate<Attrs, K extends keyof Attrs, E extends Element<any, Attrs, any>>(el: E, attr: K, val: Attrs[K]): void;
+  public queueAttributeUpdate<Attrs, K extends keyof Attrs, E extends Element<any, Attrs, any>>(a1: E, a2: K | Attrs, a3?: Attrs[K]): void {
     if (typeof a2 === "string") {
-      this._updates.next({ el: a1, attribute: { name: a2, val: a3 } });
+      this._attributeUpdates.next({ el: a1, attribute: { name: a2, val: a3 } });
     } else {
       Object.keys(a2).forEach((name) => {
-        this._updates.next({ el: a1, attribute: { name, val: a2[name] } });
+        this._attributeUpdates.next({ el: a1, attribute: { name, val: a2[name] } });
       });
     }
   }
-  // public registerCalculated<Attrs, E extends Element<SVGElement, Attrs, BaseEvents>>(el: E, calculate: (time: number) => Partial<Attrs> | null): Promise<number> {
-  //   return new Promise((resolve) => {
-  //     this._dynamics.next({
-  //       resolve, el,
-  //       calculate: (t) => {
-  //         const attrs = calculate(t);
-  //         if (attrs === null) {
-  //           return null;
-  //         }
-  //         return Object.keys(attrs).map((name) => ({ name, val: attrs[name] }));
-  //       },
-  //     });
-  //   });
-  // }
+  public registerAttributeInterpolation<Attrs, K extends keyof Attrs, E extends Element<any, Attrs, any>>(el: E, attr: K, val: (t: number) => Attrs[K], duration: number, easing: EasingFunction): Promise<number> {
+    return new Promise((resolve) => {
+      const key = randomShortStringId();
+      const start = performance.now();
+      const attributes = [{ name: attr, val }];
+      this._attributeInterpolations[key] = { el, attributes, start, duration, easing, resolve };
+    });
+  }
 }

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DynamicElementRender | SavageDOM</title>
+	<title>AttributeInterpolation | SavageDOM</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="dynamicelementrender.html">DynamicElementRender</a>
+					<a href="attributeinterpolation.html">AttributeInterpolation</a>
 				</li>
 			</ul>
-			<h1>Interface DynamicElementRender&lt;Attrs, E&gt;</h1>
+			<h1>Interface AttributeInterpolation&lt;Attrs, Attr&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 						<h4>Attrs</h4>
 					</li>
 					<li>
-						<h4>E<span class="tsd-signature-symbol">: </span><a href="../classes/element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">, </span><a href="baseevents.html" class="tsd-signature-type">BaseEvents</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof Attrs</span></h4>
 					</li>
 				</ul>
 			</section>
@@ -81,12 +81,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="timeresolvable.html" class="tsd-signature-type">TimeResolvable</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">DynamicElementRender</span>
-							</li>
-						</ul>
+						<span class="target">AttributeInterpolation</span>
 					</li>
 				</ul>
 			</section>
@@ -97,14 +92,13 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dynamicelementrender.html#el" class="tsd-kind-icon">el</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="attributeinterpolation.html#name" class="tsd-kind-icon">name</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="dynamicelementrender.html#calculate" class="tsd-kind-icon">calculate</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="dynamicelementrender.html#resolve" class="tsd-kind-icon">resolve</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="attributeinterpolation.html#val" class="tsd-kind-icon">val</a></li>
 							</ul>
 						</section>
 					</div>
@@ -113,12 +107,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="el" class="tsd-anchor"></a>
-					<h3>el</h3>
-					<div class="tsd-signature tsd-kind-icon">el<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">E</span></div>
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Attr</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/8b134e2/src/animation/renderer.ts#L21">animation/renderer.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/7d0913d/src/animation/renderer.ts#L24">animation/renderer.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -126,43 +120,16 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="calculate" class="tsd-anchor"></a>
-					<h3>calculate</h3>
+					<a name="val" class="tsd-anchor"></a>
+					<h3>val</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">calculate<span class="tsd-signature-symbol">(</span>time<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="attributeupdate.html" class="tsd-signature-type">AttributeUpdate</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">keyof Attrs</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">val<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Attrs[Attr]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/8b134e2/src/animation/renderer.ts#L22">animation/renderer.ts:22</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>time: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="attributeupdate.html" class="tsd-signature-type">AttributeUpdate</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">keyof Attrs</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">null</span>
-							</h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
-					<a name="resolve" class="tsd-anchor"></a>
-					<h3>resolve</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="timeresolvable.html">TimeResolvable</a>.<a href="timeresolvable.html#resolve">resolve</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/8b134e2/src/animation/renderer.ts#L7">animation/renderer.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/7d0913d/src/animation/renderer.ts#L25">animation/renderer.ts:25</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -171,7 +138,7 @@
 									<h5>t: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Attrs[Attr]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -190,16 +157,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-has-type-parameter">
-						<a href="dynamicelementrender.html" class="tsd-kind-icon">Dynamic<wbr>Element<wbr>Render</a>
+						<a href="attributeinterpolation.html" class="tsd-kind-icon">Attribute<wbr>Interpolation</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dynamicelementrender.html#el" class="tsd-kind-icon">el</a>
+								<a href="attributeinterpolation.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="dynamicelementrender.html#calculate" class="tsd-kind-icon">calculate</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
-								<a href="dynamicelementrender.html#resolve" class="tsd-kind-icon">resolve</a>
+								<a href="attributeinterpolation.html#val" class="tsd-kind-icon">val</a>
 							</li>
 						</ul>
 					</li>

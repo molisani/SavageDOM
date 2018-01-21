@@ -19,10 +19,10 @@ export class NumberOptionalNumber implements Attribute<NumberOptionalNumber> {
       return new NumberOptionalNumber(0);
     }
   }
-  public get(element: Element<SVGElement, any, any>, attr: string): NumberOptionalNumber {
+  public get(element: SVGElement, attr: string): NumberOptionalNumber {
     return this.parse(element.getAttribute(attr));
   }
-  public set(element: Element<SVGElement, any, any>, attr: string, override?: NumberOptionalNumber): void {
+  public set(element: SVGElement, attr: string, override?: NumberOptionalNumber): void {
     if (override !== undefined) {
       element.setAttribute(attr, override.toString());
     } else {

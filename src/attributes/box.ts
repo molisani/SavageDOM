@@ -15,7 +15,7 @@ export class Box implements Attribute<Box> {
       return new Box(0, 0, 0, 0);
     }
   }
-  public get(element: Element<SVGElement, any, any>, attr: string): Box {
+  public get(element: SVGElement, attr: string): Box {
     const toks = attr.split(":");
     if (toks.length === 4) {
       const cssX = element.getAttribute(toks[0]);
@@ -31,7 +31,7 @@ export class Box implements Attribute<Box> {
       return this.parse(element.getAttribute(attr));
     }
   }
-  public set(element: Element<SVGElement, any, any>, attr: string, override?: Box): void {
+  public set(element: SVGElement, attr: string, override?: Box): void {
     const toks = attr.split(":");
     if (toks.length === 4) {
       if (override !== undefined) {

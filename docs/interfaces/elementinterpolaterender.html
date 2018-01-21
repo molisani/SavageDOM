@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>HasCursor | SavageDOM</title>
+	<title>ElementInterpolateRender | SavageDOM</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,40 +56,39 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="hascursor.html">HasCursor</a>
+					<a href="elementinterpolaterender.html">ElementInterpolateRender</a>
 				</li>
 			</ul>
-			<h1>Interface HasCursor</h1>
+			<h1>Interface ElementInterpolateRender&lt;Attrs, E&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>Attrs</h4>
+					</li>
+					<li>
+						<h4>E<span class="tsd-signature-symbol">: </span><a href="../classes/element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="baseattributes.html" class="tsd-signature-type">BaseAttributes</a>
+						<a href="timeresolvable.html" class="tsd-signature-type">TimeResolvable</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">HasCursor</span>
-								<ul class="tsd-hierarchy">
-									<li>
-										<a href="containers_attributes.html" class="tsd-signature-type">Containers_Attributes</a>
-									</li>
-									<li>
-										<a href="graphics_attributes.html" class="tsd-signature-type">Graphics_Attributes</a>
-									</li>
-								</ul>
+								<span class="target">ElementInterpolateRender</span>
 							</li>
 						</ul>
 					</li>
 				</ul>
-			</section>
-			<section class="tsd-panel tsd-kind-interface">
-				<h3 class="tsd-before-signature">Indexable</h3>
-				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span></div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -98,7 +97,17 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="hascursor.html#cursor" class="tsd-kind-icon">cursor</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="elementinterpolaterender.html#attributes" class="tsd-kind-icon">attributes</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="elementinterpolaterender.html#duration" class="tsd-kind-icon">duration</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="elementinterpolaterender.html#easing" class="tsd-kind-icon">easing</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="elementinterpolaterender.html#el" class="tsd-kind-icon">el</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="elementinterpolaterender.html#start" class="tsd-kind-icon">start</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-inherited">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="elementinterpolaterender.html#resolve" class="tsd-kind-icon">resolve</a></li>
 							</ul>
 						</section>
 					</div>
@@ -107,14 +116,81 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="cursor" class="tsd-anchor"></a>
-					<h3>cursor</h3>
-					<div class="tsd-signature tsd-kind-icon">cursor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"auto"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"crosshair"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"default"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"pointer"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"move"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"e-resize"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"ne-resize"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"nw-resize"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"n-resize"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"se-resize"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"sw-resize"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"s-resize"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"w-resize"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"text"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"wait"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"help"</span><span class="tsd-signature-symbol"> | </span><a href="../globals.html#inherit" class="tsd-signature-type">Inherit</a></div>
+					<a name="attributes" class="tsd-anchor"></a>
+					<h3>attributes</h3>
+					<div class="tsd-signature tsd-kind-icon">attributes<span class="tsd-signature-symbol">:</span> <a href="attributeinterpolation.html" class="tsd-signature-type">AttributeInterpolation</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Attrs</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">keyof Attrs</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/7d0913d/src/attributes/base.ts#L72">attributes/base.ts:72</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/7d0913d/src/animation/renderer.ts#L30">animation/renderer.ts:30</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="duration" class="tsd-anchor"></a>
+					<h3>duration</h3>
+					<div class="tsd-signature tsd-kind-icon">duration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/7d0913d/src/animation/renderer.ts#L32">animation/renderer.ts:32</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="easing" class="tsd-anchor"></a>
+					<h3>easing</h3>
+					<div class="tsd-signature tsd-kind-icon">easing<span class="tsd-signature-symbol">:</span> <a href="../globals.html#easingfunction" class="tsd-signature-type">EasingFunction</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/7d0913d/src/animation/renderer.ts#L33">animation/renderer.ts:33</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="el" class="tsd-anchor"></a>
+					<h3>el</h3>
+					<div class="tsd-signature tsd-kind-icon">el<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">E</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/7d0913d/src/animation/renderer.ts#L29">animation/renderer.ts:29</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="start" class="tsd-anchor"></a>
+					<h3>start</h3>
+					<div class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/7d0913d/src/animation/renderer.ts#L31">animation/renderer.ts:31</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+					<a name="resolve" class="tsd-anchor"></a>
+					<h3>resolve</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="timeresolvable.html">TimeResolvable</a>.<a href="timeresolvable.html#resolve">resolve</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/7d0913d/src/animation/renderer.ts#L10">animation/renderer.ts:10</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>t: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -130,11 +206,26 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface">
-						<a href="hascursor.html" class="tsd-kind-icon">Has<wbr>Cursor</a>
+					<li class="current tsd-kind-interface tsd-has-type-parameter">
+						<a href="elementinterpolaterender.html" class="tsd-kind-icon">Element<wbr>Interpolate<wbr>Render</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="hascursor.html#cursor" class="tsd-kind-icon">cursor</a>
+								<a href="elementinterpolaterender.html#attributes" class="tsd-kind-icon">attributes</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="elementinterpolaterender.html#duration" class="tsd-kind-icon">duration</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="elementinterpolaterender.html#easing" class="tsd-kind-icon">easing</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="elementinterpolaterender.html#el" class="tsd-kind-icon">el</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="elementinterpolaterender.html#start" class="tsd-kind-icon">start</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
+								<a href="elementinterpolaterender.html#resolve" class="tsd-kind-icon">resolve</a>
 							</li>
 						</ul>
 					</li>

@@ -17,10 +17,10 @@ export class Matrix implements Attribute<Matrix> {
       return new Matrix([]);
     }
   }
-  public get(element: Element<SVGElement, any, any>, attr: string): Matrix {
+  public get(element: SVGElement, attr: string): Matrix {
     return this.parse(element.getAttribute(attr));
   }
-  public set(element: Element<SVGElement, any, any>, attr: string, override?: Matrix): void {
+  public set(element: SVGElement, attr: string, override?: Matrix): void {
     if (override !== undefined) {
       element.setAttribute(attr, override.toString());
     } else {

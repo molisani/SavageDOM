@@ -15,7 +15,7 @@ export class Point implements Attribute<Point> {
       return new Point(0, 0);
     }
   }
-  public get(element: Element<SVGElement, any, any>, attr: string): Point {
+  public get(element: SVGElement, attr: string): Point {
     const toks = attr.split(":");
     if (toks.length === 2) {
       const cssX = element.getAttribute(toks[0]);
@@ -29,7 +29,7 @@ export class Point implements Attribute<Point> {
       return this.parse(element.getAttribute(attr));
     }
   }
-  public set(element: Element<SVGElement, any, any>, attr: string, override?: Point): void {
+  public set(element: SVGElement, attr: string, override?: Point): void {
     const toks = attr.split(":");
     if (toks.length === 2) {
       if (override !== undefined) {

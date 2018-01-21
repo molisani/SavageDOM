@@ -14,10 +14,10 @@ export abstract class PathSegment implements Attribute<PathSegment> {
       return this.defaultInstance();
     }
   }
-  public get(element: BaseElement, attr: string): PathSegment {
+  public get(element: SVGElement, attr: string): PathSegment {
     return this.parse(element.getAttribute(attr));
   }
-  public set(element: BaseElement, attr: string, override?: PathSegment): void {
+  public set(element: SVGElement, attr: string, override?: PathSegment): void {
     if (override !== undefined) {
       element.setAttribute(attr, override.toString());
     } else {

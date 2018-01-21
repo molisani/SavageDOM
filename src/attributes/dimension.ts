@@ -40,10 +40,10 @@ export class Dimension<Unit extends string> implements Attribute<Dimension<Unit>
     }
     return new Dimension<Unit>(0, this.unit);
   }
-  public get(element: Element<SVGElement, any, any>, attr: string): Dimension<Unit> {
+  public get(element: SVGElement, attr: string): Dimension<Unit> {
     return this.parse(element.getAttribute(attr));
   }
-  public set(element: Element<SVGElement, any, any>, attr: string, override?: Dimension<Unit>): void {
+  public set(element: SVGElement, attr: string, override?: Dimension<Unit>): void {
     if (override !== undefined) {
       element.setAttribute(attr, override.toString());
     } else {

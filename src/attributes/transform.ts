@@ -20,20 +20,20 @@ export abstract class Transform implements Attribute<Transform> {
       return this.parseArgs(css);
     }
   }
-  public get(element: Element<SVGElement, any, any>, attr: string): Transform {
+  public get(element: SVGElement, attr: string): Transform {
     const toks = attr.split(".");
     if (toks.length === 2 && toks[1] === this.type) {
       const css = element.getAttribute(toks[0]);
       if (css) {
-        const idx = css.indexOf(this.type);
-        if (idx > -1) {
-          return this.parse(css.substring(idx, css.indexOf(")") + 1));
+        const start = css.indexOf(this.type);
+        if (start > -1) {
+          return this.parse(css.substring(start, css.indexOf(")", start) + 1));
         }
       }
     }
     return this.parse(null);
   }
-  public set(element: Element<SVGElement, any, any>, attr: string, override?: Transform): void {
+  public set(element: SVGElement, attr: string, override?: Transform): void {
     const str = String((override === undefined) ? this : override);
     const toks = attr.split(".");
     if (toks.length === 2 && toks[1] === this.type) {
@@ -41,7 +41,8 @@ export abstract class Transform implements Attribute<Transform> {
       if (css) {
         const start = css.indexOf(this.type);
         if (start > -1) {
-          element.setAttribute(toks[0], `${css.substr(0, start)}${str}${css.substr(css.indexOf(")") + 1)}`);
+          const updated = `${css.substr(0, start)}${str}${css.substr(css.indexOf(")", start) + 1)}`;
+          element.setAttribute(toks[0], updated);
         } else {
           element.setAttribute(toks[0], str);
         }

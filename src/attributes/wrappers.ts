@@ -14,10 +14,10 @@ export class NumberWrapper implements Attribute<NumberWrapper | number> {
       return new NumberWrapper();
     }
   }
-  public get(element: Element<SVGElement, any, any>, attr: string): NumberWrapper {
+  public get(element: SVGElement, attr: string): NumberWrapper {
     return this.parse(element.getAttribute(attr));
   }
-  public set(element: Element<SVGElement, any, any>, attr: string, override?: NumberWrapper): void {
+  public set(element: SVGElement, attr: string, override?: NumberWrapper): void {
     element.setAttribute(attr, (override !== undefined ? override : this).toString());
   }
   public interpolate(from: NumberWrapper, t: number): NumberWrapper {
@@ -40,10 +40,10 @@ export class ArrayWrapper<T extends Attribute<T>> implements Attribute<ArrayWrap
       return new ArrayWrapper<T>(this.arr.map(a => a.parse(null)));
     }
   }
-  public get(element: Element<SVGElement, any, any>, attr: string): ArrayWrapper<T> {
+  public get(element: SVGElement, attr: string): ArrayWrapper<T> {
     return this.parse(element.getAttribute(attr));
   }
-  public set(element: Element<SVGElement, any, any>, attr: string, override?: ArrayWrapper<T>): void {
+  public set(element: SVGElement, attr: string, override?: ArrayWrapper<T>): void {
     element.setAttribute(attr, (override !== undefined ? override : this).toString());
   }
   public interpolate(from: ArrayWrapper<T>, t: number): ArrayWrapper<T> {

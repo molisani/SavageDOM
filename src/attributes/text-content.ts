@@ -19,10 +19,10 @@ export class TextContent implements Attribute<TextContent> {
   public parse(css: string | null): TextContent {
     return new TextContent(css || "");
   }
-  public get<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A): TextContent {
+  public get<Attrs, A extends keyof Attrs>(element: SVGElement, attr: A): TextContent {
     return this.parse(((element as any)._node as SVGTextElement).textContent);
   }
-  public set<Attrs, A extends keyof Attrs>(element: Element<SVGElement, Attrs, any>, attr: A, override?: TextContent): void {
+  public set<Attrs, A extends keyof Attrs>(element: SVGElement, attr: A, override?: TextContent): void {
     ((element as any)._node as SVGTextElement).textContent = TextContent.escapeHtml(this._str || this._cb());
   }
   public interpolate(from: TextContent, t: number): TextContent {
