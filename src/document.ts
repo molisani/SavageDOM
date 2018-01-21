@@ -7,9 +7,11 @@ export class SVGDocument {
     this._document = (raw instanceof Document) ? raw : SVGDocument.PARSER.parseFromString(raw, mimeType);
     const allDefs = Array.from(this._document.getElementsByTagName("defs"));
     allDefs.forEach((defs) => {
-      const rmDefs = this._document.removeChild(defs);
-      while (rmDefs.children.length > 0) {
-        context.addDef(rmDefs.children[0] as SVGElement);
+      if (defs.parentNode) {
+        const rmDefs = defs.parentNode.removeChild(defs);
+        while (rmDefs.children.length > 0) {
+          context.addDef(rmDefs.children[0] as SVGElement);
+        }
       }
     });
   }
