@@ -27,7 +27,7 @@ export class FilterPrimitive<FE extends SVGElement, A> extends Element<FE, Filte
   public toString(): string {
     if (!this._referenced) {
       this._referenced = true;
-      this.setAttribute("result" as any, this.id as any); // hotfix for typedoc using 2.1.6
+      this.setAttribute("result", this.id); // hotfix for typedoc using 2.1.6
     }
     return this.id;
   }
