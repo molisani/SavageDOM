@@ -1,3 +1,4 @@
+import { Subscription } from "rxjs";
 import { EasingFunction, linear } from "../../animation/easing";
 import { Point } from "../../attributes/point";
 import { Rotate_Transform } from "../../attributes/transforms/rotate";
@@ -7,16 +8,31 @@ import { Context } from "../../context";
 import { Group } from "./group";
 
 export class Component extends Group {
-  public static getContext(): Context {
-    return Component.CONTEXT;
+  public static get context(): Context {
+    if (!Component._CONTEXT) {
+      throw new ReferenceError("No static Component context found. Set one manually, or subscribe to the latest created context.");
+    }
+    return Component._CONTEXT;
   }
-  public static setContext(context: Context) {
-    Component.CONTEXT = context;
+  public static set context(ctx: Context) {
+    if (Component._CONTEXT_SUBSCRIPTION) {
+      Component._CONTEXT_SUBSCRIPTION.unsubscribe();
+    }
+    Component._CONTEXT = ctx;
   }
-  private static CONTEXT: Context;
+  public static subscribeLatestContext() {
+    if (Component._CONTEXT_SUBSCRIPTION) {
+      return;
+    }
+    Component._CONTEXT_SUBSCRIPTION = Context.contexts.subscribe((context) => {
+      Component._CONTEXT = context;
+    });
+  }
+  private static _CONTEXT_SUBSCRIPTION?: Subscription;
+  private static _CONTEXT?: Context;
   private _hidden = false;
   constructor(origin?: { x: number, y: number }, protected easing: EasingFunction = linear) {
-    super(Component.CONTEXT);
+    super(Component.context);
     const transforms = [new Translate_Transform(), new Rotate_Transform(0), new Scale_Transform()];
     if (origin) {
       transforms.push(new Translate_Transform(-origin.x, -origin.y));

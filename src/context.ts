@@ -1,3 +1,4 @@
+import { Observable, ReplaySubject } from "rxjs";
 import { Length } from "./attributes/base";
 import { Box } from "./attributes/box";
 import { PathSegment } from "./attributes/path-segment";
@@ -13,6 +14,7 @@ import { Stops } from "./elements/non-renderables/paint-servers/gradient";
 import { LinearGradient, LinearGradient_Attributes } from "./elements/non-renderables/paint-servers/gradients/linear";
 import { RadialGradient, RadialGradient_Attributes } from "./elements/non-renderables/paint-servers/gradients/radial";
 import { Pattern } from "./elements/non-renderables/paint-servers/pattern";
+import { Component } from "./elements/renderables/component";
 import { ExternalSVG } from "./elements/renderables/external";
 import { ForeignObject } from "./elements/renderables/foreign-object";
 import { Group } from "./elements/renderables/group";
@@ -32,6 +34,10 @@ interface ElementConstructor<E, Attrs> {
 
 export class Context {
   public static DEFAULT_WINDOW: Window = window;
+  public static get contexts(): Observable<Context> {
+    return Context._CONTEXT_SUBJECT.asObservable();
+  }
+  private static _CONTEXT_SUBJECT = new ReplaySubject<Context>(1);
   private _root: SVGSVGElement;
   private _defs: Element<SVGDefsElement, any, any>;
   private _target: SVGElement;
@@ -64,6 +70,7 @@ export class Context {
     } else {
       this._defs = new Element<SVGDefsElement, any, any>(this, "defs");
     }
+    Context._CONTEXT_SUBJECT.next(this);
   }
   public get window(): Window {
     return this._window;

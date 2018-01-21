@@ -1,5 +1,5 @@
 import { AttributeUpdate, Renderer } from "./animation/renderer";
-import { isAttribute, Attribute } from "./attribute";
+import { Attribute, isAttribute } from "./attribute";
 import { BaseAttributes } from "./attributes/base";
 import { XMLNS } from "./constants";
 import { Context } from "./context";

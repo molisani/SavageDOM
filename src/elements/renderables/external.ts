@@ -14,15 +14,18 @@ export class ExternalSVG extends Group {
   }
 }
 
-export function ExternalComponent(url: string, origin: { x: number, y: number }): typeof Component {
+export function ExternalComponent(url: string, origin: { x: number, y: number } = { x: 0, y: 0 }): typeof Component {
   const xmlDocument_p = makeRequest("GET", url);
-  const doc_p = xmlDocument_p.then((xml) => new SVGDocument(Component.getContext(), xml));
+  const context_p = Context.contexts.take(1).toPromise();
+  const doc_p = Promise.all([context_p, xmlDocument_p]).then(([context, xml]) => {
+    return new SVGDocument(context, xml);
+  });
   return class extends Component {
     constructor() {
       super(origin);
       doc_p.then((doc) => {
         doc.children.forEach((child) => {
-          const importedNode = Component.getContext().window.document.importNode(child, true);
+          const importedNode = this.context.window.document.importNode(child, true);
           this.add(importedNode);
         });
       });
