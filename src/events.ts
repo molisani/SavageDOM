@@ -10,6 +10,7 @@ export interface Mouse_Events extends BaseEvents {
   mouseout: MouseEvent;
   mouseover: MouseEvent;
   mouseup: MouseEvent;
+  "activate|click|mouseup": MouseEvent;
 }
 
 export interface SVG_Events extends BaseEvents {
@@ -26,6 +27,7 @@ export interface Touch_Events extends BaseEvents {
   touchstart: TouchEvent;
   touchend: TouchEvent;
   touchmove: TouchEvent;
+  "touchstart|touchmove|touchend": TouchEvent;
   touchcancel: TouchEvent;
 }
 

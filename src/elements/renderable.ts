@@ -17,6 +17,8 @@ export interface Graphics_Attributes extends HasFilter, HasColorInterpolation, H
   "pointer-events": "visiblePainted" | "visibleFill" | "visibleStroke" | "visible" | "painted" | "fill" | "stroke" | "all" | None | Inherit;
 }
 
-export interface Renderable_Events extends Mouse_Events, SVG_Events, Focus_Events {}
+export interface Renderable_Events extends Mouse_Events, SVG_Events, Focus_Events {
+  "activate|click|mouseup|touchend": MouseEvent | TouchEvent;
+}
 
 export abstract class AbstractRenderable<E extends SVGElement, A extends BaseAttributes, V extends BaseEvents> extends Element<E, Renderable_Attributes & A, Renderable_Events & V> {}

@@ -61,10 +61,10 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, name, val);
   }
   public setAttributes(attrs: Partial<ATTRIBUTES>): void {
-    for (const name in attrs) {
-      const attr = attrs[name] as ATTRIBUTES[keyof ATTRIBUTES];
-      if (attr !== undefined && attr !== null) {
-        this.setAttribute(name, attr);
+    for (const attr in attrs) {
+      const val = attrs[attr] as ATTRIBUTES[keyof ATTRIBUTES];
+      if (val !== undefined && val !== null) {
+        this.setAttribute(attr, val);
       }
     }
   }
@@ -80,6 +80,15 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     const from = attr.get(this._node, name);
     return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolate.bind(attr, from), duration, easing);
   }
+  // public animateAttributes<Attr extends keyof ATTRIBUTES>(name: Attr, attrs: Partial<ATTRIBUTES>, duration: number, easing: EasingFunction): Promise<number> | undefined {
+  //   const
+  //   for (const attr in attrs) {
+  //     const val = attrs[attr] as ATTRIBUTES[keyof ATTRIBUTES];
+  //     if (val !== undefined && val !== null) {
+  //       this.animateAttribute(attr, val, duration, easing);
+  //     }
+  //   }
+  // }
   public getAttribute<Attr extends keyof ATTRIBUTES>(name: Attr): string | null {
     const val = this._node.getAttribute(name) || this._style.getPropertyValue(name);
     return (val === "" || val === "none") ? null : val;
@@ -106,7 +115,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   }
 
   public getEvent<Event extends keyof EVENTS>(event: Event): Observable<EVENTS[Event]> {
-    return Observable.fromEvent(this._node, event);
+    return Observable.merge(...event.split("|").map((_) => Observable.fromEvent(this._node, _)));
   }
 
   public get boundingBox(): Box {
