@@ -57,6 +57,8 @@ export type EasingFunction = (t: number) => number;
 
 export const linear = (t: number) => t;
 
+export const step = Math.round;
+
 export const quadraticIn = (t: number) => t ** 2;
 export const quadraticOut = flip(quadraticIn);
 export const quadratic = inout(quadraticIn, quadraticOut);

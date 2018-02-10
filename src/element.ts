@@ -143,7 +143,9 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     copy._node.setAttribute("id", copy._id);
     return copy;
   }
-
+  public destroy() {
+    this._node.remove();
+  }
   protected cloneNode(deep: boolean = true): SVG {
     const clone = this._node.cloneNode(deep) as SVG;
     clone.setAttribute("id", randomShortStringId());
