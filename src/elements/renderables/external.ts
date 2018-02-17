@@ -15,7 +15,8 @@ export class ExternalSVG extends Group {
 }
 
 export declare class ExternalComponent extends Component {
-  constructor(onLoaded: () => void);
+  public readonly loaded: Promise<any>;
+  constructor();
 }
 
 export function buildExternalComponentClass(url: string, origin: { x: number, y: number } = { x: 0, y: 0 }): typeof ExternalComponent {
@@ -25,16 +26,19 @@ export function buildExternalComponentClass(url: string, origin: { x: number, y:
     return new SVGDocument(context, xml);
   });
   return class extends Component {
-    constructor(onLoaded: () => void) {
+    private _loaded: Promise<any>;
+    constructor() {
       super(origin);
-      doc_p.then((doc) => {
+      this._loaded = doc_p.then((doc) => {
         doc.children.forEach((child) => {
           const importedNode = this.context.window.document.importNode(child, true);
           this.add(importedNode);
         });
-        onLoaded();
       });
       this._node.setAttribute("data-source-url", url);
+    }
+    public get loaded() {
+      return this._loaded;
     }
   };
 }
