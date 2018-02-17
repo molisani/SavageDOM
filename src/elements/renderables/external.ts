@@ -26,7 +26,7 @@ export function buildExternalComponentClass(url: string, origin: { x: number, y:
     return new SVGDocument(context, xml);
   });
   return class extends Component {
-    private _loaded: Promise<any>;
+    protected _loaded: Promise<any>;
     constructor() {
       super(origin);
       this._loaded = doc_p.then((doc) => {
