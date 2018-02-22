@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ColorImpl | SavageDOM</title>
+	<title>HSL | SavageDOM</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="colorimpl.html">ColorImpl</a>
+					<a href="hsl.html">HSL</a>
 				</li>
 			</ul>
-			<h1>Class ColorImpl</h1>
+			<h1>Interface HSL</h1>
 		</div>
 	</div>
 </header>
@@ -70,79 +70,73 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ColorImpl</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="rgb.html" class="tsd-signature-type">RGB</a>
-							</li>
-							<li>
-								<a href="hsl.html" class="tsd-signature-type">HSL</a>
-							</li>
-						</ul>
+						<span class="target">HSL</span>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implemented by</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../classes/hslimpl.html" class="tsd-signature-type">HSLImpl</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Methods</h3>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="colorimpl.html#interpolate" class="tsd-kind-icon">interpolate</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="colorimpl.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="hsl.html#a" class="tsd-kind-icon">a</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="hsl.html#h" class="tsd-kind-icon">h</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="hsl.html#l" class="tsd-kind-icon">l</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="hsl.html#s" class="tsd-kind-icon">s</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-					<a name="interpolate" class="tsd-anchor"></a>
-					<h3>interpolate</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">interpolate<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="colorimpl.html" class="tsd-signature-type">ColorImpl</a>, t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, mode<span class="tsd-signature-symbol">: </span><a href="../globals.html#interpolationmode" class="tsd-signature-type">InterpolationMode</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="colorimpl.html" class="tsd-signature-type">ColorImpl</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color.ts#L9">attributes/color.ts:9</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>from: <a href="colorimpl.html" class="tsd-signature-type">ColorImpl</a></h5>
-								</li>
-								<li>
-									<h5>t: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>mode: <a href="../globals.html#interpolationmode" class="tsd-signature-type">InterpolationMode</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="colorimpl.html" class="tsd-signature-type">ColorImpl</a></h4>
-						</li>
-					</ul>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="a" class="tsd-anchor"></a>
+					<h3>a</h3>
+					<div class="tsd-signature tsd-kind-icon">a<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color.ts#L106">attributes/color.ts:106</a></li>
+						</ul>
+					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-					<a name="tostring" class="tsd-anchor"></a>
-					<h3>to<wbr>String</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">to<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color.ts#L8">attributes/color.ts:8</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="h" class="tsd-anchor"></a>
+					<h3>h</h3>
+					<div class="tsd-signature tsd-kind-icon">h<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color.ts#L103">attributes/color.ts:103</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="l" class="tsd-anchor"></a>
+					<h3>l</h3>
+					<div class="tsd-signature tsd-kind-icon">l<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color.ts#L105">attributes/color.ts:105</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="s" class="tsd-anchor"></a>
+					<h3>s</h3>
+					<div class="tsd-signature tsd-kind-icon">s<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color.ts#L104">attributes/color.ts:104</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -158,14 +152,20 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-is-not-exported">
-						<a href="colorimpl.html" class="tsd-kind-icon">Color<wbr>Impl</a>
+					<li class="current tsd-kind-interface">
+						<a href="hsl.html" class="tsd-kind-icon">HSL</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-								<a href="colorimpl.html#interpolate" class="tsd-kind-icon">interpolate</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="hsl.html#a" class="tsd-kind-icon">a</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-								<a href="colorimpl.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="hsl.html#h" class="tsd-kind-icon">h</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="hsl.html#l" class="tsd-kind-icon">l</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="hsl.html#s" class="tsd-kind-icon">s</a>
 							</li>
 						</ul>
 					</li>

@@ -4,21 +4,27 @@ import { _lerp } from "../interpolation";
 
 export type InterpolationMode = "rgb" | "hsl-shortest" | "hsl-longest" | "hsl-clockwise" | "hsl-counterclockwise";
 
-abstract class ColorImpl {
-  public abstract toString(): string;
-  public abstract interpolate(from: ColorImpl, t: number, mode: InterpolationMode): ColorImpl;
+interface ColorImpl {
+  toString(): string;
+  interpolate(from: ColorImpl, t: number, mode: InterpolationMode): ColorImpl;
 }
 
-class RGB extends ColorImpl {
-  private r: number = 0;
-  private g: number = 0;
-  private b: number = 0;
-  private a: number = 1;
+export interface RGB {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
+class RGBImpl implements RGB, ColorImpl {
+  public r: number = 0;
+  public g: number = 0;
+  public b: number = 0;
+  public a: number = 1;
   constructor(css: string);
   constructor(r: number, g: number, b: number);
   constructor(r: number, g: number, b: number, a: number);
   constructor(x: string | number = 0, y: number = 0, z: number = 0, a: number = 1) {
-    super();
     if (typeof x === "string") {
       const rgbaMatch = x.match(/^rgba\s*?\(\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(000|0?\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\s*?,\s*?(0|0\.\d*|1|1.0*)\s*?\)$/i);
       if (rgbaMatch !== null) {
@@ -43,7 +49,7 @@ class RGB extends ColorImpl {
   public toString(): string {
     return `rgba(${Math.round(this.r)}, ${Math.round(this.g)}, ${Math.round(this.b)}, ${this.a})`;
   }
-  public toHSL(): HSL {
+  public toHSL(): HSLImpl {
     const r = this.r / 255;
     const g = this.g / 255;
     const b = this.b / 255;
@@ -75,16 +81,16 @@ class RGB extends ColorImpl {
       }
       h *= 60;
     }
-    return new HSL(h, s, l);
+    return new HSLImpl(h, s, l);
   }
   public interpolate(from: ColorImpl, t: number, mode: InterpolationMode): ColorImpl {
     const modePrefix = mode.substr(0, 3);
     if (modePrefix === "rgb") {
-      if (from instanceof HSL) {
+      if (from instanceof HSLImpl) {
         from = from.toRGB();
       }
-      if (from instanceof RGB) {
-        return new RGB(_lerp(from.r, this.r, t), _lerp(from.g, this.g, t), _lerp(from.b, this.b, t), _lerp(from.a, this.a, t));
+      if (from instanceof RGBImpl) {
+        return new RGBImpl(_lerp(from.r, this.r, t), _lerp(from.g, this.g, t), _lerp(from.b, this.b, t), _lerp(from.a, this.a, t));
       }
     } else if (modePrefix === "hsl") {
       return this.toHSL().interpolate(from, t, mode);
@@ -93,16 +99,22 @@ class RGB extends ColorImpl {
   }
 }
 
-class HSL extends ColorImpl {
-  private h: number = 0;
-  private s: number = 0;
-  private l: number = 0;
-  private a: number = 1;
+export interface HSL {
+  h: number;
+  s: number;
+  l: number;
+  a: number;
+}
+
+class HSLImpl implements HSL, ColorImpl {
+  public h: number = 0;
+  public s: number = 0;
+  public l: number = 0;
+  public a: number = 1;
   constructor(css: string);
   constructor(h: number, s: number, l: number);
   constructor(h: number, s: number, l: number, a: number);
   constructor(x: string | number = 0, y: number = 0, z: number = 0, a: number = 1) {
-    super();
     if (typeof x === "string") {
       const hslaMatch = x.match(/^hsla\s*?\(\s*?(000|0?\d{1,2}|[1-2]\d\d|3[0-5]\d|360)\s*?,\s*?(0\.?0*|100\.?0*|\d{1,2}|\d{1,2}\.\d+)\%\s*?,\s*?(0\.?0*|100\.?0*|\d{1,2}|\d{1,2}\.\d+)\%\s*?,\s*?(0|0\.\d*|1|1.0*)\s*?\)$/i);
       if (hslaMatch !== null) {
@@ -127,7 +139,7 @@ class HSL extends ColorImpl {
   public toString(): string {
     return `hsla(${this.h % 360}, ${this.s * 100}%, ${this.l * 100}%, ${this.a})`;
   }
-  public toRGB(): RGB {
+  public toRGB(): RGBImpl {
     let r = 0;
     let g = 0;
     let b = 0;
@@ -158,15 +170,15 @@ class HSL extends ColorImpl {
       g += m;
       b += m;
     }
-    return new RGB(r * 255, g * 255, b * 255);
+    return new RGBImpl(r * 255, g * 255, b * 255);
   }
   public interpolate(from: ColorImpl, t: number, mode: InterpolationMode): ColorImpl {
     const modePrefix = mode.substr(0, 3);
     if (modePrefix === "hsl") {
-      if (from instanceof RGB) {
+      if (from instanceof RGBImpl) {
         from = from.toHSL();
       }
-      if (from instanceof HSL) {
+      if (from instanceof HSLImpl) {
         let h1 = from.h;
         let h2 = this.h;
         const diff = h1 - h2;
@@ -193,7 +205,7 @@ class HSL extends ColorImpl {
         if (diff < 0 && mode === "hsl-counterclockwise") {
           h1 += 360;
         }
-        return new HSL(_lerp(h1, h2, t) % 360, _lerp(from.s, this.s, t), _lerp(from.l, this.l, t), _lerp(from.a, this.a, t));
+        return new HSLImpl(_lerp(h1, h2, t) % 360, _lerp(from.s, this.s, t), _lerp(from.l, this.l, t), _lerp(from.a, this.a, t));
       }
     } else if (modePrefix === "rgb") {
       return this.toRGB().interpolate(from, t, mode);
@@ -210,16 +222,16 @@ export class Color implements Attribute<Color> {
   constructor(css: string);
   constructor(format: "rgb", r: number, g: number, b: number, a?: number);
   constructor(format: "hsl", h: number, s: number, l: number, a?: number);
-  constructor(format?: "rgb" | "hsl" | string, x: number = 0, y: number = 0, z: number = 0, a: number = 1) {
+  constructor(format?: "rgb" | "hsl" | string, a1: number = 0, a2: number = 0, a3: number = 0, a4: number = 1) {
     if (format === "rgb") {
-      this.impl = new RGB(x, y, z, a);
+      this.impl = new RGBImpl(a1, a2, a3, a4);
     } else if (format === "hsl") {
-      this.impl = new HSL(x, y, z, a);
+      this.impl = new HSLImpl(a1, a2, a3, a4);
     } else if (format !== undefined) {
       if (format.indexOf("rgb") === 0) {
-        this.impl = new RGB(format);
+        this.impl = new RGBImpl(format);
       } else if (format.indexOf("hsl") === 0) {
-        this.impl = new HSL(format);
+        this.impl = new HSLImpl(format);
       } else if (format.indexOf("#") === 0) {
         let r = 0;
         let g = 0;
@@ -237,9 +249,27 @@ export class Color implements Attribute<Color> {
             b = parseInt(m[1].substr(4, 2), 16);
           }
         }
-        this.impl = new RGB(r, g, b);
+        this.impl = new RGBImpl(r, g, b);
       }
     }
+  }
+  public asRGB(): RGB {
+    if (this.impl instanceof RGBImpl) {
+      return this.impl;
+    }
+    if (this.impl instanceof HSLImpl) {
+      return this.impl.toRGB();
+    }
+    throw new Error("Current color implementation does not support conversion to RGB");
+  }
+  public asHSL(): HSL {
+    if (this.impl instanceof HSLImpl) {
+      return this.impl;
+    }
+    if (this.impl instanceof RGBImpl) {
+      return this.impl.toHSL();
+    }
+    throw new Error("Current color implementation does not support conversion to HSL");
   }
   public toString(): string {
     return this.impl.toString();
