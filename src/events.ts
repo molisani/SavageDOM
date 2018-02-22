@@ -9,9 +9,9 @@ export interface PointEvents {
 }
 
 export interface PointEvent {
-  screen: Point;
-  page: Point;
-  local: Point;
+  screen: { x: number, y: number };
+  page: { x: number, y: number };
+  local: { x: number, y: number };
 }
 
 export interface Mouse_Events extends PointEvents {

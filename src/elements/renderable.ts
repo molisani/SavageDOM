@@ -28,11 +28,21 @@ export abstract class AbstractRenderable<E extends SVGGraphicsElement, A extends
       const ref = this.context.refPoint;
       ref.x = action.clientX;
       ref.y = action.clientY;
-      const localPoint = ref.matrixTransform(this.node.getScreenCTM().inverse());
-      const local = new Point(localPoint.x, localPoint.y);
-      const page = new Point(action.pageX, action.pageY);
-      const screen = new Point(action.screenX, action.screenY);
-      return { local, page, screen };
+      const local = ref.matrixTransform(this.node.getScreenCTM().inverse());
+      return {
+        local: {
+          x: local.x,
+          y: local.y,
+        },
+        page: {
+          x: action.pageX,
+          y: action.pageY,
+        },
+        screen: {
+          x: action.screenX,
+          y: action.screenY,
+        },
+      };
     });
   }
 }
