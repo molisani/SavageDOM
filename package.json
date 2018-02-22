@@ -1,6 +1,6 @@
 {
   "name": "savagedom",
-  "version": "1.0.0-alpha.32",
+  "version": "1.0.0-alpha.33",
   "description": "Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript",
   "keywords": [
     "svg",
@@ -20,7 +20,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "grunt check",
-    "prepublish": "grunt prepublish"
+    "prepublishOnly": "grunt prepublish"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
@@ -47,7 +47,7 @@
     "tslint": "^5.8.0",
     "typedoc": "^0.9.0",
     "typedoc-webpack-plugin": "^1.1.4",
-    "typescript": "^2.6.2",
+    "typescript": "^2.7.2",
     "webpack": "^3.10.0"
   },
   "dependencies": {

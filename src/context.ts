@@ -75,6 +75,9 @@ export class Context {
   public get window(): Window {
     return this._window;
   }
+  public get refPoint(): SVGPoint {
+    return this._root.createSVGPoint();
+  }
   public addDef(def: SVGElement | Element<SVGElement, any, any>) {
     this._defs.add(def);
   }

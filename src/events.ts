@@ -1,8 +1,20 @@
+import { Point } from "./attributes";
+
 export interface BaseEvents {
   [event: string]: any;
 }
 
-export interface Mouse_Events extends BaseEvents {
+export interface PointEvents {
+  [event: string]: MouseEvent | TouchEvent;
+}
+
+export interface PointEvent {
+  screen: Point;
+  page: Point;
+  local: Point;
+}
+
+export interface Mouse_Events extends PointEvents {
   activate: MouseEvent;
   click: MouseEvent;
   mousedown: MouseEvent;
@@ -23,7 +35,7 @@ export interface SVG_Events extends BaseEvents {
   SVGZoom: SVGZoomEvent;
 }
 
-export interface Touch_Events extends BaseEvents {
+export interface Touch_Events extends PointEvents {
   touchstart: TouchEvent;
   touchend: TouchEvent;
   touchmove: TouchEvent;
