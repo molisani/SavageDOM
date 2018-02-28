@@ -61,12 +61,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, name, val);
   }
   public setAttributes(attrs: Partial<ATTRIBUTES>): void {
-    for (const attr in attrs) {
-      const val = attrs[attr] as ATTRIBUTES[keyof ATTRIBUTES];
-      if (val !== undefined && val !== null) {
-        this.setAttribute(attr, val);
-      }
-    }
+    Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, attrs);
   }
   public animateAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr], duration: number, easing: EasingFunction): Promise<number> | undefined {
     let attr: Attribute<any>;

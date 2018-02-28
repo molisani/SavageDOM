@@ -15,9 +15,6 @@ export class UniformScale_Transform extends Transform {
       return new UniformScale_Transform();
     }
   }
-  public interpolate(from: UniformScale_Transform, t: number): UniformScale_Transform {
-    return new UniformScale_Transform(_lerp(from.s, this.s, t));
-  }
 }
 
 export class Scale_Transform extends Transform {

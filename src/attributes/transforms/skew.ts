@@ -15,9 +15,6 @@ export class SkewX_Transform extends Transform {
       return new SkewX_Transform();
     }
   }
-  public interpolate(from: SkewX_Transform, t: number): SkewX_Transform {
-    return new SkewX_Transform(_lerp(from.a, this.a, t));
-  }
 }
 
 export class SkewY_Transform extends Transform {

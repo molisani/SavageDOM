@@ -62,9 +62,9 @@ export class Renderer {
       });
     });
   }
-  public queueAttributeUpdate<Attrs, E extends Element<any, Attrs, any>>(el: E, attrs: Attrs): void;
+  public queueAttributeUpdate<Attrs, E extends Element<any, Attrs, any>>(el: E, attrs: Partial<Attrs>): void;
   public queueAttributeUpdate<Attrs, K extends keyof Attrs, E extends Element<any, Attrs, any>>(el: E, attr: K, val: Attrs[K]): void;
-  public queueAttributeUpdate<Attrs, K extends keyof Attrs, E extends Element<any, Attrs, any>>(a1: E, a2: K | Attrs, a3?: Attrs[K]): void {
+  public queueAttributeUpdate<Attrs, K extends keyof Attrs, E extends Element<any, Attrs, any>>(a1: E, a2: K | Partial<Attrs>, a3?: Attrs[K]): void {
     if (typeof a2 === "string") {
       this._attributeUpdates.next({ el: a1, attribute: { name: a2, val: a3 } });
     } else {

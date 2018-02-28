@@ -12,15 +12,6 @@ export interface Attribute<T> extends Setter {
   interpolator(from: T): (t: number) => T;
 }
 
-export function _defaultGet<T>(this: Attribute<T>, element: SVGElement, attr: string): T {
-  return this.parse(element.getAttribute(attr));
-}
-
-export function _defaultSet<T>(this: T, element: SVGElement, attr: string, override?: T) {
-  const value = (typeof override === "undefined") ? this : override;
-  element.setAttribute(attr, String(value));
-}
-
 export const isAttribute = (obj: any | Attribute<any>): obj is Attribute<any> => {
-  return obj && (typeof obj["interpolate"] === "function") && (typeof obj["parse"] === "function");
+  return obj && (typeof obj["interpolator"] === "function") && (typeof obj["parse"] === "function");
 };
