@@ -64,9 +64,13 @@ const merge = <A, B>(a: A, b: B): A & B => {
 
 export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_Events> {
   public node: SVGFilterElement;
+  private _refCounter: number = 0;
   constructor(public context: Context) {
     super(context, "filter");
     this.context.addDef(this);
+  }
+  public getUniquePrimitiveReference(): string {
+    return (++this._refCounter).toString();
   }
   public blend(mode: "normal" | "multiply" | "screen" | "darken" | "lighten", input1: FilterInput, input2?: FilterInput): Blend_Primitive {
     return new Blend_Primitive(this, {

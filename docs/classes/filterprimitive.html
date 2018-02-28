@@ -169,7 +169,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="filterprimitive.html#_node" class="tsd-kind-icon">_node</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="filterprimitive.html#_referenced" class="tsd-kind-icon">_referenced</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="filterprimitive.html#_ref" class="tsd-kind-icon">_ref</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="filterprimitive.html#_style" class="tsd-kind-icon">_style</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="filterprimitive.html#context" class="tsd-kind-icon">context</a></li>
 							</ul>
@@ -209,14 +209,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Filter<wbr>Primitive<span class="tsd-signature-symbol">(</span>filter<span class="tsd-signature-symbol">: </span><a href="filter.html" class="tsd-signature-type">Filter</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, attrs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="filterprimitive.html" class="tsd-signature-type">FilterPrimitive</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Filter<wbr>Primitive<span class="tsd-signature-symbol">(</span>filter<span class="tsd-signature-symbol">: </span><a href="filter.html" class="tsd-signature-type">Filter</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, attrs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span>, _ref<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="filterprimitive.html" class="tsd-signature-type">FilterPrimitive</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="element.html">Element</a>.<a href="element.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/elements/filter-primitive.ts#L22">elements/filter-primitive.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/elements/filter-primitive.ts#L21">elements/filter-primitive.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -228,7 +228,10 @@
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> attrs: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> attrs: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> _ref: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;filter.getUniquePrimitiveReference()</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filterprimitive.html" class="tsd-signature-type">FilterPrimitive</a></h4>
@@ -250,9 +253,9 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_referenced" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _referenced</h3>
-					<div class="tsd-signature tsd-kind-icon">_referenced<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<a name="_ref" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _ref</h3>
+					<div class="tsd-signature tsd-kind-icon">_ref<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/elements/filter-primitive.ts#L22">elements/filter-primitive.ts:22</a></li>
@@ -737,7 +740,7 @@
 								<a href="filterprimitive.html#_node" class="tsd-kind-icon">_node</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="filterprimitive.html#_referenced" class="tsd-kind-icon">_referenced</a>
+								<a href="filterprimitive.html#_ref" class="tsd-kind-icon">_ref</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="filterprimitive.html#_style" class="tsd-kind-icon">_style</a>

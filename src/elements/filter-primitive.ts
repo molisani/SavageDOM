@@ -19,16 +19,12 @@ export interface FilterPrimitive_Attributes extends HasClass, HasStyle {
 export interface FilterPrimitive_Events extends SVG_Events {}
 
 export class FilterPrimitive<FE extends SVGElement, A> extends Element<FE, FilterPrimitive_Attributes & A, FilterPrimitive_Events> {
-  private _referenced = false;
-  constructor(filter: Filter, name: string, attrs?: Partial<FilterPrimitive_Attributes & A>) {
-    super(filter.context, name, attrs);
+  constructor(filter: Filter, name: string, attrs: Partial<FilterPrimitive_Attributes & A> = {}, private _ref: string = filter.getUniquePrimitiveReference()) {
+    super(filter.context, name, attrs, `${filter.id}-${_ref}`);
+    this.setAttribute("result", _ref);
     filter.add(this);
   }
   public toString(): string {
-    if (!this._referenced) {
-      this._referenced = true;
-      this.setAttribute("result", this.id); // hotfix for typedoc using 2.1.6
-    }
-    return this.id;
+    return this._ref;
   }
 }
