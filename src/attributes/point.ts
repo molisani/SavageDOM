@@ -1,6 +1,7 @@
+import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
 import { Element } from "../element";
-import { _LengthInterpolate, _LengthParse, Length } from "./base";
+import { _LengthParse, Length } from "./base";
 
 export class Point implements Attribute<Point> {
   constructor(public x: Length, public y: Length) {}
@@ -47,7 +48,8 @@ export class Point implements Attribute<Point> {
       }
     }
   }
-  public interpolate(from: Point, t: number): Point {
-    return new Point(_LengthInterpolate(from.x, this.x, t), _LengthInterpolate(from.y, this.y, t));
+  public interpolator(from: Point): (t: number) => Point {
+    const func = interpolate(from.toString(), this.toString());
+    return (t: number) => this.parse(func(t));
   }
 }

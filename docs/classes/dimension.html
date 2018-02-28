@@ -113,8 +113,9 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="dimension.html#_convert" class="tsd-kind-icon">_convert</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dimension.html#get" class="tsd-kind-icon">get</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dimension.html#interpolate" class="tsd-kind-icon">interpolate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dimension.html#interpolator" class="tsd-kind-icon">interpolator</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dimension.html#parse" class="tsd-kind-icon">parse</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dimension.html#set" class="tsd-kind-icon">set</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dimension.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
@@ -141,7 +142,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L21">attributes/dimension.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L22">attributes/dimension.ts:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -166,7 +167,7 @@
 					<div class="tsd-signature tsd-kind-icon">unit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Unit</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L22">attributes/dimension.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L23">attributes/dimension.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,13 +177,39 @@
 					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L22">attributes/dimension.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L23">attributes/dimension.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="_convert" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _convert</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">_convert<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, unit<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dimension.html" class="tsd-signature-type">Dimension</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Unit</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L53">attributes/dimension.ts:53</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>unit: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="dimension.html" class="tsd-signature-type">Dimension</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Unit</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="get" class="tsd-anchor"></a>
 					<h3>get</h3>
@@ -194,7 +221,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/attribute.html">Attribute</a>.<a href="../interfaces/attribute.html#get">get</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L43">attributes/dimension.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L38">attributes/dimension.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -211,16 +238,16 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="interpolate" class="tsd-anchor"></a>
-					<h3>interpolate</h3>
+					<a name="interpolator" class="tsd-anchor"></a>
+					<h3>interpolator</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">interpolate<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="dimension.html" class="tsd-signature-type">Dimension</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Unit</span><span class="tsd-signature-symbol">&gt;</span>, t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dimension.html" class="tsd-signature-type">Dimension</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Unit</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">interpolator<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="dimension.html" class="tsd-signature-type">Dimension</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Unit</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L53">attributes/dimension.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L48">attributes/dimension.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -228,11 +255,26 @@
 								<li>
 									<h5>from: <a href="dimension.html" class="tsd-signature-type">Dimension</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Unit</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
-								<li>
-									<h5>t: <span class="tsd-signature-type">number</span></h5>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dimension.html" class="tsd-signature-type">Dimension</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Unit</span><span class="tsd-signature-symbol">&gt;</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>t: <span class="tsd-signature-type">number</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <a href="dimension.html" class="tsd-signature-type">Dimension</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Unit</span><span class="tsd-signature-symbol">&gt;</span></h4>
+										</li>
+									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="dimension.html" class="tsd-signature-type">Dimension</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Unit</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -247,7 +289,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/attribute.html">Attribute</a>.<a href="../interfaces/attribute.html#parse">parse</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L26">attributes/dimension.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L27">attributes/dimension.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -271,7 +313,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/attribute.html">Attribute</a>.<a href="../interfaces/attribute.html#set">set</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L46">attributes/dimension.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L41">attributes/dimension.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -300,7 +342,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L23">attributes/dimension.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L24">attributes/dimension.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -316,7 +358,7 @@
 					<div class="tsd-signature tsd-kind-icon">convert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L10">attributes/dimension.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L11">attributes/dimension.ts:11</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -325,7 +367,7 @@
 						<div class="tsd-signature tsd-kind-icon">cm<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;254 / 96</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L13">attributes/dimension.ts:13</a></li>
+								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L14">attributes/dimension.ts:14</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -335,7 +377,7 @@
 						<div class="tsd-signature tsd-kind-icon">deg<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L17">attributes/dimension.ts:17</a></li>
+								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L18">attributes/dimension.ts:18</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -345,7 +387,7 @@
 						<div class="tsd-signature tsd-kind-icon">grad<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;9 / 10</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L18">attributes/dimension.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L19">attributes/dimension.ts:19</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -355,7 +397,7 @@
 						<div class="tsd-signature tsd-kind-icon">in<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;96</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L12">attributes/dimension.ts:12</a></li>
+								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L13">attributes/dimension.ts:13</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -365,7 +407,7 @@
 						<div class="tsd-signature tsd-kind-icon">mm<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;25.4 / 96</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L14">attributes/dimension.ts:14</a></li>
+								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L15">attributes/dimension.ts:15</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -375,7 +417,7 @@
 						<div class="tsd-signature tsd-kind-icon">pc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;9</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L16">attributes/dimension.ts:16</a></li>
+								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L17">attributes/dimension.ts:17</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -385,7 +427,7 @@
 						<div class="tsd-signature tsd-kind-icon">pt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;3 / 4</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L15">attributes/dimension.ts:15</a></li>
+								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L16">attributes/dimension.ts:16</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -395,7 +437,7 @@
 						<div class="tsd-signature tsd-kind-icon">px<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L11">attributes/dimension.ts:11</a></li>
+								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L12">attributes/dimension.ts:12</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -405,7 +447,7 @@
 						<div class="tsd-signature tsd-kind-icon">rad<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;180 / Math.PI</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L19">attributes/dimension.ts:19</a></li>
+								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L20">attributes/dimension.ts:20</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -415,7 +457,7 @@
 						<div class="tsd-signature tsd-kind-icon">turn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;360</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L20">attributes/dimension.ts:20</a></li>
+								<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/dimension.ts#L21">attributes/dimension.ts:21</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -446,11 +488,14 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="dimension.html#value" class="tsd-kind-icon">value</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="dimension.html#_convert" class="tsd-kind-icon">_convert</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dimension.html#get" class="tsd-kind-icon">get</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="dimension.html#interpolate" class="tsd-kind-icon">interpolate</a>
+								<a href="dimension.html#interpolator" class="tsd-kind-icon">interpolator</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dimension.html#parse" class="tsd-kind-icon">parse</a>

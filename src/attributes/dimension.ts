@@ -1,3 +1,4 @@
+import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
 import { Element } from "../element";
 import { _lerp } from "../interpolation";
@@ -27,13 +28,7 @@ export class Dimension<Unit extends string> implements Attribute<Dimension<Unit>
     if (css !== null) {
       const m = css.match(/(\d+|\d+\.\d+)(\w+|%)/i);
       if (m !== null) {
-        const toPx = Dimension.convert[m[2]];
-        const fromPx = 1 / Dimension.convert[this.unit as string];
-        if (toPx !== undefined && fromPx !== undefined) {
-          return new Dimension<Unit>(parseFloat(m[1]) * toPx * fromPx, this.unit);
-        } else {
-          return new Dimension<any>(parseFloat(m[1]), m[2]);
-        }
+        return this._convert(parseFloat(m[1]), m[2]);
       } else {
         return new Dimension<Unit>(parseFloat(css), this.unit);
       }
@@ -50,15 +45,14 @@ export class Dimension<Unit extends string> implements Attribute<Dimension<Unit>
       element.setAttribute(attr, this.toString());
     }
   }
-  public interpolate(from: Dimension<Unit>, t: number): Dimension<Unit> {
-    if (this.unit !== from.unit) {
-      const toPx = Dimension.convert[this.unit as string];
-      const fromPx = 1 / Dimension.convert[from.unit as string];
-      if (toPx !== undefined && fromPx !== undefined) {
-        return new Dimension<Unit>(_lerp(from.value, this.value, t) * toPx * fromPx, this.unit);
-      }
-    }
-    return new Dimension<Unit>(_lerp(from.value, this.value, t), this.unit);
+  public interpolator(from: Dimension<Unit>): (t: number) => Dimension<Unit> {
+    const a = this._convert(from.value, from.unit);
+    const func = interpolate(a.toString(), this.toString());
+    return (t: number) => this.parse(func(t));
+  }
+  private _convert(value: number, unit: string): Dimension<Unit> {
+    const scale = (Dimension.convert[this.unit] / Dimension.convert[unit]) || 1;
+    return new Dimension(value * scale, this.unit);
   }
 }
 

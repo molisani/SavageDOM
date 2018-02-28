@@ -78,7 +78,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
       return;
     }
     const from = attr.get(this._node, name);
-    return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolate.bind(attr, from), duration, easing);
+    return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolator(from), duration, easing);
   }
   // public animateAttributes<Attr extends keyof ATTRIBUTES>(name: Attr, attrs: Partial<ATTRIBUTES>, duration: number, easing: EasingFunction): Promise<number> | undefined {
   //   const

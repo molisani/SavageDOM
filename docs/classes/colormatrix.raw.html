@@ -105,9 +105,10 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="colormatrix.raw.html#get" class="tsd-kind-icon">get</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="colormatrix.raw.html#interpolate" class="tsd-kind-icon">interpolate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="colormatrix.raw.html#interpolator" class="tsd-kind-icon">interpolator</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="colormatrix.raw.html#parse" class="tsd-kind-icon">parse</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="colormatrix.raw.html#set" class="tsd-kind-icon">set</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="colormatrix.raw.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
 							</ul>
 						</section>
 					</div>
@@ -125,7 +126,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L15">attributes/color-matrix.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L16">attributes/color-matrix.ts:16</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -147,7 +148,7 @@
 					<div class="tsd-signature tsd-kind-icon">arr<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L15">attributes/color-matrix.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L16">attributes/color-matrix.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -157,7 +158,7 @@
 					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"matrix"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;matrix&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L14">attributes/color-matrix.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L15">attributes/color-matrix.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -175,7 +176,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/attribute.html">Attribute</a>.<a href="../interfaces/attribute.html#get">get</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L26">attributes/color-matrix.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L30">attributes/color-matrix.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -192,28 +193,43 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="interpolate" class="tsd-anchor"></a>
-					<h3>interpolate</h3>
+					<a name="interpolator" class="tsd-anchor"></a>
+					<h3>interpolator</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">interpolate<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="matrix.html" class="tsd-signature-type">Matrix</a>, t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="colormatrix.raw.html" class="tsd-signature-type">Raw</a></li>
+						<li class="tsd-signature tsd-kind-icon">interpolator<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="colormatrix.raw.html" class="tsd-signature-type">Raw</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L36">attributes/color-matrix.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L40">attributes/color-matrix.ts:40</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>from: <a href="matrix.html" class="tsd-signature-type">Matrix</a></h5>
-								</li>
-								<li>
-									<h5>t: <span class="tsd-signature-type">number</span></h5>
+									<h5>from: <a href="colormatrix.raw.html" class="tsd-signature-type">Raw</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="colormatrix.raw.html" class="tsd-signature-type">Raw</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="colormatrix.raw.html" class="tsd-signature-type">Raw</a></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>t: <span class="tsd-signature-type">number</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <a href="colormatrix.raw.html" class="tsd-signature-type">Raw</a></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -228,7 +244,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/attribute.html">Attribute</a>.<a href="../interfaces/attribute.html#parse">parse</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L19">attributes/color-matrix.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L23">attributes/color-matrix.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -252,7 +268,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/attribute.html">Attribute</a>.<a href="../interfaces/attribute.html#set">set</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L29">attributes/color-matrix.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L33">attributes/color-matrix.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -268,6 +284,23 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tostring" class="tsd-anchor"></a>
+					<h3>to<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">to<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/color-matrix.ts#L20">attributes/color-matrix.ts:20</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -310,13 +343,16 @@
 								<a href="colormatrix.raw.html#get" class="tsd-kind-icon">get</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="colormatrix.raw.html#interpolate" class="tsd-kind-icon">interpolate</a>
+								<a href="colormatrix.raw.html#interpolator" class="tsd-kind-icon">interpolator</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="colormatrix.raw.html#parse" class="tsd-kind-icon">parse</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="colormatrix.raw.html#set" class="tsd-kind-icon">set</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="colormatrix.raw.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
 							</li>
 						</ul>
 					</li>

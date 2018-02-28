@@ -20,7 +20,4 @@ export class Translate_Transform extends Transform {
       return new Translate_Transform();
     }
   }
-  public interpolate(from: Translate_Transform, t: number): Translate_Transform {
-    return new Translate_Transform(_lerp(from.x, this.x, t), _lerp(from.y, this.y, t));
-  }
 }

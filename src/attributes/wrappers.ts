@@ -1,3 +1,4 @@
+import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
 import { Element } from "../element";
 import { _lerp } from "../interpolation";
@@ -20,15 +21,14 @@ export class NumberWrapper implements Attribute<NumberWrapper | number> {
   public set(element: SVGElement, attr: string, override?: NumberWrapper): void {
     element.setAttribute(attr, (override !== undefined ? override : this).toString());
   }
-  public interpolate(from: NumberWrapper, t: number): NumberWrapper {
-    return new NumberWrapper(_lerp(from.n, this.n, t));
+  public interpolator(from: number | NumberWrapper): (t: number) => number | NumberWrapper {
+    const func = interpolate(from.toString(), this.toString());
+    return (t: number) => this.parse(func(t));
   }
 }
 
 export class ArrayWrapper<T extends Attribute<T>> implements Attribute<ArrayWrapper<T>> {
-  constructor(public arr: T[] = []) {
-
-  }
+  constructor(public arr: T[] = []) {}
   public toString(): string {
     return this.arr.join("\t");
   }
@@ -46,7 +46,8 @@ export class ArrayWrapper<T extends Attribute<T>> implements Attribute<ArrayWrap
   public set(element: SVGElement, attr: string, override?: ArrayWrapper<T>): void {
     element.setAttribute(attr, (override !== undefined ? override : this).toString());
   }
-  public interpolate(from: ArrayWrapper<T>, t: number): ArrayWrapper<T> {
-    return new ArrayWrapper<T>(this.arr.map((s, i) => s.interpolate(from.arr[i], t)));
+  public interpolator(from: ArrayWrapper<T>): (t: number) => ArrayWrapper<T> {
+    const func = interpolate(from.toString(), this.toString());
+    return (t: number) => this.parse(func(t));
   }
 }

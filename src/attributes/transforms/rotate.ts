@@ -16,7 +16,4 @@ export class Rotate_Transform extends Transform {
       return new Rotate_Transform(0);
     }
   }
-  public interpolate(from: Rotate_Transform, t: number): Rotate_Transform {
-    return new Rotate_Transform(_lerp(from.a, this.a, t), _lerp(from.x, this.x, t), _lerp(from.y, this.y, t));
-  }
 }

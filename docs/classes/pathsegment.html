@@ -105,6 +105,12 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Enumerations</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum tsd-parent-kind-class tsd-is-static"><a href="../enums/pathsegment.command.html" class="tsd-kind-icon">Command</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class tsd-parent-kind-class"><a href="pathsegment.arcto.html" class="tsd-kind-icon">Arc<wbr>To</a></li>
@@ -134,12 +140,6 @@
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
-							<h3>Type aliases</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-class tsd-is-static"><a href="pathsegment.html#command" class="tsd-kind-icon">Command</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="pathsegment.html#constructor" class="tsd-kind-icon">constructor</a></li>
@@ -156,7 +156,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathsegment.html#defaultinstance" class="tsd-kind-icon">default<wbr>Instance</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathsegment.html#get" class="tsd-kind-icon">get</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathsegment.html#interpolate" class="tsd-kind-icon">interpolate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathsegment.html#interpolator" class="tsd-kind-icon">interpolator</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathsegment.html#parse" class="tsd-kind-icon">parse</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathsegment.html#parseargs" class="tsd-kind-icon">parse<wbr>Args</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathsegment.html#set" class="tsd-kind-icon">set</a></li>
@@ -167,37 +167,24 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-class tsd-is-static">
-					<a name="command" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> Command</h3>
-					<div class="tsd-signature tsd-kind-icon">Command<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"M"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"m"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Z"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"z"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"L"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"l"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"H"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"h"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"V"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"v"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"C"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"c"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"S"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"s"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Q"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"q"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"T"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"t"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"A"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"a"</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L34">attributes/path-segment.ts:34</a></li>
-						</ul>
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
 				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Path<wbr>Segment<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="pathsegment.html#command" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathsegment.html" class="tsd-signature-type">PathSegment</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Path<wbr>Segment<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="../enums/pathsegment.command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathsegment.html" class="tsd-signature-type">PathSegment</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L7">attributes/path-segment.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L8">attributes/path-segment.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>command: <a href="pathsegment.html#command" class="tsd-signature-type">Command</a></h5>
+									<h5>command: <a href="../enums/pathsegment.command.html" class="tsd-signature-type">Command</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="pathsegment.html" class="tsd-signature-type">PathSegment</a></h4>
@@ -210,10 +197,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="command-1" class="tsd-anchor"></a>
 					<h3>command</h3>
-					<div class="tsd-signature tsd-kind-icon">command<span class="tsd-signature-symbol">:</span> <a href="pathsegment.html#command" class="tsd-signature-type">Command</a></div>
+					<div class="tsd-signature tsd-kind-icon">command<span class="tsd-signature-symbol">:</span> <a href="../enums/pathsegment.command.html" class="tsd-signature-type">Command</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L8">attributes/path-segment.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L9">attributes/path-segment.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -222,7 +209,7 @@
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="defaultinstance" class="tsd-anchor"></a>
-					<h3>default<wbr>Instance</h3>
+					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> default<wbr>Instance</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">default<wbr>Instance<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathsegment.html" class="tsd-signature-type">PathSegment</a></li>
 					</ul>
@@ -230,7 +217,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L28">attributes/path-segment.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L29">attributes/path-segment.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="pathsegment.html" class="tsd-signature-type">PathSegment</a></h4>
@@ -248,7 +235,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/attribute.html">Attribute</a>.<a href="../interfaces/attribute.html#get">get</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L17">attributes/path-segment.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L18">attributes/path-segment.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -265,16 +252,16 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="interpolate" class="tsd-anchor"></a>
-					<h3>interpolate</h3>
+					<a name="interpolator" class="tsd-anchor"></a>
+					<h3>interpolator</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">interpolate<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="pathsegment.html" class="tsd-signature-type">PathSegment</a>, t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathsegment.html" class="tsd-signature-type">PathSegment</a></li>
+						<li class="tsd-signature tsd-kind-icon">interpolator<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="pathsegment.html" class="tsd-signature-type">PathSegment</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L29">attributes/path-segment.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L30">attributes/path-segment.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -282,11 +269,26 @@
 								<li>
 									<h5>from: <a href="pathsegment.html" class="tsd-signature-type">PathSegment</a></h5>
 								</li>
-								<li>
-									<h5>t: <span class="tsd-signature-type">number</span></h5>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathsegment.html" class="tsd-signature-type">PathSegment</a></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>t: <span class="tsd-signature-type">number</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <a href="pathsegment.html" class="tsd-signature-type">PathSegment</a></h4>
+										</li>
+									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="pathsegment.html" class="tsd-signature-type">PathSegment</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -301,7 +303,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/attribute.html">Attribute</a>.<a href="../interfaces/attribute.html#parse">parse</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L10">attributes/path-segment.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L11">attributes/path-segment.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -316,7 +318,7 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="parseargs" class="tsd-anchor"></a>
-					<h3>parse<wbr>Args</h3>
+					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> parse<wbr>Args</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">parse<wbr>Args<span class="tsd-signature-symbol">(</span>css<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathsegment.html" class="tsd-signature-type">PathSegment</a></li>
 					</ul>
@@ -324,7 +326,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L27">attributes/path-segment.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L28">attributes/path-segment.ts:28</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -348,7 +350,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/attribute.html">Attribute</a>.<a href="../interfaces/attribute.html#set">set</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L20">attributes/path-segment.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L21">attributes/path-segment.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -369,7 +371,7 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="tostring" class="tsd-anchor"></a>
-					<h3>to<wbr>String</h3>
+					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> to<wbr>String</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">to<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
@@ -377,7 +379,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L9">attributes/path-segment.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/path-segment.ts#L10">attributes/path-segment.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -401,6 +403,9 @@
 					<li class="current tsd-kind-class">
 						<a href="pathsegment.html" class="tsd-kind-icon">Path<wbr>Segment</a>
 						<ul>
+							<li class=" tsd-kind-enum tsd-parent-kind-class tsd-is-static">
+								<a href="../enums/pathsegment.command.html" class="tsd-kind-icon">Command</a>
+							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-class">
 								<a href="pathsegment.arcto.html" class="tsd-kind-icon">Arc<wbr>To</a>
 							</li>
@@ -473,9 +478,6 @@
 							<li class=" tsd-kind-class tsd-parent-kind-class">
 								<a href="pathsegment.triplepoint.html" class="tsd-kind-icon">Triple<wbr>Point</a>
 							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-class tsd-is-static">
-								<a href="pathsegment.html#command" class="tsd-kind-icon">Command</a>
-							</li>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="pathsegment.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
@@ -489,7 +491,7 @@
 								<a href="pathsegment.html#get" class="tsd-kind-icon">get</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="pathsegment.html#interpolate" class="tsd-kind-icon">interpolate</a>
+								<a href="pathsegment.html#interpolator" class="tsd-kind-icon">interpolator</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="pathsegment.html#parse" class="tsd-kind-icon">parse</a>

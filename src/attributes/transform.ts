@@ -1,3 +1,4 @@
+import { interpolateTransformSvg } from "d3-interpolate";
 import { Attribute } from "../attribute";
 import { Element } from "../element";
 import { Matrix_Transform } from "./transforms/matrix";
@@ -53,7 +54,10 @@ export abstract class Transform implements Attribute<Transform> {
       element.setAttribute(attr, str);
     }
   }
-  public abstract interpolate(from: Transform, t: number): Transform;
+  public interpolator(from: Transform): (t: number) => Transform {
+    const func = interpolateTransformSvg(from.toString(), this.toString());
+    return (t: number) => this.parse(func(t));
+  }
 }
 
 export interface Transformable {

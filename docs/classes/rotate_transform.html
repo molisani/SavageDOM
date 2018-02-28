@@ -109,7 +109,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="rotate_transform.html#args" class="tsd-kind-icon">args</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rotate_transform.html#get" class="tsd-kind-icon">get</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="rotate_transform.html#interpolate" class="tsd-kind-icon">interpolate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rotate_transform.html#interpolator" class="tsd-kind-icon">interpolator</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rotate_transform.html#parse" class="tsd-kind-icon">parse</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="rotate_transform.html#parseargs" class="tsd-kind-icon">parse<wbr>Args</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rotate_transform.html#set" class="tsd-kind-icon">set</a></li>
@@ -171,7 +171,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="transform.html">Transform</a>.<a href="transform.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/transform.ts#L10">attributes/transform.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/transform.ts#L11">attributes/transform.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -228,7 +228,7 @@
 								<p>Implementation of <a href="../interfaces/attribute.html">Attribute</a>.<a href="../interfaces/attribute.html#get">get</a></p>
 								<p>Inherited from <a href="transform.html">Transform</a>.<a href="transform.html#get">get</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/transform.ts#L23">attributes/transform.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/transform.ts#L24">attributes/transform.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -244,30 +244,45 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-					<a name="interpolate" class="tsd-anchor"></a>
-					<h3>interpolate</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">interpolate<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="rotate_transform.html" class="tsd-signature-type">Rotate_Transform</a>, t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="rotate_transform.html" class="tsd-signature-type">Rotate_Transform</a></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="interpolator" class="tsd-anchor"></a>
+					<h3>interpolator</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">interpolator<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="transform.html" class="tsd-signature-type">Transform</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="transform.html">Transform</a>.<a href="transform.html#interpolate">interpolate</a></p>
+								<p>Inherited from <a href="transform.html">Transform</a>.<a href="transform.html#interpolator">interpolator</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/transforms/rotate.ts#L19">attributes/transforms/rotate.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/transform.ts#L57">attributes/transform.ts:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>from: <a href="rotate_transform.html" class="tsd-signature-type">Rotate_Transform</a></h5>
-								</li>
-								<li>
-									<h5>t: <span class="tsd-signature-type">number</span></h5>
+									<h5>from: <a href="transform.html" class="tsd-signature-type">Transform</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="rotate_transform.html" class="tsd-signature-type">Rotate_Transform</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="transform.html" class="tsd-signature-type">Transform</a></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>t: <span class="tsd-signature-type">number</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <a href="transform.html" class="tsd-signature-type">Transform</a></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -283,7 +298,7 @@
 								<p>Implementation of <a href="../interfaces/attribute.html">Attribute</a>.<a href="../interfaces/attribute.html#parse">parse</a></p>
 								<p>Inherited from <a href="transform.html">Transform</a>.<a href="transform.html#parse">parse</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/transform.ts#L16">attributes/transform.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/transform.ts#L17">attributes/transform.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -332,7 +347,7 @@
 								<p>Implementation of <a href="../interfaces/attribute.html">Attribute</a>.<a href="../interfaces/attribute.html#set">set</a></p>
 								<p>Inherited from <a href="transform.html">Transform</a>.<a href="transform.html#set">set</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/transform.ts#L36">attributes/transform.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/transform.ts#L37">attributes/transform.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -362,7 +377,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="transform.html">Transform</a>.<a href="transform.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/transform.ts#L12">attributes/transform.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/modularize/src/attributes/transform.ts#L13">attributes/transform.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -407,8 +422,8 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="rotate_transform.html#get" class="tsd-kind-icon">get</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-								<a href="rotate_transform.html#interpolate" class="tsd-kind-icon">interpolate</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="rotate_transform.html#interpolator" class="tsd-kind-icon">interpolator</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="rotate_transform.html#parse" class="tsd-kind-icon">parse</a>

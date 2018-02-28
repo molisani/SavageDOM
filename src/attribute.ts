@@ -9,7 +9,7 @@ export interface Attribute<T> extends Setter {
   parse(css: string | null): T;
   get(element: SVGElement, attr: string): T;
   set(element: SVGElement, attr: string, override?: T): void;
-  interpolate(from: T, t: number): T;
+  interpolator(from: T): (t: number) => T;
 }
 
 export function _defaultGet<T>(this: Attribute<T>, element: SVGElement, attr: string): T {

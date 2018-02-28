@@ -1,3 +1,4 @@
+import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
 import { Element } from "../element";
 import { _lerp } from "../interpolation";
@@ -16,6 +17,9 @@ export namespace ColorMatrix {
     constructor(values: number[][] = [[1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0, 0]]) {
       this.arr = this.arr.concat(...values);
     }
+    public toString(): string {
+      return this.arr.join(" ");
+    }
     public parse(css: string | null): Raw {
       if (css !== null) {
         return new Raw([css.split(" ").map(parseFloat)]);
@@ -33,8 +37,9 @@ export namespace ColorMatrix {
         element.setAttribute(attr, this.toString());
       }
     }
-    public interpolate(from: Matrix, t: number): Raw {
-      return new Raw([this.arr.map((val, i) => _lerp(from[i], val, t))]);
+    public interpolator(from: Raw): (t: number) => Raw {
+      const func = interpolate(from.toString(), this.toString());
+      return (t: number) => this.parse(func(t));
     }
   }
 
@@ -61,8 +66,9 @@ export namespace ColorMatrix {
         element.setAttribute(attr, this.toString());
       }
     }
-    public interpolate(from: Saturate, t: number): Saturate {
-      return new Saturate(_lerp(from.value, this.value, t));
+    public interpolator(from: Saturate): (t: number) => Saturate {
+      const func = interpolate(from.toString(), this.toString());
+      return (t: number) => this.parse(func(t));
     }
   }
 
@@ -89,8 +95,9 @@ export namespace ColorMatrix {
         element.setAttribute(attr, this.toString());
       }
     }
-    public interpolate(from: HueRotate, t: number): HueRotate {
-      return new HueRotate(_lerp(from.value, this.value, t));
+    public interpolator(from: HueRotate): (t: number) => HueRotate {
+      const func = interpolate(from.toString(), this.toString());
+      return (t: number) => this.parse(func(t));
     }
   }
 

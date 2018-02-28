@@ -1,3 +1,4 @@
+import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
 import { Element } from "../element";
 import { _lerp } from "../interpolation";
@@ -27,7 +28,8 @@ export class Matrix implements Attribute<Matrix> {
       element.setAttribute(attr, this.toString());
     }
   }
-  public interpolate(from: Matrix, t: number): Matrix {
-    return new Matrix([this.arr.map((val, i) => _lerp(from[i], val, t))]);
+  public interpolator(from: Matrix): (t: number) => Matrix {
+    const func = interpolate(from.toString(), this.toString());
+    return (t: number) => this.parse(func(t));
   }
 }

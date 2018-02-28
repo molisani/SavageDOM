@@ -16,7 +16,4 @@ export class Matrix_Transform extends Transform {
       return new Matrix_Transform();
     }
   }
-  public interpolate(from: Matrix_Transform, t: number): Matrix_Transform {
-    return new Matrix_Transform(_lerp(from.a, this.a, t), _lerp(from.b, this.b, t), _lerp(from.c, this.c, t), _lerp(from.d, this.d, t), _lerp(from.e, this.e, t), _lerp(from.f, this.f, t));
-  }
 }

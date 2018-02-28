@@ -1,3 +1,4 @@
+import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
 import { Element } from "../element";
 
@@ -16,6 +17,9 @@ export class TextContent implements Attribute<TextContent> {
       this._cb = str;
     }
   }
+  public toString(): string {
+    return this._str || this._cb();
+  }
   public parse(css: string | null): TextContent {
     return new TextContent(css || "");
   }
@@ -25,7 +29,8 @@ export class TextContent implements Attribute<TextContent> {
   public set<Attrs, A extends keyof Attrs>(element: SVGElement, attr: A, override?: TextContent): void {
     element.textContent = TextContent.escapeHtml(this._str || this._cb());
   }
-  public interpolate(from: TextContent, t: number): TextContent {
-    return t < 0.5 ? from : this;
+  public interpolator(from: TextContent): (t: number) => TextContent {
+    const func = interpolate(from.toString(), this.toString());
+    return (t: number) => this.parse(func(t));
   }
 }

@@ -34,7 +34,4 @@ export class SkewY_Transform extends Transform {
       return new SkewY_Transform();
     }
   }
-  public interpolate(from: SkewY_Transform, t: number): SkewY_Transform {
-    return new SkewY_Transform(_lerp(from.a, this.a, t));
-  }
 }

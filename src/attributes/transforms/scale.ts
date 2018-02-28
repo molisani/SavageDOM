@@ -39,7 +39,4 @@ export class Scale_Transform extends Transform {
       return new Scale_Transform();
     }
   }
-  public interpolate(from: Scale_Transform, t: number): Scale_Transform {
-    return new Scale_Transform(_lerp(from.x, this.x, t), _lerp(from.y, this.y, t));
-  }
 }

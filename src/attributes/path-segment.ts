@@ -1,7 +1,8 @@
+import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
 import { BaseElement } from "../element";
 import { _lerp } from "../interpolation";
-import { _LengthInterpolate, _LengthParse, Length } from "./base";
+import { _LengthParse, Length } from "./base";
 import { Point } from "./point";
 
 export abstract class PathSegment implements Attribute<PathSegment> {
@@ -26,15 +27,38 @@ export abstract class PathSegment implements Attribute<PathSegment> {
   }
   public abstract parseArgs(css: string): PathSegment;
   public abstract defaultInstance(): PathSegment;
-  public abstract interpolate(from: PathSegment, t: number): PathSegment;
+  public interpolator(from: PathSegment): (t: number) => PathSegment {
+    const func = interpolate(from.toString(), this.toString());
+    return (t: number) => this.parse(func(t));
+  }
 }
 
 export namespace PathSegment {
 
-  export type Command = "M" | "m" | "Z" | "z" | "L" | "l" | "H" | "h" | "V" | "v" | "C" | "c" | "S" | "s" | "Q" | "q" | "T" | "t" | "A" | "a";
+  export enum Command {
+    MoveToAbs = "M",
+    MoveToRel = "m",
+    ClosePath = "Z",
+    LineToAbs = "L",
+    LineToRel = "l",
+    LineToHorizontalAbs = "H",
+    LineToHorizontalRel = "h",
+    LineToVerticalAbs = "V",
+    LineToVerticalRel = "v",
+    CurveToCubicAbs = "C",
+    CurveToCubicRel = "c",
+    CurveToCubicSmoothAbs = "S",
+    CurveToCubicSmoothRel = "s",
+    CurveToQuadraticAbs = "Q",
+    CurveToQuadraticRel = "q",
+    CurveToQuadraticSmoothAbs = "T",
+    CurveToQuadraticSmoothRel = "t",
+    ArcToAbs = "A",
+    ArcToRel = "a",
+  }
 
   export abstract class SingleLength extends PathSegment {
-    constructor(command: "H" | "h" | "V" | "v", public l: Length = 0) {
+    constructor(command: Command.LineToHorizontalAbs | Command.LineToHorizontalRel | Command.LineToVerticalAbs | Command.LineToVerticalRel, public l: Length = 0) {
       super(command);
     }
     public toString(): string {
@@ -43,14 +67,11 @@ export namespace PathSegment {
     public parseArgs(css: string): SingleLength {
       return this.buildInstance(_LengthParse(css));
     }
-    public interpolate(from: SingleLength, t: number): SingleLength {
-      return this.buildInstance(_LengthInterpolate(from.l, this.l, t));
-    }
     public abstract buildInstance(l: Length): SingleLength;
     public abstract defaultInstance(): SingleLength;
   }
   export abstract class SinglePoint extends PathSegment {
-    constructor(command: "M" | "m" | "L" | "l" | "T" | "t", public p: Point = new Point(0, 0)) {
+    constructor(command: Command.MoveToAbs | Command.MoveToRel | Command.LineToAbs | Command.LineToRel | Command.CurveToQuadraticSmoothAbs | Command.CurveToQuadraticSmoothRel, public p: Point = new Point(0, 0)) {
       super(command);
     }
     public toString(): string {
@@ -59,14 +80,11 @@ export namespace PathSegment {
     public parseArgs(css: string): SinglePoint {
       return this.buildInstance(this.p.parse(css));
     }
-    public interpolate(from: SinglePoint, t: number): SinglePoint {
-      return this.buildInstance(this.p.interpolate(from.p, t));
-    }
     public abstract buildInstance(p: Point): SinglePoint;
     public abstract defaultInstance(): SinglePoint;
   }
   export abstract class DoublePoint extends PathSegment {
-    constructor(command: "Q" | "q" | "S" | "s", public p1: Point = new Point(0, 0), public p2: Point = new Point(0, 0)) {
+    constructor(command: Command.CurveToQuadraticAbs | Command.CurveToQuadraticRel | Command.CurveToCubicSmoothAbs | Command.CurveToCubicSmoothRel, public p1: Point = new Point(0, 0), public p2: Point = new Point(0, 0)) {
       super(command);
     }
     public toString(): string {
@@ -76,14 +94,11 @@ export namespace PathSegment {
       const toks = css.split(" ");
       return this.buildInstance(this.p1.parse(toks[0]), this.p2.parse(toks[1]));
     }
-    public interpolate(from: DoublePoint, t: number): DoublePoint {
-      return this.buildInstance(this.p1.interpolate(from.p1, t), this.p2.interpolate(from.p2, t));
-    }
     public abstract buildInstance(p1: Point, p2: Point): DoublePoint;
     public abstract defaultInstance(): DoublePoint;
   }
   export abstract class TriplePoint extends PathSegment {
-    constructor(command: "C" | "c", public p1: Point = new Point(0, 0), public p2: Point = new Point(0, 0), public p3: Point = new Point(0, 0)) {
+    constructor(command: Command.CurveToCubicAbs | Command.CurveToCubicRel, public p1: Point = new Point(0, 0), public p2: Point = new Point(0, 0), public p3: Point = new Point(0, 0)) {
       super(command);
     }
     public toString(): string {
@@ -93,9 +108,6 @@ export namespace PathSegment {
       const toks = css.split(" ");
       return this.buildInstance(this.p1.parse(toks[0]), this.p2.parse(toks[1]), this.p3.parse(toks[2]));
     }
-    public interpolate(from: TriplePoint, t: number): TriplePoint {
-      return this.buildInstance(this.p1.interpolate(from.p1, t), this.p2.interpolate(from.p2, t), this.p3.interpolate(from.p3, t));
-    }
     public abstract buildInstance(p1: Point, p2: Point, p3: Point): TriplePoint;
     public abstract defaultInstance(): TriplePoint;
   }
@@ -104,7 +116,7 @@ export namespace PathSegment {
     constructor(p?: Point)
     constructor(x: Length, y: Length)
     constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
-      super("M", p instanceof Point ? p : new Point(p, y));
+      super(Command.MoveToAbs, p instanceof Point ? p : new Point(p, y));
     }
     public buildInstance(p: Point): MoveToAbs {
       return new MoveToAbs(p);
@@ -117,7 +129,7 @@ export namespace PathSegment {
     constructor(p?: Point)
     constructor(x: Length, y: Length)
     constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
-      super("m", p instanceof Point ? p : new Point(p, y));
+      super(Command.MoveToRel, p instanceof Point ? p : new Point(p, y));
     }
     public buildInstance(p: Point): MoveToRel {
       return new MoveToRel(p);
@@ -129,18 +141,15 @@ export namespace PathSegment {
 
   export class ClosePath extends PathSegment {
     constructor() {
-      super("Z");
+      super(Command.ClosePath);
     }
     public toString(): string {
-      return "Z";
+      return Command.ClosePath;
     }
     public parseArgs(css: string): ClosePath {
       return new ClosePath();
     }
     public defaultInstance(): ClosePath {
-      return new ClosePath();
-    }
-    public interpolate(from: ClosePath, t: number): ClosePath {
       return new ClosePath();
     }
   }
@@ -149,7 +158,7 @@ export namespace PathSegment {
     constructor(p?: Point)
     constructor(x: Length, y: Length)
     constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
-      super("L", p instanceof Point ? p : new Point(p, y));
+      super(Command.LineToAbs, p instanceof Point ? p : new Point(p, y));
     }
     public buildInstance(p: Point): LineToAbs {
       return new LineToAbs(p);
@@ -162,7 +171,7 @@ export namespace PathSegment {
     constructor(p?: Point)
     constructor(x: Length, y: Length)
     constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
-      super("l", p instanceof Point ? p : new Point(p, y));
+      super(Command.LineToRel, p instanceof Point ? p : new Point(p, y));
     }
     public buildInstance(p: Point): LineToRel {
       return new LineToRel(p);
@@ -174,7 +183,7 @@ export namespace PathSegment {
 
   export class LineToHorizontalAbs extends SingleLength {
     constructor(h: Length = 0) {
-      super("H", h);
+      super(Command.LineToHorizontalAbs, h);
     }
     public buildInstance(h: Length): LineToHorizontalAbs {
       return new LineToHorizontalAbs(h);
@@ -185,7 +194,7 @@ export namespace PathSegment {
   }
   export class LineToHorizontalRel extends SingleLength {
     constructor(h: Length = 0) {
-      super("h", h);
+      super(Command.LineToHorizontalRel, h);
     }
     public buildInstance(h: Length): LineToHorizontalRel {
       return new LineToHorizontalRel(h);
@@ -197,7 +206,7 @@ export namespace PathSegment {
 
   export class LineToVerticalAbs extends SingleLength {
     constructor(v: Length = 0) {
-      super("V", v);
+      super(Command.LineToVerticalAbs, v);
     }
     public buildInstance(v: Length): LineToVerticalAbs {
       return new LineToVerticalAbs(v);
@@ -208,7 +217,7 @@ export namespace PathSegment {
   }
   export class LineToVerticalRel extends SingleLength {
     constructor(v: Length = 0) {
-      super("v", v);
+      super(Command.LineToVerticalRel, v);
     }
     public buildInstance(v: Length): LineToVerticalAbs {
       return new LineToVerticalAbs(v);
@@ -225,7 +234,7 @@ export namespace PathSegment {
       const c1: Point = a instanceof Point ? a : new Point(a, b as Length);
       const c2: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
       const p: Point = c instanceof Point ? c : new Point(e as Length, f as Length);
-      super("C", c1, c2, p);
+      super(Command.CurveToCubicAbs, c1, c2, p);
     }
     public buildInstance(c1: Point, c2: Point, p: Point): CurveToCubicAbs {
       return new CurveToCubicAbs(c1, c2, p);
@@ -241,7 +250,7 @@ export namespace PathSegment {
       const c1: Point = a instanceof Point ? a : new Point(a, b as Length);
       const c2: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
       const p: Point = c instanceof Point ? c : new Point(e as Length, f as Length);
-      super("c", c1, c2, p);
+      super(Command.CurveToCubicRel, c1, c2, p);
     }
     public buildInstance(c1: Point, c2: Point, p: Point): CurveToCubicRel {
       return new CurveToCubicRel(c1, c2, p);
@@ -257,7 +266,7 @@ export namespace PathSegment {
     constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c?: Length, d?: Length) {
       const c2: Point = a instanceof Point ? a : new Point(a as Length, b as Length);
       const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
-      super("S", c2, p);
+      super(Command.CurveToCubicSmoothAbs, c2, p);
     }
     public buildInstance(c2: Point, p: Point): CurveToCubicSmoothAbs {
       return new CurveToCubicSmoothAbs(c2, p);
@@ -272,7 +281,7 @@ export namespace PathSegment {
     constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c?: Length, d?: Length) {
       const c2: Point = a instanceof Point ? a : new Point(a as Length, b as Length);
       const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
-      super("s", c2, p);
+      super(Command.CurveToCubicSmoothRel, c2, p);
     }
     public buildInstance(c2: Point, p: Point): CurveToCubicSmoothRel {
       return new CurveToCubicSmoothRel(c2, p);
@@ -288,7 +297,7 @@ export namespace PathSegment {
     constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c?: Length, d?: Length) {
       const c1: Point = a instanceof Point ? a : new Point(a as Length, b as Length);
       const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
-      super("Q", c1, p);
+      super(Command.CurveToQuadraticAbs, c1, p);
     }
     public buildInstance(c1: Point, p: Point): CurveToQuadraticAbs {
       return new CurveToQuadraticAbs(c1, p);
@@ -303,7 +312,7 @@ export namespace PathSegment {
     constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c?: Length, d?: Length) {
       const c1: Point = a instanceof Point ? a : new Point(a as Length, b as Length);
       const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
-      super("q", c1, p);
+      super(Command.CurveToQuadraticRel, c1, p);
     }
     public buildInstance(c1: Point, p: Point): CurveToQuadraticRel {
       return new CurveToQuadraticRel(c1, p);
@@ -317,7 +326,7 @@ export namespace PathSegment {
     constructor(p?: Point)
     constructor(x: Length, y: Length)
     constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
-      super("T", p instanceof Point ? p : new Point(p, y));
+      super(Command.CurveToQuadraticSmoothAbs, p instanceof Point ? p : new Point(p, y));
     }
     public buildInstance(p: Point): CurveToQuadraticSmoothAbs {
       return new CurveToQuadraticSmoothAbs(p);
@@ -330,7 +339,7 @@ export namespace PathSegment {
     constructor(p?: Point)
     constructor(x: Length, y: Length)
     constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
-      super("t", p instanceof Point ? p : new Point(p, y));
+      super(Command.CurveToQuadraticSmoothRel, p instanceof Point ? p : new Point(p, y));
     }
     public buildInstance(p: Point): CurveToQuadraticSmoothRel {
       return new CurveToQuadraticSmoothRel(p);
@@ -341,7 +350,7 @@ export namespace PathSegment {
   }
 
   export abstract class ArcTo extends PathSegment {
-    constructor(command: "A" | "a", public r: Point = new Point(0, 0), public p: Point = new Point(0, 0), public xAxisRotate: number = 0, public largeArc: boolean = false, public sweepClockwise: boolean = true) {
+    constructor(command: Command.ArcToAbs | Command.ArcToRel, public r: Point = new Point(0, 0), public p: Point = new Point(0, 0), public xAxisRotate: number = 0, public largeArc: boolean = false, public sweepClockwise: boolean = true) {
       super(command);
     }
     public toString(): string {
@@ -350,9 +359,6 @@ export namespace PathSegment {
     public parseArgs(css: string): ArcTo {
       const toks = css.split(" ");
       return this.buildInstance(this.r.parse(toks[0]), this.p.parse(toks[4]), parseFloat(toks[1]), toks[2] === "1", toks[3] === "1");
-    }
-    public interpolate(from: ArcTo, t: number): ArcTo {
-      return this.buildInstance(this.r.interpolate(from.r, t), this.p.interpolate(from.p, t), _lerp(from.xAxisRotate, this.xAxisRotate, t), (t < 0.5) ? from.largeArc : this.largeArc, (t < 0.5) ? from.sweepClockwise : this.sweepClockwise);
     }
     public abstract buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise): ArcTo;
     public abstract defaultInstance(): ArcTo;
@@ -388,7 +394,7 @@ export namespace PathSegment {
           sweepClockwise = g as boolean;
         }
       }
-      super("A", r, p, xAxisRotate, largeArc, sweepClockwise);
+      super(Command.ArcToAbs, r, p, xAxisRotate, largeArc, sweepClockwise);
     }
     public buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise): ArcToAbs {
       return new ArcToAbs(r, p, xAxisRotate, largeArc, sweepClockwise);
@@ -427,7 +433,7 @@ export namespace PathSegment {
           sweepClockwise = g as boolean;
         }
       }
-      super("a", r, p, xAxisRotate, largeArc, sweepClockwise);
+      super(Command.ArcToRel, r, p, xAxisRotate, largeArc, sweepClockwise);
     }
     public buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise): ArcToRel {
       return new ArcToRel(r, p, xAxisRotate, largeArc, sweepClockwise);

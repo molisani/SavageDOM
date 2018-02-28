@@ -24,22 +24,6 @@ export const _LengthParse = (css: string): Length => {
   return parseFloat(css);
 };
 
-export const _LengthInterpolate = (a: Length, b: Length, t: number): Length => {
-  if (typeof a !== "number") {
-    if (typeof b !== "number") {
-      return b.interpolate(a, t);
-    } else {
-      return a.interpolate(new Dimension<any>(b, a.unit), 1 - t);
-    }
-  } else {
-    if (typeof b !== "number") {
-      return b.interpolate(new Dimension<any>(a, b.unit), t);
-    } else {
-      return _lerp(a, b, t);
-    }
-  }
-};
-
 export interface BaseAttributes {
   [name: string]: Attribute<any> | number | string | boolean | any;
 }

@@ -27,5 +27,7 @@ module.exports = {
     plugins: [],
     externals: {
         rxjs: "Rx",
+        "d3-color": "d3",
+        "d3-interpolate": "d3",
     },
 };

@@ -1,3 +1,4 @@
+import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
 import { Element } from "../element";
 import { _lerp } from "../interpolation";
@@ -29,15 +30,8 @@ export class NumberOptionalNumber implements Attribute<NumberOptionalNumber> {
       element.setAttribute(attr, this.toString());
     }
   }
-  public interpolate(from: NumberOptionalNumber, t: number): NumberOptionalNumber {
-    if (from.o !== undefined && this.o !== undefined) {
-      return new NumberOptionalNumber(_lerp(from.n, this.n, t), _lerp(from.o, this.o, t));
-    } else if (from.o === undefined && this.o !== undefined) {
-      return new NumberOptionalNumber(_lerp(from.n, this.n, t), _lerp(0, this.o, t));
-    } else if (from.o !== undefined && this.o === undefined) {
-      return new NumberOptionalNumber(_lerp(from.n, this.n, t), _lerp(from.o, 0, t));
-    } else {
-      return new NumberOptionalNumber(_lerp(from.n, this.n, t));
-    }
+  public interpolator(from: NumberOptionalNumber): (t: number) => NumberOptionalNumber {
+    const func = interpolate(from.toString(), this.toString());
+    return (t: number) => this.parse(func(t));
   }
 }
