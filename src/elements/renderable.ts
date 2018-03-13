@@ -24,7 +24,7 @@ export interface Renderable_Events extends Mouse_Events, SVG_Events, Focus_Event
 export abstract class AbstractRenderable<E extends SVGGraphicsElement, A extends BaseAttributes, V extends BaseEvents> extends Element<E, Renderable_Attributes & A, Renderable_Events & V> {
   public getPointEvent(events: string): Observable<PointEvent> {
     return this.getEvent(events).map((event: MouseEvent | TouchEvent) => {
-      const action: MouseEvent | Touch = (event instanceof TouchEvent) ? event.touches[0] : event;
+      const action: MouseEvent | Touch = (event instanceof MouseEvent) ? event : event.touches[0];
       const ref = this.context.refPoint;
       ref.x = action.clientX;
       ref.y = action.clientY;
