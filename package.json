@@ -1,6 +1,6 @@
 {
   "name": "savagedom",
-  "version": "1.0.0-alpha.39",
+  "version": "1.0.0-beta.0",
   "description": "Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript",
   "keywords": [
     "svg",
@@ -23,38 +23,39 @@
     "prepublishOnly": "grunt prepublish"
   },
   "devDependencies": {
-    "@types/d3-color": "^1.0.5",
+    "@types/d3-color": "^1.0.6",
     "@types/d3-interpolate": "^1.1.6",
-    "grunt": "^1.0.1",
+    "@types/node": "^9.6.5",
+    "grunt": "^1.0.2",
     "grunt-cli": "^1.2.0",
     "grunt-compile-handlebars": "^2.0.2",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-connect": "^1.0.2",
-    "grunt-contrib-watch": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.1",
     "grunt-git": "^1.0.9",
     "grunt-parallel": "^0.5.1",
     "grunt-parallelize": "^1.1.7",
     "grunt-sed": "^0.1.1",
     "grunt-shell": "^2.1.0",
-    "grunt-ts": "^6.0.0-beta.17",
-    "grunt-tslint": "^5.0.1",
+    "grunt-ts": "^6.0.0-beta.19",
+    "grunt-tslint": "^5.0.2",
     "grunt-typedoc": "^0.2.4",
     "grunt-umd": "^3.0.0",
-    "grunt-webpack": "^3.0.2",
+    "grunt-webpack": "^3.1.1",
     "load-grunt-tasks": "^3.5.2",
     "phantomjs-prebuilt": "^2.1.16",
     "requirejs": "^2.3.5",
-    "ts-loader": "^3.1.1",
-    "tslint": "^5.8.0",
+    "ts-loader": "^3.5.0",
+    "tslint": "^5.9.1",
     "typedoc": "^0.10.0",
     "typedoc-webpack-plugin": "^1.1.4",
-    "typescript": "^2.7.2",
-    "webpack": "^3.10.0"
+    "typescript": "^2.8.3",
+    "webpack": "^3.11.0"
   },
   "dependencies": {
-    "d3-color": "^1.0.3",
+    "d3-color": "^1.1.0",
     "d3-interpolate": "^1.1.6",
-    "rxjs": "^5.5.6"
+    "rxjs": "^5.5.10"
   }
 }

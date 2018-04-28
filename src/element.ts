@@ -95,15 +95,21 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     const attrs = el._node.attributes;
     if (includeExclude) {
       for (let i = 0; i < attrs.length; ++i) {
-        const attr = attrs.item(i).name;
-        if (includeExclude[attr as keyof ATTRIBUTES] === true || defaultInclude) {
-          style[attr] = el._style.getPropertyValue(attr);
+        const attr = attrs.item(i);
+        if (attr) {
+          const name = attr.name;
+          if (includeExclude[name as keyof ATTRIBUTES] === true || defaultInclude) {
+            style[name] = el._style.getPropertyValue(name);
+          }
         }
       }
     } else {
       for (let i = 0; i < attrs.length; ++i) {
-        const attr = attrs.item(i).name;
-        style[attr] = el._style.getPropertyValue(attr);
+        const attr = attrs.item(i);
+        if (attr) {
+          const name = attr.name;
+          style[name] = el._style.getPropertyValue(name);
+        }
       }
     }
     this.setAttributes(style);

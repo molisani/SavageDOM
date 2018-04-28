@@ -28,7 +28,11 @@ export abstract class AbstractRenderable<E extends SVGGraphicsElement, A extends
       const ref = this.context.refPoint;
       ref.x = action.clientX;
       ref.y = action.clientY;
-      const local = ref.matrixTransform(this.node.getScreenCTM().inverse());
+      const matrix = this.node.getScreenCTM();
+      if (!matrix) {
+        throw new Error(`No Screen Coordinate Transform Matrix found for node "${this.node.id}"`);
+      }
+      const local = ref.matrixTransform(matrix.inverse());
       return {
         local: {
           x: local.x,

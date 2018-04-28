@@ -9,7 +9,12 @@ export class Color implements Attribute<Color> {
   private _data: ColorSpaceObject;
   constructor(c: string | ColorSpaceObject, public interpolationFactory: ColorGammaInterpolationFactory = Color.DEFAULT_INTERPOLATION) {
     if (typeof c === "string") {
-      this._data = color(c);
+      const data = color(c);
+      if (data) {
+        this._data = data;
+      } else {
+        throw new Error(`Unable to parse color from string "${c}"`);
+      }
     } else {
       this._data = color(c);
     }
