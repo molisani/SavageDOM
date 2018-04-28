@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "dom",
+            "es6"
+        ],
+        "types": [
+            "node"
+        ],
+        "target": "es6",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "declaration": true,
+        "inlineSourceMap": true,
+        "noImplicitAny": false,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "alwaysStrict": true,
+        "removeComments": true,
+        "rootDir": "src",
+        "outDir": "lib"
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

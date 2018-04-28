@@ -1,17 +1,9 @@
-namespace SavageDOM.Attribute {
+import { HasClass, HasStyle } from "../attributes";
+import { Element } from "../element";
+import { SVG_Events } from "../events";
 
-  export interface NonRenderable extends HasStyle, HasClass {};
+export interface NonRenderable_Attributes extends HasStyle, HasClass {}
 
-}
+export interface NonRenderable_Events extends SVG_Events {}
 
-namespace SavageDOM.Events {
-
-  export interface NonRenderable extends SVG {}
-
-}
-
-namespace SavageDOM.Elements {
-
-  export abstract class AbstractNonRenderable<E extends SVGElement, NonRenderableAttributes> extends Element<E, Attribute.NonRenderable & NonRenderableAttributes, Events.NonRenderable> {}
-
-}
+export abstract class AbstractNonRenderable<E extends SVGElement, NonRenderableAttributes> extends Element<E, NonRenderable_Attributes & NonRenderableAttributes, NonRenderable_Events> {}

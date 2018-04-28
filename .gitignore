@@ -4,6 +4,8 @@ node_modules/
 *.js
 *.js.map
 *.d.ts
+*.svg
 
 !Gruntfile.js
 !dist/*
+!webpack.config.js

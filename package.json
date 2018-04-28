@@ -1,12 +1,12 @@
 {
   "name": "savagedom",
-  "version": "1.0.0-alpha.15",
+  "version": "1.0.0-beta.0",
   "description": "Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript",
   "keywords": [
     "svg",
     "animation"
   ],
-  "homepage": "",
+  "homepage": "http://www.molisani.us/SavageDOM/index.html",
   "bugs": {
     "url": "https://github.com/molisani/SavageDOM/issues"
   },
@@ -16,39 +16,46 @@
   },
   "license": "LGPL-3.0",
   "author": "Michael Molisani <michael@molisani.us> (http://molisani.us)",
-  "main": "dist/SavageDOM.js",
-  "types": "dist/SavageDOM.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "prepublish": "grunt prepublish",
-    "test": "grunt check"
+    "test": "grunt check",
+    "prepublishOnly": "grunt prepublish"
   },
   "devDependencies": {
-    "@types/bluebird": "^3.5.0",
-    "@types/node": "^7.0.5",
-    "es6-shim": "^0.35.3",
-    "grunt": "^1.0.1",
-    "grunt-bump": "^0.8.0",
+    "@types/d3-color": "^1.0.6",
+    "@types/d3-interpolate": "^1.1.6",
+    "@types/node": "^9.6.5",
+    "grunt": "^1.0.2",
     "grunt-cli": "^1.2.0",
     "grunt-compile-handlebars": "^2.0.2",
-    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-connect": "^1.0.2",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-git": "^1.0.3",
+    "grunt-contrib-watch": "^1.0.1",
+    "grunt-git": "^1.0.9",
     "grunt-parallel": "^0.5.1",
     "grunt-parallelize": "^1.1.7",
     "grunt-sed": "^0.1.1",
     "grunt-shell": "^2.1.0",
-    "grunt-ts": "^6.0.0-beta.15",
-    "grunt-tslint": "^4.0.1",
+    "grunt-ts": "^6.0.0-beta.19",
+    "grunt-tslint": "^5.0.2",
     "grunt-typedoc": "^0.2.4",
-    "grunt-umd": "^2.4.0",
+    "grunt-umd": "^3.0.0",
+    "grunt-webpack": "^3.1.1",
     "load-grunt-tasks": "^3.5.2",
-    "phantomjs-prebuilt": "^2.1.14",
-    "requirejs": "^2.3.3",
-    "systemjs": "^0.20.10",
-    "tslint": "^4.5.1",
-    "typedoc": "^0.5.7",
-    "typescript": "^2.2.1"
+    "phantomjs-prebuilt": "^2.1.16",
+    "requirejs": "^2.3.5",
+    "ts-loader": "^3.5.0",
+    "tslint": "^5.9.1",
+    "typedoc": "^0.10.0",
+    "typedoc-webpack-plugin": "^1.1.4",
+    "typescript": "^2.8.3",
+    "webpack": "^3.11.0"
+  },
+  "dependencies": {
+    "d3-color": "^1.1.0",
+    "d3-interpolate": "^1.1.6",
+    "rxjs": "^5.5.10"
   }
 }

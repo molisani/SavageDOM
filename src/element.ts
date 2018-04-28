@@ -1,115 +1,155 @@
-namespace SavageDOM {
+import { AttributeUpdate, Renderer } from "./animation/renderer";
+import { Attribute, isAttribute } from "./attribute";
+import { BaseAttributes } from "./attributes/base";
+import { XMLNS } from "./constants";
+import { Context } from "./context";
+import { BaseEvents } from "./events";
 
-  const randomId = () => Math.random().toString(36).substring(2);
+import { Observable, Subject, Subscription } from "rxjs";
+import { EasingFunction } from "./animation/easing";
+import { Box } from "./attributes/box";
+import { NumberWrapper } from "./attributes/wrappers";
+import { randomShortStringId } from "./id";
 
-  export class Element<SVG extends SVGElement, Attrs, Events> {
-    protected _node: SVG;
-    protected _style: CSSStyleDeclaration;
-    constructor(paper: Paper, el: SVG, attrs?: Partial<Attrs>);
-    constructor(paper: Paper, name: string, attrs?: Partial<Attrs>, id?: string);
-    constructor(paper: Paper, el: string | SVG, attrs?: Partial<Attrs>, id?: string);
-    constructor(public paper: Paper, el: string | SVG, attrs?: Partial<Attrs>, private _id: string = randomId()) {
-      if (typeof el === "string") {
-        this._node = window.document.createElementNS(XMLNS, el) as SVG;
-        if (attrs !== undefined) {
-          this.setAttributes(attrs);
-        }
-        this.paper.root.appendChild(this._node);
+export type BaseElement = Element<SVGElement, BaseAttributes, BaseEvents>;
+
+export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, EVENTS extends BaseEvents> {
+  protected _node: SVG;
+  protected _style: CSSStyleDeclaration;
+  private _dynamicSubscriptions = {} as { [ATTR in keyof ATTRIBUTES]: Subscription };
+  constructor(context: Context, el: SVG, attrs?: Partial<ATTRIBUTES>);
+  constructor(context: Context, name: string, attrs?: Partial<ATTRIBUTES>, id?: string);
+  constructor(context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, id?: string);
+  constructor(public context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, private _id: string = randomShortStringId()) {
+    if (typeof el === "string") {
+      this._node = this.context.window.document.createElementNS(XMLNS, el) as SVG;
+      this.context.addChild(this._node);
+      if (attrs !== undefined) {
+        this.setAttributes(attrs);
+      }
+      this._node.setAttribute("id", this._id);
+    } else {
+      this._node = el;
+      const id = this._node.getAttribute("id");
+      if (id !== null) {
+        this._id = id;
+      } else {
         this._node.setAttribute("id", this._id);
-      } else {
-        this._node = el;
-        const id = this._node.getAttribute("id");
-        if (id !== null) {
-          this._id = id;
-        } else {
-          this._node.setAttribute("id", this._id);
-        }
-      }
-      this._style = window.getComputedStyle(this._node);
-    }
-    public get id(): string {
-      return this._id;
-    }
-    public toString(): string {
-      return `url(#${this._id})`;
-    }
-    public setAttribute<Attr extends keyof Attrs>(name: Attr, val: Attrs[Attr]): void {
-      if (Attribute.isAttribute(val)) {
-        val.set(this, name);
-      } else if (Array.isArray(val)) {
-        this._node.setAttribute(name, val.join("\t"));
-      } else {
-        this._node.setAttribute(name, String(val));
       }
     }
-    public setAttributes(attrs: Partial<Attrs>): void {
-      for (const name in attrs) {
-        const attr = attrs[name];
-        if (attr !== undefined && attr !== null) {
-          this.setAttribute(name, attr);
-        }
-      }
-    }
-    public getAttribute<Attr extends keyof Attrs>(name: Attr): string | null {
-      const val = this._node.getAttribute(name) || this._style.getPropertyValue(name);
-      return (val === "" || val === "none") ? null : val;
-    }
-    public copyStyleFrom(el: Element<SVGElement, Attrs, any>);
-    public copyStyleFrom(el: Element<SVGElement, Attrs, any>, includeExclude: { [A in keyof Attrs]: boolean }, defaultInclude: boolean);
-    public copyStyleFrom(el: Element<SVGElement, Attrs, any>, includeExclude?: { [A in keyof Attrs]: boolean }, defaultInclude: boolean = true): void {
-      const style = {} as Attrs;
-      const attrs = el._node.attributes;
-      if (includeExclude) {
-        for (let i = 0; i < attrs.length; ++i) {
-          const attr = attrs.item(i).name;
-          if (includeExclude[attr as keyof Attrs] === true || defaultInclude) {
-            style[attr] = el._style.getPropertyValue(attr);
-          }
-        }
-      } else {
-        for (let i = 0; i < attrs.length; ++i) {
-          const attr = attrs.item(i).name;
-          style[attr] = el._style.getPropertyValue(attr);
-        }
-      }
-      this.setAttributes(style);
-    }
-
-    public addEventListener<Event extends keyof Events>(event: Event, listener: (this: this, event: Events[Event]) => any): void {
-      this._node.addEventListener(event, listener.bind(this));
-    }
-
-    public get boundingBox(): Attribute.Box {
-      const rect = this._node.getBoundingClientRect();
-      return new Attribute.Box(rect.left, rect.top, rect.width, rect.height);
-    }
-    public add(el: Element<SVGElement, any, any> | SVGElement) {
-      if (el instanceof SVGElement) {
-        this._node.appendChild(el);
-      } else {
-        this._node.appendChild(el._node);
-      }
-    }
-    public getChildren(): Element<SVGElement, any, any>[] {
-      const children = this._node.childNodes;
-      const elements: Element<SVGElement, any, any>[] = [];
-      for (let i = 0; i < children.length; ++i) {
-        elements.push(new Element(this.paper, children.item(i) as SVGElement));
-      }
-      return elements;
-    }
-    public clone(deep: boolean = true, id: string = randomId()): Element<SVG, Attrs, Events> {
-      const copy = new Element<SVG, Attrs, Events>(this.paper, this._node.cloneNode(deep) as SVG);
-      copy._id = id;
-      copy._node.setAttribute("id", copy._id);
-      return copy;
-    }
-
-    protected cloneNode(deep: boolean = true): SVG {
-      const clone = this._node.cloneNode(deep) as SVG;
-      clone.setAttribute("id", randomId());
-      return clone;
+    this._style = this.context.window.getComputedStyle(this._node);
+  }
+  public get id(): string {
+    return this._id;
+  }
+  public get node(): SVG {
+    return this._node;
+  }
+  public toString(): string {
+    return `url(#${this._id})`;
+  }
+  public renderAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
+    if (isAttribute(val)) {
+      val.set(this._node, name);
+    } else if (Array.isArray(val)) {
+      this._node.setAttribute(name, val.join("\t"));
+    } else {
+      this._node.setAttribute(name, String(val));
     }
   }
+  public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
+    Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, name, val);
+  }
+  public setAttributes(attrs: Partial<ATTRIBUTES>): void {
+    Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, attrs);
+  }
+  public animateAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr], duration: number, easing: EasingFunction): Promise<number> | undefined {
+    let attr: Attribute<any>;
+    if (typeof val === "number") {
+      attr = new NumberWrapper(val);
+    } else if (isAttribute(val)) {
+      attr = val;
+    } else {
+      return;
+    }
+    const from = attr.get(this._node, name);
+    return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolator(from), duration, easing);
+  }
+  // public animateAttributes<Attr extends keyof ATTRIBUTES>(name: Attr, attrs: Partial<ATTRIBUTES>, duration: number, easing: EasingFunction): Promise<number> | undefined {
+  //   const
+  //   for (const attr in attrs) {
+  //     const val = attrs[attr] as ATTRIBUTES[keyof ATTRIBUTES];
+  //     if (val !== undefined && val !== null) {
+  //       this.animateAttribute(attr, val, duration, easing);
+  //     }
+  //   }
+  // }
+  public getAttribute<Attr extends keyof ATTRIBUTES>(name: Attr): string | null {
+    const val = this._node.getAttribute(name) || this._style.getPropertyValue(name);
+    return (val === "" || val === "none") ? null : val;
+  }
+  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>);
+  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean);
+  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude?: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean = true): void {
+    const style = {} as ATTRIBUTES;
+    const attrs = el._node.attributes;
+    if (includeExclude) {
+      for (let i = 0; i < attrs.length; ++i) {
+        const attr = attrs.item(i);
+        if (attr) {
+          const name = attr.name;
+          if (includeExclude[name as keyof ATTRIBUTES] === true || defaultInclude) {
+            style[name] = el._style.getPropertyValue(name);
+          }
+        }
+      }
+    } else {
+      for (let i = 0; i < attrs.length; ++i) {
+        const attr = attrs.item(i);
+        if (attr) {
+          const name = attr.name;
+          style[name] = el._style.getPropertyValue(name);
+        }
+      }
+    }
+    this.setAttributes(style);
+  }
 
+  public getEvent<Event extends keyof EVENTS>(event: Event): Observable<EVENTS[Event]> {
+    return Observable.merge(...event.split("|").map((_) => Observable.fromEvent(this._node, _)));
+  }
+
+  public get boundingBox(): Box {
+    const rect = this._node.getBoundingClientRect();
+    return new Box(rect.left, rect.top, rect.width, rect.height);
+  }
+  public add(el: Element<SVGElement, any, any> | SVGElement) {
+    if (el instanceof SVGElement) {
+      this._node.appendChild(el);
+    } else {
+      this._node.appendChild(el._node);
+    }
+  }
+  public getChildren(): Element<SVGElement, any, any>[] {
+    const children = this._node.childNodes;
+    const elements: Element<SVGElement, any, any>[] = [];
+    for (let i = 0; i < children.length; ++i) {
+      elements.push(new Element(this.context, children.item(i) as SVGElement));
+    }
+    return elements;
+  }
+  public clone(deep: boolean = true, id: string = randomShortStringId()): Element<SVG, ATTRIBUTES, EVENTS> {
+    const copy = new Element<SVG, ATTRIBUTES, EVENTS>(this.context, this._node.cloneNode(deep) as SVG);
+    copy._id = id;
+    copy._node.setAttribute("id", copy._id);
+    return copy;
+  }
+  public destroy() {
+    this._node.remove();
+  }
+  protected cloneNode(deep: boolean = true): SVG {
+    const clone = this._node.cloneNode(deep) as SVG;
+    clone.setAttribute("id", randomShortStringId());
+    return clone;
+  }
 }

@@ -15,7 +15,7 @@ Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript.
 
 ### Usage
 
-The library is distributed as an ES6 JavaScript. The documentation can be found [here](https://molisani.github.io/SavageDOM/index.html), but due to TypeDoc's poor support for TypeScript 2.1 features it is always good to revert to the definition file.
+The library is distributed as an ES6 JavaScript. The documentation can be found [here](https://molisani.github.io/SavageDOM/index.html), but due to TypeDoc's poor support for some advanced TypeScript features it is always good to revert to the definition file.
 
 ### Version Differences
 

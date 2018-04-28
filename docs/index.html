@@ -64,7 +64,7 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="savagedom-npm-version-https-badge-fury-io-js-savagedom-svg-https-badge-fury-io-js-savagedom-builds-https-api-travis-ci-org-repositories-molisani-savagedom-branch-master-https-travis-ci-org-molisani-savagedom-">SavageDOM - <a href="https://badge.fury.io/js/savagedom"><img src="https://badge.fury.io/js/savagedom.svg" alt="npm version"></a> <a href="https://travis-ci.org/molisani/SavageDOM"><img src="https://api.travis-ci.org/repositories/molisani/SavageDOM?branch=master" alt="Builds"></a></h1>
+				<h1 id="savagedom-npm-version-builds">SavageDOM - <a href="https://badge.fury.io/js/savagedom"><img src="https://badge.fury.io/js/savagedom.svg" alt="npm version"></a> <a href="https://travis-ci.org/molisani/SavageDOM"><img src="https://api.travis-ci.org/repositories/molisani/SavageDOM?branch=master" alt="Builds"></a></h1>
 				<p>Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript.</p>
 				<h2 id="getting-started">Getting Started</h2>
 				<h3 id="installation">Installation</h3>
@@ -80,7 +80,7 @@
 					<li><code>bower install SavageDOM --save</code></li>
 				</ul>
 				<h3 id="usage">Usage</h3>
-				<p>The library is distributed as an ES6 JavaScript. The documentation can be found <a href="https://molisani.github.io/SavageDOM/index.html">here</a>, but due to TypeDoc&#39;s poor support for TypeScript 2.1 features it is always good to revert to the definition file.</p>
+				<p>The library is distributed as an ES6 JavaScript. The documentation can be found <a href="https://molisani.github.io/SavageDOM/index.html">here</a>, but due to TypeDoc&#39;s poor support for some advanced TypeScript features it is always good to revert to the definition file.</p>
 				<h3 id="version-differences">Version Differences</h3>
 				<ul>
 					<li><p><strong>Core</strong></p>
@@ -123,13 +123,706 @@
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/savagedom.html">SavageDOM</a>
+					<li class=" tsd-kind-module">
+						<a href="modules/colormatrix.html">Color<wbr>Matrix</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/abstractgradient.html" class="tsd-kind-icon">Abstract<wbr>Gradient</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/abstractnonrenderable.html" class="tsd-kind-icon">Abstract<wbr>Non<wbr>Renderable</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/abstractpaintserver.html" class="tsd-kind-icon">Abstract<wbr>Paint<wbr>Server</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/abstractrenderable.html" class="tsd-kind-icon">Abstract<wbr>Renderable</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/abstractshape.html" class="tsd-kind-icon">Abstract<wbr>Shape</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/arraywrapper.html" class="tsd-kind-icon">Array<wbr>Wrapper</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/blend_primitive.html" class="tsd-kind-icon">Blend_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/box.html" class="tsd-kind-icon">Box</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/circle.html" class="tsd-kind-icon">Circle</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/clippath.html" class="tsd-kind-icon">Clip<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/color.html" class="tsd-kind-icon">Color</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/colormatrix_primitive.html" class="tsd-kind-icon">Color<wbr>Matrix_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/component.html" class="tsd-kind-icon">Component</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/componenttransfer_primitive.html" class="tsd-kind-icon">Component<wbr>Transfer_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/composite_primitive.html" class="tsd-kind-icon">Composite_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/context.html" class="tsd-kind-icon">Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/convolvematrix_primitive.html" class="tsd-kind-icon">Convolve<wbr>Matrix_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/diffuselighting.html" class="tsd-kind-icon">Diffuse<wbr>Lighting</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/dimension.html" class="tsd-kind-icon">Dimension</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/displacementmap_primitive.html" class="tsd-kind-icon">Displacement<wbr>Map_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/distantlight.html" class="tsd-kind-icon">Distant<wbr>Light</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/element.html" class="tsd-kind-icon">Element</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/ellipse.html" class="tsd-kind-icon">Ellipse</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/externalcomponent.html" class="tsd-kind-icon">External<wbr>Component</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/externalsvg.html" class="tsd-kind-icon">ExternalSVG</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/filter.html" class="tsd-kind-icon">Filter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/filterprimitive.html" class="tsd-kind-icon">Filter<wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/flood_primitive.html" class="tsd-kind-icon">Flood_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/foreignobject.html" class="tsd-kind-icon">Foreign<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/gaussianblur_primitive.html" class="tsd-kind-icon">Gaussian<wbr>Blur_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/group.html" class="tsd-kind-icon">Group</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/image.html" class="tsd-kind-icon">Image</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/image_primitive.html" class="tsd-kind-icon">Image_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/line.html" class="tsd-kind-icon">Line</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/lineargradient.html" class="tsd-kind-icon">Linear<wbr>Gradient</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/marker.html" class="tsd-kind-icon">Marker</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/mask.html" class="tsd-kind-icon">Mask</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/matrix.html" class="tsd-kind-icon">Matrix</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/matrix_transform.html" class="tsd-kind-icon">Matrix_<wbr><wbr>Transform</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/mergenode_primitive.html" class="tsd-kind-icon">Merge<wbr>Node_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/merge_primitive.html" class="tsd-kind-icon">Merge_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/morphology_primitive.html" class="tsd-kind-icon">Morphology_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/multilinetext.html" class="tsd-kind-icon">Multiline<wbr>Text</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/numberoptionalnumber.html" class="tsd-kind-icon">Number<wbr>Optional<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/numberwrapper.html" class="tsd-kind-icon">Number<wbr>Wrapper</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/offset_primitive.html" class="tsd-kind-icon">Offset_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/path.html" class="tsd-kind-icon">Path</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pathsegment.html" class="tsd-kind-icon">Path<wbr>Segment</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pattern.html" class="tsd-kind-icon">Pattern</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/percentage.html" class="tsd-kind-icon">Percentage</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/point.html" class="tsd-kind-icon">Point</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pointlight.html" class="tsd-kind-icon">Point<wbr>Light</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/polygon.html" class="tsd-kind-icon">Polygon</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/polyline.html" class="tsd-kind-icon">Polyline</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/preserveaspectratio.html" class="tsd-kind-icon">Preserve<wbr>Aspect<wbr>Ratio</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/radialgradient.html" class="tsd-kind-icon">Radial<wbr>Gradient</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/rect.html" class="tsd-kind-icon">Rect</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/renderer.html" class="tsd-kind-icon">Renderer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/rotate_transform.html" class="tsd-kind-icon">Rotate_<wbr><wbr>Transform</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/svgdocument.html" class="tsd-kind-icon">SVGDocument</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/scale_transform.html" class="tsd-kind-icon">Scale_<wbr><wbr>Transform</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/skewx_transform.html" class="tsd-kind-icon">Skew<wbr>X_<wbr><wbr>Transform</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/skewy_transform.html" class="tsd-kind-icon">Skew<wbr>Y_<wbr><wbr>Transform</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/specularlighting.html" class="tsd-kind-icon">Specular<wbr>Lighting</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/spotlight.html" class="tsd-kind-icon">Spot<wbr>Light</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/stop.html" class="tsd-kind-icon">Stop</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/text.html" class="tsd-kind-icon">Text</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/textcontent.html" class="tsd-kind-icon">Text<wbr>Content</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/textspan.html" class="tsd-kind-icon">Text<wbr>Span</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/tile_primitive.html" class="tsd-kind-icon">Tile_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/transferfunction_primitive.html" class="tsd-kind-icon">Transfer<wbr>Function_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/transform.html" class="tsd-kind-icon">Transform</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/translate_transform.html" class="tsd-kind-icon">Translate_<wbr><wbr>Transform</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/turbulence_primitive.html" class="tsd-kind-icon">Turbulence_<wbr><wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/uniformscale_transform.html" class="tsd-kind-icon">Uniform<wbr>Scale_<wbr><wbr>Transform</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/attribute.html" class="tsd-kind-icon">Attribute</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/attributeinterpolation.html" class="tsd-kind-icon">Attribute<wbr>Interpolation</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/attributeupdate.html" class="tsd-kind-icon">Attribute<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/baseattributes.html" class="tsd-kind-icon">Base<wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/baseevents.html" class="tsd-kind-icon">Base<wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blend_attributes.html" class="tsd-kind-icon">Blend_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/circle_attributes.html" class="tsd-kind-icon">Circle_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clippath_attributes.html" class="tsd-kind-icon">Clip<wbr>Path_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/colormatrix_attributes.html" class="tsd-kind-icon">Color<wbr>Matrix_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/componenttransfer_attributes.html" class="tsd-kind-icon">Component<wbr>Transfer_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/composite_attributes.html" class="tsd-kind-icon">Composite_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/constants.html" class="tsd-kind-icon">Constants</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containers_attributes.html" class="tsd-kind-icon">Containers_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/convolvematrix_attributes.html" class="tsd-kind-icon">Convolve<wbr>Matrix_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diffuselighting_attributes.html" class="tsd-kind-icon">Diffuse<wbr>Lighting_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/displacementmap_attributes.html" class="tsd-kind-icon">Displacement<wbr>Map_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/distantlight_attributes.html" class="tsd-kind-icon">Distant<wbr>Light_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-not-exported">
+						<a href="interfaces/elementconstructor.html" class="tsd-kind-icon">Element<wbr>Constructor</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/elementinterpolaterender.html" class="tsd-kind-icon">Element<wbr>Interpolate<wbr>Render</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/elementupdaterender.html" class="tsd-kind-icon">Element<wbr>Update<wbr>Render</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ellipse_attributes.html" class="tsd-kind-icon">Ellipse_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filterprimitive_attributes.html" class="tsd-kind-icon">Filter<wbr>Primitive_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filterprimitive_events.html" class="tsd-kind-icon">Filter<wbr>Primitive_<wbr><wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filter_attributes.html" class="tsd-kind-icon">Filter_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filter_events.html" class="tsd-kind-icon">Filter_<wbr><wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/flood_attributes.html" class="tsd-kind-icon">Flood_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/focus_events.html" class="tsd-kind-icon">Focus_<wbr><wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/foreignobject_attributes.html" class="tsd-kind-icon">Foreign<wbr>Object_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gammafunction_attributes.html" class="tsd-kind-icon">Gamma<wbr>Function_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gaussianblur_attributes.html" class="tsd-kind-icon">Gaussian<wbr>Blur_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gradient_attributes.html" class="tsd-kind-icon">Gradient_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/graphics_attributes.html" class="tsd-kind-icon">Graphics_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/group_attributes.html" class="tsd-kind-icon">Group_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hasclass.html" class="tsd-kind-icon">Has<wbr>Class</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hasclippath.html" class="tsd-kind-icon">Has<wbr>Clip<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hascolor.html" class="tsd-kind-icon">Has<wbr>Color</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hascolorinterpolation.html" class="tsd-kind-icon">Has<wbr>Color<wbr>Interpolation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hascolorrendering.html" class="tsd-kind-icon">Has<wbr>Color<wbr>Rendering</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hascursor.html" class="tsd-kind-icon">Has<wbr>Cursor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hasfill.html" class="tsd-kind-icon">Has<wbr>Fill</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hasfilter.html" class="tsd-kind-icon">Has<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hasmarker.html" class="tsd-kind-icon">Has<wbr>Marker</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hasmask.html" class="tsd-kind-icon">Has<wbr>Mask</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hasopacity.html" class="tsd-kind-icon">Has<wbr>Opacity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hasoverflow.html" class="tsd-kind-icon">Has<wbr>Overflow</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hasstroke.html" class="tsd-kind-icon">Has<wbr>Stroke</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hasstyle.html" class="tsd-kind-icon">Has<wbr>Style</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hasvisibility.html" class="tsd-kind-icon">Has<wbr>Visibility</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/identityfunction_attributes.html" class="tsd-kind-icon">Identity<wbr>Function_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/image_attributes.html" class="tsd-kind-icon">Image_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/image_events.html" class="tsd-kind-icon">Image_<wbr><wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/lighting_attributes.html" class="tsd-kind-icon">Lighting_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/line_attributes.html" class="tsd-kind-icon">Line_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linearfunction_attributes.html" class="tsd-kind-icon">Linear<wbr>Function_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/lineargradient_attributes.html" class="tsd-kind-icon">Linear<wbr>Gradient_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/marker_attributes.html" class="tsd-kind-icon">Marker_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mask_attributes.html" class="tsd-kind-icon">Mask_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mergenode_attributes.html" class="tsd-kind-icon">Merge<wbr>Node_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/morphology_attributes.html" class="tsd-kind-icon">Morphology_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mouse_events.html" class="tsd-kind-icon">Mouse_<wbr><wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/nonrenderable_attributes.html" class="tsd-kind-icon">Non<wbr>Renderable_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/nonrenderable_events.html" class="tsd-kind-icon">Non<wbr>Renderable_<wbr><wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/offset_attributes.html" class="tsd-kind-icon">Offset_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/path_attributes.html" class="tsd-kind-icon">Path_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pattern_attributes.html" class="tsd-kind-icon">Pattern_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pointevent.html" class="tsd-kind-icon">Point<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pointevents.html" class="tsd-kind-icon">Point<wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pointlight_attributes.html" class="tsd-kind-icon">Point<wbr>Light_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/polygon_attributes.html" class="tsd-kind-icon">Polygon_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/polyline_attributes.html" class="tsd-kind-icon">Polyline_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/radialgradient_attributes.html" class="tsd-kind-icon">Radial<wbr>Gradient_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rect_attributes.html" class="tsd-kind-icon">Rect_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/renderable_attributes.html" class="tsd-kind-icon">Renderable_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/renderable_events.html" class="tsd-kind-icon">Renderable_<wbr><wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/svg_events.html" class="tsd-kind-icon">SVG_<wbr><wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/setter.html" class="tsd-kind-icon">Setter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/shape_attributes.html" class="tsd-kind-icon">Shape_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/specularlighting_attributes.html" class="tsd-kind-icon">Specular<wbr>Lighting_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/spotlight_attributes.html" class="tsd-kind-icon">Spot<wbr>Light_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/stop_attributes.html" class="tsd-kind-icon">Stop_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/stops.html" class="tsd-kind-icon">Stops</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tabularfunction_attributes.html" class="tsd-kind-icon">Tabular<wbr>Function_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/textspan_attributes.html" class="tsd-kind-icon">Text<wbr>Span_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/text_attributes.html" class="tsd-kind-icon">Text_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/textualchild_attributes.html" class="tsd-kind-icon">Textual<wbr>Child_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/textual_attributes.html" class="tsd-kind-icon">Textual_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tile_attributes.html" class="tsd-kind-icon">Tile_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/timeresolvable.html" class="tsd-kind-icon">Time<wbr>Resolvable</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/touch_events.html" class="tsd-kind-icon">Touch_<wbr><wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transformable.html" class="tsd-kind-icon">Transformable</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/turbulence_attributes.html" class="tsd-kind-icon">Turbulence_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#angle" class="tsd-kind-icon">Angle</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#baseelement" class="tsd-kind-icon">Base<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#cssabsolutelength" class="tsd-kind-icon">CSSAbsolute<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#cssangleunit" class="tsd-kind-icon">CSSAngle<wbr>Unit</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#cssrelativelength" class="tsd-kind-icon">CSSRelative<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#currentcolor" class="tsd-kind-icon">Current<wbr>Color</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dasharray" class="tsd-kind-icon">Dash<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#easingfunction" class="tsd-kind-icon">Easing<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filterinput" class="tsd-kind-icon">Filter<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inherit" class="tsd-kind-icon">Inherit</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#length" class="tsd-kind-icon">Length</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#lightsource_attributes" class="tsd-kind-icon">Light<wbr>Source_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#none" class="tsd-kind-icon">None</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#paint" class="tsd-kind-icon">Paint</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#paintserver" class="tsd-kind-icon">Paint<wbr>Server</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transferfunction_attributes" class="tsd-kind-icon">Transfer<wbr>Function_<wbr><wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#initial_num_samples" class="tsd-kind-icon">INITIAL_<wbr>NUM_<wbr>SAMPLES</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#newton_iterations" class="tsd-kind-icon">NEWTON_<wbr>ITERATIONS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#xlink" class="tsd-kind-icon">XLINK</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#xmlns" class="tsd-kind-icon">XMLNS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#back" class="tsd-kind-icon">back</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#backout" class="tsd-kind-icon">back<wbr>Out</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#circular" class="tsd-kind-icon">circular</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#circularout" class="tsd-kind-icon">circular<wbr>Out</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#cubic" class="tsd-kind-icon">cubic</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#cubicout" class="tsd-kind-icon">cubic<wbr>Out</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#elastic" class="tsd-kind-icon">elastic</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#elasticout" class="tsd-kind-icon">elastic<wbr>Out</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#exponential" class="tsd-kind-icon">exponential</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#exponentialout" class="tsd-kind-icon">exponential<wbr>Out</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#p" class="tsd-kind-icon">p</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#quadratic" class="tsd-kind-icon">quadratic</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#quadraticout" class="tsd-kind-icon">quadratic<wbr>Out</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#quartic" class="tsd-kind-icon">quartic</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#quarticout" class="tsd-kind-icon">quartic<wbr>Out</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#quintic" class="tsd-kind-icon">quintic</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#quinticout" class="tsd-kind-icon">quintic<wbr>Out</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#s" class="tsd-kind-icon">s</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sine" class="tsd-kind-icon">sine</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sineout" class="tsd-kind-icon">sine<wbr>Out</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#step" class="tsd-kind-icon">step</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#_lengthparse" class="tsd-kind-icon">_<wbr>Length<wbr>Parse</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#_calcconstants" class="tsd-kind-icon">_calc<wbr>Constants</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#_calctfromx" class="tsd-kind-icon">_calcTFromX</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#_evaluatebezier" class="tsd-kind-icon">_evaluate<wbr>Bezier</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#_evaluatebezierderivative" class="tsd-kind-icon">_evaluate<wbr>Bezier<wbr>Derivative</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#_lerp" class="tsd-kind-icon">_lerp</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#backin" class="tsd-kind-icon">back<wbr>In</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#buildexternalcomponentclass" class="tsd-kind-icon">build<wbr>External<wbr>Component<wbr>Class</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#circularin" class="tsd-kind-icon">circular<wbr>In</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#cubicbezier" class="tsd-kind-icon">cubic<wbr>Bezier</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#cubicin" class="tsd-kind-icon">cubic<wbr>In</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#elasticin" class="tsd-kind-icon">elastic<wbr>In</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#exponentialin" class="tsd-kind-icon">exponential<wbr>In</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#flip" class="tsd-kind-icon">flip</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#inout" class="tsd-kind-icon">inout</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isattribute" class="tsd-kind-icon">is<wbr>Attribute</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#linear" class="tsd-kind-icon">linear</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#makerequest" class="tsd-kind-icon">make<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-not-exported">
+						<a href="globals.html#merge" class="tsd-kind-icon">merge</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#quadraticin" class="tsd-kind-icon">quadratic<wbr>In</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#quarticin" class="tsd-kind-icon">quartic<wbr>In</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#quinticin" class="tsd-kind-icon">quintic<wbr>In</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#randomshortstringid" class="tsd-kind-icon">random<wbr>Short<wbr>String<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#sinein" class="tsd-kind-icon">sine<wbr>In</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
