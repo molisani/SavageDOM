@@ -2,7 +2,7 @@
 
 module.exports = {
     context: __dirname, // to automatically find tsconfig.json
-    devtool: 'inline-source-map',
+    // devtool: 'inline-source-map',
     entry: './src/index.ts',
     output: {
         filename: 'dist/savagedom.js',
@@ -15,9 +15,6 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 loader: 'ts-loader',
-                options: {
-                    transpileOnly: true // IMPORTANT! use transpileOnly mode to speed-up compilation
-                }
             }
         ]
     },

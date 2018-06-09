@@ -52,7 +52,7 @@ module.exports = function(grunt) {
           name: "SavageDOM",
           target: "ES2015",
           project: "tsconfig.json",
-          gitRevision: "modularize",
+          gitRevision: "master",
         },
         src: ["src"]
       }

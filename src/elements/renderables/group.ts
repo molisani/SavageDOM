@@ -9,6 +9,9 @@ export interface Group_Attributes extends Containers_Attributes, HasOpacity {}
 export class Group extends AbstractRenderable<SVGGElement, Group_Attributes, {}> {
   constructor(context: Context, attrs?: Partial<Renderable_Attributes>) {
     super(context, "g", attrs);
+    if (this.constructor.name !== Group.name) {
+      this._node.setAttribute("data-class", this.constructor.name);
+    }
   }
   public toPattern(w: number, h: number): Pattern;
   public toPattern(w: number, h: number, x: number, y: number): Pattern;

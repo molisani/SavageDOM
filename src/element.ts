@@ -1,14 +1,13 @@
-import { AttributeUpdate, Renderer } from "./animation/renderer";
+import { Observable, Subscription } from "rxjs";
+import { EasingFunction } from "./animation/easing";
+import { Renderer } from "./animation/renderer";
 import { Attribute, isAttribute } from "./attribute";
 import { BaseAttributes } from "./attributes/base";
+import { Box } from "./attributes/box";
+import { NumberWrapper } from "./attributes/wrappers";
 import { XMLNS } from "./constants";
 import { Context } from "./context";
 import { BaseEvents } from "./events";
-
-import { Observable, Subject, Subscription } from "rxjs";
-import { EasingFunction } from "./animation/easing";
-import { Box } from "./attributes/box";
-import { NumberWrapper } from "./attributes/wrappers";
 import { randomShortStringId } from "./id";
 
 export type BaseElement = Element<SVGElement, BaseAttributes, BaseEvents>;
@@ -17,6 +16,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   protected _node: SVG;
   protected _style: CSSStyleDeclaration;
   private _dynamicSubscriptions = {} as { [ATTR in keyof ATTRIBUTES]: Subscription };
+  private _pendingRenders: Promise<number>[] = [];
   constructor(context: Context, el: SVG, attrs?: Partial<ATTRIBUTES>);
   constructor(context: Context, name: string, attrs?: Partial<ATTRIBUTES>, id?: string);
   constructor(context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, id?: string);
@@ -58,10 +58,12 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     }
   }
   public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
-    Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, name, val);
+    const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, name, val);
+    this._pendingRenders.push(render);
   }
   public setAttributes(attrs: Partial<ATTRIBUTES>): void {
-    Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, attrs);
+    const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, attrs);
+    this._pendingRenders.push(render);
   }
   public animateAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr], duration: number, easing: EasingFunction): Promise<number> | undefined {
     let attr: Attribute<any>;
@@ -84,6 +86,14 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   //     }
   //   }
   // }
+  public flush(): Promise<number> {
+    if (this._pendingRenders.length === 0) {
+      return Promise.resolve(performance.now());
+    }
+    const pending = Promise.all(this._pendingRenders);
+    this._pendingRenders = [];
+    return pending.then((renders) => renders[renders.length - 1]);
+  }
   public getAttribute<Attr extends keyof ATTRIBUTES>(name: Attr): string | null {
     const val = this._node.getAttribute(name) || this._style.getPropertyValue(name);
     return (val === "" || val === "none") ? null : val;
