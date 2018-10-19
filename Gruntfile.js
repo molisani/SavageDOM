@@ -57,27 +57,6 @@ module.exports = function(grunt) {
         src: ["src"]
       }
     },
-    "compile-handlebars": {
-      examples: {
-        files: [{
-          src: "test/examples.hbs",
-          dest: "docs/examples.html"
-        }],
-        templateData: { 
-          examples: examples
-        }
-      }
-    },
-    shell: {
-      examples: {
-        command: "phantomjs render-examples.js",
-        options: {
-          execOptions: {
-            cwd: "test"
-          }
-        }
-      }
-    },
     clean: {
       tscommand: ["tscommand*.tmp.txt"],
       examples: ["docs/examples.html", "docs/examples/*"],
