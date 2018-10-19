@@ -1,4 +1,4 @@
-import { Observable, Subscription } from "rxjs";
+import { Observable } from "rxjs";
 import { EasingFunction } from "./animation/easing";
 import { Renderer } from "./animation/renderer";
 import { Attribute, isAttribute } from "./attribute";
@@ -15,7 +15,6 @@ export type BaseElement = Element<SVGElement, BaseAttributes, BaseEvents>;
 export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, EVENTS extends BaseEvents> {
   protected _node: SVG;
   protected _style: CSSStyleDeclaration;
-  private _dynamicSubscriptions = {} as { [ATTR in keyof ATTRIBUTES]: Subscription };
   private _pendingRenders: Promise<number>[] = [];
   constructor(context: Context, el: SVG, attrs?: Partial<ATTRIBUTES>);
   constructor(context: Context, name: string, attrs?: Partial<ATTRIBUTES>, id?: string);
@@ -98,8 +97,8 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     const val = this._node.getAttribute(name as string) || this._style.getPropertyValue(name as string);
     return (val === "" || val === "none") ? null : val;
   }
-  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>);
-  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean);
+  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>): void;
+  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean): void;
   public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude?: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean = true): void {
     const style = {} as ATTRIBUTES;
     const attrs = el._node.attributes;

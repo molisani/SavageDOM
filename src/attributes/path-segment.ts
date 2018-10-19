@@ -1,8 +1,6 @@
 import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
-import { BaseElement } from "../element";
-import { _lerp } from "../interpolation";
-import { _LengthParse, Length } from "./base";
+import { Length, LengthParse } from "./base";
 import { Point } from "./point";
 
 export abstract class PathSegment implements Attribute<PathSegment> {
@@ -65,7 +63,7 @@ export namespace PathSegment {
       return `${this.command} ${this.l.toString()}`;
     }
     public parseArgs(css: string): SingleLength {
-      return this.buildInstance(_LengthParse(css));
+      return this.buildInstance(LengthParse(css));
     }
     public abstract buildInstance(l: Length): SingleLength;
     public abstract defaultInstance(): SingleLength;
@@ -360,7 +358,7 @@ export namespace PathSegment {
       const toks = css.split(" ");
       return this.buildInstance(this.r.parse(toks[0]), this.p.parse(toks[4]), parseFloat(toks[1]), toks[2] === "1", toks[3] === "1");
     }
-    public abstract buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise): ArcTo;
+    public abstract buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise: boolean): ArcTo;
     public abstract defaultInstance(): ArcTo;
   }
 
@@ -396,7 +394,7 @@ export namespace PathSegment {
       }
       super(Command.ArcToAbs, r, p, xAxisRotate, largeArc, sweepClockwise);
     }
-    public buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise): ArcToAbs {
+    public buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise: boolean): ArcToAbs {
       return new ArcToAbs(r, p, xAxisRotate, largeArc, sweepClockwise);
     }
     public defaultInstance(): ArcToAbs {
@@ -435,7 +433,7 @@ export namespace PathSegment {
       }
       super(Command.ArcToRel, r, p, xAxisRotate, largeArc, sweepClockwise);
     }
-    public buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise): ArcToRel {
+    public buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise: boolean): ArcToRel {
       return new ArcToRel(r, p, xAxisRotate, largeArc, sweepClockwise);
     }
     public defaultInstance(): ArcToRel {

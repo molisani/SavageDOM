@@ -1,4 +1,4 @@
-import { Inherit } from "../../../attributes/base";
+import { BaseAttributes, Inherit } from "../../../attributes/base";
 import { Color } from "../../../attributes/color";
 import { Dimension, Percentage } from "../../../attributes/dimension";
 import { Transform } from "../../../attributes/transform";
@@ -27,10 +27,10 @@ export interface Gradient_Attributes {
 }
 
 export interface Stops {
-  [offset: number]: "currentColor" | Color | Inherit;
+  [offset: string]: "currentColor" | Color | Inherit;
 }
 
-export interface Stop_Attributes {
+export interface Stop_Attributes extends BaseAttributes {
   offset: Percentage;
   "stop-color": "currentColor" | Color | Inherit;
   "stop-opacity": number | Inherit;
@@ -50,7 +50,7 @@ export abstract class AbstractGradient<E extends SVGElement, GradientAttributes 
     super(context, name, attrs);
     this.context.addDef(this);
     const stopArr: Stop[] = [];
-    Object.keys(stops).forEach(offset => {
+    Object.keys(stops).forEach((offset) => {
       stopArr.push(new Stop(context, Number(offset), stops[offset]));
     });
     stopArr.sort((a, b) => {

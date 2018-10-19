@@ -12,16 +12,14 @@
         "moduleResolution": "node",
         "declaration": true,
         "inlineSourceMap": true,
-        "noImplicitAny": false,
-        "noImplicitThis": true,
-        "strictNullChecks": true,
-        "alwaysStrict": true,
+        "strict": true,
         "removeComments": true,
         "rootDir": "src",
         "outDir": "lib"
     },
     "exclude": [
         "node_modules",
+        "lib",
         "dist"
     ]
 }

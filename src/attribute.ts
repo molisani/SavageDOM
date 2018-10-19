@@ -1,4 +1,3 @@
-import { Element } from "./element";
 
 export interface Setter {
   set(element: SVGElement, attr: string, override?: any): void;
