@@ -1,5 +1,4 @@
-# SavageDOM - [![npm version](https://badge.fury.io/js/savagedom.svg)](https://badge.fury.io/js/savagedom) [![Builds](https://api.travis-ci.org/repositories/molisani/SavageDOM?branch=master)](https://travis-ci.org/molisani/SavageDOM)
-Object-oriented, DOM-wrapping SVG manipulation library written in TypeScript.
+# SavageDOM - [![npm version](https://badge.fury.io/js/savagedom.svg)](https://badge.fury.io/js/savagedom) [![Build Status](https://travis-ci.org/molisani/SavageDOM.svg?branch=master)](https://travis-ci.org/molisani/SavageDOM)
 
 ## Getting Started
 
