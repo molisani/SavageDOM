@@ -14,7 +14,6 @@ import { Stops } from "./elements/non-renderables/paint-servers/gradient";
 import { LinearGradient, LinearGradient_Attributes } from "./elements/non-renderables/paint-servers/gradients/linear";
 import { RadialGradient, RadialGradient_Attributes } from "./elements/non-renderables/paint-servers/gradients/radial";
 import { Pattern } from "./elements/non-renderables/paint-servers/pattern";
-import { Component } from "./elements/renderables/component";
 import { ExternalSVG } from "./elements/renderables/external";
 import { ForeignObject } from "./elements/renderables/foreign-object";
 import { Group } from "./elements/renderables/group";
@@ -65,8 +64,9 @@ export class Context {
     this._root.setAttribute("version", "1.1");
     this._target = this._root;
     const defsElements = this._root.getElementsByTagName("defs");
-    if (defsElements.length > 0) {
-      this._defs = new Element<SVGDefsElement, any, any>(this, defsElements.item(0));
+    const defsElement = defsElements.item(0);
+    if (defsElement) {
+      this._defs = new Element<SVGDefsElement, any, any>(this, defsElement);
     } else {
       this._defs = new Element<SVGDefsElement, any, any>(this, "defs");
     }

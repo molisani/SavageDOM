@@ -50,11 +50,11 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   }
   public renderAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
     if (isAttribute(val)) {
-      val.set(this._node, name);
+      val.set(this._node, name as string);
     } else if (Array.isArray(val)) {
-      this._node.setAttribute(name, val.join("\t"));
+      this._node.setAttribute(name as string, val.join("\t"));
     } else {
-      this._node.setAttribute(name, String(val));
+      this._node.setAttribute(name as string, String(val));
     }
   }
   public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
@@ -74,7 +74,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     } else {
       return;
     }
-    const from = attr.get(this._node, name);
+    const from = attr.get(this._node, name as string);
     return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolator(from), duration, easing);
   }
   // public animateAttributes<Attr extends keyof ATTRIBUTES>(name: Attr, attrs: Partial<ATTRIBUTES>, duration: number, easing: EasingFunction): Promise<number> | undefined {
@@ -95,7 +95,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     return pending.then((renders) => renders[renders.length - 1]);
   }
   public getAttribute<Attr extends keyof ATTRIBUTES>(name: Attr): string | null {
-    const val = this._node.getAttribute(name) || this._style.getPropertyValue(name);
+    const val = this._node.getAttribute(name as string) || this._style.getPropertyValue(name as string);
     return (val === "" || val === "none") ? null : val;
   }
   public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>);
@@ -126,7 +126,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   }
 
   public getEvent<Event extends keyof EVENTS>(event: Event): Observable<EVENTS[Event]> {
-    return Observable.merge(...event.split("|").map((_) => Observable.fromEvent(this._node, _)));
+    return Observable.merge(...(event as string).split("|").map((_) => Observable.fromEvent(this._node, _)));
   }
 
   public get boundingBox(): Box {

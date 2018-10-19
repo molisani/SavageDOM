@@ -21,7 +21,7 @@ export interface FilterPrimitive_Events extends SVG_Events {}
 export class FilterPrimitive<FE extends SVGElement, A> extends Element<FE, FilterPrimitive_Attributes & A, FilterPrimitive_Events> {
   constructor(filter: Filter, name: string, attrs: Partial<FilterPrimitive_Attributes & A> = {}, private _ref: string = filter.getUniquePrimitiveReference()) {
     super(filter.context, name, attrs, `${filter.id}-${_ref}`);
-    this.setAttribute("result", _ref);
+    this.setAttribute("result", _ref as any);
     filter.add(this);
   }
   public toString(): string {
