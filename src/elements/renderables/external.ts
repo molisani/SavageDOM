@@ -1,3 +1,5 @@
+
+import { operators } from "rxjs";
 import { Context } from "../../context";
 import { makeRequest, SVGDocument } from "../../document";
 import { Renderable_Attributes } from "../renderable";
@@ -21,7 +23,7 @@ export declare class ExternalComponent extends Component {
 
 export function buildExternalComponentClass(url: string, origin: { x: number, y: number } = { x: 0, y: 0 }): typeof ExternalComponent {
   const xmlDocument_p = makeRequest("GET", url);
-  const context_p = Context.contexts.take(1).toPromise();
+  const context_p = Context.contexts.pipe(operators.take(1)).toPromise();
   const doc_p = Promise.all([context_p, xmlDocument_p]).then(([context, xml]) => {
     return new SVGDocument(context, xml);
   });

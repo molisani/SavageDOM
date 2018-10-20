@@ -1,9 +1,9 @@
-import { Observable } from "rxjs";
+
+import { Observable, operators } from "rxjs";
 import { BaseAttributes, HasClass, HasColor, HasColorInterpolation, HasColorRendering, HasCursor, HasOpacity, HasStyle, HasVisibility, Inherit, None } from "../attributes/base";
-import { Point } from "../attributes/point";
 import { Transformable } from "../attributes/transform";
 import { Element } from "../element";
-import { BaseEvents, Focus_Events, Mouse_Events, PointEvent, SVG_Events, Touch_Events } from "../events";
+import { BaseEvents, Focus_Events, Mouse_Events, PointEvent, SVG_Events } from "../events";
 import { HasFilter } from "./filter";
 import { HasClipPath } from "./non-renderables/clip-path";
 import { HasMask } from "./non-renderables/mask";
@@ -23,7 +23,7 @@ export interface Renderable_Events extends Mouse_Events, SVG_Events, Focus_Event
 
 export abstract class AbstractRenderable<E extends SVGGraphicsElement, A extends BaseAttributes, V extends BaseEvents> extends Element<E, Renderable_Attributes & A, Renderable_Events & V> {
   public getPointEvent(events: string): Observable<PointEvent> {
-    return this.getEvent(events).map((event: MouseEvent | TouchEvent) => {
+    return this.getEvent(events).pipe(operators.map((event: MouseEvent | TouchEvent) => {
       const action: MouseEvent | Touch = (event instanceof MouseEvent) ? event : event.touches[0];
       const ref = this.context.refPoint;
       ref.x = action.clientX;
@@ -47,6 +47,6 @@ export abstract class AbstractRenderable<E extends SVGGraphicsElement, A extends
           y: action.screenY,
         },
       };
-    });
+    }));
   }
 }

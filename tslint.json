@@ -45,6 +45,7 @@
         "interface-name": [false],
         "interface-over-type-literal": true,
         "no-consecutive-blank-lines": [true],
+        "no-submodule-imports": false,
         "object-literal-key-quotes": [true, "as-needed"],
         "one-variable-per-declaration": [true],
         "semicolon": [true, "always", "ignore-interfaces"],

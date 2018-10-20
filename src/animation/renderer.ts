@@ -1,4 +1,5 @@
-import { Observable, Scheduler, Subject } from "rxjs";
+
+import { Observable, operators, Scheduler, Subject } from "rxjs";
 import { Element } from "../element";
 import { randomShortStringId } from "../id";
 import { EasingFunction } from "./easing";
@@ -39,7 +40,7 @@ export class Renderer {
   private _attributeUpdates = new Subject<ElementUpdateRender<any, Element<any, any, any>>>();
   private _attributeInterpolations: { [key: string]: ElementInterpolateRender<any, Element<any, any, any>> } = {};
   constructor() {
-    this._attributeUpdates.bufferWhen(() => this._animationFrame).subscribe((updates) => this._render(updates));
+    this._attributeUpdates.pipe(operators.bufferWhen(() => this._animationFrame)).subscribe((updates) => this._render(updates));
   }
   public queueAttributeUpdate<Attrs, E extends Element<any, Attrs, any>>(el: E, attrs: Partial<Attrs>): Promise<number>;
   public queueAttributeUpdate<Attrs, K extends keyof Attrs, E extends Element<any, Attrs, any>>(el: E, attr: K, val: Attrs[K]): Promise<number>;
