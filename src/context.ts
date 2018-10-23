@@ -1,4 +1,6 @@
+
 import { Observable, ReplaySubject } from "rxjs";
+import { take } from "rxjs/operators";
 import { Length } from "./attributes/base";
 import { Box } from "./attributes/box";
 import { PathSegment } from "./attributes/path-segment";
@@ -121,7 +123,7 @@ export class Context {
   }
   public async image(href: string): Promise<Image> {
     const img = new Image(this);
-    const promise = img.getEvent("load").take(1).toPromise();
+    const promise = img.getEvent("load").pipe(take(1)).toPromise();
     img.setAttribute("href", href);
     this.addChild(img);
     const event = await promise;

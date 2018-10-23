@@ -24,11 +24,24 @@ module.exports = function(grunt) {
         dest: "dist/savagedom.js"
       },
     },
-    sed: {
+    replace: {
       all: {
-        pattern: "@VERSION",
-        replacement: "<%= pkg.version %>",
-        path: "dist/savagedom.js"
+        options: {
+          patterns: [
+            {
+              match: "version",
+              replacement: "<%= pkg.version %>",
+            },
+          ],
+        },
+        files: [
+          {
+            expand: true,
+            flatten: true,
+            src: ["dist/savagedom.js"],
+            dest: "dist/"
+          }
+        ],
       },
     },
     tslint: {
@@ -66,7 +79,7 @@ module.exports = function(grunt) {
 
   require("load-grunt-tasks")(grunt);
 
-  grunt.registerTask("build", ["ts:lib", "webpack:all", "concat:all", "sed:all", "clean:tscommand"]);
+  grunt.registerTask("build", ["ts:lib", "webpack:all", "concat:all", "replace:all", "clean:tscommand"]);
 
   grunt.registerTask("docs", ["clean:docs", "typedoc:build"]);
 

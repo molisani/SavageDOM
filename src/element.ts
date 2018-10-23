@@ -1,4 +1,5 @@
-import { Observable } from "rxjs";
+
+import { fromEvent, merge, Observable } from "rxjs";
 import { EasingFunction } from "./animation/easing";
 import { Renderer } from "./animation/renderer";
 import { Attribute, isAttribute } from "./attribute";
@@ -125,7 +126,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   }
 
   public getEvent<Event extends keyof EVENTS>(event: Event): Observable<EVENTS[Event]> {
-    return Observable.merge(...(event as string).split("|").map((_) => Observable.fromEvent(this._node, _)));
+    return merge(...(event as string).split("|").map((_) => fromEvent(this._node, _)));
   }
 
   public get boundingBox(): Box {
