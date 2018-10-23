@@ -1,6 +1,5 @@
 import { Attribute } from "../attribute";
 import { PaintServer } from "../elements/non-renderables/paint-server";
-import { _lerp } from "../interpolation";
 import { Color } from "./color";
 import { CSSAbsoluteLength, CSSAngleUnit, CSSRelativeLength, Dimension, Percentage } from "./dimension";
 
@@ -16,7 +15,7 @@ export type Length = number | Dimension<CSSAbsoluteLength | CSSRelativeLength | 
 
 export type Angle = number | Dimension<CSSAngleUnit>;
 
-export const _LengthParse = (css: string): Length => {
+export const LengthParse = (css: string): Length => {
   const m = css.match(/(\d+|\d+\.\d+)(\w+|%)/i);
   if (m !== null) {
     return new Dimension<any>(parseFloat(m[1]), m[2]);
@@ -25,7 +24,7 @@ export const _LengthParse = (css: string): Length => {
 };
 
 export interface BaseAttributes {
-  [name: string]: Attribute<any> | number | string | boolean | any;
+  [name: string]: Attribute<any> | Attribute<any>[] | object | number | string | boolean | undefined;
 }
 
 export interface HasStyle extends BaseAttributes {

@@ -1,5 +1,5 @@
 
-import { Observable, Subscription } from "rxjs";
+import { fromEvent, merge, Observable } from "rxjs";
 import { EasingFunction } from "./animation/easing";
 import { Renderer } from "./animation/renderer";
 import { Attribute, isAttribute } from "./attribute";
@@ -16,7 +16,6 @@ export type BaseElement = Element<SVGElement, BaseAttributes, BaseEvents>;
 export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, EVENTS extends BaseEvents> {
   protected _node: SVG;
   protected _style: CSSStyleDeclaration;
-  private _dynamicSubscriptions = {} as { [ATTR in keyof ATTRIBUTES]: Subscription };
   private _pendingRenders: Promise<number>[] = [];
   constructor(context: Context, el: SVG, attrs?: Partial<ATTRIBUTES>);
   constructor(context: Context, name: string, attrs?: Partial<ATTRIBUTES>, id?: string);
@@ -99,8 +98,8 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     const val = this._node.getAttribute(name as string) || this._style.getPropertyValue(name as string);
     return (val === "" || val === "none") ? null : val;
   }
-  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>);
-  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean);
+  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>): void;
+  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean): void;
   public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude?: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean = true): void {
     const style = {} as ATTRIBUTES;
     const attrs = el._node.attributes;
@@ -127,7 +126,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   }
 
   public getEvent<Event extends keyof EVENTS>(event: Event): Observable<EVENTS[Event]> {
-    return Observable.merge(...(event as string).split("|").map((_) => Observable.fromEvent(this._node, _)));
+    return merge(...(event as string).split("|").map((_) => fromEvent(this._node, _)));
   }
 
   public get boundingBox(): Box {

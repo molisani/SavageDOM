@@ -1,5 +1,6 @@
 
-import { Observable, operators } from "rxjs";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { BaseAttributes, HasClass, HasColor, HasColorInterpolation, HasColorRendering, HasCursor, HasOpacity, HasStyle, HasVisibility, Inherit, None } from "../attributes/base";
 import { Transformable } from "../attributes/transform";
 import { Element } from "../element";
@@ -23,7 +24,7 @@ export interface Renderable_Events extends Mouse_Events, SVG_Events, Focus_Event
 
 export abstract class AbstractRenderable<E extends SVGGraphicsElement, A extends BaseAttributes, V extends BaseEvents> extends Element<E, Renderable_Attributes & A, Renderable_Events & V> {
   public getPointEvent(events: string): Observable<PointEvent> {
-    return this.getEvent(events).pipe(operators.map((event: MouseEvent | TouchEvent) => {
+    return this.getEvent(events).pipe(map((event: MouseEvent | TouchEvent) => {
       const action: MouseEvent | Touch = (event instanceof MouseEvent) ? event : event.touches[0];
       const ref = this.context.refPoint;
       ref.x = action.clientX;
