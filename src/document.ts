@@ -23,7 +23,7 @@ export class SVGDocument {
   }
 }
 
-export const makeRequest = (method, url): Promise<Document> => {
+export const makeRequest = (method: string, url: string): Promise<Document> => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url, true);

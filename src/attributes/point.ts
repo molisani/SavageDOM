@@ -1,7 +1,6 @@
 import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
-import { Element } from "../element";
-import { _LengthParse, Length } from "./base";
+import { Length, LengthParse } from "./base";
 
 export class Point implements Attribute<Point> {
   constructor(public x: Length, public y: Length) {}
@@ -11,7 +10,7 @@ export class Point implements Attribute<Point> {
   public parse(css: string | null): Point {
     if (css !== null) {
       const toks = css.split(",");
-      return new Point(_LengthParse(toks[0]), _LengthParse(toks[1]));
+      return new Point(LengthParse(toks[0]), LengthParse(toks[1]));
     } else {
       return new Point(0, 0);
     }
@@ -22,7 +21,7 @@ export class Point implements Attribute<Point> {
       const cssX = element.getAttribute(toks[0]);
       const cssY = element.getAttribute(toks[1]);
       if (cssX !== null && cssY !== null) {
-        return new Point(_LengthParse(cssX), _LengthParse(cssY));
+        return new Point(LengthParse(cssX), LengthParse(cssY));
       } else {
         return new Point(0, 0);
       }

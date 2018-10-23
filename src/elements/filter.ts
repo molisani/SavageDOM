@@ -63,7 +63,6 @@ const merge = <A, B>(a: A, b: B): A & B => {
 };
 
 export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_Events> {
-  public node: SVGFilterElement;
   private _refCounter: number = 0;
   constructor(public context: Context) {
     super(context, "filter");

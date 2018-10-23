@@ -1,4 +1,6 @@
+
 import { Observable, ReplaySubject } from "rxjs";
+import { take } from "rxjs/operators";
 import { Length } from "./attributes/base";
 import { Box } from "./attributes/box";
 import { PathSegment } from "./attributes/path-segment";
@@ -24,7 +26,7 @@ import { Line } from "./elements/renderables/shapes/line";
 import { Path } from "./elements/renderables/shapes/path";
 import { Polygon } from "./elements/renderables/shapes/polygon";
 import { Polyline } from "./elements/renderables/shapes/polyline";
-import { Rect } from "./elements/renderables/shapes/rect";
+import { Rect, Rect_Attributes } from "./elements/renderables/shapes/rect";
 import { Text } from "./elements/renderables/text";
 
 interface ElementConstructor<E, Attrs> {
@@ -98,10 +100,10 @@ export class Context {
   public mask(w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox"): Mask {
     return new Mask(this, w, h, x, y, units, contentUnits);
   }
-  public linearGradient(stops: Stops, attrs?: LinearGradient_Attributes): LinearGradient {
+  public linearGradient(stops: Stops, attrs?: Partial<LinearGradient_Attributes>): LinearGradient {
     return new LinearGradient(this, stops, attrs);
   }
-  public radialGradient(stops: Stops, attrs?: RadialGradient_Attributes): RadialGradient {
+  public radialGradient(stops: Stops, attrs?: Partial<RadialGradient_Attributes>): RadialGradient {
     return new RadialGradient(this, stops, attrs);
   }
   public pattern(w: number, h: number, x?: number, y?: number, view?: Box): Pattern {
@@ -121,7 +123,7 @@ export class Context {
   }
   public async image(href: string): Promise<Image> {
     const img = new Image(this);
-    const promise = img.getEvent("load").take(1).toPromise();
+    const promise = img.getEvent("load").pipe(take(1)).toPromise();
     img.setAttribute("href", href);
     this.addChild(img);
     const event = await promise;
@@ -177,7 +179,7 @@ export class Context {
   public rect(p: Point, width: Length, height: Length, rx?: Length, ry?: Length): Rect;
   public rect(x: Length, y: Length, width: Length, height: Length, r?: Point): Rect;
   public rect(a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length): Rect {
-    const attrs = {};
+    const attrs: Partial<Rect_Attributes> = {};
     if (a1 instanceof Box) {
       attrs["x:y:width:height"] = a1;
       if (a2 instanceof Point) {
@@ -192,7 +194,7 @@ export class Context {
       }
     } else if (a1 instanceof Point) {
       attrs["x:y"] = a1;
-      if (a2 !== undefined) {
+      if (a2 !== undefined && !(a2 instanceof Point)) {
         attrs["width"] = a2;
       }
       if (a3 !== undefined) {
@@ -204,19 +206,19 @@ export class Context {
         if (a4 !== undefined) {
           attrs["rx"] = a4;
         }
-        if (a5 !== undefined) {
+        if (a5 !== undefined && !(a5 instanceof Point)) {
           attrs["ry"] = a5;
         }
       }
     } else {
       attrs["x"] = a1;
-      if (a2 !== undefined) {
+      if (a2 !== undefined && !(a2 instanceof Point)) {
         attrs["y"] = a2;
       }
       if (a3 !== undefined) {
         attrs["width"] = a3;
       }
-      if (a4 !== undefined) {
+      if (a4 !== undefined && !(a4 instanceof Point)) {
         attrs["height"] = a4;
       }
       if (a5 instanceof Point) {
