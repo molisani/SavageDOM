@@ -1,11 +1,11 @@
-import { Length } from "../../../attributes/base";
+import { BaseAttributes, Length } from "../../../attributes/base";
 import { Point } from "../../../attributes/point";
 import { Context } from "../../../context";
 import { HasMarker } from "../../non-renderables/marker";
 import { Renderable_Attributes } from "../../renderable";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
-export interface Line_Attributes extends HasMarker {
+export interface Line_Attributes extends BaseAttributes, HasMarker {
   x1: Length;
   y1: Length;
   "x1:y1": Point;

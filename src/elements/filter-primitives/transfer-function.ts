@@ -1,4 +1,4 @@
-import { Filter, FilterInput } from "../filter";
+import { Filter } from "../filter";
 import { FilterPrimitive } from "../filter-primitive";
 
 export interface IdentityFunction_Attributes {

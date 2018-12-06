@@ -3,16 +3,14 @@ module.exports = function(grunt) {
 
   const webpackConfig = require('./webpack.config');
 
-  var examples = grunt.file.expand({
-    filter: "isFile",
-    cwd: "test/examples"
-  }, ["*.ts"]).map(function(f) { return f.replace(".ts", ""); });
-
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
     ts: {
       lib: {
-        tsconfig: "tsconfig.json"
+        tsconfig: {
+          tsconfig: "tsconfig.json",
+          passThrough: true,
+        },
       },
     },
     webpack: {

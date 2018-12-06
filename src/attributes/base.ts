@@ -23,8 +23,10 @@ export const LengthParse = (css: string): Length => {
   return parseFloat(css);
 };
 
+export type AttributeValue = object | number | string | boolean | undefined;
+
 export interface BaseAttributes {
-  [name: string]: Attribute<any> | Attribute<any>[] | object | number | string | boolean | undefined;
+  [name: string]: Attribute<AttributeValue> | Attribute<AttributeValue>[] | AttributeValue;
 }
 
 export interface HasStyle extends BaseAttributes {

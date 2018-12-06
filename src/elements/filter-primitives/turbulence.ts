@@ -1,5 +1,5 @@
 import { NumberOptionalNumber } from "../../attributes/number-optional-number";
-import { Filter, FilterInput } from "../filter";
+import { Filter } from "../filter";
 import { FilterPrimitive } from "../filter-primitive";
 
 export interface Turbulence_Attributes {

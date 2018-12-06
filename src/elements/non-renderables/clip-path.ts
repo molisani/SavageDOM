@@ -1,4 +1,4 @@
-import { Inherit, Length, None } from "../../attributes/base";
+import { BaseAttributes, Inherit, Length, None } from "../../attributes/base";
 import { Box } from "../../attributes/box";
 import { Point } from "../../attributes/point";
 import { Context } from "../../context";
@@ -9,7 +9,7 @@ export interface HasClipPath {
   "clip-rule": "nonzero" | "evenodd" | Inherit;
 }
 
-export interface ClipPath_Attributes {
+export interface ClipPath_Attributes extends BaseAttributes {
   maskUnits: "userSpaceOnUse" | "objectBoundingBox";
   maskContentUnits: "userSpaceOnUse" | "objectBoundingBox";
   x: Length;

@@ -1,7 +1,5 @@
 import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
-import { Element } from "../element";
-import { _lerp } from "../interpolation";
 
 export type CSSAbsoluteLength = "px" | "in" | "cm" | "mm" | "pt" | "pc";
 export type CSSRelativeLength = "em" | "ex";

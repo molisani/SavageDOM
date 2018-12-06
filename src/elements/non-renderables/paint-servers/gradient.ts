@@ -12,7 +12,7 @@ import { Element } from "../../../element";
 import { NonRenderable_Attributes, NonRenderable_Events } from "../../non-renderable";
 import { AbstractPaintServer } from "../paint-server";
 
-export interface Gradient_Attributes {
+export interface Gradient_Attributes extends BaseAttributes {
   gradientUnits: "userSpaceOnUse" | "objectBoundingBox";
   "gradientTransform.matrix": Matrix_Transform;
   "gradientTransform.translate": Translate_Transform;

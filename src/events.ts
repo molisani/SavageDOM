@@ -1,14 +1,18 @@
-import { Point } from "./attributes";
+import { SubType } from "./util";
 
 export interface BaseEvents {
-  [event: string]: any;
+  [event: string]: Event;
 }
 
-export interface PointEvents {
-  [event: string]: MouseEvent | TouchEvent;
+export type PointEvent = MouseEvent | TouchEvent;
+
+export interface PointEvents extends BaseEvents {
+  [event: string]: PointEvent;
 }
 
-export interface PointEvent {
+export type OnlyPointEvents<EVENTS extends BaseEvents> = keyof SubType<EVENTS, PointEvent>;
+
+export interface ResolvedPointEvent extends Event {
   screen: { x: number, y: number };
   page: { x: number, y: number };
   local: { x: number, y: number };
@@ -22,7 +26,6 @@ export interface Mouse_Events extends PointEvents {
   mouseout: MouseEvent;
   mouseover: MouseEvent;
   mouseup: MouseEvent;
-  "activate|click|mouseup": MouseEvent;
 }
 
 export interface SVG_Events extends BaseEvents {
@@ -39,7 +42,6 @@ export interface Touch_Events extends PointEvents {
   touchstart: TouchEvent;
   touchend: TouchEvent;
   touchmove: TouchEvent;
-  "touchstart|touchmove|touchend": TouchEvent;
   touchcancel: TouchEvent;
 }
 

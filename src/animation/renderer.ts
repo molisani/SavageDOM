@@ -15,7 +15,9 @@ export interface AttributeUpdate<Attrs extends BaseAttributes, Attr extends keyo
   val: Attrs[Attr];
 }
 
-export interface ElementUpdateRender<Attrs extends BaseAttributes, E extends Element<any, Attrs, any>> extends TimeResolvable {
+type AttributeOnlyElement<ATTRIBUTES extends BaseAttributes> = Element<SVGElement, ATTRIBUTES>;
+
+export interface ElementUpdateRender<Attrs extends BaseAttributes, E extends AttributeOnlyElement<Attrs>> extends TimeResolvable {
   el: E;
   attribute: AttributeUpdate<Attrs, keyof Attrs>;
 }
@@ -25,7 +27,7 @@ export interface AttributeInterpolation<Attrs, Attr extends keyof Attrs> {
   val(t: number): Attrs[Attr];
 }
 
-export interface ElementInterpolateRender<Attrs extends BaseAttributes, E extends Element<any, Attrs, any>> extends TimeResolvable {
+export interface ElementInterpolateRender<Attrs extends BaseAttributes, E extends AttributeOnlyElement<Attrs>> extends TimeResolvable {
   el: E;
   attributes: AttributeInterpolation<Attrs, keyof Attrs>[];
   start: number;
@@ -44,9 +46,9 @@ export class Renderer {
   constructor() {
     this._attributeUpdates.pipe(bufferWhen(() => this._animationFrame)).subscribe((updates) => this._render(updates));
   }
-  public queueAttributeUpdate<Attrs extends BaseAttributes, E extends Element<any, Attrs, any>>(el: E, attrs: Partial<Attrs>): Promise<number>;
-  public queueAttributeUpdate<Attrs extends BaseAttributes, K extends keyof Attrs, E extends Element<any, Attrs, any>>(el: E, attr: K, val: Attrs[K]): Promise<number>;
-  public queueAttributeUpdate<Attrs extends BaseAttributes, K extends keyof Attrs, E extends Element<any, Attrs, any>>(a1: E, a2: K | Partial<Attrs>, a3?: Attrs[K]): Promise<number> {
+  public queueAttributeUpdate<Attrs extends BaseAttributes, E extends AttributeOnlyElement<Attrs>>(el: E, attrs: Partial<Attrs>): Promise<number>;
+  public queueAttributeUpdate<Attrs extends BaseAttributes, K extends keyof Attrs, E extends AttributeOnlyElement<Attrs>>(el: E, attr: K, val: Attrs[K]): Promise<number>;
+  public queueAttributeUpdate<Attrs extends BaseAttributes, K extends keyof Attrs, E extends AttributeOnlyElement<Attrs>>(a1: E, a2: K | Partial<Attrs>, a3?: Attrs[K]): Promise<number> {
     if (typeof a2 === "string") {
       return new Promise((resolve) => {
         this._attributeUpdates.next({ el: a1, attribute: { name: a2, val: a3 }, resolve });
@@ -56,11 +58,11 @@ export class Renderer {
         return new Promise<number>((resolve) => {
           this._attributeUpdates.next({ el: a1, attribute: { name, val: a2[name] }, resolve });
         });
-      })).then((renders) => renders[renders.length - 1]);
+      })).then((renders) => Math.max(...renders));
     }
     throw new Error("No attributes specified for attribute update");
   }
-  public registerAttributeInterpolation<Attrs extends BaseAttributes, K extends keyof Attrs, E extends Element<any, Attrs, any>>(el: E, attr: K, val: (t: number) => Attrs[K], duration: number, easing: EasingFunction): Promise<number> {
+  public registerAttributeInterpolation<Attrs extends BaseAttributes, K extends keyof Attrs, E extends AttributeOnlyElement<Attrs>>(el: E, attr: K, val: (t: number) => Attrs[K], duration: number, easing: EasingFunction): Promise<number> {
     return new Promise((resolve) => {
       const key = randomShortStringId();
       const start = performance.now();
@@ -68,7 +70,7 @@ export class Renderer {
       this._attributeInterpolations[key] = { el, attributes, start, duration, easing, resolve };
     });
   }
-  private _render(updates: ElementUpdateRender<any, Element<any, any, any>>[]) {
+  private _render<ATTRIBUTES extends BaseAttributes>(updates: ElementUpdateRender<ATTRIBUTES, AttributeOnlyElement<ATTRIBUTES>>[]) {
     const now = performance.now();
     const pendingResolutions: ((t: number) => void)[] = [];
     updates.forEach(({ el, attribute, resolve }) => {

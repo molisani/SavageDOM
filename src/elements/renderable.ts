@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 import { BaseAttributes, HasClass, HasColor, HasColorInterpolation, HasColorRendering, HasCursor, HasOpacity, HasStyle, HasVisibility, Inherit, None } from "../attributes/base";
 import { Transformable } from "../attributes/transform";
 import { Element } from "../element";
-import { BaseEvents, Focus_Events, Mouse_Events, PointEvent, SVG_Events } from "../events";
+import { BaseEvents, Focus_Events, Mouse_Events, OnlyPointEvents, ResolvedPointEvent, SVG_Events } from "../events";
 import { HasFilter } from "./filter";
 import { HasClipPath } from "./non-renderables/clip-path";
 import { HasMask } from "./non-renderables/mask";
@@ -22,10 +22,17 @@ export interface Graphics_Attributes extends HasFilter, HasColorInterpolation, H
 
 export interface Renderable_Events extends Mouse_Events, SVG_Events, Focus_Events {}
 
-export abstract class AbstractRenderable<E extends SVGGraphicsElement, A extends BaseAttributes, V extends BaseEvents> extends Element<E, Renderable_Attributes & A, Renderable_Events & V> {
-  public getPointEvent(events: string): Observable<PointEvent> {
-    return this.getEvent(events).pipe(map((event: MouseEvent | TouchEvent) => {
-      const action: MouseEvent | Touch = (event instanceof MouseEvent) ? event : event.touches[0];
+export abstract class AbstractRenderable<E extends SVGGraphicsElement, A extends BaseAttributes, V extends BaseEvents, _ATTRIBUTES extends BaseAttributes = Renderable_Attributes & A, _EVENTS extends BaseEvents = Renderable_Events & V> extends Element<E, _ATTRIBUTES, _EVENTS> {
+  public getPointEvent<EVENT extends keyof _EVENTS = OnlyPointEvents<_EVENTS>>(...events: EVENT[]): Observable<ResolvedPointEvent> {
+    return this.getEvent(...events).pipe(map((event: Event) => {
+      let action: MouseEvent | Touch;
+      if (event instanceof MouseEvent) {
+        action = event;
+      } else if (event instanceof TouchEvent) {
+        action = event.touches[0];
+      } else {
+        throw new Error(`The event "${event.type}" is not a PointEvent and thus has no corresponding Point`);
+      }
       const ref = this.context.refPoint;
       ref.x = action.clientX;
       ref.y = action.clientY;
@@ -35,6 +42,7 @@ export abstract class AbstractRenderable<E extends SVGGraphicsElement, A extends
       }
       const local = ref.matrixTransform(matrix.inverse());
       return {
+        ...event,
         local: {
           x: local.x,
           y: local.y,

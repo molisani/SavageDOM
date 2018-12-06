@@ -1,10 +1,10 @@
-import { Length } from "../../../attributes/base";
+import { BaseAttributes, Length } from "../../../attributes/base";
 import { Point } from "../../../attributes/point";
 import { Context } from "../../../context";
 import { Renderable_Attributes } from "../../renderable";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
-export interface Circle_Attributes {
+export interface Circle_Attributes extends BaseAttributes {
   cx: Length;
   cy: Length;
   "cx:cy": Point;

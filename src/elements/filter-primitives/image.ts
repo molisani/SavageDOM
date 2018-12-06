@@ -1,5 +1,5 @@
 import { PreserveAspectRatio } from "../../attributes/preserve-aspect-ratio";
-import { Filter, FilterInput } from "../filter";
+import { Filter } from "../filter";
 import { FilterPrimitive } from "../filter-primitive";
 
 export interface Image_Attributes {

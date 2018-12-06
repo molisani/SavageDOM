@@ -1,4 +1,4 @@
-import { Inherit, Length, None } from "../../attributes/base";
+import { BaseAttributes, Inherit, Length, None } from "../../attributes/base";
 import { Box } from "../../attributes/box";
 import { Point } from "../../attributes/point";
 import { Context } from "../../context";
@@ -8,7 +8,7 @@ export interface HasMask {
   "mask": Mask | None | Inherit;
 }
 
-export interface Mask_Attributes {
+export interface Mask_Attributes extends BaseAttributes {
   maskUnits: "userSpaceOnUse" | "objectBoundingBox";
   maskContentUnits: "userSpaceOnUse" | "objectBoundingBox";
   x: Length;
