@@ -124,8 +124,12 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes =
     this.setAttributes(style);
   }
 
-  public getEvent<Event extends keyof EVENTS>(...events: Event[]): Observable<EVENTS[Event]> {
-    return merge(...(events).map((_) => fromEvent(this._node, _)));
+  public getEvent<EVENT extends keyof EVENTS>(event: EVENT): Observable<EVENTS[EVENT]> {
+    return fromEvent(this._node, event) as Observable<EVENTS[EVENT]>;
+  }
+
+  public getEvents(...events: (keyof EVENTS)[]): Observable<Event> {
+    return merge(...(events).map((event) => fromEvent(this._node, event)));
   }
 
   public get boundingBox(): Box {
