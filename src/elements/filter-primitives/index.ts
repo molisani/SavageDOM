@@ -1,3 +1,5 @@
+// module re-exporting, for library use only
+
 export * from "./blend";
 export * from "./color-matrix";
 export * from "./component-transfer";

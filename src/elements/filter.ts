@@ -19,7 +19,7 @@ import { Flood_Primitive } from "./filter-primitives/flood";
 import { GaussianBlur_Primitive } from "./filter-primitives/gaussian-blur";
 import { Image_Primitive } from "./filter-primitives/image";
 import { DiffuseLighting, DiffuseLighting_Attributes } from "./filter-primitives/lighting/diffuse";
-import { DistantLight_Primitive, LightSource_Attributes, PointLight_Primitive, SpotLight_Primitive } from "./filter-primitives/lighting/light-source";
+import { DistantLight, LightSource_Attributes, PointLight, SpotLight } from "./filter-primitives/lighting/light-source";
 import { SpecularLighting, SpecularLighting_Attributes } from "./filter-primitives/lighting/specular";
 import { Merge_Primitive } from "./filter-primitives/merge";
 import { Morphology_Primitive } from "./filter-primitives/morphology";
@@ -182,13 +182,13 @@ export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_
     lights.forEach(light => {
       switch (light.type) {
         case "point":
-          lighting.add(new PointLight_Primitive(this, light));
+          lighting.add(new PointLight(this, light));
           break;
         case "distant":
-          lighting.add(new DistantLight_Primitive(this, light));
+          lighting.add(new DistantLight(this, light));
           break;
         case "spot":
-          lighting.add(new SpotLight_Primitive(this, light));
+          lighting.add(new SpotLight(this, light));
           break;
       }
     });

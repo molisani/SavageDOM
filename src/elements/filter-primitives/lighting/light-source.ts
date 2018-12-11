@@ -33,25 +33,25 @@ export interface SpotLight_Attributes extends Core_Attributes {
 
 export type LightSource_Attributes = DistantLight_Attributes | PointLight_Attributes | SpotLight_Attributes;
 
-export abstract class AbstractLightSource_Primitive<ELEMENT extends SVGFEDistantLightElement | SVGFEPointLightElement | SVGFESpotLightElement, ATTRIBUTES extends LightSource_Attributes> extends Element<ELEMENT, ATTRIBUTES> {
+export abstract class AbstractLightSource<ELEMENT extends SVGFEDistantLightElement | SVGFEPointLightElement | SVGFESpotLightElement, ATTRIBUTES extends LightSource_Attributes> extends Element<ELEMENT, ATTRIBUTES> {
   constructor(filter: Filter, name: "feDistantLight" | "fePointLight" | "feSpotLight", attrs?: Partial<ATTRIBUTES>) {
     super(filter.context, name, attrs);
   }
 }
 
-export class DistantLight_Primitive extends AbstractLightSource_Primitive<SVGFEDistantLightElement, DistantLight_Attributes> {
+export class DistantLight extends AbstractLightSource<SVGFEDistantLightElement, DistantLight_Attributes> {
   constructor(filter: Filter, attrs?: Partial<DistantLight_Attributes>) {
     super(filter, "feDistantLight", attrs);
   }
 }
 
-export class PointLight_Primitive extends AbstractLightSource_Primitive<SVGFEPointLightElement, PointLight_Attributes> {
+export class PointLight extends AbstractLightSource<SVGFEPointLightElement, PointLight_Attributes> {
   constructor(filter: Filter, attrs?: Partial<PointLight_Attributes>) {
     super(filter, "fePointLight", attrs);
   }
 }
 
-export class SpotLight_Primitive extends AbstractLightSource_Primitive<SVGFESpotLightElement, SpotLight_Attributes> {
+export class SpotLight extends AbstractLightSource<SVGFESpotLightElement, SpotLight_Attributes> {
   constructor(filter: Filter, attrs?: Partial<SpotLight_Attributes>) {
     super(filter, "feSpotLight", attrs);
   }

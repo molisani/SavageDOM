@@ -1,3 +1,5 @@
+// module re-exporting, for library use only
+
 export * from "./filter-primitive";
 export * from "./filter";
 export * from "./non-renderable";
