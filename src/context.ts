@@ -29,10 +29,6 @@ import { Polyline } from "./elements/renderables/shapes/polyline";
 import { Rect, Rect_Attributes } from "./elements/renderables/shapes/rect";
 import { Text } from "./elements/renderables/text";
 
-interface ElementConstructor<E, Attrs> {
-  new(context: Context, attrs?: Partial<Attrs>): E;
-}
-
 export class Context {
   public static DEFAULT_WINDOW: Window = window;
   public static get contexts(): Observable<Context> {
@@ -40,7 +36,7 @@ export class Context {
   }
   private static _CONTEXT_SUBJECT = new ReplaySubject<Context>(1);
   private _root: SVGSVGElement;
-  private _defs: Element<SVGDefsElement, any, any>;
+  private _defs: Element<SVGDefsElement>;
   private _target: SVGElement;
   constructor();
   constructor(id: string, window?: Window);
@@ -68,9 +64,9 @@ export class Context {
     const defsElements = this._root.getElementsByTagName("defs");
     const defsElement = defsElements.item(0);
     if (defsElement) {
-      this._defs = new Element<SVGDefsElement, any, any>(this, defsElement);
+      this._defs = new Element<SVGDefsElement>(this, defsElement);
     } else {
-      this._defs = new Element<SVGDefsElement, any, any>(this, "defs");
+      this._defs = new Element<SVGDefsElement>(this, "defs");
     }
     Context._CONTEXT_SUBJECT.next(this);
   }

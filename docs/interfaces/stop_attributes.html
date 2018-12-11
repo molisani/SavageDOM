@@ -70,7 +70,13 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="baseattributes.html" class="tsd-signature-type">BaseAttributes</a>
+						<a href="core_attributes.html" class="tsd-signature-type">Core_Attributes</a>
+					</li>
+					<li>
+						<a href="hasclass.html" class="tsd-signature-type">HasClass</a>
+					</li>
+					<li>
+						<a href="hasstyle.html" class="tsd-signature-type">HasStyle</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">Stop_Attributes</span>
@@ -81,7 +87,7 @@
 			</section>
 			<section class="tsd-panel tsd-kind-interface">
 				<h3 class="tsd-before-signature">Indexable</h3>
-				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#attributevalue" class="tsd-signature-type">AttributeValue</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#attributevalue" class="tsd-signature-type">AttributeValue</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../globals.html#attributevalue" class="tsd-signature-type">AttributeValue</a></div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -90,9 +96,14 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="stop_attributes.html#class" class="tsd-kind-icon">class</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="stop_attributes.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="stop_attributes.html#lang" class="tsd-kind-icon">lang</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="stop_attributes.html#offset" class="tsd-kind-icon">offset</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="stop_attributes.html#stop_color" class="tsd-kind-icon">stop-<wbr>color</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="stop_attributes.html#stop_opacity" class="tsd-kind-icon">stop-<wbr>opacity</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="stop_attributes.html#style" class="tsd-kind-icon">style</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="stop_attributes.html#tabindex" class="tsd-kind-icon">tabindex</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,6 +111,39 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="class" class="tsd-anchor"></a>
+					<h3>class</h3>
+					<div class="tsd-signature tsd-kind-icon">class<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="hasclass.html">HasClass</a>.<a href="hasclass.html#class">class</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L43">attributes/base.ts:43</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="id" class="tsd-anchor"></a>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="core_attributes.html">Core_Attributes</a>.<a href="core_attributes.html#id">id</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L33">attributes/base.ts:33</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="lang" class="tsd-anchor"></a>
+					<h3>lang</h3>
+					<div class="tsd-signature tsd-kind-icon">lang<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="core_attributes.html">Core_Attributes</a>.<a href="core_attributes.html#lang">lang</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L34">attributes/base.ts:34</a></li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="offset" class="tsd-anchor"></a>
 					<h3>offset</h3>
@@ -130,6 +174,28 @@
 						</ul>
 					</aside>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="style" class="tsd-anchor"></a>
+					<h3>style</h3>
+					<div class="tsd-signature tsd-kind-icon">style<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="hasstyle.html">HasStyle</a>.<a href="hasstyle.html#style">style</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L39">attributes/base.ts:39</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="tabindex" class="tsd-anchor"></a>
+					<h3>tabindex</h3>
+					<div class="tsd-signature tsd-kind-icon">tabindex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="core_attributes.html">Core_Attributes</a>.<a href="core_attributes.html#tabindex">tabindex</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L35">attributes/base.ts:35</a></li>
+						</ul>
+					</aside>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -147,6 +213,15 @@
 					<li class="current tsd-kind-interface">
 						<a href="stop_attributes.html" class="tsd-kind-icon">Stop_<wbr><wbr>Attributes</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="stop_attributes.html#class" class="tsd-kind-icon">class</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="stop_attributes.html#id" class="tsd-kind-icon">id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="stop_attributes.html#lang" class="tsd-kind-icon">lang</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="stop_attributes.html#offset" class="tsd-kind-icon">offset</a>
 							</li>
@@ -155,6 +230,12 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="stop_attributes.html#stop_opacity" class="tsd-kind-icon">stop-<wbr>opacity</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="stop_attributes.html#style" class="tsd-kind-icon">style</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="stop_attributes.html#tabindex" class="tsd-kind-icon">tabindex</a>
 							</li>
 						</ul>
 					</li>

@@ -4,7 +4,7 @@ import { HasMarker } from "../../non-renderables/marker";
 import { Renderable_Attributes } from "../../renderable";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
-export interface Polyline_Attributes extends HasMarker {
+export interface Polyline_Attributes extends Shape_Attributes, HasMarker {
   points: Point[];
 }
 

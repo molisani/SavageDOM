@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    mode: "development",
+    mode: "production",
     context: __dirname, // to automatically find tsconfig.json
     // devtool: 'inline-source-map',
     entry: './src/index.ts',

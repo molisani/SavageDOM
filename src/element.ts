@@ -3,7 +3,7 @@ import { fromEvent, merge, Observable } from "rxjs";
 import { EasingFunction } from "./animation/easing";
 import { Renderer } from "./animation/renderer";
 import { Attribute, isAttribute } from "./attribute";
-import { BaseAttributes } from "./attributes/base";
+import { Core_Attributes } from "./attributes/base";
 import { Box } from "./attributes/box";
 import { NumberWrapper } from "./attributes/wrappers";
 import { XMLNS } from "./constants";
@@ -11,11 +11,9 @@ import { Context } from "./context";
 import { BaseEvents } from "./events";
 import { randomShortStringId } from "./id";
 
-export type BaseElement = Element<SVGElement, BaseAttributes, BaseEvents>;
-
-export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, EVENTS extends BaseEvents> {
-  protected _node: SVG;
-  protected _style: CSSStyleDeclaration;
+export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes = Core_Attributes, EVENTS extends BaseEvents = BaseEvents> {
+  protected readonly _node: SVG;
+  protected readonly _style: CSSStyleDeclaration;
   private _pendingRenders: Promise<number>[] = [];
   constructor(context: Context, el: SVG, attrs?: Partial<ATTRIBUTES>);
   constructor(context: Context, name: string, attrs?: Partial<ATTRIBUTES>, id?: string);
@@ -50,11 +48,11 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   }
   public renderAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
     if (isAttribute(val)) {
-      val.set(this._node, name as string);
+      val.set(this._node, name);
     } else if (Array.isArray(val)) {
-      this._node.setAttribute(name as string, val.join("\t"));
+      this._node.setAttribute(name, val.join("\t"));
     } else {
-      this._node.setAttribute(name as string, String(val));
+      this._node.setAttribute(name, String(val));
     }
   }
   public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
@@ -74,7 +72,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     } else {
       return;
     }
-    const from = attr.get(this._node, name as string);
+    const from = attr.get(this._node, name);
     return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolator(from), duration, easing);
   }
   // public animateAttributes<Attr extends keyof ATTRIBUTES>(name: Attr, attrs: Partial<ATTRIBUTES>, duration: number, easing: EasingFunction): Promise<number> | undefined {
@@ -86,16 +84,17 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
   //     }
   //   }
   // }
-  public flush(): Promise<number> {
+  public async flush(): Promise<number> {
     if (this._pendingRenders.length === 0) {
-      return Promise.resolve(performance.now());
+      return performance.now();
     }
     const pending = Promise.all(this._pendingRenders);
     this._pendingRenders = [];
-    return pending.then((renders) => renders[renders.length - 1]);
+    const renders = await pending;
+    return Math.max(...renders);
   }
   public getAttribute<Attr extends keyof ATTRIBUTES>(name: Attr): string | null {
-    const val = this._node.getAttribute(name as string) || this._style.getPropertyValue(name as string);
+    const val = this._node.getAttribute(name) || this._style.getPropertyValue(name);
     return (val === "" || val === "none") ? null : val;
   }
   public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>): void;
@@ -125,8 +124,12 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes, 
     this.setAttributes(style);
   }
 
-  public getEvent<Event extends keyof EVENTS>(event: Event): Observable<EVENTS[Event]> {
-    return merge(...(event as string).split("|").map((_) => fromEvent(this._node, _)));
+  public getEvent<EVENT extends keyof EVENTS>(event: EVENT): Observable<EVENTS[EVENT]> {
+    return fromEvent(this._node, event) as Observable<EVENTS[EVENT]>;
+  }
+
+  public getEvents(...events: (keyof EVENTS)[]): Observable<Event> {
+    return merge(...(events).map((event) => fromEvent(this._node, event)));
   }
 
   public get boundingBox(): Box {

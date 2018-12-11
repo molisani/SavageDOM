@@ -1,8 +1,8 @@
 import { NumberOptionalNumber } from "../../attributes/number-optional-number";
 import { Filter, FilterInput } from "../filter";
-import { FilterPrimitive } from "../filter-primitive";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
-export interface Morphology_Attributes {
+export interface Morphology_Attributes extends FilterPrimitive_Attributes {
   in: FilterInput;
   operator: "erode" | "dilate";
   radius: NumberOptionalNumber;

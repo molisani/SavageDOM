@@ -1,3 +1,5 @@
+// module re-exporting, for library use only
+
 export * from "./attribute";
 export * from "./constants";
 export * from "./context";

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PointEvent | SavageDOM</title>
+	<title>PaintServer_Attributes | SavageDOM</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="pointevent.html">PointEvent</a>
+					<a href="paintserver_attributes.html">PaintServer_Attributes</a>
 				</li>
 			</ul>
-			<h1>Interface PointEvent</h1>
+			<h1>Interface PaintServer_Attributes</h1>
 		</div>
 	</div>
 </header>
@@ -70,89 +70,100 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">PointEvent</span>
+						<a href="nonrenderable_attributes.html" class="tsd-signature-type">NonRenderable_Attributes</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">PaintServer_Attributes</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="gradient_attributes.html" class="tsd-signature-type">Gradient_Attributes</a>
+									</li>
+									<li>
+										<a href="pattern_attributes.html" class="tsd-signature-type">Pattern_Attributes</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</li>
 				</ul>
+			</section>
+			<section class="tsd-panel tsd-kind-interface">
+				<h3 class="tsd-before-signature">Indexable</h3>
+				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#attributevalue" class="tsd-signature-type">AttributeValue</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#attributevalue" class="tsd-signature-type">AttributeValue</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../globals.html#attributevalue" class="tsd-signature-type">AttributeValue</a></div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="pointevent.html#local" class="tsd-kind-icon">local</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="pointevent.html#page" class="tsd-kind-icon">page</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="pointevent.html#screen" class="tsd-kind-icon">screen</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="paintserver_attributes.html#class" class="tsd-kind-icon">class</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="paintserver_attributes.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="paintserver_attributes.html#lang" class="tsd-kind-icon">lang</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="paintserver_attributes.html#style" class="tsd-kind-icon">style</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="paintserver_attributes.html#tabindex" class="tsd-kind-icon">tabindex</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="local" class="tsd-anchor"></a>
-					<h3>local</h3>
-					<div class="tsd-signature tsd-kind-icon">local<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="class" class="tsd-anchor"></a>
+					<h3>class</h3>
+					<div class="tsd-signature tsd-kind-icon">class<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="hasclass.html">HasClass</a>.<a href="hasclass.html#class">class</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/events.ts#L14">events.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L43">attributes/base.ts:43</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
-						</ul>
-					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="page" class="tsd-anchor"></a>
-					<h3>page</h3>
-					<div class="tsd-signature tsd-kind-icon">page<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="id" class="tsd-anchor"></a>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="core_attributes.html">Core_Attributes</a>.<a href="core_attributes.html#id">id</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/events.ts#L13">events.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L33">attributes/base.ts:33</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
-						</ul>
-					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="screen" class="tsd-anchor"></a>
-					<h3>screen</h3>
-					<div class="tsd-signature tsd-kind-icon">screen<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="lang" class="tsd-anchor"></a>
+					<h3>lang</h3>
+					<div class="tsd-signature tsd-kind-icon">lang<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="core_attributes.html">Core_Attributes</a>.<a href="core_attributes.html#lang">lang</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/events.ts#L12">events.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L34">attributes/base.ts:34</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="style" class="tsd-anchor"></a>
+					<h3>style</h3>
+					<div class="tsd-signature tsd-kind-icon">style<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="hasstyle.html">HasStyle</a>.<a href="hasstyle.html#style">style</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L39">attributes/base.ts:39</a></li>
 						</ul>
-					</div>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="tabindex" class="tsd-anchor"></a>
+					<h3>tabindex</h3>
+					<div class="tsd-signature tsd-kind-icon">tabindex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="core_attributes.html">Core_Attributes</a>.<a href="core_attributes.html#tabindex">tabindex</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L35">attributes/base.ts:35</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -169,16 +180,22 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="pointevent.html" class="tsd-kind-icon">Point<wbr>Event</a>
+						<a href="paintserver_attributes.html" class="tsd-kind-icon">Paint<wbr>Server_<wbr><wbr>Attributes</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="pointevent.html#local" class="tsd-kind-icon">local</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="paintserver_attributes.html#class" class="tsd-kind-icon">class</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="pointevent.html#page" class="tsd-kind-icon">page</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="paintserver_attributes.html#id" class="tsd-kind-icon">id</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="pointevent.html#screen" class="tsd-kind-icon">screen</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="paintserver_attributes.html#lang" class="tsd-kind-icon">lang</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="paintserver_attributes.html#style" class="tsd-kind-icon">style</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="paintserver_attributes.html#tabindex" class="tsd-kind-icon">tabindex</a>
 							</li>
 						</ul>
 					</li>

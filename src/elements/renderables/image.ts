@@ -3,8 +3,7 @@ import { Box } from "../../attributes/box";
 import { Point } from "../../attributes/point";
 import { PreserveAspectRatio } from "../../attributes/preserve-aspect-ratio";
 import { Context } from "../../context";
-import { BaseEvents } from "../../events";
-import { AbstractRenderable, Graphics_Attributes, Renderable_Attributes } from "../renderable";
+import { AbstractRenderable, Graphics_Attributes, Renderable_Attributes, Renderable_Events } from "../renderable";
 
 export interface Image_Attributes extends Graphics_Attributes, HasOverflow {
   x: Length;
@@ -21,7 +20,7 @@ export interface Image_Attributes extends Graphics_Attributes, HasOverflow {
   "image-rendering": "auto" | "optimizeSpeed" | "optimizeQuality" | Inherit;
 }
 
-export interface Image_Events extends BaseEvents {
+export interface Image_Events extends Renderable_Events {
   load: ProgressEvent;
 }
 

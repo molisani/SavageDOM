@@ -5,7 +5,7 @@ import { Context } from "../../../context";
 import { Renderable_Attributes } from "../../renderable";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
-export interface Rect_Attributes {
+export interface Rect_Attributes extends Shape_Attributes {
   x: Length;
   y: Length;
   "x:y": Point;

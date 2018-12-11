@@ -1,4 +1,4 @@
-import { BaseAttributes, Inherit } from "../../../attributes/base";
+import { Core_Attributes, HasClass, HasStyle, Inherit } from "../../../attributes/base";
 import { Color } from "../../../attributes/color";
 import { Dimension, Percentage } from "../../../attributes/dimension";
 import { Transform } from "../../../attributes/transform";
@@ -10,9 +10,9 @@ import { Translate_Transform } from "../../../attributes/transforms/translate";
 import { Context } from "../../../context";
 import { Element } from "../../../element";
 import { NonRenderable_Attributes, NonRenderable_Events } from "../../non-renderable";
-import { AbstractPaintServer } from "../paint-server";
+import { AbstractPaintServer, PaintServer_Attributes } from "../paint-server";
 
-export interface Gradient_Attributes {
+export interface Gradient_Attributes extends PaintServer_Attributes {
   gradientUnits: "userSpaceOnUse" | "objectBoundingBox";
   "gradientTransform.matrix": Matrix_Transform;
   "gradientTransform.translate": Translate_Transform;
@@ -30,7 +30,7 @@ export interface Stops {
   [offset: string]: "currentColor" | Color | Inherit;
 }
 
-export interface Stop_Attributes extends BaseAttributes {
+export interface Stop_Attributes extends Core_Attributes, HasClass, HasStyle {
   offset: Percentage;
   "stop-color": "currentColor" | Color | Inherit;
   "stop-opacity": number | Inherit;
@@ -45,8 +45,8 @@ export class Stop extends Element<SVGStopElement, Stop_Attributes, NonRenderable
   }
 }
 
-export abstract class AbstractGradient<E extends SVGElement, GradientAttributes extends Gradient_Attributes> extends AbstractPaintServer<E, GradientAttributes> {
-  constructor(context: Context, name: string, stops: Stops, attrs?: Partial<NonRenderable_Attributes & GradientAttributes>) {
+export abstract class AbstractGradient<ELEMENT extends SVGElement, ATTRIBUTES extends Gradient_Attributes> extends AbstractPaintServer<ELEMENT, ATTRIBUTES> {
+  constructor(context: Context, name: string, stops: Stops, attrs?: Partial<NonRenderable_Attributes & ATTRIBUTES>) {
     super(context, name, attrs);
     this.context.addDef(this);
     const stopArr: Stop[] = [];

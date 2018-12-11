@@ -1,3 +1,5 @@
+// module re-exporting, for library use only
+
 export * from "./blend";
 export * from "./color-matrix";
 export * from "./component-transfer";
@@ -11,7 +13,6 @@ export * from "./merge";
 export * from "./morphology";
 export * from "./offset";
 export * from "./tile";
-export * from "./transfer-function";
 export * from "./turbulence";
 
 import * as Lighting from "./lighting";

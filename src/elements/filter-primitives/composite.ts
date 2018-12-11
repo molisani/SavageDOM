@@ -1,7 +1,7 @@
 import { Filter, FilterInput } from "../filter";
-import { FilterPrimitive } from "../filter-primitive";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
-export interface Composite_Attributes {
+export interface Composite_Attributes extends FilterPrimitive_Attributes {
   in: FilterInput;
   in2: FilterInput;
   operator: "over" | "in" | "out" | "atop" | "xor" | "arithmetic";

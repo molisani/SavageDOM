@@ -2,13 +2,13 @@ import { Inherit, Length, None } from "../../attributes/base";
 import { Box } from "../../attributes/box";
 import { Point } from "../../attributes/point";
 import { Context } from "../../context";
-import { AbstractNonRenderable } from "../non-renderable";
+import { AbstractNonRenderable, NonRenderable_Attributes } from "../non-renderable";
 
 export interface HasMask {
   "mask": Mask | None | Inherit;
 }
 
-export interface Mask_Attributes {
+export interface Mask_Attributes extends NonRenderable_Attributes {
   maskUnits: "userSpaceOnUse" | "objectBoundingBox";
   maskContentUnits: "userSpaceOnUse" | "objectBoundingBox";
   x: Length;

@@ -10,7 +10,7 @@ export interface HasMarker {
   "marker-end": None | Marker | Inherit;
 }
 
-export interface Marker_Attributes extends HasOverflow, HasOpacity {
+export interface Marker_Attributes extends NonRenderable_Attributes, HasOverflow, HasOpacity {
   markerUnits: "userSpaceOnUse" | "strokeWidth";
   refX: Length;
   refY: Length;

@@ -1,8 +1,6 @@
 import { color, ColorSpaceObject, hsl, HSLColor, rgb, RGBColor } from "d3-color";
 import { ColorGammaInterpolationFactory, interpolateRgb } from "d3-interpolate";
 import { Attribute } from "../attribute";
-import { Element } from "../element";
-import { _lerp } from "../interpolation";
 
 export class Color implements Attribute<Color> {
   public static DEFAULT_INTERPOLATION: ColorGammaInterpolationFactory = interpolateRgb;

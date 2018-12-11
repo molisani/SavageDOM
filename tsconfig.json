@@ -13,6 +13,7 @@
         "declaration": true,
         "inlineSourceMap": true,
         "strict": true,
+        "keyofStringsOnly": true,
         "removeComments": true,
         "rootDir": "src",
         "outDir": "lib"

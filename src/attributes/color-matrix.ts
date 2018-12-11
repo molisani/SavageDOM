@@ -1,8 +1,5 @@
 import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
-import { Element } from "../element";
-import { _lerp } from "../interpolation";
-import { Matrix } from "./matrix";
 
 export interface ColorMatrix {
   type: "matrix" | "saturate" | "hueRotate" | "luminanceToAlpha";

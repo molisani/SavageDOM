@@ -1,4 +1,4 @@
-import { BaseAttributes, Inherit, Length, None } from "../attributes/base";
+import { Core_Attributes, Inherit, Length, None } from "../attributes/base";
 import { Box } from "../attributes/box";
 import { Color } from "../attributes/color";
 import { ColorMatrix } from "../attributes/color-matrix";
@@ -11,7 +11,7 @@ import { SVG_Events } from "../events";
 import { FilterPrimitive, FilterPrimitive_Attributes, FilterPrimitive_Events } from "./filter-primitive";
 import { Blend_Primitive } from "./filter-primitives/blend";
 import { ColorMatrix_Primitive } from "./filter-primitives/color-matrix";
-import { ComponentTransfer_Primitive } from "./filter-primitives/component-transfer";
+import { ComponentTransfer_Primitive, TransferFunction_Attributes, TransferFunction_Primitive } from "./filter-primitives/component-transfer";
 import { Composite_Primitive } from "./filter-primitives/composite";
 import { ConvolveMatrix_Attributes, ConvolveMatrix_Primitive } from "./filter-primitives/convolve-matrix";
 import { DisplacementMap_Attributes, DisplacementMap_Primitive } from "./filter-primitives/displacement-map";
@@ -19,16 +19,12 @@ import { Flood_Primitive } from "./filter-primitives/flood";
 import { GaussianBlur_Primitive } from "./filter-primitives/gaussian-blur";
 import { Image_Primitive } from "./filter-primitives/image";
 import { DiffuseLighting, DiffuseLighting_Attributes } from "./filter-primitives/lighting/diffuse";
-import { LightSource_Attributes } from "./filter-primitives/lighting/light-source/attributes";
-import { DistantLight } from "./filter-primitives/lighting/light-source/distant";
-import { PointLight } from "./filter-primitives/lighting/light-source/point";
-import { SpotLight } from "./filter-primitives/lighting/light-source/spot";
+import { DistantLight, LightSource_Attributes, PointLight, SpotLight } from "./filter-primitives/lighting/light-source";
 import { SpecularLighting, SpecularLighting_Attributes } from "./filter-primitives/lighting/specular";
 import { Merge_Primitive } from "./filter-primitives/merge";
 import { Morphology_Primitive } from "./filter-primitives/morphology";
 import { Offset_Primitive } from "./filter-primitives/offset";
 import { Tile_Primitive } from "./filter-primitives/tile";
-import { TransferFunction_Attributes, TransferFunction_Primitive } from "./filter-primitives/transfer-function";
 import { Turbulence_Attributes, Turbulence_Primitive } from "./filter-primitives/turbulence";
 
 export interface HasFilter {
@@ -37,7 +33,7 @@ export interface HasFilter {
 
 export type FilterInput = "SourceGraphic" | "SourceAlpha" | "BackgroundImage" | "BackgroundAlpha" | "FillPaint" | "StrokePaint" | FilterPrimitive<any, any>;
 
-export interface Filter_Attributes extends BaseAttributes {
+export interface Filter_Attributes extends Core_Attributes {
   x: Length;
   y: Length;
   "x:y": Point;
@@ -164,7 +160,7 @@ export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_
       dy: d.y,
     });
   }
-  public specularLighting(attrs: Partial<SpecularLighting_Attributes>, lights: LightSource_Attributes[] = [], input?: FilterInput): SpecularLighting {
+  public specularLighting(attrs: Partial<SpecularLighting_Attributes>, lights: LightSource_Attributes[] = []): SpecularLighting {
     const fe = new SpecularLighting(this, attrs);
     this.addLights(fe, lights);
     return fe;
@@ -182,7 +178,7 @@ export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_
   public turbulence(attrs: Partial<Turbulence_Attributes>): Turbulence_Primitive {
     return new Turbulence_Primitive(this, attrs);
   }
-  private addLights(lighting: Element<SVGFEDiffuseLightingElement | SVGFESpecularLightingElement, FilterPrimitive_Attributes, any>, lights: LightSource_Attributes[]): void {
+  private addLights(lighting: Element<SVGFEDiffuseLightingElement | SVGFESpecularLightingElement, FilterPrimitive_Attributes>, lights: LightSource_Attributes[]): void {
     lights.forEach(light => {
       switch (light.type) {
         case "point":

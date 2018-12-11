@@ -5,4 +5,4 @@ export interface Shape_Attributes extends Graphics_Attributes, HasFill, HasStrok
   "shape-rendering": "auto" | "optimizeSpeed" | "crispEdges" | "geometricPrecision" | Inherit;
 }
 
-export abstract class AbstractShape<E extends SVGGraphicsElement, A> extends AbstractRenderable<E, Shape_Attributes & A, {}> {}
+export abstract class AbstractShape<ELEMENT extends SVGGraphicsElement, ATTRIBUTES extends Shape_Attributes = Shape_Attributes> extends AbstractRenderable<ELEMENT, ATTRIBUTES> {}

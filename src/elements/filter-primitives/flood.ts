@@ -1,9 +1,9 @@
 import { CurrentColor, HasColor, Inherit } from "../../attributes/base";
 import { Color } from "../../attributes/color";
-import { Filter, FilterInput } from "../filter";
-import { FilterPrimitive } from "../filter-primitive";
+import { Filter } from "../filter";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
-export interface Flood_Attributes extends HasColor {
+export interface Flood_Attributes extends FilterPrimitive_Attributes, HasColor {
   "flood-color": CurrentColor | Color | Inherit;
   "flood-opacity": number | Inherit;
 }

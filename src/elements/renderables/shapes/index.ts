@@ -1,3 +1,5 @@
+// module re-exporting, for library use only
+
 export * from "./circle";
 export * from "./ellipse";
 export * from "./line";

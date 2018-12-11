@@ -1,3 +1,5 @@
+// module re-exporting, for library use only
+
 export * from "./component";
 export * from "./external";
 export * from "./foreign-object";

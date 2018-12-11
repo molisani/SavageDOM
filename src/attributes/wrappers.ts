@@ -1,7 +1,5 @@
 import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
-import { Element } from "../element";
-import { _lerp } from "../interpolation";
 
 export class NumberWrapper implements Attribute<NumberWrapper | number> {
   constructor(public n: number = 0) {}

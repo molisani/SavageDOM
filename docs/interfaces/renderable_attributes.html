@@ -70,6 +70,9 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
+						<a href="core_attributes.html" class="tsd-signature-type">Core_Attributes</a>
+					</li>
+					<li>
 						<a href="hasstyle.html" class="tsd-signature-type">HasStyle</a>
 					</li>
 					<li>
@@ -83,6 +86,20 @@
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">Renderable_Attributes</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="containers_attributes.html" class="tsd-signature-type">Containers_Attributes</a>
+									</li>
+									<li>
+										<a href="graphics_attributes.html" class="tsd-signature-type">Graphics_Attributes</a>
+									</li>
+									<li>
+										<a href="textual_attributes.html" class="tsd-signature-type">Textual_Attributes</a>
+									</li>
+									<li>
+										<a href="textspan_attributes.html" class="tsd-signature-type">TextSpan_Attributes</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
@@ -90,7 +107,7 @@
 			</section>
 			<section class="tsd-panel tsd-kind-interface">
 				<h3 class="tsd-before-signature">Indexable</h3>
-				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#attributevalue" class="tsd-signature-type">AttributeValue</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#attributevalue" class="tsd-signature-type">AttributeValue</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../globals.html#attributevalue" class="tsd-signature-type">AttributeValue</a></div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -102,8 +119,11 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderable_attributes.html#class" class="tsd-kind-icon">class</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderable_attributes.html#color" class="tsd-kind-icon">color</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="renderable_attributes.html#display" class="tsd-kind-icon">display</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderable_attributes.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderable_attributes.html#lang" class="tsd-kind-icon">lang</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="renderable_attributes.html#pointer_events" class="tsd-kind-icon">pointer-<wbr>events</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderable_attributes.html#style" class="tsd-kind-icon">style</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderable_attributes.html#tabindex" class="tsd-kind-icon">tabindex</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderable_attributes.html#transform" class="tsd-kind-icon">transform</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderable_attributes.html#transform_matrix" class="tsd-kind-icon">transform.matrix</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderable_attributes.html#transform_rotate" class="tsd-kind-icon">transform.rotate</a></li>
@@ -126,7 +146,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="hasclass.html">HasClass</a>.<a href="hasclass.html#class">class</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L35">attributes/base.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L43">attributes/base.ts:43</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -137,7 +157,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="hascolor.html">HasColor</a>.<a href="hascolor.html#color">color</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L43">attributes/base.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L51">attributes/base.ts:51</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -148,6 +168,28 @@
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/elements/renderable.ts#L13">elements/renderable.ts:13</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="id" class="tsd-anchor"></a>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="core_attributes.html">Core_Attributes</a>.<a href="core_attributes.html#id">id</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L33">attributes/base.ts:33</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="lang" class="tsd-anchor"></a>
+					<h3>lang</h3>
+					<div class="tsd-signature tsd-kind-icon">lang<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="core_attributes.html">Core_Attributes</a>.<a href="core_attributes.html#lang">lang</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L34">attributes/base.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -168,7 +210,18 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="hasstyle.html">HasStyle</a>.<a href="hasstyle.html#style">style</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L31">attributes/base.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L39">attributes/base.ts:39</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="tabindex" class="tsd-anchor"></a>
+					<h3>tabindex</h3>
+					<div class="tsd-signature tsd-kind-icon">tabindex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="core_attributes.html">Core_Attributes</a>.<a href="core_attributes.html#tabindex">tabindex</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L35">attributes/base.ts:35</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -179,7 +232,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="transformable.html">Transformable</a>.<a href="transformable.html#transform">transform</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L71">attributes/transform.ts:71</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L70">attributes/transform.ts:70</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -190,7 +243,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="transformable.html">Transformable</a>.<a href="transformable.html#transform_matrix">transform.matrix</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L64">attributes/transform.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L63">attributes/transform.ts:63</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -201,7 +254,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="transformable.html">Transformable</a>.<a href="transformable.html#transform_rotate">transform.rotate</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L68">attributes/transform.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L67">attributes/transform.ts:67</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -212,7 +265,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="transformable.html">Transformable</a>.<a href="transformable.html#transform_scale">transform.scale</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L67">attributes/transform.ts:67</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L66">attributes/transform.ts:66</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -223,7 +276,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="transformable.html">Transformable</a>.<a href="transformable.html#transform_skewx">transform.skewX</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L69">attributes/transform.ts:69</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L68">attributes/transform.ts:68</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -234,7 +287,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="transformable.html">Transformable</a>.<a href="transformable.html#transform_skewy">transform.skewY</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L70">attributes/transform.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L69">attributes/transform.ts:69</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -245,7 +298,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="transformable.html">Transformable</a>.<a href="transformable.html#transform_translate">transform.translate</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L65">attributes/transform.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L64">attributes/transform.ts:64</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -256,7 +309,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="transformable.html">Transformable</a>.<a href="transformable.html#transform_uniformscale">transform.uniformScale</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L66">attributes/transform.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/transform.ts#L65">attributes/transform.ts:65</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -286,11 +339,20 @@
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="renderable_attributes.html#display" class="tsd-kind-icon">display</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="renderable_attributes.html#id" class="tsd-kind-icon">id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="renderable_attributes.html#lang" class="tsd-kind-icon">lang</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="renderable_attributes.html#pointer_events" class="tsd-kind-icon">pointer-<wbr>events</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="renderable_attributes.html#style" class="tsd-kind-icon">style</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="renderable_attributes.html#tabindex" class="tsd-kind-icon">tabindex</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="renderable_attributes.html#transform" class="tsd-kind-icon">transform</a>

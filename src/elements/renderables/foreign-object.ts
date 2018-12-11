@@ -9,7 +9,7 @@ export interface ForeignObject_Attributes extends Containers_Attributes, HasOpac
   height: Length;
 }
 
-export class ForeignObject extends AbstractRenderable<SVGForeignObjectElement, ForeignObject_Attributes, {}> {
+export class ForeignObject extends AbstractRenderable<SVGForeignObjectElement, ForeignObject_Attributes> {
   constructor(context: Context, attrs?: Partial<Renderable_Attributes & ForeignObject_Attributes>) {
     super(context, "foreignObject", attrs);
   }

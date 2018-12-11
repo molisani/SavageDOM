@@ -1,6 +1,5 @@
 import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
-import { Element } from "../element";
 import { Length } from "./base";
 
 export class Box implements Attribute<Box> {

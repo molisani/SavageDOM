@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PointEvents | SavageDOM</title>
+	<title>Core_Attributes | SavageDOM</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="pointevents.html">PointEvents</a>
+					<a href="core_attributes.html">Core_Attributes</a>
 				</li>
 			</ul>
-			<h1>Interface PointEvents</h1>
+			<h1>Interface Core_Attributes</h1>
 		</div>
 	</div>
 </header>
@@ -70,13 +70,48 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">PointEvents</span>
+						<a href="baseattributes.html" class="tsd-signature-type">BaseAttributes</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="mouse_events.html" class="tsd-signature-type">Mouse_Events</a>
-							</li>
-							<li>
-								<a href="touch_events.html" class="tsd-signature-type">Touch_Events</a>
+								<span class="target">Core_Attributes</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="stop_attributes.html" class="tsd-signature-type">Stop_Attributes</a>
+									</li>
+									<li>
+										<a href="filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a>
+									</li>
+									<li>
+										<a href="identityfunction_attributes.html" class="tsd-signature-type">IdentityFunction_Attributes</a>
+									</li>
+									<li>
+										<a href="tabularfunction_attributes.html" class="tsd-signature-type">TabularFunction_Attributes</a>
+									</li>
+									<li>
+										<a href="linearfunction_attributes.html" class="tsd-signature-type">LinearFunction_Attributes</a>
+									</li>
+									<li>
+										<a href="gammafunction_attributes.html" class="tsd-signature-type">GammaFunction_Attributes</a>
+									</li>
+									<li>
+										<a href="distantlight_attributes.html" class="tsd-signature-type">DistantLight_Attributes</a>
+									</li>
+									<li>
+										<a href="pointlight_attributes.html" class="tsd-signature-type">PointLight_Attributes</a>
+									</li>
+									<li>
+										<a href="spotlight_attributes.html" class="tsd-signature-type">SpotLight_Attributes</a>
+									</li>
+									<li>
+										<a href="filter_attributes.html" class="tsd-signature-type">Filter_Attributes</a>
+									</li>
+									<li>
+										<a href="renderable_attributes.html" class="tsd-signature-type">Renderable_Attributes</a>
+									</li>
+									<li>
+										<a href="nonrenderable_attributes.html" class="tsd-signature-type">NonRenderable_Attributes</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
@@ -84,7 +119,55 @@
 			</section>
 			<section class="tsd-panel tsd-kind-interface">
 				<h3 class="tsd-before-signature">Indexable</h3>
-				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>event: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">MouseEvent</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TouchEvent</span></div>
+				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#attributevalue" class="tsd-signature-type">AttributeValue</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="attribute.html" class="tsd-signature-type">Attribute</a><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#attributevalue" class="tsd-signature-type">AttributeValue</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../globals.html#attributevalue" class="tsd-signature-type">AttributeValue</a></div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core_attributes.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core_attributes.html#lang" class="tsd-kind-icon">lang</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core_attributes.html#tabindex" class="tsd-kind-icon">tabindex</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="id" class="tsd-anchor"></a>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L33">attributes/base.ts:33</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="lang" class="tsd-anchor"></a>
+					<h3>lang</h3>
+					<div class="tsd-signature tsd-kind-icon">lang<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L34">attributes/base.ts:34</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="tabindex" class="tsd-anchor"></a>
+					<h3>tabindex</h3>
+					<div class="tsd-signature tsd-kind-icon">tabindex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/attributes/base.ts#L35">attributes/base.ts:35</a></li>
+						</ul>
+					</aside>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -100,7 +183,18 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="pointevents.html" class="tsd-kind-icon">Point<wbr>Events</a>
+						<a href="core_attributes.html" class="tsd-kind-icon">Core_<wbr><wbr>Attributes</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="core_attributes.html#id" class="tsd-kind-icon">id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="core_attributes.html#lang" class="tsd-kind-icon">lang</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="core_attributes.html#tabindex" class="tsd-kind-icon">tabindex</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">

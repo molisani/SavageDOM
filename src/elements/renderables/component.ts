@@ -1,6 +1,5 @@
 import { Subscription } from "rxjs";
 import { EasingFunction, linear } from "../../animation/easing";
-import { Point } from "../../attributes/point";
 import { Rotate_Transform } from "../../attributes/transforms/rotate";
 import { Scale_Transform } from "../../attributes/transforms/scale";
 import { Translate_Transform } from "../../attributes/transforms/translate";

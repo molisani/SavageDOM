@@ -1,3 +1,5 @@
+// module re-exporting, for library use only
+
 export * from "./base";
 export * from "./box";
 export * from "./color-matrix";

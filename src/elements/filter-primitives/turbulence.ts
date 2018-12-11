@@ -1,8 +1,8 @@
 import { NumberOptionalNumber } from "../../attributes/number-optional-number";
-import { Filter, FilterInput } from "../filter";
-import { FilterPrimitive } from "../filter-primitive";
+import { Filter } from "../filter";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
-export interface Turbulence_Attributes {
+export interface Turbulence_Attributes extends FilterPrimitive_Attributes {
   type: "fractalNoise" | "turbulence";
   baseFrequency: NumberOptionalNumber;
   numOctaves: number;

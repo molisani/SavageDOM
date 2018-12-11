@@ -1,8 +1,8 @@
 import { None } from "../../attributes/base";
 import { Filter, FilterInput } from "../filter";
-import { FilterPrimitive } from "../filter-primitive";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
-export interface GaussianBlur_Attributes {
+export interface GaussianBlur_Attributes extends FilterPrimitive_Attributes {
   in: FilterInput;
   stdDeviation: number;
   edgeMode: "duplicate" | "wrap" | None;
