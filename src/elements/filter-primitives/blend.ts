@@ -1,7 +1,7 @@
 import { Filter, FilterInput } from "../filter";
-import { FilterPrimitive } from "../filter-primitive";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
-export interface Blend_Attributes {
+export interface Blend_Attributes extends FilterPrimitive_Attributes {
   in: FilterInput;
   in2: FilterInput;
   mode: "normal" | "multiply" | "screen" | "darken" | "lighten";

@@ -3,7 +3,7 @@ import { fromEvent, merge, Observable } from "rxjs";
 import { EasingFunction } from "./animation/easing";
 import { Renderer } from "./animation/renderer";
 import { Attribute, isAttribute } from "./attribute";
-import { BaseAttributes } from "./attributes/base";
+import { Core_Attributes } from "./attributes/base";
 import { Box } from "./attributes/box";
 import { NumberWrapper } from "./attributes/wrappers";
 import { XMLNS } from "./constants";
@@ -11,7 +11,7 @@ import { Context } from "./context";
 import { BaseEvents } from "./events";
 import { randomShortStringId } from "./id";
 
-export class Element<SVG extends SVGElement, ATTRIBUTES extends BaseAttributes = BaseAttributes, EVENTS extends BaseEvents = BaseEvents> {
+export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes = Core_Attributes, EVENTS extends BaseEvents = BaseEvents> {
   protected readonly _node: SVG;
   protected readonly _style: CSSStyleDeclaration;
   private _pendingRenders: Promise<number>[] = [];

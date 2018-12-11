@@ -1,8 +1,8 @@
 import { ColorMatrix } from "../../attributes/color-matrix";
 import { Filter, FilterInput } from "../filter";
-import { FilterPrimitive } from "../filter-primitive";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
-export interface ColorMatrix_Attributes {
+export interface ColorMatrix_Attributes extends FilterPrimitive_Attributes {
   in: FilterInput;
   type: "matrix" | "saturate" | "hueRotate" | "luminanceToAlpha";
   values: ColorMatrix;

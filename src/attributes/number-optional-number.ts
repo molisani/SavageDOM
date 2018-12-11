@@ -1,7 +1,5 @@
 import { interpolate } from "d3-interpolate";
 import { Attribute } from "../attribute";
-import { Element } from "../element";
-import { _lerp } from "../interpolation";
 
 export class NumberOptionalNumber implements Attribute<NumberOptionalNumber> {
   constructor(public n: number, public o?: number) {}

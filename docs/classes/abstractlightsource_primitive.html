@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PointLight | SavageDOM</title>
+	<title>AbstractLightSource_Primitive | SavageDOM</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,24 +56,49 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="pointlight.html">PointLight</a>
+					<a href="abstractlightsource_primitive.html">AbstractLightSource_Primitive</a>
 				</li>
 			</ul>
-			<h1>Class PointLight</h1>
+			<h1>Class AbstractLightSource_Primitive&lt;ELEMENT, ATTRIBUTES, EVENTS&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>ELEMENT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGFEDistantLightElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SVGFEPointLightElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SVGFESpotLightElement</span></h4>
+					</li>
+					<li>
+						<h4>ATTRIBUTES<span class="tsd-signature-symbol">: </span><a href="../globals.html#lightsource_attributes" class="tsd-signature-type">LightSource_Attributes</a></h4>
+					</li>
+					<li>
+						<h4>EVENTS<span class="tsd-signature-symbol">: </span><a href="../interfaces/baseevents.html" class="tsd-signature-type">BaseEvents</a></h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="filterprimitive.html" class="tsd-signature-type">FilterPrimitive</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGFEPointLightElement</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/pointlight_attributes.html" class="tsd-signature-type">PointLight_Attributes</a><span class="tsd-signature-symbol">&gt;</span>
+						<a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ELEMENT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">PointLight</span>
+								<span class="target">AbstractLightSource_Primitive</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="distantlight_primitive.html" class="tsd-signature-type">DistantLight_Primitive</a>
+									</li>
+									<li>
+										<a href="pointlight_primitive.html" class="tsd-signature-type">PointLight_Primitive</a>
+									</li>
+									<li>
+										<a href="spotlight_primitive.html" class="tsd-signature-type">SpotLight_Primitive</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
@@ -86,43 +111,43 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="pointlight.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="abstractlightsource_primitive.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="pointlight.html#_node" class="tsd-kind-icon">_node</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="pointlight.html#_style" class="tsd-kind-icon">_style</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="pointlight.html#context" class="tsd-kind-icon">context</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="abstractlightsource_primitive.html#_node" class="tsd-kind-icon">_node</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="abstractlightsource_primitive.html#_style" class="tsd-kind-icon">_style</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#context" class="tsd-kind-icon">context</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="pointlight.html#boundingbox" class="tsd-kind-icon">bounding<wbr>Box</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="pointlight.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="pointlight.html#node" class="tsd-kind-icon">node</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#boundingbox" class="tsd-kind-icon">bounding<wbr>Box</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#node" class="tsd-kind-icon">node</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="pointlight.html#add" class="tsd-kind-icon">add</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pointlight.html#animateattribute" class="tsd-kind-icon">animate<wbr>Attribute</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="pointlight.html#clone" class="tsd-kind-icon">clone</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="pointlight.html#clonenode" class="tsd-kind-icon">clone<wbr>Node</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="pointlight.html#copystylefrom" class="tsd-kind-icon">copy<wbr>Style<wbr>From</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="pointlight.html#destroy" class="tsd-kind-icon">destroy</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="pointlight.html#flush" class="tsd-kind-icon">flush</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pointlight.html#getattribute" class="tsd-kind-icon">get<wbr>Attribute</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="pointlight.html#getchildren" class="tsd-kind-icon">get<wbr>Children</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pointlight.html#getevent" class="tsd-kind-icon">get<wbr>Event</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="pointlight.html#getevents" class="tsd-kind-icon">get<wbr>Events</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pointlight.html#renderattribute" class="tsd-kind-icon">render<wbr>Attribute</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pointlight.html#setattribute" class="tsd-kind-icon">set<wbr>Attribute</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="pointlight.html#setattributes" class="tsd-kind-icon">set<wbr>Attributes</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="pointlight.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#add" class="tsd-kind-icon">add</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="abstractlightsource_primitive.html#animateattribute" class="tsd-kind-icon">animate<wbr>Attribute</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#clone" class="tsd-kind-icon">clone</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="abstractlightsource_primitive.html#clonenode" class="tsd-kind-icon">clone<wbr>Node</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#copystylefrom" class="tsd-kind-icon">copy<wbr>Style<wbr>From</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#destroy" class="tsd-kind-icon">destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#flush" class="tsd-kind-icon">flush</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="abstractlightsource_primitive.html#getattribute" class="tsd-kind-icon">get<wbr>Attribute</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#getchildren" class="tsd-kind-icon">get<wbr>Children</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="abstractlightsource_primitive.html#getevent" class="tsd-kind-icon">get<wbr>Event</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#getevents" class="tsd-kind-icon">get<wbr>Events</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="abstractlightsource_primitive.html#renderattribute" class="tsd-kind-icon">render<wbr>Attribute</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="abstractlightsource_primitive.html#setattribute" class="tsd-kind-icon">set<wbr>Attribute</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#setattributes" class="tsd-kind-icon">set<wbr>Attributes</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="abstractlightsource_primitive.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
 							</ul>
 						</section>
 					</div>
@@ -134,14 +159,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Point<wbr>Light<span class="tsd-signature-symbol">(</span>filter<span class="tsd-signature-symbol">: </span><a href="filter.html" class="tsd-signature-type">Filter</a>, attrs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/pointlight_attributes.html" class="tsd-signature-type">PointLight_Attributes</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pointlight.html" class="tsd-signature-type">PointLight</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Abstract<wbr>Light<wbr>Source_<wbr><wbr>Primitive<span class="tsd-signature-symbol">(</span>filter<span class="tsd-signature-symbol">: </span><a href="filter.html" class="tsd-signature-type">Filter</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"feDistantLight"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fePointLight"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"feSpotLight"</span>, attrs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="abstractlightsource_primitive.html" class="tsd-signature-type">AbstractLightSource_Primitive</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="filterprimitive.html">FilterPrimitive</a>.<a href="filterprimitive.html#constructor">constructor</a></p>
+								<p>Overrides <a href="element.html">Element</a>.<a href="element.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/elements/filter-primitives/lighting/light-source/point.ts#L14">elements/filter-primitives/lighting/light-source/point.ts:14</a></li>
+									<li>Defined in elements/filter-primitives/lighting/light-source.ts:35</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -150,10 +175,13 @@
 									<h5>filter: <a href="filter.html" class="tsd-signature-type">Filter</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> attrs: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/pointlight_attributes.html" class="tsd-signature-type">PointLight_Attributes</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>name: <span class="tsd-signature-type">"feDistantLight"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fePointLight"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"feSpotLight"</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> attrs: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="pointlight.html" class="tsd-signature-type">PointLight</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="abstractlightsource_primitive.html" class="tsd-signature-type">AbstractLightSource_Primitive</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -163,7 +191,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_node" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _node</h3>
-					<div class="tsd-signature tsd-kind-icon">_node<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SVGFEPointLightElement</span></div>
+					<div class="tsd-signature tsd-kind-icon">_node<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ELEMENT</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="element.html">Element</a>.<a href="element.html#_node">_node</a></p>
 						<ul>
@@ -236,7 +264,7 @@
 					<a name="node" class="tsd-anchor"></a>
 					<h3>node</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> node<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGFEPointLightElement</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> node<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ELEMENT</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -246,7 +274,7 @@
 									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/element.ts#L43">element.ts:43</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">SVGFEPointLightElement</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ELEMENT</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -294,7 +322,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof FilterPrimitive_Attributes &amp; PointLight_Attributes</span></h4>
+									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof ATTRIBUTES</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -323,7 +351,7 @@
 					<a name="clone" class="tsd-anchor"></a>
 					<h3>clone</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span>deep<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGFEPointLightElement</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/pointlight_attributes.html" class="tsd-signature-type">PointLight_Attributes</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/filterprimitive_events.html" class="tsd-signature-type">FilterPrimitive_Events</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span>deep<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ELEMENT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EVENTS</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -342,7 +370,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> id: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;randomShortStringId()</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGFEPointLightElement</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/pointlight_attributes.html" class="tsd-signature-type">PointLight_Attributes</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/filterprimitive_events.html" class="tsd-signature-type">FilterPrimitive_Events</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ELEMENT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EVENTS</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -350,7 +378,7 @@
 					<a name="clonenode" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> clone<wbr>Node</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">clone<wbr>Node<span class="tsd-signature-symbol">(</span>deep<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGFEPointLightElement</span></li>
+						<li class="tsd-signature tsd-kind-icon">clone<wbr>Node<span class="tsd-signature-symbol">(</span>deep<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ELEMENT</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -366,7 +394,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> deep: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">SVGFEPointLightElement</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ELEMENT</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -374,8 +402,8 @@
 					<a name="copystylefrom" class="tsd-anchor"></a>
 					<h3>copy<wbr>Style<wbr>From</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">copy<wbr>Style<wbr>From<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/pointlight_attributes.html" class="tsd-signature-type">PointLight_Attributes</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-						<li class="tsd-signature tsd-kind-icon">copy<wbr>Style<wbr>From<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/pointlight_attributes.html" class="tsd-signature-type">PointLight_Attributes</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, includeExclude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, defaultInclude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">copy<wbr>Style<wbr>From<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">copy<wbr>Style<wbr>From<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, includeExclude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, defaultInclude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -388,7 +416,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>el: <a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/pointlight_attributes.html" class="tsd-signature-type">PointLight_Attributes</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>el: <a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -403,7 +431,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>el: <a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/pointlight_attributes.html" class="tsd-signature-type">PointLight_Attributes</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>el: <a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>includeExclude: <span class="tsd-signature-type">object</span></h5>
@@ -471,7 +499,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof FilterPrimitive_Attributes &amp; PointLight_Attributes</span></h4>
+									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof ATTRIBUTES</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -522,7 +550,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EVENT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof FilterPrimitive_Events</span></h4>
+									<h4>EVENT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof EVENTS</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -576,7 +604,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof FilterPrimitive_Attributes &amp; PointLight_Attributes</span></h4>
+									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof ATTRIBUTES</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -609,7 +637,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof FilterPrimitive_Attributes &amp; PointLight_Attributes</span></h4>
+									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof ATTRIBUTES</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -629,7 +657,7 @@
 					<a name="setattributes" class="tsd-anchor"></a>
 					<h3>set<wbr>Attributes</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Attributes<span class="tsd-signature-symbol">(</span>attrs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/pointlight_attributes.html" class="tsd-signature-type">PointLight_Attributes</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Attributes<span class="tsd-signature-symbol">(</span>attrs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -642,26 +670,25 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>attrs: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/filterprimitive_attributes.html" class="tsd-signature-type">FilterPrimitive_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/pointlight_attributes.html" class="tsd-signature-type">PointLight_Attributes</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>attrs: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="tostring" class="tsd-anchor"></a>
 					<h3>to<wbr>String</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">to<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="filterprimitive.html">FilterPrimitive</a>.<a href="filterprimitive.html#tostring">toString</a></p>
-								<p>Overrides <a href="element.html">Element</a>.<a href="element.html#tostring">toString</a></p>
+								<p>Inherited from <a href="element.html">Element</a>.<a href="element.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/elements/filter-primitive.ts#L27">elements/filter-primitive.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/element.ts#L46">element.ts:46</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -682,74 +709,74 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
-						<a href="pointlight.html" class="tsd-kind-icon">Point<wbr>Light</a>
+					<li class="current tsd-kind-class tsd-has-type-parameter">
+						<a href="abstractlightsource_primitive.html" class="tsd-kind-icon">Abstract<wbr>Light<wbr>Source_<wbr><wbr>Primitive</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-								<a href="pointlight.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="abstractlightsource_primitive.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="pointlight.html#_node" class="tsd-kind-icon">_node</a>
+								<a href="abstractlightsource_primitive.html#_node" class="tsd-kind-icon">_node</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="pointlight.html#_style" class="tsd-kind-icon">_style</a>
+								<a href="abstractlightsource_primitive.html#_style" class="tsd-kind-icon">_style</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="pointlight.html#context" class="tsd-kind-icon">context</a>
+								<a href="abstractlightsource_primitive.html#context" class="tsd-kind-icon">context</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="pointlight.html#boundingbox" class="tsd-kind-icon">bounding<wbr>Box</a>
+								<a href="abstractlightsource_primitive.html#boundingbox" class="tsd-kind-icon">bounding<wbr>Box</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="pointlight.html#id" class="tsd-kind-icon">id</a>
+								<a href="abstractlightsource_primitive.html#id" class="tsd-kind-icon">id</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="pointlight.html#node" class="tsd-kind-icon">node</a>
+								<a href="abstractlightsource_primitive.html#node" class="tsd-kind-icon">node</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="pointlight.html#add" class="tsd-kind-icon">add</a>
+								<a href="abstractlightsource_primitive.html#add" class="tsd-kind-icon">add</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-								<a href="pointlight.html#animateattribute" class="tsd-kind-icon">animate<wbr>Attribute</a>
+								<a href="abstractlightsource_primitive.html#animateattribute" class="tsd-kind-icon">animate<wbr>Attribute</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="pointlight.html#clone" class="tsd-kind-icon">clone</a>
+								<a href="abstractlightsource_primitive.html#clone" class="tsd-kind-icon">clone</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="pointlight.html#clonenode" class="tsd-kind-icon">clone<wbr>Node</a>
+								<a href="abstractlightsource_primitive.html#clonenode" class="tsd-kind-icon">clone<wbr>Node</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="pointlight.html#copystylefrom" class="tsd-kind-icon">copy<wbr>Style<wbr>From</a>
+								<a href="abstractlightsource_primitive.html#copystylefrom" class="tsd-kind-icon">copy<wbr>Style<wbr>From</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="pointlight.html#destroy" class="tsd-kind-icon">destroy</a>
+								<a href="abstractlightsource_primitive.html#destroy" class="tsd-kind-icon">destroy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="pointlight.html#flush" class="tsd-kind-icon">flush</a>
+								<a href="abstractlightsource_primitive.html#flush" class="tsd-kind-icon">flush</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-								<a href="pointlight.html#getattribute" class="tsd-kind-icon">get<wbr>Attribute</a>
+								<a href="abstractlightsource_primitive.html#getattribute" class="tsd-kind-icon">get<wbr>Attribute</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="pointlight.html#getchildren" class="tsd-kind-icon">get<wbr>Children</a>
+								<a href="abstractlightsource_primitive.html#getchildren" class="tsd-kind-icon">get<wbr>Children</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-								<a href="pointlight.html#getevent" class="tsd-kind-icon">get<wbr>Event</a>
+								<a href="abstractlightsource_primitive.html#getevent" class="tsd-kind-icon">get<wbr>Event</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="pointlight.html#getevents" class="tsd-kind-icon">get<wbr>Events</a>
+								<a href="abstractlightsource_primitive.html#getevents" class="tsd-kind-icon">get<wbr>Events</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-								<a href="pointlight.html#renderattribute" class="tsd-kind-icon">render<wbr>Attribute</a>
+								<a href="abstractlightsource_primitive.html#renderattribute" class="tsd-kind-icon">render<wbr>Attribute</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-								<a href="pointlight.html#setattribute" class="tsd-kind-icon">set<wbr>Attribute</a>
+								<a href="abstractlightsource_primitive.html#setattribute" class="tsd-kind-icon">set<wbr>Attribute</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="pointlight.html#setattributes" class="tsd-kind-icon">set<wbr>Attributes</a>
+								<a href="abstractlightsource_primitive.html#setattributes" class="tsd-kind-icon">set<wbr>Attributes</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="pointlight.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="abstractlightsource_primitive.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
 							</li>
 						</ul>
 					</li>

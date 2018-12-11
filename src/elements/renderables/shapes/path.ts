@@ -1,11 +1,10 @@
-import { BaseAttributes } from "../../../attributes";
 import { PathSegment } from "../../../attributes/path-segment";
 import { Context } from "../../../context";
 import { HasMarker } from "../../non-renderables/marker";
 import { Renderable_Attributes } from "../../renderable";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
-export interface Path_Attributes extends BaseAttributes, HasMarker {
+export interface Path_Attributes extends Shape_Attributes, HasMarker {
   d: PathSegment[];
   pathLength: number;
 }

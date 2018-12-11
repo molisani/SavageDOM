@@ -1,6 +1,5 @@
 import { interpolateTransformSvg } from "d3-interpolate";
 import { Attribute } from "../attribute";
-import { Element } from "../element";
 import { Matrix_Transform } from "./transforms/matrix";
 import { Rotate_Transform } from "./transforms/rotate";
 import { Scale_Transform, UniformScale_Transform } from "./transforms/scale";

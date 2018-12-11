@@ -59,7 +59,7 @@
 					<a href="abstractgradient.html">AbstractGradient</a>
 				</li>
 			</ul>
-			<h1>Class AbstractGradient&lt;E, GradientAttributes, _ATTRIBUTES&gt;</h1>
+			<h1>Class AbstractGradient&lt;ELEMENT, ATTRIBUTES&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -70,13 +70,10 @@
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
 					<li>
-						<h4>E<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGElement</span></h4>
+						<h4>ELEMENT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SVGElement</span></h4>
 					</li>
 					<li>
-						<h4>GradientAttributes<span class="tsd-signature-symbol">: </span><a href="../interfaces/gradient_attributes.html" class="tsd-signature-type">Gradient_Attributes</a></h4>
-					</li>
-					<li>
-						<h4>_ATTRIBUTES<span class="tsd-signature-symbol">: </span><a href="../interfaces/baseattributes.html" class="tsd-signature-type">BaseAttributes</a></h4>
+						<h4>ATTRIBUTES<span class="tsd-signature-symbol">: </span><a href="../interfaces/gradient_attributes.html" class="tsd-signature-type">Gradient_Attributes</a></h4>
 					</li>
 				</ul>
 			</section>
@@ -84,7 +81,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="abstractpaintserver.html" class="tsd-signature-type">AbstractPaintServer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">GradientAttributes</span><span class="tsd-signature-symbol">&gt;</span>
+						<a href="abstractpaintserver.html" class="tsd-signature-type">AbstractPaintServer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ELEMENT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">AbstractGradient</span>
@@ -156,7 +153,7 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Abstract<wbr>Gradient<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="context.html" class="tsd-signature-type">Context</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, stops<span class="tsd-signature-symbol">: </span><a href="../interfaces/stops.html" class="tsd-signature-type">Stops</a>, attrs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/nonrenderable_attributes.html" class="tsd-signature-type">NonRenderable_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">GradientAttributes</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="abstractgradient.html" class="tsd-signature-type">AbstractGradient</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Abstract<wbr>Gradient<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="context.html" class="tsd-signature-type">Context</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, stops<span class="tsd-signature-symbol">: </span><a href="../interfaces/stops.html" class="tsd-signature-type">Stops</a>, attrs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/nonrenderable_attributes.html" class="tsd-signature-type">NonRenderable_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="abstractgradient.html" class="tsd-signature-type">AbstractGradient</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -178,7 +175,7 @@
 									<h5>stops: <a href="../interfaces/stops.html" class="tsd-signature-type">Stops</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> attrs: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/nonrenderable_attributes.html" class="tsd-signature-type">NonRenderable_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">GradientAttributes</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> attrs: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/nonrenderable_attributes.html" class="tsd-signature-type">NonRenderable_Attributes</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="abstractgradient.html" class="tsd-signature-type">AbstractGradient</a></h4>
@@ -191,7 +188,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_node" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _node</h3>
-					<div class="tsd-signature tsd-kind-icon">_node<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">E</span></div>
+					<div class="tsd-signature tsd-kind-icon">_node<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ELEMENT</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="element.html">Element</a>.<a href="element.html#_node">_node</a></p>
 						<ul>
@@ -264,7 +261,7 @@
 					<a name="node" class="tsd-anchor"></a>
 					<h3>node</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> node<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">E</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> node<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ELEMENT</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -274,7 +271,7 @@
 									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/element.ts#L43">element.ts:43</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">E</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ELEMENT</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -322,7 +319,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof _ATTRIBUTES</span></h4>
+									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof ATTRIBUTES</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -351,7 +348,7 @@
 					<a name="clone" class="tsd-anchor"></a>
 					<h3>clone</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span>deep<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">_ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/nonrenderable_events.html" class="tsd-signature-type">NonRenderable_Events</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span>deep<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ELEMENT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/nonrenderable_events.html" class="tsd-signature-type">NonRenderable_Events</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -370,7 +367,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> id: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;randomShortStringId()</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">_ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/nonrenderable_events.html" class="tsd-signature-type">NonRenderable_Events</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ELEMENT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/nonrenderable_events.html" class="tsd-signature-type">NonRenderable_Events</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -378,7 +375,7 @@
 					<a name="clonenode" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> clone<wbr>Node</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">clone<wbr>Node<span class="tsd-signature-symbol">(</span>deep<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">E</span></li>
+						<li class="tsd-signature tsd-kind-icon">clone<wbr>Node<span class="tsd-signature-symbol">(</span>deep<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ELEMENT</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -394,7 +391,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> deep: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">E</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ELEMENT</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -402,8 +399,8 @@
 					<a name="copystylefrom" class="tsd-anchor"></a>
 					<h3>copy<wbr>Style<wbr>From</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">copy<wbr>Style<wbr>From<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">_ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-						<li class="tsd-signature tsd-kind-icon">copy<wbr>Style<wbr>From<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">_ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, includeExclude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, defaultInclude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">copy<wbr>Style<wbr>From<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">copy<wbr>Style<wbr>From<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, includeExclude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, defaultInclude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -416,7 +413,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>el: <a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">_ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>el: <a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -431,7 +428,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>el: <a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">_ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>el: <a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>includeExclude: <span class="tsd-signature-type">object</span></h5>
@@ -499,7 +496,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof _ATTRIBUTES</span></h4>
+									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof ATTRIBUTES</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -604,7 +601,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof _ATTRIBUTES</span></h4>
+									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof ATTRIBUTES</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -637,7 +634,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof _ATTRIBUTES</span></h4>
+									<h4>Attr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof ATTRIBUTES</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -657,7 +654,7 @@
 					<a name="setattributes" class="tsd-anchor"></a>
 					<h3>set<wbr>Attributes</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Attributes<span class="tsd-signature-symbol">(</span>attrs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">_ATTRIBUTES</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Attributes<span class="tsd-signature-symbol">(</span>attrs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -670,7 +667,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>attrs: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">_ATTRIBUTES</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>attrs: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ATTRIBUTES</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

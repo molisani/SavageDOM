@@ -1,9 +1,9 @@
 import { Length } from "../../attributes/base";
 import { Point } from "../../attributes/point";
 import { Filter, FilterInput } from "../filter";
-import { FilterPrimitive } from "../filter-primitive";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
-export interface Offset_Attributes {
+export interface Offset_Attributes extends FilterPrimitive_Attributes {
   in: FilterInput;
   dx: Length;
   dy: Length;

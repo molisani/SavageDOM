@@ -1,7 +1,7 @@
 
 import { animationFrameScheduler, interval, Subject } from "rxjs";
 import { bufferWhen } from "rxjs/operators";
-import { BaseAttributes } from "../attributes/base";
+import { Core_Attributes } from "../attributes/base";
 import { Element } from "../element";
 import { randomShortStringId } from "../id";
 import { EasingFunction } from "./easing";
@@ -10,26 +10,26 @@ export interface TimeResolvable {
   resolve(t: number): void;
 }
 
-export interface AttributeUpdate<Attrs extends BaseAttributes, Attr extends keyof Attrs> {
-  name: Attr;
-  val: Attrs[Attr];
+export interface AttributeUpdate<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES> {
+  name: ATTRIBUTE;
+  val: ATTRIBUTES[ATTRIBUTE];
 }
 
-type AttributeOnlyElement<ATTRIBUTES extends BaseAttributes> = Element<SVGElement, ATTRIBUTES>;
+type AttributeOnlyElement<ATTRIBUTES extends Core_Attributes> = Element<SVGElement, ATTRIBUTES>;
 
-export interface ElementUpdateRender<Attrs extends BaseAttributes, E extends AttributeOnlyElement<Attrs>> extends TimeResolvable {
-  el: E;
-  attribute: AttributeUpdate<Attrs, keyof Attrs>;
+export interface ElementUpdateRender<ATTRIBUTES extends Core_Attributes, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>> extends TimeResolvable {
+  el: ELEMENT;
+  attribute: AttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES>;
 }
 
-export interface AttributeInterpolation<Attrs, Attr extends keyof Attrs> {
-  name: Attr;
-  val(t: number): Attrs[Attr];
+export interface AttributeInterpolation<ATTRIBUTES, ATTRIBUTE extends keyof ATTRIBUTES> {
+  name: ATTRIBUTE;
+  val(t: number): ATTRIBUTES[ATTRIBUTE];
 }
 
-export interface ElementInterpolateRender<Attrs extends BaseAttributes, E extends AttributeOnlyElement<Attrs>> extends TimeResolvable {
-  el: E;
-  attributes: AttributeInterpolation<Attrs, keyof Attrs>[];
+export interface ElementInterpolateRender<ATTRIBUTES extends Core_Attributes, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>> extends TimeResolvable {
+  el: ELEMENT;
+  attributes: AttributeInterpolation<ATTRIBUTES, keyof ATTRIBUTES>[];
   start: number;
   duration: number;
   easing: EasingFunction;
@@ -41,14 +41,14 @@ export class Renderer {
   }
   private static _instance = new Renderer();
   private _animationFrame = interval(0, animationFrameScheduler);
-  private _attributeUpdates = new Subject<ElementUpdateRender<any, Element<any, any, any>>>();
-  private _attributeInterpolations: { [key: string]: ElementInterpolateRender<any, Element<any, any, any>> } = {};
+  private _attributeUpdates = new Subject<ElementUpdateRender<any, Element<any>>>();
+  private _attributeInterpolations: { [key: string]: ElementInterpolateRender<any, Element<any>> } = {};
   constructor() {
     this._attributeUpdates.pipe(bufferWhen(() => this._animationFrame)).subscribe((updates) => this._render(updates));
   }
-  public queueAttributeUpdate<Attrs extends BaseAttributes, E extends AttributeOnlyElement<Attrs>>(el: E, attrs: Partial<Attrs>): Promise<number>;
-  public queueAttributeUpdate<Attrs extends BaseAttributes, K extends keyof Attrs, E extends AttributeOnlyElement<Attrs>>(el: E, attr: K, val: Attrs[K]): Promise<number>;
-  public queueAttributeUpdate<Attrs extends BaseAttributes, K extends keyof Attrs, E extends AttributeOnlyElement<Attrs>>(a1: E, a2: K | Partial<Attrs>, a3?: Attrs[K]): Promise<number> {
+  public queueAttributeUpdate<ATTRIBUTES extends Core_Attributes, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attrs: Partial<ATTRIBUTES>): Promise<number>;
+  public queueAttributeUpdate<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attr: ATTRIBUTE, val: ATTRIBUTES[ATTRIBUTE]): Promise<number>;
+  public queueAttributeUpdate<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(a1: ELEMENT, a2: ATTRIBUTE | Partial<ATTRIBUTES>, a3?: ATTRIBUTES[ATTRIBUTE]): Promise<number> {
     if (typeof a2 === "string") {
       return new Promise((resolve) => {
         this._attributeUpdates.next({ el: a1, attribute: { name: a2, val: a3 }, resolve });
@@ -62,7 +62,7 @@ export class Renderer {
     }
     throw new Error("No attributes specified for attribute update");
   }
-  public registerAttributeInterpolation<Attrs extends BaseAttributes, K extends keyof Attrs, E extends AttributeOnlyElement<Attrs>>(el: E, attr: K, val: (t: number) => Attrs[K], duration: number, easing: EasingFunction): Promise<number> {
+  public registerAttributeInterpolation<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attr: ATTRIBUTE, val: (t: number) => ATTRIBUTES[ATTRIBUTE], duration: number, easing: EasingFunction): Promise<number> {
     return new Promise((resolve) => {
       const key = randomShortStringId();
       const start = performance.now();
@@ -70,7 +70,7 @@ export class Renderer {
       this._attributeInterpolations[key] = { el, attributes, start, duration, easing, resolve };
     });
   }
-  private _render<ATTRIBUTES extends BaseAttributes>(updates: ElementUpdateRender<ATTRIBUTES, AttributeOnlyElement<ATTRIBUTES>>[]) {
+  private _render<ATTRIBUTES extends Core_Attributes>(updates: ElementUpdateRender<ATTRIBUTES, AttributeOnlyElement<ATTRIBUTES>>[]) {
     const now = performance.now();
     const pendingResolutions: ((t: number) => void)[] = [];
     updates.forEach(({ el, attribute, resolve }) => {

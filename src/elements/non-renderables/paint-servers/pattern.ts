@@ -9,9 +9,9 @@ import { Scale_Transform, UniformScale_Transform } from "../../../attributes/tra
 import { SkewX_Transform, SkewY_Transform } from "../../../attributes/transforms/skew";
 import { Translate_Transform } from "../../../attributes/transforms/translate";
 import { Context } from "../../../context";
-import { AbstractPaintServer } from "../paint-server";
+import { AbstractPaintServer, PaintServer_Attributes } from "../paint-server";
 
-export interface Pattern_Attributes extends HasOverflow, HasOpacity {
+export interface Pattern_Attributes extends PaintServer_Attributes, HasOverflow, HasOpacity {
   patternUnits: "userSpaceOnUse" | "objectBoundingBox";
   patternContentUnits: "userSpaceOnUse" | "objectBoundingBox";
   "patternTransform.matrix": Matrix_Transform;

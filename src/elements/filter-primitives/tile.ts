@@ -1,7 +1,7 @@
 import { Filter, FilterInput } from "../filter";
-import { FilterPrimitive } from "../filter-primitive";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
-export interface Tile_Attributes {
+export interface Tile_Attributes extends FilterPrimitive_Attributes {
   in: FilterInput;
 }
 

@@ -1,15 +1,15 @@
-import { BaseAttributes, Inherit, Length, None } from "../../attributes/base";
+import { Inherit, Length, None } from "../../attributes/base";
 import { Box } from "../../attributes/box";
 import { Point } from "../../attributes/point";
 import { Context } from "../../context";
-import { AbstractNonRenderable } from "../non-renderable";
+import { AbstractNonRenderable, NonRenderable_Attributes } from "../non-renderable";
 
 export interface HasClipPath {
   "clip-path": ClipPath | None | Inherit;
   "clip-rule": "nonzero" | "evenodd" | Inherit;
 }
 
-export interface ClipPath_Attributes extends BaseAttributes {
+export interface ClipPath_Attributes extends NonRenderable_Attributes {
   maskUnits: "userSpaceOnUse" | "objectBoundingBox";
   maskContentUnits: "userSpaceOnUse" | "objectBoundingBox";
   x: Length;

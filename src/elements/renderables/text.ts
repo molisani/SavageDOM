@@ -5,7 +5,7 @@ import { TextContent } from "../../attributes/text-content";
 import { Context } from "../../context";
 import { AbstractRenderable, Graphics_Attributes, Renderable_Attributes } from "../renderable";
 
-export interface Textual_Attributes extends HasFill, HasStroke, HasVisibility {
+export interface Textual_Attributes extends Renderable_Attributes, HasFill, HasStroke, HasVisibility {
   "direction": "ltr" | "rtl" | Inherit;
   "dominant-baseline": "auto" | "use-script" | "no-change" | "reset-size" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | "central" | "middle" | "text-after-edge" | "text-before-edge" | Inherit;
   "font-family": string | Inherit;
@@ -29,11 +29,11 @@ export interface TextualChild_Attributes {
   "baseline-shift": "auto" | "baseline" | "super" | "sub" | number | Inherit;
 }
 
-export interface TextSpan_Attributes extends Text_Attributes, TextualChild_Attributes {
+export interface TextSpan_Attributes extends Renderable_Attributes, Text_Attributes, TextualChild_Attributes {
   textContent: TextContent;
 }
 
-export class TextSpan extends AbstractRenderable<SVGTSpanElement, TextSpan_Attributes, {}> {
+export class TextSpan extends AbstractRenderable<SVGTSpanElement, TextSpan_Attributes> {
   constructor(context: Context, attrs?: Partial<Renderable_Attributes & TextSpan_Attributes>) {
     super(context, "tspan", attrs);
   }
@@ -52,7 +52,7 @@ export interface Text_Attributes extends Textual_Attributes, Graphics_Attributes
   textLength?: Length;
 }
 
-export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes, {}> {
+export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes> {
   constructor(context: Context, attrs?: Partial<Renderable_Attributes & Text_Attributes>) {
     super(context, "text", attrs);
   }

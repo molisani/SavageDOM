@@ -3,9 +3,9 @@ import { NumberOptionalNumber } from "../../attributes/number-optional-number";
 import { Point } from "../../attributes/point";
 import { Matrix_Transform } from "../../attributes/transforms/matrix";
 import { Filter, FilterInput } from "../filter";
-import { FilterPrimitive } from "../filter-primitive";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
-export interface ConvolveMatrix_Attributes {
+export interface ConvolveMatrix_Attributes extends FilterPrimitive_Attributes {
   in: FilterInput;
   order: NumberOptionalNumber;
   kernelMatrix: Matrix_Transform;

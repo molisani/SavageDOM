@@ -1,8 +1,8 @@
 import { PreserveAspectRatio } from "../../attributes/preserve-aspect-ratio";
 import { Filter } from "../filter";
-import { FilterPrimitive } from "../filter-primitive";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
-export interface Image_Attributes {
+export interface Image_Attributes extends FilterPrimitive_Attributes {
   preserveAspectRatio: PreserveAspectRatio;
   "xlink:href": string;
 }

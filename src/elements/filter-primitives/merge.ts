@@ -1,7 +1,7 @@
 import { Filter, FilterInput } from "../filter";
-import { FilterPrimitive } from "../filter-primitive";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
-export interface MergeNode_Attributes {
+export interface MergeNode_Attributes extends FilterPrimitive_Attributes {
   in: FilterInput;
 }
 
@@ -11,7 +11,7 @@ export class MergeNode_Primitive extends FilterPrimitive<SVGFEMergeNodeElement, 
   }
 }
 
-export class Merge_Primitive extends FilterPrimitive<SVGFEMergeElement, void> {
+export class Merge_Primitive extends FilterPrimitive<SVGFEMergeElement> {
   constructor(filter: Filter) {
     super(filter, "feMerge");
   }

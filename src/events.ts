@@ -6,10 +6,6 @@ export interface BaseEvents {
 
 export type PointEvent = MouseEvent | TouchEvent;
 
-export interface PointEvents extends BaseEvents {
-  [event: string]: PointEvent;
-}
-
 export type OnlyPointEvents<EVENTS extends BaseEvents> = keyof SubType<EVENTS, PointEvent>;
 
 export interface ResolvedPointEvent extends Event {
@@ -18,7 +14,7 @@ export interface ResolvedPointEvent extends Event {
   local: { x: number, y: number };
 }
 
-export interface Mouse_Events extends PointEvents {
+export interface Mouse_Events extends BaseEvents {
   activate: MouseEvent;
   click: MouseEvent;
   mousedown: MouseEvent;
@@ -38,7 +34,7 @@ export interface SVG_Events extends BaseEvents {
   SVGZoom: SVGZoomEvent;
 }
 
-export interface Touch_Events extends PointEvents {
+export interface Touch_Events extends BaseEvents {
   touchstart: TouchEvent;
   touchend: TouchEvent;
   touchmove: TouchEvent;

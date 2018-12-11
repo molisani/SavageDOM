@@ -11,7 +11,6 @@ export * from "./merge";
 export * from "./morphology";
 export * from "./offset";
 export * from "./tile";
-export * from "./transfer-function";
 export * from "./turbulence";
 
 import * as Lighting from "./lighting";

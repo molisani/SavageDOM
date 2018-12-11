@@ -29,6 +29,12 @@ export interface BaseAttributes {
   [name: string]: Attribute<AttributeValue> | Attribute<AttributeValue>[] | AttributeValue;
 }
 
+export interface Core_Attributes extends BaseAttributes {
+  id: string;
+  lang: string;
+  tabindex: number;
+}
+
 export interface HasStyle extends BaseAttributes {
   style: string;
 }
