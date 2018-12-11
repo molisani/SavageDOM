@@ -1,4 +1,4 @@
-import { Core_Attributes, HasClass, HasStyle } from "../attributes";
+import { Core_Attributes, HasClass, HasStyle } from "../attributes/base";
 import { Element } from "../element";
 import { SVG_Events } from "../events";
 

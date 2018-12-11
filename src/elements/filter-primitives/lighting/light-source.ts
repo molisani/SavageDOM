@@ -1,4 +1,5 @@
-import { Core_Attributes, Length, Point } from "../../../attributes";
+import { Core_Attributes, Length } from "../../../attributes/base";
+import { Point } from "../../../attributes/point";
 import { Element } from "../../../element";
 import { Filter } from "../../filter";
 

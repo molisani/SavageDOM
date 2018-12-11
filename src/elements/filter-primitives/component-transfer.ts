@@ -1,4 +1,4 @@
-import { Core_Attributes } from "../../attributes";
+import { Core_Attributes } from "../../attributes/base";
 import { Element } from "../../element";
 import { Filter, FilterInput } from "../filter";
 import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
