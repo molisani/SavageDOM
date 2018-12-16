@@ -2,7 +2,6 @@ import { Length } from "../../../attributes/base";
 import { Box } from "../../../attributes/box";
 import { Point } from "../../../attributes/point";
 import { Context } from "../../../context";
-import { Renderable_Attributes } from "../../renderable";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
 export interface Rect_Attributes extends Shape_Attributes {
@@ -19,7 +18,7 @@ export interface Rect_Attributes extends Shape_Attributes {
 }
 
 export class Rect extends AbstractShape<SVGRectElement, Rect_Attributes> {
-  constructor(context: Context, attrs?: Partial<Renderable_Attributes & Shape_Attributes & Rect_Attributes>) {
+  constructor(context: Context, attrs?: Partial<Rect_Attributes>) {
     super(context, "rect", attrs);
   }
 }

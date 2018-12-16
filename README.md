@@ -4,24 +4,18 @@
 
 ### Installation
 
-- Direct downloads are available in the [dist](./dist/) directory, and come in several versions:
-  - Core [.js](./dist/SavageDOM.core.js), [.d.ts](./dist/SavageDOM.core.d.ts)
-  - Elements [.js](./dist/SavageDOM.elem.js), [.d.ts](./dist/SavageDOM.elem.d.ts)
-  - Animation [.js](./dist/SavageDOM.anim.js), [.d.ts](./dist/SavageDOM.anim.d.ts)
-  - Everything [.js](./dist/SavageDOM.js), [.d.ts](./dist/SavageDOM.d.ts)
+- A direct download of the minified output is available in the [dist](./dist/) directory
 - `npm install SavageDOM --save`
 - `bower install SavageDOM --save`
 
 ### Usage
 
-The library is distributed as an ES6 JavaScript. The documentation can be found [here](https://molisani.github.io/SavageDOM/index.html), but due to TypeDoc's poor support for some advanced TypeScript features it is always good to revert to the definition file.
-
-### Version Differences
+The library is distributed as a single ES6 JavaScript file. This library has a runtime dependency on `rxjs` and `d3` (but only `d3-color` and `d3-interpolation`). The documentation can be found [here](https://molisani.github.io/SavageDOM/index.html), but due to TypeDoc's poor support for some advanced TypeScript features it is always good to revert to the definition file.
 
 - **Core**
 
   - `Element<SVGElement, Attributes>` - The base class for all elements created by this library
-  - `Paper` - Stores the `<svg>` context for element creation
+  - `Context` - Stores the `<svg>` context for element creation
   - Attributes, including the base `Attribute<T>` class
     - Core attributes: `Number`, `Dimension`, `Point`, `Color`
     - Complex attributes: `Transform`, `Color Matrix`

@@ -34,7 +34,7 @@ export interface TextSpan_Attributes extends Renderable_Attributes, Text_Attribu
 }
 
 export class TextSpan extends AbstractRenderable<SVGTSpanElement, TextSpan_Attributes> {
-  constructor(context: Context, attrs?: Partial<Renderable_Attributes & TextSpan_Attributes>) {
+  constructor(context: Context, attrs?: Partial<TextSpan_Attributes>) {
     super(context, "tspan", attrs);
   }
   public get computedLength(): number {
@@ -53,7 +53,7 @@ export interface Text_Attributes extends Textual_Attributes, Graphics_Attributes
 }
 
 export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes> {
-  constructor(context: Context, attrs?: Partial<Renderable_Attributes & Text_Attributes>) {
+  constructor(context: Context, attrs?: Partial<Text_Attributes>) {
     super(context, "text", attrs);
   }
   public addSpan(content: TextContent, lineHeight?: number | Length, update: boolean = true): TextSpan {
@@ -76,7 +76,7 @@ export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes> {
 }
 
 export class MultilineText extends Text {
-  constructor(context: Context, text: string, width: number, attrs?: Partial<Renderable_Attributes & Textual_Attributes & Text_Attributes>) {
+  constructor(context: Context, text: string, width: number, attrs?: Partial<Text_Attributes>) {
     super(context, attrs);
     const temp = new Text(context);
     temp.setAttribute("opacity", 0);

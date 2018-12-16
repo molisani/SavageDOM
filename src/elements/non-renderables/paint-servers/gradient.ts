@@ -9,7 +9,7 @@ import { SkewX_Transform, SkewY_Transform } from "../../../attributes/transforms
 import { Translate_Transform } from "../../../attributes/transforms/translate";
 import { Context } from "../../../context";
 import { Element } from "../../../element";
-import { NonRenderable_Attributes, NonRenderable_Events } from "../../non-renderable";
+import { NonRenderable_Events } from "../../non-renderable";
 import { AbstractPaintServer, PaintServer_Attributes } from "../paint-server";
 
 export interface Gradient_Attributes extends PaintServer_Attributes {
@@ -46,7 +46,7 @@ export class Stop extends Element<SVGStopElement, Stop_Attributes, NonRenderable
 }
 
 export abstract class AbstractGradient<ELEMENT extends SVGElement, ATTRIBUTES extends Gradient_Attributes> extends AbstractPaintServer<ELEMENT, ATTRIBUTES> {
-  constructor(context: Context, name: string, stops: Stops, attrs?: Partial<NonRenderable_Attributes & ATTRIBUTES>) {
+  constructor(context: Context, name: string, stops: Stops, attrs?: Partial<ATTRIBUTES>) {
     super(context, name, attrs);
     this.context.addDef(this);
     const stopArr: Stop[] = [];
