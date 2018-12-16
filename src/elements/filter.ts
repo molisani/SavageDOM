@@ -8,7 +8,7 @@ import { PreserveAspectRatio } from "../attributes/preserve-aspect-ratio";
 import { Context } from "../context";
 import { Element } from "../element";
 import { SVG_Events } from "../events";
-import { FilterPrimitive, FilterPrimitive_Attributes, FilterPrimitive_Events } from "./filter-primitive";
+import { FilterPrimitive, FilterPrimitive_Attributes } from "./filter-primitive";
 import { Blend_Primitive } from "./filter-primitives/blend";
 import { ColorMatrix_Primitive } from "./filter-primitives/color-matrix";
 import { ComponentTransfer_Primitive, TransferFunction_Attributes, TransferFunction_Primitive } from "./filter-primitives/component-transfer";
@@ -21,7 +21,7 @@ import { Image_Primitive } from "./filter-primitives/image";
 import { DiffuseLighting, DiffuseLighting_Attributes } from "./filter-primitives/lighting/diffuse";
 import { DistantLight, LightSource_Attributes, PointLight, SpotLight } from "./filter-primitives/lighting/light-source";
 import { SpecularLighting, SpecularLighting_Attributes } from "./filter-primitives/lighting/specular";
-import { Merge_Primitive } from "./filter-primitives/merge";
+import { Merge_Primitive, MergeNode_Primitive } from "./filter-primitives/merge";
 import { Morphology_Primitive } from "./filter-primitives/morphology";
 import { Offset_Primitive } from "./filter-primitives/offset";
 import { Tile_Primitive } from "./filter-primitives/tile";
@@ -141,7 +141,7 @@ export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_
   public merge(inputs: FilterInput[]): Merge_Primitive {
     const fe = new Merge_Primitive(this);
     inputs.forEach(input => {
-      const mergeNode = new Element<SVGFEMergeNodeElement, FilterPrimitive_Attributes & { in: FilterInput }, FilterPrimitive_Events>(this.context, "feMergeNode", { in: input });
+      const mergeNode = new MergeNode_Primitive(this, { in: input });
       fe.add(mergeNode);
     });
     return fe;

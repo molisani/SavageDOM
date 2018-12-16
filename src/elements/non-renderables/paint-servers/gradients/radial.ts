@@ -1,7 +1,6 @@
 import { Length } from "../../../../attributes/base";
 import { Point } from "../../../../attributes/point";
 import { Context } from "../../../../context";
-import { NonRenderable_Attributes } from "../../../non-renderable";
 import { AbstractGradient, Gradient_Attributes, Stops } from "../gradient";
 
 export interface RadialGradient_Attributes extends Gradient_Attributes {
@@ -15,7 +14,7 @@ export interface RadialGradient_Attributes extends Gradient_Attributes {
 }
 
 export class RadialGradient extends AbstractGradient<SVGRadialGradientElement, RadialGradient_Attributes> {
-  constructor(context: Context, stops: Stops, attrs?: Partial<NonRenderable_Attributes & RadialGradient_Attributes>) {
+  constructor(context: Context, stops: Stops, attrs?: Partial<RadialGradient_Attributes>) {
     super(context, "radialGradient", stops, attrs);
   }
 }

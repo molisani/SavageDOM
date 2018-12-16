@@ -2,7 +2,6 @@ import { Length } from "../../../attributes/base";
 import { Point } from "../../../attributes/point";
 import { Context } from "../../../context";
 import { HasMarker } from "../../non-renderables/marker";
-import { Renderable_Attributes } from "../../renderable";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
 export interface Line_Attributes extends Shape_Attributes, HasMarker {
@@ -15,7 +14,7 @@ export interface Line_Attributes extends Shape_Attributes, HasMarker {
 }
 
 export class Line extends AbstractShape<SVGLineElement, Line_Attributes> {
-  constructor(context: Context, attrs?: Partial<Renderable_Attributes & Shape_Attributes & Line_Attributes>) {
+  constructor(context: Context, attrs?: Partial<Line_Attributes>) {
     super(context, "line", attrs);
   }
 }

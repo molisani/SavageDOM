@@ -3,7 +3,7 @@ import { Box } from "../../attributes/box";
 import { Point } from "../../attributes/point";
 import { PreserveAspectRatio } from "../../attributes/preserve-aspect-ratio";
 import { Context } from "../../context";
-import { AbstractRenderable, Graphics_Attributes, Renderable_Attributes, Renderable_Events } from "../renderable";
+import { AbstractRenderable, Graphics_Attributes, Renderable_Events } from "../renderable";
 
 export interface Image_Attributes extends Graphics_Attributes, HasOverflow {
   x: Length;
@@ -25,7 +25,7 @@ export interface Image_Events extends Renderable_Events {
 }
 
 export class Image extends AbstractRenderable<SVGImageElement, Image_Attributes, Image_Events> {
-  constructor(context: Context, attrs?: Partial<Renderable_Attributes & Image_Attributes>) {
+  constructor(context: Context, attrs?: Partial<Image_Attributes>) {
     super(context, "image", attrs);
   }
 }
