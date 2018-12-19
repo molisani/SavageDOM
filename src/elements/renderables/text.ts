@@ -52,13 +52,23 @@ export interface Text_Attributes extends Textual_Attributes, Graphics_Attributes
   textLength?: Length;
 }
 
+function _attributeHelper(a1: Point | Length, a2?: Length): Partial<Text_Attributes> {
+  return (a1 instanceof Point) ? { "x:y": a1 } : { x: a1, y: a2 };
+}
+
 export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes> {
-  constructor(context: Context, attrs?: Partial<Text_Attributes>) {
-    super(context, "text", attrs);
+  constructor(context: Context, content: string, p: Point);
+  constructor(context: Context, content: string, x: Length, y: Length);
+  constructor(context: Context, content: string, a1: Point | Length, a2?: Length);
+  constructor(context: Context, content: string, a1: Point | Length, a2?: Length) {
+    super(context, "text", _attributeHelper(a1, a2));
+    if (content) {
+      this.addSpan(content);
+    }
   }
-  public addSpan(content: TextContent, lineHeight?: number | Length, update: boolean = true): TextSpan {
+  public addSpan(content: string, lineHeight?: number | Length, update: boolean = true): TextSpan {
     const span = new TextSpan(this.context);
-    span.setAttribute("textContent", content);
+    span.setAttribute("textContent", new TextContent(content));
     if (lineHeight) {
       span.setAttribute("x", parseFloat(this.getAttribute("x") || "0"));
       if (typeof lineHeight === "number") {
@@ -76,16 +86,14 @@ export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes> {
 }
 
 export class MultilineText extends Text {
-  constructor(context: Context, text: string, width: number, attrs?: Partial<Text_Attributes>) {
-    super(context, attrs);
-    const temp = new Text(context);
+  constructor(context: Context, text: string, width: number, attrs: Partial<Text_Attributes> & { "x:y": Point });
+  constructor(context: Context, text: string, width: number, attrs: Partial<Text_Attributes> & { x: Length, y: Length });
+  constructor(context: Context, text: string, width: number, attrs: Partial<Text_Attributes> & ({ "x:y": Point } | { x: Length, y: Length })) {
+    super(context, "", attrs["x:y"] || attrs.x, attrs.y);
+    const temp = new Text(context, "", attrs["x:y"] || attrs.x, attrs.y);
     temp.setAttribute("opacity", 0);
-    const span = new TextSpan(context);
+    const span = new TextSpan(context, attrs);
     temp.add(span);
-    if (attrs) {
-      span.setAttributes(attrs);
-    }
-    const spaceWidth = temp.computedLength;
     const lines = [""];
     text.split(" ").forEach((word, i) => {
       const line = lines[lines.length - 1];
@@ -100,7 +108,7 @@ export class MultilineText extends Text {
     });
     lines.forEach(line => {
       if (line.length > 0) {
-        this.addSpan(new TextContent(line), 1);
+        this.addSpan(line, 1);
       }
     });
   }

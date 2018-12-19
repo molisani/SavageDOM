@@ -34,23 +34,28 @@ export interface Pattern_Attributes extends PaintServer_Attributes, HasOverflow,
   viewBox: Box;
 }
 
+function _attributeHelper(w: number | SVGPatternElement, h: number, x: number, y: number, view?: Box): Partial<Pattern_Attributes> {
+  const attrs: Partial<Pattern_Attributes> = {};
+  if (!(w instanceof SVGPatternElement)) {
+    attrs.width = w;
+    attrs.height = h;
+    attrs.x = x;
+    attrs.y = y;
+    if (view) {
+      attrs.viewBox = view;
+    } else {
+      attrs.patternUnits = "userSpaceOnUse";
+    }
+  }
+  return attrs;
+}
+
 export class Pattern extends AbstractPaintServer<SVGPatternElement, Pattern_Attributes> {
   constructor(context: Context, el: SVGPatternElement);
   constructor(context: Context, w: number, h: number, x?: number, y?: number, view?: Box);
-  constructor(public context: Context, w: number | SVGPatternElement, h: number = (w instanceof SVGPatternElement) ? 0 : w, x: number = 0, y: number = 0, view?: Box) {
-    super(context, (w instanceof SVGPatternElement) ? w : "pattern");
+  constructor(context: Context, w: number | SVGPatternElement, h: number = (w instanceof SVGPatternElement) ? 0 : w, x: number = 0, y: number = 0, view?: Box) {
+    super(context, (w instanceof SVGPatternElement) ? w : "pattern", _attributeHelper(w, h, x, y, view));
     this.context.addDef(this);
-    if (!(w instanceof SVGPatternElement)) {
-      this.setAttribute("width", w);
-      this.setAttribute("height", h);
-      this.setAttribute("x", x);
-      this.setAttribute("y", y);
-      if (view) {
-        this.setAttribute("viewBox", view);
-      } else {
-        this.setAttribute("patternUnits", "userSpaceOnUse");
-      }
-    }
   }
   public clone(deep: boolean = true): Pattern {
     return new Pattern(this.context, super.cloneNode(deep));

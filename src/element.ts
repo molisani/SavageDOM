@@ -1,5 +1,5 @@
 
-import { fromEvent, merge, Observable } from "rxjs";
+import { fromEvent, merge, Observable, Subscription } from "rxjs";
 import { EasingFunction } from "./animation/easing";
 import { Renderer } from "./animation/renderer";
 import { Attribute, isAttribute } from "./attribute";
@@ -15,6 +15,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
   protected readonly _node: SVG;
   protected readonly _style: CSSStyleDeclaration;
   private _pendingRenders: Promise<number>[] = [];
+  private _linkedAttributes: { [Attr in keyof ATTRIBUTES]?: Subscription } = {};
   constructor(context: Context, el: SVG, attrs?: Partial<ATTRIBUTES>);
   constructor(context: Context, name: string, attrs?: Partial<ATTRIBUTES>, id?: string);
   constructor(context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, id?: string);
@@ -75,6 +76,15 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
     const from = attr.get(this._node, name);
     return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolator(from), duration, easing);
   }
+  public linkDynamicAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: Observable<ATTRIBUTES[Attr]>): Subscription {
+    const subscription = Renderer.getInstance().subscribeAttributeObservable(this, name, val);
+    const existingSubscription = this._linkedAttributes[name];
+    if (existingSubscription && !existingSubscription.closed) {
+      existingSubscription.unsubscribe();
+    }
+    this._linkedAttributes[name] = subscription;
+    return subscription;
+  }
   public async flush(): Promise<number> {
     if (this._pendingRenders.length === 0) {
       return performance.now();
@@ -127,16 +137,16 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
     const rect = this._node.getBoundingClientRect();
     return new Box(rect.left, rect.top, rect.width, rect.height);
   }
-  public add(el: Element<SVGElement, any, any> | SVGElement) {
+  public add(el: Element<SVGElement> | SVGElement) {
     if (el instanceof SVGElement) {
       this._node.appendChild(el);
     } else {
       this._node.appendChild(el._node);
     }
   }
-  public getChildren(): Element<SVGElement, any, any>[] {
+  public getChildren(): Element<SVGElement>[] {
     const children = this._node.childNodes;
-    const elements: Element<SVGElement, any, any>[] = [];
+    const elements: Element<SVGElement>[] = [];
     for (let i = 0; i < children.length; ++i) {
       elements.push(new Element(this.context, children.item(i) as SVGElement));
     }

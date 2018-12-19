@@ -2,6 +2,7 @@
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Core_Attributes, HasClass, HasColor, HasColorInterpolation, HasColorRendering, HasCursor, HasOpacity, HasStyle, HasVisibility, Inherit, None } from "../attributes/base";
+import { Point } from "../attributes/point";
 import { Transformable } from "../attributes/transform";
 import { Element } from "../element";
 import { Focus_Events, Mouse_Events, OnlyPointEvents, ResolvedPointEvent, SVG_Events } from "../events";
@@ -33,28 +34,12 @@ export abstract class AbstractRenderable<ELEMENT extends SVGGraphicsElement, ATT
       } else {
         throw new Error(`The event "${event.type}" is not a PointEvent and thus has no corresponding Point`);
       }
-      const ref = this.context.refPoint;
-      ref.x = action.clientX;
-      ref.y = action.clientY;
-      const matrix = this.node.getScreenCTM();
-      if (!matrix) {
-        throw new Error(`No Screen Coordinate Transform Matrix found for node "${this.node.id}"`);
-      }
-      const local = ref.matrixTransform(matrix.inverse());
+      const local = this.context.calculateLocalPoint(this.node, action);
       return {
         ...event,
-        local: {
-          x: local.x,
-          y: local.y,
-        },
-        page: {
-          x: action.pageX,
-          y: action.pageY,
-        },
-        screen: {
-          x: action.screenX,
-          y: action.screenY,
-        },
+        local: new Point(local.x, local.y),
+        page: new Point(action.pageX, action.pageY),
+        screen: new Point(action.screenX, action.screenY),
       };
     }));
   }
