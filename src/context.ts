@@ -1,11 +1,7 @@
 
 import { fromEvent, Observable, ReplaySubject } from "rxjs";
 import { map } from "rxjs/operators";
-import { Length } from "./attributes/base";
-import { Box } from "./attributes/box";
-import { PathSegment } from "./attributes/path-segment";
 import { Point } from "./attributes/point";
-import { TextContent } from "./attributes/text-content";
 import { XLINK, XMLNS } from "./constants";
 import { makeRequest, SVGDocument } from "./document";
 import { Element } from "./element";
@@ -25,7 +21,7 @@ import { Line } from "./elements/renderables/shapes/line";
 import { Path } from "./elements/renderables/shapes/path";
 import { Polygon } from "./elements/renderables/shapes/polygon";
 import { Polyline } from "./elements/renderables/shapes/polyline";
-import { Rect, Rect_Attributes } from "./elements/renderables/shapes/rect";
+import { Rect } from "./elements/renderables/shapes/rect";
 import { Text } from "./elements/renderables/text";
 import { ResolvedPointEvent } from "./events";
 import { ElementArgumentsType, ElementConstructorArgumentsType } from "./util";
@@ -95,10 +91,10 @@ export class Context {
       };
     }));
   }
-  public addDef(def: SVGElement | Element<SVGElement, any, any>) {
+  public addDef(def: SVGElement | Element<SVGElement>) {
     this._defs.add(def);
   }
-  public addChild(el: SVGElement | Element<SVGElement, any, any>) {
+  public addChild(el: SVGElement | Element<SVGElement>) {
     this._target.appendChild((el instanceof Element) ? el.node : el);
   }
   public async load(url: string): Promise<ExternalSVG> {
@@ -142,86 +138,19 @@ export class Context {
   public line(...args: ElementConstructorArgumentsType<typeof Line>): Line {
     return new Line(this, ...args);
   }
-  public path(d: PathSegment[], pathLength?: number): Path {
-    const attrs = { d, pathLength };
-    return new Path(this, attrs);
+  public path(...args: ElementConstructorArgumentsType<typeof Path>): Path {
+    return new Path(this, ...args);
   }
-  public polygon(points: Point[]): Polygon {
-    const attrs = { points };
-    return new Polygon(this, attrs);
+  public polygon(...args: ElementConstructorArgumentsType<typeof Polygon>): Polygon {
+    return new Polygon(this, ...args);
   }
-  public polyline(points: Point[]): Polyline {
-    const attrs = { points };
-    return new Polyline(this, attrs);
+  public polyline(...args: ElementConstructorArgumentsType<typeof Polyline>): Polyline {
+    return new Polyline(this, ...args);
   }
-  public rect(box: Box, r?: Point): Rect;
-  public rect(box: Box, rx?: Length, ry?: Length): Rect;
-  public rect(p: Point, width: Length, height: Length, r?: Point): Rect;
-  public rect(p: Point, width: Length, height: Length, rx?: Length, ry?: Length): Rect;
-  public rect(x: Length, y: Length, width: Length, height: Length, r?: Point): Rect;
-  public rect(a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length): Rect {
-    const attrs: Partial<Rect_Attributes> = {};
-    if (a1 instanceof Box) {
-      attrs["x:y:width:height"] = a1;
-      if (a2 instanceof Point) {
-        attrs["rx:ry"] = a2;
-      } else {
-        if (a2 !== undefined) {
-          attrs["rx"] = a2;
-        }
-        if (a3 !== undefined) {
-          attrs["ry"] = a3;
-        }
-      }
-    } else if (a1 instanceof Point) {
-      attrs["x:y"] = a1;
-      if (a2 !== undefined && !(a2 instanceof Point)) {
-        attrs["width"] = a2;
-      }
-      if (a3 !== undefined) {
-        attrs["height"] = a3;
-      }
-      if (a4 instanceof Point) {
-        attrs["rx:ry"] = a4;
-      } else {
-        if (a4 !== undefined) {
-          attrs["rx"] = a4;
-        }
-        if (a5 !== undefined && !(a5 instanceof Point)) {
-          attrs["ry"] = a5;
-        }
-      }
-    } else {
-      attrs["x"] = a1;
-      if (a2 !== undefined && !(a2 instanceof Point)) {
-        attrs["y"] = a2;
-      }
-      if (a3 !== undefined) {
-        attrs["width"] = a3;
-      }
-      if (a4 !== undefined && !(a4 instanceof Point)) {
-        attrs["height"] = a4;
-      }
-      if (a5 instanceof Point) {
-        attrs["rx:ry"] = a5;
-      } else {
-        if (a5 !== undefined) {
-          attrs["rx"] = a5;
-        }
-        if (a6 !== undefined) {
-          attrs["ry"] = a6;
-        }
-      }
-    }
-    return new Rect(this, attrs);
+  public rect(...args: ElementConstructorArgumentsType<typeof Rect>): Rect {
+    return new Rect(this, ...args);
   }
-  public text(content: TextContent[], p: Point): Text;
-  public text(content: TextContent[], x: Length, y: Length): Text;
-  public text(content: TextContent[], a1: Point | Length, a2?: Length): Text {
-    const attrs = (a1 instanceof Point) ? { "x:y": a1 } : { x: a1, y: a2 };
-    const t = new Text(this, attrs);
-    content.forEach(c => t.addSpan(c));
-    this.addChild(t);
-    return t;
+  public text(...args: ElementConstructorArgumentsType<typeof Text>): Text {
+    return new Text(this, ...args);
   }
 }

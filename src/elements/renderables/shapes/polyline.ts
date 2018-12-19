@@ -7,8 +7,12 @@ export interface Polyline_Attributes extends Shape_Attributes, HasMarker {
   points: Point[];
 }
 
+function _attributeHelper(points: Point[]): Partial<Polyline_Attributes> {
+  return { points };
+}
+
 export class Polyline extends AbstractShape<SVGPolylineElement, Polyline_Attributes> {
-  constructor(context: Context, attrs?: Partial<Polyline_Attributes>) {
-    super(context, "polyline", attrs);
+  constructor(context: Context, points: Point[]) {
+    super(context, "polyline", _attributeHelper(points));
   }
 }

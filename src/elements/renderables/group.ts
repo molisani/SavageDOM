@@ -14,7 +14,6 @@ export class Group extends AbstractRenderable<SVGGElement, Group_Attributes> {
       this._node.setAttribute("data-class", this.constructor.name);
     }
     els.forEach((child) => this.add(child));
-    context.addChild(this);
   }
   public toPattern(w: number, h: number): Pattern;
   public toPattern(w: number, h: number, x: number, y: number): Pattern;

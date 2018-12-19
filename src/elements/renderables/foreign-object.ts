@@ -14,7 +14,6 @@ export class ForeignObject extends AbstractRenderable<SVGForeignObjectElement, F
     super(context, "foreignObject", attrs);
     if (html) {
       this.addHTML(html);
-      context.addChild(this);
     }
   }
   public addHTML(html: HTMLElement): void {

@@ -29,7 +29,6 @@ export class Image extends AbstractRenderable<SVGImageElement, Image_Attributes,
     const image = new Image(context, attrs);
     const onLoad = image.getEvent("load").toPromise();
     image.setAttribute("href", href);
-    context.addChild(image);
     await onLoad;
     return image;
   }

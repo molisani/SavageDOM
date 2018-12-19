@@ -127,16 +127,16 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
     const rect = this._node.getBoundingClientRect();
     return new Box(rect.left, rect.top, rect.width, rect.height);
   }
-  public add(el: Element<SVGElement, any, any> | SVGElement) {
+  public add(el: Element<SVGElement> | SVGElement) {
     if (el instanceof SVGElement) {
       this._node.appendChild(el);
     } else {
       this._node.appendChild(el._node);
     }
   }
-  public getChildren(): Element<SVGElement, any, any>[] {
+  public getChildren(): Element<SVGElement>[] {
     const children = this._node.childNodes;
-    const elements: Element<SVGElement, any, any>[] = [];
+    const elements: Element<SVGElement>[] = [];
     for (let i = 0; i < children.length; ++i) {
       elements.push(new Element(this.context, children.item(i) as SVGElement));
     }
