@@ -1,13 +1,13 @@
 
-import { animationFrameScheduler, interval, Subject } from "rxjs";
-import { bufferWhen } from "rxjs/operators";
+import { animationFrameScheduler, interval, Observable, Subject, Subscription } from "rxjs";
+import { bufferWhen, filter, map } from "rxjs/operators";
 import { Core_Attributes } from "../attributes/base";
 import { Element } from "../element";
 import { randomShortStringId } from "../id";
 import { EasingFunction } from "./easing";
 
 export interface TimeResolvable {
-  resolve(t: number): void;
+  resolve?: (t: number) => void;
 }
 
 export interface AttributeUpdate<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES> {
@@ -70,12 +70,21 @@ export class Renderer {
       this._attributeInterpolations[key] = { el, attributes, start, duration, easing, resolve };
     });
   }
+  public subscribeAttributeObservable<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attr: ATTRIBUTE, val: Observable<ATTRIBUTES[ATTRIBUTE]>): Subscription {
+    return val.pipe(
+      bufferWhen(() => this._animationFrame),
+      filter((updates) => updates.length > 0),
+      map((updates) => ({ el, attribute: { name: attr, val: updates[updates.length - 1] } })),
+    ).subscribe(this._attributeUpdates);
+  }
   private _render<ATTRIBUTES extends Core_Attributes>(updates: ElementUpdateRender<ATTRIBUTES, AttributeOnlyElement<ATTRIBUTES>>[]) {
     const now = performance.now();
     const pendingResolutions: ((t: number) => void)[] = [];
     updates.forEach(({ el, attribute, resolve }) => {
       el.renderAttribute(attribute.name, attribute.val);
-      pendingResolutions.push(resolve);
+      if (resolve) {
+        pendingResolutions.push(resolve);
+      }
     });
     Object.keys(this._attributeInterpolations).forEach((key) => {
       const interpolation = this._attributeInterpolations[key];
@@ -87,7 +96,9 @@ export class Renderer {
       });
       if (finalRender) {
         delete this._attributeInterpolations[key];
-        pendingResolutions.push(interpolation.resolve);
+        if (interpolation.resolve) {
+          pendingResolutions.push(interpolation.resolve);
+        }
       }
     });
     if (pendingResolutions.length > 0) {

@@ -1,5 +1,5 @@
 
-import { fromEvent, merge, Observable } from "rxjs";
+import { fromEvent, merge, Observable, Subscription } from "rxjs";
 import { EasingFunction } from "./animation/easing";
 import { Renderer } from "./animation/renderer";
 import { Attribute, isAttribute } from "./attribute";
@@ -15,6 +15,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
   protected readonly _node: SVG;
   protected readonly _style: CSSStyleDeclaration;
   private _pendingRenders: Promise<number>[] = [];
+  private _linkedAttributes: { [Attr in keyof ATTRIBUTES]?: Subscription } = {};
   constructor(context: Context, el: SVG, attrs?: Partial<ATTRIBUTES>);
   constructor(context: Context, name: string, attrs?: Partial<ATTRIBUTES>, id?: string);
   constructor(context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, id?: string);
@@ -74,6 +75,15 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
     }
     const from = attr.get(this._node, name);
     return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolator(from), duration, easing);
+  }
+  public linkDynamicAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: Observable<ATTRIBUTES[Attr]>): Subscription {
+    const subscription = Renderer.getInstance().subscribeAttributeObservable(this, name, val);
+    const existingSubscription = this._linkedAttributes[name];
+    if (existingSubscription && !existingSubscription.closed) {
+      existingSubscription.unsubscribe();
+    }
+    this._linkedAttributes[name] = subscription;
+    return subscription;
   }
   public async flush(): Promise<number> {
     if (this._pendingRenders.length === 0) {
