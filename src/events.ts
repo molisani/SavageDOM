@@ -1,3 +1,4 @@
+import { Point } from "./attributes/point";
 import { SubType } from "./util";
 
 export interface BaseEvents {
@@ -9,9 +10,9 @@ export type PointEvent = MouseEvent | TouchEvent;
 export type OnlyPointEvents<EVENTS extends BaseEvents> = keyof SubType<EVENTS, PointEvent>;
 
 export interface ResolvedPointEvent extends Event {
-  screen: { x: number, y: number };
-  page: { x: number, y: number };
-  local: { x: number, y: number };
+  screen: Point;
+  page: Point;
+  local: Point;
 }
 
 export interface Mouse_Events extends BaseEvents {

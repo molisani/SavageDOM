@@ -8,8 +8,12 @@ export interface Path_Attributes extends Shape_Attributes, HasMarker {
   pathLength: number;
 }
 
+function _attributeHelper(d: PathSegment[], pathLength?: number): Partial<Path_Attributes> {
+  return { d, pathLength };
+}
+
 export class Path extends AbstractShape<SVGPathElement, Path_Attributes> {
-  constructor(context: Context, attrs?: Partial<Path_Attributes>) {
-    super(context, "path", attrs);
+  constructor(context: Context, d: PathSegment[], pathLength?: number) {
+    super(context, "path", _attributeHelper(d, pathLength));
   }
 }

@@ -1,20 +1,15 @@
 
-import { Observable, ReplaySubject } from "rxjs";
-import { take } from "rxjs/operators";
-import { Length } from "./attributes/base";
-import { Box } from "./attributes/box";
-import { PathSegment } from "./attributes/path-segment";
+import { fromEvent, Observable, ReplaySubject } from "rxjs";
+import { map } from "rxjs/operators";
 import { Point } from "./attributes/point";
-import { TextContent } from "./attributes/text-content";
 import { XLINK, XMLNS } from "./constants";
 import { makeRequest, SVGDocument } from "./document";
 import { Element } from "./element";
 import { ClipPath } from "./elements/non-renderables/clip-path";
 import { Marker } from "./elements/non-renderables/marker";
 import { Mask } from "./elements/non-renderables/mask";
-import { Stops } from "./elements/non-renderables/paint-servers/gradient";
-import { LinearGradient, LinearGradient_Attributes } from "./elements/non-renderables/paint-servers/gradients/linear";
-import { RadialGradient, RadialGradient_Attributes } from "./elements/non-renderables/paint-servers/gradients/radial";
+import { LinearGradient } from "./elements/non-renderables/paint-servers/gradients/linear";
+import { RadialGradient } from "./elements/non-renderables/paint-servers/gradients/radial";
 import { Pattern } from "./elements/non-renderables/paint-servers/pattern";
 import { ExternalSVG } from "./elements/renderables/external";
 import { ForeignObject } from "./elements/renderables/foreign-object";
@@ -26,8 +21,10 @@ import { Line } from "./elements/renderables/shapes/line";
 import { Path } from "./elements/renderables/shapes/path";
 import { Polygon } from "./elements/renderables/shapes/polygon";
 import { Polyline } from "./elements/renderables/shapes/polyline";
-import { Rect, Rect_Attributes } from "./elements/renderables/shapes/rect";
+import { Rect } from "./elements/renderables/shapes/rect";
 import { Text } from "./elements/renderables/text";
+import { ResolvedPointEvent } from "./events";
+import { ElementArgumentsType, ElementConstructorArgumentsType } from "./util";
 
 export class Context {
   public static DEFAULT_WINDOW: Window = window;
@@ -73,13 +70,31 @@ export class Context {
   public get window(): Window {
     return this._window;
   }
-  public get refPoint(): SVGPoint {
-    return this._root.createSVGPoint();
+  public calculateLocalPoint<ELEMENT extends SVGGraphicsElement>(elementNode: ELEMENT, action: MouseEvent | Touch): DOMPoint {
+    const ref = this._root.createSVGPoint();
+    ref.x = action.clientX;
+    ref.y = action.clientY;
+    const matrix = elementNode.getScreenCTM();
+    if (!matrix) {
+      throw new Error(`No Screen Coordinate Transform Matrix found for node "${elementNode.id}"`);
+    }
+    return ref.matrixTransform(matrix.inverse());
   }
-  public addDef(def: SVGElement | Element<SVGElement, any, any>) {
+  public get mousePosition(): Observable<ResolvedPointEvent> {
+    return fromEvent<MouseEvent>(this._root, "mousemove").pipe(map((event: MouseEvent) => {
+      const local = this.calculateLocalPoint(this._root, event);
+      return {
+        ...event,
+        local: new Point(local.x, local.y),
+        page: new Point(event.pageX, event.pageY),
+        screen: new Point(event.screenX, event.screenY),
+      };
+    }));
+  }
+  public addDef(def: SVGElement | Element<SVGElement>) {
     this._defs.add(def);
   }
-  public addChild(el: SVGElement | Element<SVGElement, any, any>) {
+  public addChild(el: SVGElement | Element<SVGElement>) {
     this._target.appendChild((el instanceof Element) ? el.node : el);
   }
   public async load(url: string): Promise<ExternalSVG> {
@@ -87,156 +102,55 @@ export class Context {
     const externalDocument = new SVGDocument(this, xmlDocument);
     return new ExternalSVG(this, externalDocument);
   }
-  public clipPath(w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox"): ClipPath {
-    return new ClipPath(this, w, h, x, y, units, contentUnits);
+  public clipPath(...args: ElementConstructorArgumentsType<typeof ClipPath>): ClipPath {
+    return new ClipPath(this, ...args);
   }
-  public marker(): Marker {
-    return new Marker(this, {});
+  public marker(...args: ElementConstructorArgumentsType<typeof Marker>): Marker {
+    return new Marker(this, ...args);
   }
-  public mask(w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox"): Mask {
-    return new Mask(this, w, h, x, y, units, contentUnits);
+  public mask(...args: ElementConstructorArgumentsType<typeof Mask>): Mask {
+    return new Mask(this, ...args);
   }
-  public linearGradient(stops: Stops, attrs?: Partial<LinearGradient_Attributes>): LinearGradient {
-    return new LinearGradient(this, stops, attrs);
+  public linearGradient(...args: ElementConstructorArgumentsType<typeof LinearGradient>): LinearGradient {
+    return new LinearGradient(this, ...args);
   }
-  public radialGradient(stops: Stops, attrs?: Partial<RadialGradient_Attributes>): RadialGradient {
-    return new RadialGradient(this, stops, attrs);
+  public radialGradient(...args: ElementConstructorArgumentsType<typeof RadialGradient>): RadialGradient {
+    return new RadialGradient(this, ...args);
   }
-  public pattern(w: number, h: number, x?: number, y?: number, view?: Box): Pattern {
-    return new Pattern(this, w, h, x, y, view);
+  public pattern(...args: ElementConstructorArgumentsType<typeof Pattern>): Pattern {
+    return new Pattern(this, ...args);
   }
-  public foreignObject(html: HTMLElement, x: Length, y: Length, width: Length, height: Length): ForeignObject {
-    const el = new ForeignObject(this, { x, y, width, height });
-    el.addHTML(html);
-    this.addChild(el);
-    return el;
+  public foreignObject(...args: ElementConstructorArgumentsType<typeof ForeignObject>): ForeignObject {
+    return new ForeignObject(this, ...args);
   }
-  public group(els: Element<SVGElement, any, any>[]): Group {
-    const el = new Group(this);
-    els.forEach(child => el.add(child));
-    this.addChild(el);
-    return el;
+  public group(...args: ElementConstructorArgumentsType<typeof Group>): Group {
+    return new Group(this, ...args);
   }
-  public async image(href: string): Promise<Image> {
-    const img = new Image(this);
-    const promise = img.getEvent("load").pipe(take(1)).toPromise();
-    img.setAttribute("href", href);
-    this.addChild(img);
-    const event = await promise;
-    return img;
+  public async imageAfterLoad(...args: ElementArgumentsType<typeof Image.afterLoad>): Promise<Image> {
+    return Image.afterLoad(this, ...args);
   }
-  public circle(c: Point, r: Length): Circle;
-  public circle(cx: Length, cy: Length, r: Length): Circle;
-  public circle(a1: Length | Point, a2: Length, a3?: Length): Circle {
-    const attrs = (a1 instanceof Point) ? { "cx:cy": a1, r: a2 } : { cx: a1, cy: a2, r: a3 };
-    return new Circle(this, attrs);
+  public circle(...args: ElementConstructorArgumentsType<typeof Circle>): Circle {
+    return new Circle(this, ...args);
   }
-  public ellipse(c: Point, r: Point): Ellipse;
-  public ellipse(cx: Length, cy: Length, rx: Length, ry: Length): Ellipse;
-  public ellipse(a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length): Ellipse {
-    let attrs = {};
-    const a1IsPoint = a1 instanceof Point;
-    const a2IsPoint = a2 instanceof Point;
-    if (a1IsPoint && a2IsPoint) {
-      attrs = { "cx:cy": a1, "rx:ry": a2 };
-    } else if (!(a1IsPoint || a2IsPoint)) {
-      attrs = { cx: a1, cy: a2, rx: a3, ry: a4 };
-    }
-    return new Ellipse(this, attrs);
+  public ellipse(...args: ElementConstructorArgumentsType<typeof Ellipse>): Ellipse {
+    return new Ellipse(this, ...args);
   }
-  public line(p1: Point, p2: Point): Line;
-  public line(x1: Length, y1: Length, x2: Length, y2: Length): Line;
-  public line(a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length): Line {
-    let attrs = {};
-    const a1IsPoint = a1 instanceof Point;
-    const a2IsPoint = a2 instanceof Point;
-    if (a1IsPoint && a2IsPoint) {
-      attrs = { "x1:y1": a1, "x2:y2": a2 };
-    } else if (!(a1IsPoint || a2IsPoint)) {
-      attrs = { x1: a1, y1: a2, x2: a3, y2: a4 };
-    }
-    return new Line(this, attrs);
+  public line(...args: ElementConstructorArgumentsType<typeof Line>): Line {
+    return new Line(this, ...args);
   }
-  public path(d: PathSegment[], pathLength?: number): Path {
-    const attrs = { d, pathLength };
-    return new Path(this, attrs);
+  public path(...args: ElementConstructorArgumentsType<typeof Path>): Path {
+    return new Path(this, ...args);
   }
-  public polygon(points: Point[]): Polygon {
-    const attrs = { points };
-    return new Polygon(this, attrs);
+  public polygon(...args: ElementConstructorArgumentsType<typeof Polygon>): Polygon {
+    return new Polygon(this, ...args);
   }
-  public polyline(points: Point[]): Polyline {
-    const attrs = { points };
-    return new Polyline(this, attrs);
+  public polyline(...args: ElementConstructorArgumentsType<typeof Polyline>): Polyline {
+    return new Polyline(this, ...args);
   }
-  public rect(box: Box, r?: Point): Rect;
-  public rect(box: Box, rx?: Length, ry?: Length): Rect;
-  public rect(p: Point, width: Length, height: Length, r?: Point): Rect;
-  public rect(p: Point, width: Length, height: Length, rx?: Length, ry?: Length): Rect;
-  public rect(x: Length, y: Length, width: Length, height: Length, r?: Point): Rect;
-  public rect(a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length): Rect {
-    const attrs: Partial<Rect_Attributes> = {};
-    if (a1 instanceof Box) {
-      attrs["x:y:width:height"] = a1;
-      if (a2 instanceof Point) {
-        attrs["rx:ry"] = a2;
-      } else {
-        if (a2 !== undefined) {
-          attrs["rx"] = a2;
-        }
-        if (a3 !== undefined) {
-          attrs["ry"] = a3;
-        }
-      }
-    } else if (a1 instanceof Point) {
-      attrs["x:y"] = a1;
-      if (a2 !== undefined && !(a2 instanceof Point)) {
-        attrs["width"] = a2;
-      }
-      if (a3 !== undefined) {
-        attrs["height"] = a3;
-      }
-      if (a4 instanceof Point) {
-        attrs["rx:ry"] = a4;
-      } else {
-        if (a4 !== undefined) {
-          attrs["rx"] = a4;
-        }
-        if (a5 !== undefined && !(a5 instanceof Point)) {
-          attrs["ry"] = a5;
-        }
-      }
-    } else {
-      attrs["x"] = a1;
-      if (a2 !== undefined && !(a2 instanceof Point)) {
-        attrs["y"] = a2;
-      }
-      if (a3 !== undefined) {
-        attrs["width"] = a3;
-      }
-      if (a4 !== undefined && !(a4 instanceof Point)) {
-        attrs["height"] = a4;
-      }
-      if (a5 instanceof Point) {
-        attrs["rx:ry"] = a5;
-      } else {
-        if (a5 !== undefined) {
-          attrs["rx"] = a5;
-        }
-        if (a6 !== undefined) {
-          attrs["ry"] = a6;
-        }
-      }
-    }
-    return new Rect(this, attrs);
+  public rect(...args: ElementConstructorArgumentsType<typeof Rect>): Rect {
+    return new Rect(this, ...args);
   }
-  public text(content: TextContent[], p: Point): Text;
-  public text(content: TextContent[], x: Length, y: Length): Text;
-  public text(content: TextContent[], a1: Point | Length, a2?: Length): Text {
-    const attrs = (a1 instanceof Point) ? { "x:y": a1 } : { x: a1, y: a2 };
-    const t = new Text(this, attrs);
-    content.forEach(c => t.addSpan(c));
-    this.addChild(t);
-    return t;
+  public text(...args: ElementConstructorArgumentsType<typeof Text>): Text {
+    return new Text(this, ...args);
   }
 }
