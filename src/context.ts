@@ -1,6 +1,6 @@
 
-import { Observable, ReplaySubject } from "rxjs";
-import { take } from "rxjs/operators";
+import { fromEvent, Observable, ReplaySubject } from "rxjs";
+import { map } from "rxjs/operators";
 import { Length } from "./attributes/base";
 import { Box } from "./attributes/box";
 import { PathSegment } from "./attributes/path-segment";
@@ -12,9 +12,8 @@ import { Element } from "./element";
 import { ClipPath } from "./elements/non-renderables/clip-path";
 import { Marker } from "./elements/non-renderables/marker";
 import { Mask } from "./elements/non-renderables/mask";
-import { Stops } from "./elements/non-renderables/paint-servers/gradient";
-import { LinearGradient, LinearGradient_Attributes } from "./elements/non-renderables/paint-servers/gradients/linear";
-import { RadialGradient, RadialGradient_Attributes } from "./elements/non-renderables/paint-servers/gradients/radial";
+import { LinearGradient } from "./elements/non-renderables/paint-servers/gradients/linear";
+import { RadialGradient } from "./elements/non-renderables/paint-servers/gradients/radial";
 import { Pattern } from "./elements/non-renderables/paint-servers/pattern";
 import { ExternalSVG } from "./elements/renderables/external";
 import { ForeignObject } from "./elements/renderables/foreign-object";
@@ -28,6 +27,8 @@ import { Polygon } from "./elements/renderables/shapes/polygon";
 import { Polyline } from "./elements/renderables/shapes/polyline";
 import { Rect, Rect_Attributes } from "./elements/renderables/shapes/rect";
 import { Text } from "./elements/renderables/text";
+import { ResolvedPointEvent } from "./events";
+import { ElementArgumentsType, ElementConstructorArgumentsType } from "./util";
 
 export class Context {
   public static DEFAULT_WINDOW: Window = window;
@@ -73,8 +74,26 @@ export class Context {
   public get window(): Window {
     return this._window;
   }
-  public get refPoint(): SVGPoint {
-    return this._root.createSVGPoint();
+  public calculateLocalPoint<ELEMENT extends SVGGraphicsElement>(elementNode: ELEMENT, action: MouseEvent | Touch): DOMPoint {
+    const ref = this._root.createSVGPoint();
+    ref.x = action.clientX;
+    ref.y = action.clientY;
+    const matrix = elementNode.getScreenCTM();
+    if (!matrix) {
+      throw new Error(`No Screen Coordinate Transform Matrix found for node "${elementNode.id}"`);
+    }
+    return ref.matrixTransform(matrix.inverse());
+  }
+  public get mousePosition(): Observable<ResolvedPointEvent> {
+    return fromEvent<MouseEvent>(this._root, "mousemove").pipe(map((event: MouseEvent) => {
+      const local = this.calculateLocalPoint(this._root, event);
+      return {
+        ...event,
+        local: new Point(local.x, local.y),
+        page: new Point(event.pageX, event.pageY),
+        screen: new Point(event.screenX, event.screenY),
+      };
+    }));
   }
   public addDef(def: SVGElement | Element<SVGElement, any, any>) {
     this._defs.add(def);
@@ -87,49 +106,35 @@ export class Context {
     const externalDocument = new SVGDocument(this, xmlDocument);
     return new ExternalSVG(this, externalDocument);
   }
-  public clipPath(w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox"): ClipPath {
-    return new ClipPath(this, w, h, x, y, units, contentUnits);
+  public clipPath(...args: ElementConstructorArgumentsType<typeof ClipPath>): ClipPath {
+    return new ClipPath(this, ...args);
   }
-  public marker(): Marker {
-    return new Marker(this, {});
+  public marker(...args: ElementConstructorArgumentsType<typeof Marker>): Marker {
+    return new Marker(this, ...args);
   }
-  public mask(w: number, h: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox"): Mask {
-    return new Mask(this, w, h, x, y, units, contentUnits);
+  public mask(...args: ElementConstructorArgumentsType<typeof Mask>): Mask {
+    return new Mask(this, ...args);
   }
-  public linearGradient(stops: Stops, attrs?: Partial<LinearGradient_Attributes>): LinearGradient {
-    return new LinearGradient(this, stops, attrs);
+  public linearGradient(...args: ElementConstructorArgumentsType<typeof LinearGradient>): LinearGradient {
+    return new LinearGradient(this, ...args);
   }
-  public radialGradient(stops: Stops, attrs?: Partial<RadialGradient_Attributes>): RadialGradient {
-    return new RadialGradient(this, stops, attrs);
+  public radialGradient(...args: ElementConstructorArgumentsType<typeof RadialGradient>): RadialGradient {
+    return new RadialGradient(this, ...args);
   }
-  public pattern(w: number, h: number, x?: number, y?: number, view?: Box): Pattern {
-    return new Pattern(this, w, h, x, y, view);
+  public pattern(...args: ElementConstructorArgumentsType<typeof Pattern>): Pattern {
+    return new Pattern(this, ...args);
   }
-  public foreignObject(html: HTMLElement, x: Length, y: Length, width: Length, height: Length): ForeignObject {
-    const el = new ForeignObject(this, { x, y, width, height });
-    el.addHTML(html);
-    this.addChild(el);
-    return el;
+  public foreignObject(...args: ElementConstructorArgumentsType<typeof ForeignObject>): ForeignObject {
+    return new ForeignObject(this, ...args);
   }
-  public group(els: Element<SVGElement, any, any>[]): Group {
-    const el = new Group(this);
-    els.forEach(child => el.add(child));
-    this.addChild(el);
-    return el;
+  public group(...args: ElementConstructorArgumentsType<typeof Group>): Group {
+    return new Group(this, ...args);
   }
-  public async image(href: string): Promise<Image> {
-    const img = new Image(this);
-    const promise = img.getEvent("load").pipe(take(1)).toPromise();
-    img.setAttribute("href", href);
-    this.addChild(img);
-    const event = await promise;
-    return img;
+  public async imageAfterLoad(...args: ElementArgumentsType<typeof Image.afterLoad>): Promise<Image> {
+    return Image.afterLoad(this, ...args);
   }
-  public circle(c: Point, r: Length): Circle;
-  public circle(cx: Length, cy: Length, r: Length): Circle;
-  public circle(a1: Length | Point, a2: Length, a3?: Length): Circle {
-    const attrs = (a1 instanceof Point) ? { "cx:cy": a1, r: a2 } : { cx: a1, cy: a2, r: a3 };
-    return new Circle(this, attrs);
+  public circle(...args: ElementConstructorArgumentsType<typeof Circle>): Circle {
+    return new Circle(this, ...args);
   }
   public ellipse(c: Point, r: Point): Ellipse;
   public ellipse(cx: Length, cy: Length, rx: Length, ry: Length): Ellipse;
