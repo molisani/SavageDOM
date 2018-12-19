@@ -19,27 +19,13 @@ export interface Mask_Attributes extends NonRenderable_Attributes {
   "x:y:width:height": Box;
 }
 
+function _attributeHelper(width?: number, height?: number, x?: number, y?: number, maskUnits?: "userSpaceOnUse" | "objectBoundingBox", maskContentUnits?: "userSpaceOnUse" | "objectBoundingBox"): Partial<Mask_Attributes> {
+  return { width, height, x, y, maskUnits, maskContentUnits };
+}
+
 export class Mask extends AbstractNonRenderable<SVGMaskElement, Mask_Attributes> {
   constructor(public context: Context, w?: number, h?: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox") {
-    super(context, "mask");
+    super(context, "mask", _attributeHelper(w, h, x, y, units, contentUnits));
     this.context.addDef(this);
-    if (w !== undefined) {
-      this.setAttribute("width", w);
-    }
-    if (h !== undefined) {
-      this.setAttribute("height", h);
-    }
-    if (x !== undefined) {
-      this.setAttribute("x", x);
-    }
-    if (y !== undefined) {
-      this.setAttribute("y", y);
-    }
-    if (units !== undefined) {
-      this.setAttribute("maskUnits", units);
-    }
-    if (contentUnits !== undefined) {
-      this.setAttribute("maskContentUnits", contentUnits);
-    }
   }
 }

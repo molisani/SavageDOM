@@ -136,31 +136,11 @@ export class Context {
   public circle(...args: ElementConstructorArgumentsType<typeof Circle>): Circle {
     return new Circle(this, ...args);
   }
-  public ellipse(c: Point, r: Point): Ellipse;
-  public ellipse(cx: Length, cy: Length, rx: Length, ry: Length): Ellipse;
-  public ellipse(a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length): Ellipse {
-    let attrs = {};
-    const a1IsPoint = a1 instanceof Point;
-    const a2IsPoint = a2 instanceof Point;
-    if (a1IsPoint && a2IsPoint) {
-      attrs = { "cx:cy": a1, "rx:ry": a2 };
-    } else if (!(a1IsPoint || a2IsPoint)) {
-      attrs = { cx: a1, cy: a2, rx: a3, ry: a4 };
-    }
-    return new Ellipse(this, attrs);
+  public ellipse(...args: ElementConstructorArgumentsType<typeof Ellipse>): Ellipse {
+    return new Ellipse(this, ...args);
   }
-  public line(p1: Point, p2: Point): Line;
-  public line(x1: Length, y1: Length, x2: Length, y2: Length): Line;
-  public line(a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length): Line {
-    let attrs = {};
-    const a1IsPoint = a1 instanceof Point;
-    const a2IsPoint = a2 instanceof Point;
-    if (a1IsPoint && a2IsPoint) {
-      attrs = { "x1:y1": a1, "x2:y2": a2 };
-    } else if (!(a1IsPoint || a2IsPoint)) {
-      attrs = { x1: a1, y1: a2, x2: a3, y2: a4 };
-    }
-    return new Line(this, attrs);
+  public line(...args: ElementConstructorArgumentsType<typeof Line>): Line {
+    return new Line(this, ...args);
   }
   public path(d: PathSegment[], pathLength?: number): Path {
     const attrs = { d, pathLength };
