@@ -64,6 +64,7 @@ module.exports = function(grunt) {
           target: "ES2015",
           project: "tsconfig.json",
           gitRevision: "master",
+          ignoreCompilerErrors: true,
         },
         src: ["src"]
       }
