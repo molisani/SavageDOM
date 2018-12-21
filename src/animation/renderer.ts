@@ -36,15 +36,31 @@ export interface ElementInterpolateRender<ATTRIBUTES extends Core_Attributes, EL
 }
 
 export class Renderer {
-  public static getInstance(): Renderer {
+  public static getInstance(animationFrames?: Observable<number>): Renderer {
+    if (!Renderer._instance) {
+      Renderer._instance = new Renderer(animationFrames);
+    }
     return Renderer._instance;
   }
-  private static _instance = new Renderer();
-  private _animationFrame = interval(0, animationFrameScheduler);
+  private static _instance: Renderer;
   private _attributeUpdates = new Subject<ElementUpdateRender<any, Element<any>>>();
   private _attributeInterpolations: { [key: string]: ElementInterpolateRender<any, Element<any>> } = {};
-  constructor() {
-    this._attributeUpdates.pipe(bufferWhen(() => this._animationFrame)).subscribe((updates) => this._render(updates));
+  private _renderSubscription?: Subscription;
+  constructor(private _animationFrames: Observable<number> = interval(0, animationFrameScheduler)) {
+    this.startRendering();
+  }
+  public startRendering() {
+    if (!this._renderSubscription || this._renderSubscription.closed) {
+      this._renderSubscription = this._attributeUpdates.pipe(bufferWhen(() => this._animationFrames)).subscribe((updates) => this._render(updates));
+    }
+  }
+  public async stopRendering(): Promise<any> {
+    const sub = this._renderSubscription;
+    if (sub) {
+      const done = new Promise((resolve) => sub.add(resolve));
+      sub.unsubscribe();
+      return done;
+    }
   }
   public queueAttributeUpdate<ATTRIBUTES extends Core_Attributes, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attrs: Partial<ATTRIBUTES>): Promise<number>;
   public queueAttributeUpdate<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attr: ATTRIBUTE, val: ATTRIBUTES[ATTRIBUTE]): Promise<number>;
@@ -65,20 +81,20 @@ export class Renderer {
   public registerAttributeInterpolation<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attr: ATTRIBUTE, val: (t: number) => ATTRIBUTES[ATTRIBUTE], duration: number, easing: EasingFunction): Promise<number> {
     return new Promise((resolve) => {
       const key = randomShortStringId();
-      const start = performance.now();
+      const start = Date.now();
       const attributes = [{ name: attr, val }];
       this._attributeInterpolations[key] = { el, attributes, start, duration, easing, resolve };
     });
   }
   public subscribeAttributeObservable<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attr: ATTRIBUTE, val: Observable<ATTRIBUTES[ATTRIBUTE]>): Subscription {
     return val.pipe(
-      bufferWhen(() => this._animationFrame),
+      bufferWhen(() => this._animationFrames),
       filter((updates) => updates.length > 0),
       map((updates) => ({ el, attribute: { name: attr, val: updates[updates.length - 1] } })),
     ).subscribe(this._attributeUpdates);
   }
   private _render<ATTRIBUTES extends Core_Attributes>(updates: ElementUpdateRender<ATTRIBUTES, AttributeOnlyElement<ATTRIBUTES>>[]) {
-    const now = performance.now();
+    const now = Date.now();
     const pendingResolutions: ((t: number) => void)[] = [];
     updates.forEach(({ el, attribute, resolve }) => {
       el.renderAttribute(attribute.name, attribute.val);

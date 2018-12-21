@@ -1,10 +1,9 @@
 import { Context } from "./context";
 
 export class SVGDocument {
-  private static PARSER = new DOMParser();
   private _document: Document;
-  constructor(context: Context, raw: string | Document, mimeType: SupportedType = "application/xml") {
-    this._document = (raw instanceof Document) ? raw : SVGDocument.PARSER.parseFromString(raw, mimeType);
+  constructor(context: Context, raw: string | Document, mimeType: SupportedType = "application/xml", parser: DOMParser = new DOMParser()) {
+    this._document = (raw instanceof Document) ? raw : parser.parseFromString(raw, mimeType);
     const allDefs = Array.from(this._document.getElementsByTagName("defs"));
     allDefs.forEach((defs) => {
       if (defs.parentNode) {
