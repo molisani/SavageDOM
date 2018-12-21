@@ -45,7 +45,7 @@ module.exports = function(grunt) {
     mochaTest: {
       all: {
         options: {
-          reporter: "xunit",
+          reporter: "spec",
           require: "ts-node/register",
         },
         src: ["tests/**/*.spec.ts"],
