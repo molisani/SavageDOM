@@ -1,9 +1,23 @@
+import { parse } from "fast-xml-parser";
 import { JSDOM } from "jsdom";
 import { timer } from "rxjs";
-import { Element as XMLJSElement, xml2js } from "xml-js";
 import { Renderer } from "../src/animation";
 import { Context } from "../src/context";
 import { Element } from "../src/element";
+
+export interface XmlAttributes {
+  [attrName: string]: number | string;
+}
+
+export interface XmlNode {
+  attrs: XmlAttributes;
+}
+
+export type XmlElement = XmlNode & XmlParent;
+
+export interface XmlParent {
+  [tagName: string]: XmlElement | XmlElement[] | undefined;
+}
 
 export function buildContextWithRenderer() {
   const jsdom = new JSDOM("<!doctype html><html><body><svg id='root'></svg></body></html>");
@@ -12,17 +26,29 @@ export function buildContextWithRenderer() {
 
   const context = new Context("root", jsdom.window, renderer);
 
-  const extract = (el: Element<SVGElement>) => {
-    const doc = xml2js(el.node.outerHTML) as XMLJSElement;
-    if (doc.elements) {
-      return doc.elements[0];
-    }
-    throw new Error();
-  };
-
   return {
     context,
     renderer,
-    extract,
   };
+}
+
+export function reparseDOM(el: Element<SVGElement>): XmlElement {
+  const doc = parse(`<a a1="1"/><a a2="2"/>${el.node.outerHTML}`, {
+    attributeNamePrefix: "",
+    attrNodeName: "attrs",
+    ignoreAttributes: false,
+    parseAttributeValue: true,
+  });
+  return doc;
+}
+
+export function extractNodes(el: XmlElement, tag: string): XmlNode[] {
+  const lookup = el[tag];
+  if (lookup) {
+    if (Array.isArray(lookup)) {
+      return lookup;
+    }
+    return [lookup];
+  }
+  return [];
 }

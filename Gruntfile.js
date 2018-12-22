@@ -48,7 +48,7 @@ module.exports = function(grunt) {
           reporter: "spec",
           require: "ts-node/register",
         },
-        src: ["tests/**/*.spec.ts"],
+        src: ["src/**/*.spec.ts"],
       },
     },
     tslint: {
@@ -56,7 +56,7 @@ module.exports = function(grunt) {
         configuration: grunt.file.readJSON("tslint.json")
       },
       all: {
-        src: ["src/**/*.ts", "test/**/*.ts"]
+        src: ["src/**/*.ts"]
       }
     },
     parallelize: {
