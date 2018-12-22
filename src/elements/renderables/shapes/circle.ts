@@ -1,6 +1,7 @@
 import { Length } from "../../../attributes/base";
 import { Point } from "../../../attributes/point";
 import { Context } from "../../../context";
+import { ElementConstructorArgumentsType } from "../../../util";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
 export interface Circle_Attributes extends Shape_Attributes {
@@ -18,7 +19,7 @@ export class Circle extends AbstractShape<SVGCircleElement, Circle_Attributes> {
   constructor(context: Context, c: Point, r: Length);
   constructor(context: Context, cx: Length, cy: Length, r: Length);
   constructor(context: Context, a1: Length | Point, a2: Length, a3?: Length);
-  constructor(context: Context, a1: Length | Point, a2: Length, a3?: Length) {
-    super(context, "circle", _attributeHelper(a1, a2, a3));
+  constructor(context: Context, ...args: ElementConstructorArgumentsType<typeof Circle>) {
+    super(context, "circle", _attributeHelper(...args));
   }
 }

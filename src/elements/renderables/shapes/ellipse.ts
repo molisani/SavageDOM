@@ -1,6 +1,7 @@
 import { Length } from "../../../attributes/base";
 import { Point } from "../../../attributes/point";
 import { Context } from "../../../context";
+import { ElementConstructorArgumentsType } from "../../../util";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
 export interface Ellipse_Attributes extends Shape_Attributes {
@@ -28,7 +29,7 @@ export class Ellipse extends AbstractShape<SVGEllipseElement, Ellipse_Attributes
   constructor(context: Context, c: Point, r: Point);
   constructor(context: Context, cx: Length, cy: Length, rx: Length, ry: Length);
   constructor(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length);
-  constructor(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length) {
-    super(context, "ellipse", _attributeHelper(a1, a2, a3, a4));
+  constructor(context: Context, ...args: ElementConstructorArgumentsType<typeof Ellipse>) {
+    super(context, "ellipse", _attributeHelper(...args));
   }
 }

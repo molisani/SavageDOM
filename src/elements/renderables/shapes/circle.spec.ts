@@ -5,25 +5,101 @@ import { Circle } from "./circle";
 
 describe("circle", () => {
 
-  it("creates a <circle>", async () => {
+  describe("constructor", () => {
 
-    const { context, renderer } = buildContextWithRenderer();
+    it("creates a <circle> with [Point, Length]", async () => {
 
-    const p = new Point(1, 2);
-    const r = 10;
+      const { context, renderer } = buildContextWithRenderer();
 
-    const el = new Circle(context, p, r);
+      const c = new Point(1, 2);
+      const r = 5;
 
-    await el.flush();
-    await renderer.stopRendering();
+      const el = new Circle(context, c, r);
 
-    const doc = reparseDOM(el);
-    const circles = extractNodes(doc, "circle");
+      await el.flush();
+      await renderer.stopRendering();
 
-    expect(circles).to.have.length(1);
-    expect(circles[0].attrs.cx).to.equal(1);
-    expect(circles[0].attrs.cy).to.equal(2);
-    expect(circles[0].attrs.r).to.equal(10);
+      const doc = reparseDOM(el);
+      const circles = extractNodes(doc, "circle");
+
+      expect(circles).to.have.length(1);
+      expect(circles[0].attrs.cx).to.equal(1);
+      expect(circles[0].attrs.cy).to.equal(2);
+      expect(circles[0].attrs.r).to.equal(5);
+
+    });
+
+    it("creates a <circle> with [Length, Length, Length]", async () => {
+
+      const { context, renderer } = buildContextWithRenderer();
+
+      const cx = 1;
+      const cy = 2;
+      const r = 5;
+
+      const el = new Circle(context, cx, cy, r);
+
+      await el.flush();
+      await renderer.stopRendering();
+
+      const doc = reparseDOM(el);
+      const circles = extractNodes(doc, "circle");
+
+      expect(circles).to.have.length(1);
+      expect(circles[0].attrs.cx).to.equal(1);
+      expect(circles[0].attrs.cy).to.equal(2);
+      expect(circles[0].attrs.r).to.equal(5);
+
+    });
+
+  });
+
+  describe("method in context", () => {
+
+    it("creates a <circle> with [Point, Length]", async () => {
+
+      const { context, renderer } = buildContextWithRenderer();
+
+      const c = new Point(1, 2);
+      const r = 5;
+
+      const el = context.circle(c, r);
+
+      await el.flush();
+      await renderer.stopRendering();
+
+      const doc = reparseDOM(el);
+      const circles = extractNodes(doc, "circle");
+
+      expect(circles).to.have.length(1);
+      expect(circles[0].attrs.cx).to.equal(1);
+      expect(circles[0].attrs.cy).to.equal(2);
+      expect(circles[0].attrs.r).to.equal(5);
+
+    });
+
+    it("creates a <circle> with [Length, Length, Length]", async () => {
+
+      const { context, renderer } = buildContextWithRenderer();
+
+      const cx = 1;
+      const cy = 2;
+      const r = 5;
+
+      const el = context.circle(cx, cy, r);
+
+      await el.flush();
+      await renderer.stopRendering();
+
+      const doc = reparseDOM(el);
+      const circles = extractNodes(doc, "circle");
+
+      expect(circles).to.have.length(1);
+      expect(circles[0].attrs.cx).to.equal(1);
+      expect(circles[0].attrs.cy).to.equal(2);
+      expect(circles[0].attrs.r).to.equal(5);
+
+    });
 
   });
 

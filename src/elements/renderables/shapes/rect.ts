@@ -2,6 +2,7 @@ import { Length } from "../../../attributes/base";
 import { Box } from "../../../attributes/box";
 import { Point } from "../../../attributes/point";
 import { Context } from "../../../context";
+import { ElementConstructorArgumentsType } from "../../../util";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
 export interface Rect_Attributes extends Shape_Attributes {
@@ -81,7 +82,7 @@ export class Rect extends AbstractShape<SVGRectElement, Rect_Attributes> {
   constructor(context: Context, p: Point, width: Length, height: Length, rx?: Length, ry?: Length);
   constructor(context: Context, x: Length, y: Length, width: Length, height: Length, r?: Point);
   constructor(context: Context, a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length);
-  constructor(context: Context, a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length) {
-    super(context, "rect", _attributeHelper(a1, a2, a3, a4, a5, a6));
+  constructor(context: Context, ...args: ElementConstructorArgumentsType<typeof Rect>) {
+    super(context, "rect", _attributeHelper(...args));
   }
 }
