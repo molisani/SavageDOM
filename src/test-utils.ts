@@ -1,9 +1,9 @@
 import { parse } from "fast-xml-parser";
 import { JSDOM } from "jsdom";
 import { timer } from "rxjs";
-import { Renderer } from "../src/animation";
-import { Context } from "../src/context";
-import { Element } from "../src/element";
+import { Renderer } from "./animation";
+import { Context } from "./context";
+import { Element } from "./element";
 
 export interface XmlAttributes {
   [attrName: string]: number | string;

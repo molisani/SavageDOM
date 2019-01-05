@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { buildContextWithRenderer, extractNodes, reparseDOM } from "../../../../tests/common";
 import { Point } from "../../../attributes/point";
+import { buildContextWithRenderer, extractNodes, reparseDOM } from "../../../test-utils";
 import { Circle } from "./circle";
 
 describe("circle", () => {

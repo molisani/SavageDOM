@@ -23,6 +23,7 @@
         "node_modules",
         "lib",
         "dist",
-        "tests"
+        "src/test-utils.ts",
+        "src/**/*.spec.ts"
     ]
 }
