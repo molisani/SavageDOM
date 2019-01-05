@@ -16,13 +16,13 @@ import { ExternalSVG } from "./elements/renderables/external";
 import { ForeignObject } from "./elements/renderables/foreign-object";
 import { Group } from "./elements/renderables/group";
 import { Image } from "./elements/renderables/image";
-import { Circle } from "./elements/renderables/shapes/circle";
-import { Ellipse } from "./elements/renderables/shapes/ellipse";
-import { Line } from "./elements/renderables/shapes/line";
-import { Path } from "./elements/renderables/shapes/path";
-import { Polygon } from "./elements/renderables/shapes/polygon";
-import { Polyline } from "./elements/renderables/shapes/polyline";
-import { Rect } from "./elements/renderables/shapes/rect";
+import { Circle, Circle_Args1, Circle_Args2, Circle_Arguments } from "./elements/renderables/shapes/circle";
+import { Ellipse, Ellipse_Args1, Ellipse_Args2, Ellipse_Arguments } from "./elements/renderables/shapes/ellipse";
+import { Line, Line_Args1, Line_Args2, Line_Arguments } from "./elements/renderables/shapes/line";
+import { Path, Path_Arguments } from "./elements/renderables/shapes/path";
+import { Polygon, Polygon_Arguments } from "./elements/renderables/shapes/polygon";
+import { Polyline, Polyline_Arguments } from "./elements/renderables/shapes/polyline";
+import { Rect, Rect_Args1, Rect_Args2, Rect_Args3, Rect_Args4, Rect_Args5, Rect_Args6, Rect_Args7, Rect_Args8, Rect_Args9, Rect_Arguments } from "./elements/renderables/shapes/rect";
 import { Text } from "./elements/renderables/text";
 import { ResolvedPointEvent } from "./events";
 import { ElementArgumentsType, ElementConstructorArgumentsType } from "./util";
@@ -139,25 +139,40 @@ export class Context {
   public async imageAfterLoad(...args: ElementArgumentsType<typeof Image.afterLoad>): Promise<Image> {
     return Image.afterLoad(this, ...args);
   }
-  public circle(...args: ElementConstructorArgumentsType<typeof Circle>): Circle {
+  public circle(...args: Circle_Args1): Circle;
+  public circle(...args: Circle_Args2): Circle;
+  public circle(...args: Circle_Arguments): Circle {
     return new Circle(this, ...args);
   }
-  public ellipse(...args: ElementConstructorArgumentsType<typeof Ellipse>): Ellipse {
+  public ellipse(...args: Ellipse_Args1): Ellipse;
+  public ellipse(...args: Ellipse_Args2): Ellipse;
+  public ellipse(...args: Ellipse_Arguments): Ellipse {
     return new Ellipse(this, ...args);
   }
-  public line(...args: ElementConstructorArgumentsType<typeof Line>): Line {
+  public line(...args: Line_Args1): Line;
+  public line(...args: Line_Args2): Line;
+  public line(...args: Line_Arguments): Line {
     return new Line(this, ...args);
   }
-  public path(...args: ElementConstructorArgumentsType<typeof Path>): Path {
+  public path(...args: Path_Arguments): Path {
     return new Path(this, ...args);
   }
-  public polygon(...args: ElementConstructorArgumentsType<typeof Polygon>): Polygon {
+  public polygon(...args: Polygon_Arguments): Polygon {
     return new Polygon(this, ...args);
   }
-  public polyline(...args: ElementConstructorArgumentsType<typeof Polyline>): Polyline {
+  public polyline(...args: Polyline_Arguments): Polyline {
     return new Polyline(this, ...args);
   }
-  public rect(...args: ElementConstructorArgumentsType<typeof Rect>): Rect {
+  public rect(...args: Rect_Args1): Rect;
+  public rect(...args: Rect_Args2): Rect;
+  public rect(...args: Rect_Args3): Rect;
+  public rect(...args: Rect_Args4): Rect;
+  public rect(...args: Rect_Args5): Rect;
+  public rect(...args: Rect_Args6): Rect;
+  public rect(...args: Rect_Args7): Rect;
+  public rect(...args: Rect_Args8): Rect;
+  public rect(...args: Rect_Args9): Rect;
+  public rect(...args: Rect_Arguments): Rect {
     return new Rect(this, ...args);
   }
   public text(...args: ElementConstructorArgumentsType<typeof Text>): Text {

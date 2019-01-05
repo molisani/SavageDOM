@@ -1,5 +1,6 @@
 import { PathSegment } from "../../../attributes/path-segment";
 import { Context } from "../../../context";
+import { ArgumentsType } from "../../../util";
 import { HasMarker } from "../../non-renderables/marker";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
@@ -12,8 +13,10 @@ function _attributeHelper(d: PathSegment[], pathLength?: number): Partial<Path_A
   return { d, pathLength };
 }
 
+export type Path_Arguments = ArgumentsType<typeof _attributeHelper>;
+
 export class Path extends AbstractShape<SVGPathElement, Path_Attributes> {
-  constructor(context: Context, d: PathSegment[], pathLength?: number) {
-    super(context, "path", _attributeHelper(d, pathLength));
+  constructor(context: Context, ...args: Path_Arguments) {
+    super(context, "path", _attributeHelper(...args));
   }
 }

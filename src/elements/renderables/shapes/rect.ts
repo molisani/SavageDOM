@@ -2,7 +2,7 @@ import { Length } from "../../../attributes/base";
 import { Box } from "../../../attributes/box";
 import { Point } from "../../../attributes/point";
 import { Context } from "../../../context";
-import { ElementConstructorArgumentsType } from "../../../util";
+import { ArgumentsType } from "../../../util";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
 export interface Rect_Attributes extends Shape_Attributes {
@@ -18,71 +18,88 @@ export interface Rect_Attributes extends Shape_Attributes {
   "rx:ry": Point;
 }
 
-function _attributeHelper(a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length): Partial<Rect_Attributes> {
-  const attrs: Partial<Rect_Attributes> = {};
-  if (a1 instanceof Box) {
-    attrs["x:y:width:height"] = a1;
-    if (a2 instanceof Point) {
-      attrs["rx:ry"] = a2;
-    } else {
-      if (a2 !== undefined) {
-        attrs["rx"] = a2;
-      }
-      if (a3 !== undefined) {
-        attrs["ry"] = a3;
-      }
-    }
-  } else if (a1 instanceof Point) {
-    attrs["x:y"] = a1;
-    if (a2 !== undefined && !(a2 instanceof Point)) {
-      attrs["width"] = a2;
-    }
-    if (a3 !== undefined) {
-      attrs["height"] = a3;
-    }
-    if (a4 instanceof Point) {
-      attrs["rx:ry"] = a4;
-    } else {
-      if (a4 !== undefined) {
-        attrs["rx"] = a4;
-      }
-      if (a5 !== undefined && !(a5 instanceof Point)) {
-        attrs["ry"] = a5;
-      }
-    }
-  } else {
-    attrs["x"] = a1;
-    if (a2 !== undefined && !(a2 instanceof Point)) {
-      attrs["y"] = a2;
-    }
-    if (a3 !== undefined) {
-      attrs["width"] = a3;
-    }
-    if (a4 !== undefined && !(a4 instanceof Point)) {
-      attrs["height"] = a4;
-    }
-    if (a5 instanceof Point) {
-      attrs["rx:ry"] = a5;
-    } else {
-      if (a5 !== undefined) {
-        attrs["rx"] = a5;
-      }
-      if (a6 !== undefined) {
-        attrs["ry"] = a6;
-      }
-    }
+function _attributeHelper1(box: Box): Partial<Rect_Attributes> {
+  return { "x:y:width:height": box };
+}
+export type Rect_Args1 = ArgumentsType<typeof _attributeHelper1>;
+
+function _attributeHelper2(box: Box, r: Point): Partial<Rect_Attributes> {
+  return { "x:y:width:height": box, "rx:ry": r };
+}
+export type Rect_Args2 = ArgumentsType<typeof _attributeHelper2>;
+
+function _attributeHelper3(box: Box, rx: Length, ry: Length): Partial<Rect_Attributes> {
+  return { "x:y:width:height": box, rx, ry };
+}
+export type Rect_Args3 = ArgumentsType<typeof _attributeHelper3>;
+
+function _attributeHelper4(p: Point, width: Length, height: Length): Partial<Rect_Attributes> {
+  return { "x:y": p, width, height };
+}
+export type Rect_Args4 = ArgumentsType<typeof _attributeHelper4>;
+
+function _attributeHelper5(p: Point, width: Length, height: Length, r: Point): Partial<Rect_Attributes> {
+  return { "x:y": p, width, height, "rx:ry": r };
+}
+export type Rect_Args5 = ArgumentsType<typeof _attributeHelper5>;
+
+function _attributeHelper6(p: Point, width: Length, height: Length, rx: Length, ry: Length): Partial<Rect_Attributes> {
+  return { "x:y": p, width, height, rx, ry };
+}
+export type Rect_Args6 = ArgumentsType<typeof _attributeHelper6>;
+
+function _attributeHelper7(x: Length, y: Length, width: Length, height: Length): Partial<Rect_Attributes> {
+  return { x, y, width, height };
+}
+export type Rect_Args7 = ArgumentsType<typeof _attributeHelper7>;
+
+function _attributeHelper8(x: Length, y: Length, width: Length, height: Length, r: Point): Partial<Rect_Attributes> {
+  return { x, y, width, height, "rx:ry": r };
+}
+export type Rect_Args8 = ArgumentsType<typeof _attributeHelper8>;
+
+function _attributeHelper9(x: Length, y: Length, width: Length, height: Length, rx: Length, ry: Length): Partial<Rect_Attributes> {
+  return { x, y, width, height, rx, ry };
+}
+export type Rect_Args9 = ArgumentsType<typeof _attributeHelper9>;
+
+export type Rect_Arguments = Rect_Args1 | Rect_Args2 | Rect_Args3 | Rect_Args4 | Rect_Args5 | Rect_Args6 | Rect_Args7 | Rect_Args8 | Rect_Args9;
+
+function disambiguate3Arguments(args: Rect_Args3 | Rect_Args4): args is Rect_Args3 {
+  return args[0] instanceof Box;
+}
+
+function disambiguate4Arguments(args: Rect_Args5 | Rect_Args7): args is Rect_Args5 {
+  return args[0] instanceof Point;
+}
+
+function disambiguate5Arguments(args: Rect_Args6 | Rect_Args8): args is Rect_Args6 {
+  return args[0] instanceof Point;
+}
+
+function _attributeHelper(...args: Rect_Arguments): Partial<Rect_Attributes> {
+  switch (args.length) {
+    case 1: return _attributeHelper1(...args);
+    case 2: return _attributeHelper2(...args);
+    case 3: return disambiguate3Arguments(args) ? _attributeHelper3(...args) : _attributeHelper4(...args);
+    case 4: return disambiguate4Arguments(args) ? _attributeHelper5(...args) : _attributeHelper7(...args);
+    case 5: return disambiguate5Arguments(args) ? _attributeHelper6(...args) : _attributeHelper8(...args);
+    case 6: return _attributeHelper9(...args);
   }
-  return attrs;
 }
 
 export class Rect extends AbstractShape<SVGRectElement, Rect_Attributes> {
-  constructor(context: Context, box: Box, r?: Point);
-  constructor(context: Context, box: Box, rx?: Length, ry?: Length);
-  constructor(context: Context, p: Point, width: Length, height: Length, r?: Point);
-  constructor(context: Context, p: Point, width: Length, height: Length, rx?: Length, ry?: Length);
-  constructor(context: Context, x: Length, y: Length, width: Length, height: Length, r?: Point);
-  constructor(context: Context, a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length);
-  constructor(context: Context, ...args: ElementConstructorArgumentsType<typeof Rect>) {
+  constructor(context: Context, ...args: Rect_Args1);
+  constructor(context: Context, ...args: Rect_Args2);
+  constructor(context: Context, ...args: Rect_Args3);
+  constructor(context: Context, ...args: Rect_Args4);
+  constructor(context: Context, ...args: Rect_Args5);
+  constructor(context: Context, ...args: Rect_Args6);
+  constructor(context: Context, ...args: Rect_Args7);
+  constructor(context: Context, ...args: Rect_Args8);
+  constructor(context: Context, ...args: Rect_Args9);
+  constructor(context: Context, ...args: Rect_Arguments);
+  constructor(context: Context, ...args: Rect_Arguments) {
     super(context, "rect", _attributeHelper(...args));
   }
 }
