@@ -34,7 +34,6 @@ export class Context {
   private static _CONTEXT_SUBJECT = new ReplaySubject<Context>(1);
   private _root: SVGSVGElement;
   private _defs: Element<SVGDefsElement>;
-  private _target: SVGElement;
   constructor();
   constructor(id: string, window?: Window);
   constructor(el: SVGSVGElement, window?: Window);
@@ -57,7 +56,6 @@ export class Context {
     this._root.setAttribute("xmlns", XMLNS);
     this._root.setAttributeNS(XMLNS, "xlink", XLINK);
     this._root.setAttribute("version", "1.1");
-    this._target = this._root;
     const defsElements = this._root.getElementsByTagName("defs");
     const defsElement = defsElements.item(0);
     if (defsElement) {
@@ -98,7 +96,7 @@ export class Context {
     this._defs.add(def);
   }
   public addChild(el: SVGElement | Element<SVGElement>) {
-    this._target.appendChild((el instanceof Element) ? el.node : el);
+    this._root.appendChild((el instanceof Element) ? el.node : el);
   }
   public async load(url: string): Promise<ExternalSVG> {
     const xmlDocument = await makeRequest("GET", url);
