@@ -67,6 +67,9 @@ export class Context {
     }
     Context._CONTEXT_SUBJECT.next(this);
   }
+  public get root(): SVGSVGElement {
+    return this._root;
+  }
   public get window(): Window {
     return this._window;
   }
