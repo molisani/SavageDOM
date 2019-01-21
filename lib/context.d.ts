@@ -27,10 +27,10 @@ export declare class Context {
     private static _CONTEXT_SUBJECT;
     private _root;
     private _defs;
-    private _target;
     constructor();
     constructor(id: string, window?: Window);
     constructor(el: SVGSVGElement, window?: Window);
+    readonly root: SVGSVGElement;
     readonly window: Window;
     calculateLocalPoint<ELEMENT extends SVGGraphicsElement>(elementNode: ELEMENT, action: MouseEvent | Touch): DOMPoint;
     readonly mousePosition: Observable<ResolvedPointEvent>;
