@@ -2,8 +2,8 @@
 
 export * from "./base";
 export * from "./box";
-export * from "./color-matrix";
 export * from "./color";
+export * from "./color-matrix";
 export * from "./dimension";
 export * from "./matrix";
 export * from "./number-optional-number";
@@ -13,6 +13,3 @@ export * from "./preserve-aspect-ratio";
 export * from "./text-content";
 export * from "./transform";
 export * from "./wrappers";
-
-import * as Transforms from "./transforms";
-export { Transforms };
