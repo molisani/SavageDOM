@@ -1,4 +1,5 @@
 import { Observable } from "rxjs";
+import { EasingFunction } from "../animation";
 import { Core_Attributes, HasClass, HasColor, HasColorInterpolation, HasColorRendering, HasCursor, HasOpacity, HasStyle, HasVisibility, Inherit, None } from "../attributes/base";
 import { Transformable } from "../attributes/transform";
 import { Element } from "../element";
@@ -19,4 +20,5 @@ export interface Renderable_Events extends Mouse_Events, SVG_Events, Focus_Event
 }
 export declare abstract class AbstractRenderable<ELEMENT extends SVGGraphicsElement, ATTRIBUTES extends Renderable_Attributes = Renderable_Attributes, EVENTS extends Renderable_Events = Renderable_Events> extends Element<ELEMENT, ATTRIBUTES, EVENTS> {
     getPointEvents<EVENT extends keyof EVENTS = OnlyPointEvents<EVENTS>>(...events: EVENT[]): Observable<ResolvedPointEvent>;
+    reparent(child: AbstractRenderable<SVGGraphicsElement>, duration: number, easing?: EasingFunction): Promise<any>;
 }
