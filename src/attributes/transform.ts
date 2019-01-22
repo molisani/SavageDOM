@@ -1,23 +1,50 @@
 import { interpolateTransformSvg } from "d3-interpolate";
 import { Attribute } from "../attribute";
-import { Matrix_Transform } from "./transforms/matrix";
-import { Rotate_Transform } from "./transforms/rotate";
-import { Scale_Transform, UniformScale_Transform } from "./transforms/scale";
-import { SkewX_Transform, SkewY_Transform } from "./transforms/skew";
-import { Translate_Transform } from "./transforms/translate";
+import { ArrayWrapper } from "./wrappers";
 
-export abstract class Transform implements Attribute<Transform> {
-  constructor(public type: "matrix" | "translate" | "scale" | "rotate" | "skewX" | "skewY") {}
-  public abstract args(): string;
-  public toString(): string {
-    return `${this.type}(${this.args()})`;
+export type TransformType = "matrix" | "translate" | "scale" | "rotate" | "skewX" | "skewY";
+
+export class Transform<TYPE extends TransformType = any> implements Attribute<Transform> {
+  public static fromString(css: string): Transform {
+    const pivot = css.indexOf("(");
+    const type = css.substring(0, pivot) as TransformType;
+    const args = css.substring(pivot + 1, css.length - 1).split(" ").map(parseFloat);
+    return new Transform(type, args);
   }
-  public abstract parseArgs(args: string | null): Transform;
-  public parse(css: string | null): Transform {
-    if (css !== null) {
-      return this.parseArgs(css.substring(css.indexOf("(") + 1, css.length - 1));
+  public static matrix(m: DOMMatrix): Transform<"matrix">;
+  public static matrix(a?: number, b?: number, c?: number, d?: number, e?: number, f?: number): Transform<"matrix">;
+  public static matrix(a: DOMMatrix | number = 1, b: number = 0, c: number = 0, d: number = 1, e: number = 0, f: number = 0): Transform<"matrix"> {
+    if (typeof a === "number") {
+      return new Transform("matrix", [a, b, c, d, e, f]);
     } else {
-      return this.parseArgs(css);
+      return new Transform("matrix", [a.a, a.b, a.c, a.d, a.e, a.f]);
+    }
+  }
+  public static translate(x: number = 0, y: number = 0): Transform<"translate"> {
+    return new Transform("translate", [x, y]);
+  }
+  public static rotate(a: number, x: number = 0, y: number = 0): Transform<"rotate"> {
+    return new Transform("rotate", [a, x, y]);
+  }
+  public static scale(x: number = 1, y: number = x): Transform<"scale"> {
+    return new Transform("scale", [x, y]);
+  }
+  public static skewX(a: number = 0): Transform<"skewX"> {
+    return new Transform("skewX", [a]);
+  }
+  public static skewY(a: number = 0): Transform<"skewY"> {
+    return new Transform("skewY", [a]);
+  }
+  constructor(public type: TYPE, public args: number[]) {}
+  public toString(): string {
+    return `${this.type}(${this.args.join(", ")})`;
+  }
+  public parse(css: string | null): Transform {
+    console.log("parse", css);
+    if (css !== null) {
+      return Transform.fromString(css);
+    } else {
+      return Transform.matrix();
     }
   }
   public get(element: SVGElement, attr: string): Transform {
@@ -59,13 +86,29 @@ export abstract class Transform implements Attribute<Transform> {
   }
 }
 
+const TRANSFORM_LIST_PATTERN = /([a-z]+\(.*?\))/gi;
+
+export class TransformList extends ArrayWrapper<Transform> implements Attribute<TransformList> {
+  public parse(css: string | null): TransformList {
+    if (css !== null) {
+      const transforms = Array.from(css.match(TRANSFORM_LIST_PATTERN) || []);
+      return new TransformList(transforms.map(Transform.fromString));
+    } else {
+      return new TransformList();
+    }
+  }
+  public interpolator(from: TransformList): (t: number) => TransformList {
+    const func = interpolateTransformSvg(from.toString(), this.toString());
+    return (t: number) => this.parse(func(t));
+  }
+}
+
 export interface Transformable {
-  "transform.matrix": Matrix_Transform;
-  "transform.translate": Translate_Transform;
-  "transform.uniformScale": UniformScale_Transform;
-  "transform.scale": Scale_Transform;
-  "transform.rotate": Rotate_Transform;
-  "transform.skewX": SkewX_Transform;
-  "transform.skewY": SkewY_Transform;
-  transform: Transform[];
+  "transform.matrix": Transform<"matrix">;
+  "transform.translate": Transform<"translate">;
+  "transform.scale": Transform<"scale">;
+  "transform.rotate": Transform<"rotate">;
+  "transform.skewX": Transform<"skewX">;
+  "transform.skewY": Transform<"skewY">;
+  transform: TransformList;
 }

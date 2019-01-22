@@ -1,14 +1,14 @@
+import { Matrix } from "../../attributes";
 import { None } from "../../attributes/base";
 import { NumberOptionalNumber } from "../../attributes/number-optional-number";
 import { Point } from "../../attributes/point";
-import { Matrix_Transform } from "../../attributes/transforms/matrix";
 import { Filter, FilterInput } from "../filter";
 import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
 export interface ConvolveMatrix_Attributes extends FilterPrimitive_Attributes {
   in: FilterInput;
   order: NumberOptionalNumber;
-  kernelMatrix: Matrix_Transform;
+  kernelMatrix: Matrix;
   divisor: number;
   bias: number;
   targetX: number;
