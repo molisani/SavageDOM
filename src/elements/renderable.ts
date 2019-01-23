@@ -46,16 +46,22 @@ export abstract class AbstractRenderable<ELEMENT extends SVGGraphicsElement, ATT
   }
   public async reparent(child: AbstractRenderable<SVGGraphicsElement>, duration: number, easing: EasingFunction = linear): Promise<any> {
     const tempGroup = this.context.group();
-    const childMatrix = child.node.getCTM();
-    if (childMatrix) {
-      tempGroup.add(child);
-      const transform = this.context.root.createSVGTransformFromMatrix(childMatrix);
-      tempGroup.node.transform.baseVal.initialize(transform);
-    }
-    const targetMatrix = this.node.getCTM();
-    if (targetMatrix) {
-      const transformList = new TransformList([Transform.matrix(targetMatrix)]);
-      await tempGroup.animateAttribute("transform", transformList, duration, easing);
+    const screenCTM = this.context.root.getScreenCTM();
+    if (screenCTM) {
+      const inverseScreenCTM = screenCTM.inverse();
+      const childMatrix = child.node.getScreenCTM();
+      if (childMatrix) {
+        const transform = this.context.root.createSVGTransformFromMatrix(inverseScreenCTM.multiply(childMatrix));
+        tempGroup.node.transform.baseVal.initialize(transform);
+        tempGroup.add(child);
+      }
+      const targetMatrix = this.node.getScreenCTM();
+      if (targetMatrix) {
+        const transformList = new TransformList([
+          Transform.matrix(inverseScreenCTM.multiply(targetMatrix)),
+        ]);
+        await tempGroup.animateAttribute("transform", transformList, duration, easing);
+      }
     }
     this.add(child);
     tempGroup.destroy();
