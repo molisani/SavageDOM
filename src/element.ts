@@ -141,6 +141,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
     if (el instanceof SVGElement) {
       this._node.appendChild(el);
     } else {
+      el.context = this.context;
       this._node.appendChild(el._node);
     }
   }
