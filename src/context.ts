@@ -96,7 +96,12 @@ export class Context {
     this._defs.add(def);
   }
   public addChild(el: SVGElement | Element<SVGElement>) {
-    this._root.appendChild((el instanceof Element) ? el.node : el);
+    if (el instanceof Element) {
+      el.context = this;
+      this._root.appendChild(el.node);
+    } else {
+      this._root.appendChild(el);
+    }
   }
   public async load(url: string): Promise<ExternalSVG> {
     const xmlDocument = await makeRequest("GET", url);
