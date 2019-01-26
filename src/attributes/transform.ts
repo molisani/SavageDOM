@@ -40,7 +40,6 @@ export class Transform<TYPE extends TransformType = any> implements Attribute<Tr
     return `${this.type}(${this.args.join(" ")})`;
   }
   public parse(css: string | null): Transform {
-    console.log("parse", css);
     if (css !== null) {
       return Transform.fromString(css);
     } else {
