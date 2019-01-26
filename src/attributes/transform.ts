@@ -37,10 +37,9 @@ export class Transform<TYPE extends TransformType = any> implements Attribute<Tr
   }
   constructor(public type: TYPE, public args: number[]) {}
   public toString(): string {
-    return `${this.type}(${this.args.join(", ")})`;
+    return `${this.type}(${this.args.join(" ")})`;
   }
   public parse(css: string | null): Transform {
-    console.log("parse", css);
     if (css !== null) {
       return Transform.fromString(css);
     } else {
