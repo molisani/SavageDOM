@@ -4,11 +4,13 @@ import { ArrayWrapper } from "./wrappers";
 
 export type TransformType = "matrix" | "translate" | "scale" | "rotate" | "skewX" | "skewY";
 
+const TRANSFORM_ARG_DELIMITER = /[, ]+/;
+
 export class Transform<TYPE extends TransformType = any> implements Attribute<Transform> {
   public static fromString(css: string): Transform {
     const pivot = css.indexOf("(");
     const type = css.substring(0, pivot) as TransformType;
-    const args = css.substring(pivot + 1, css.length - 1).split(" ").map(parseFloat);
+    const args = css.substring(pivot + 1, css.length - 1).split(TRANSFORM_ARG_DELIMITER).map(parseFloat);
     return new Transform(type, args);
   }
   public static matrix(m: DOMMatrix): Transform<"matrix">;
