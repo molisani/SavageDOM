@@ -41,7 +41,6 @@ export class Context {
   private static _CONTEXT_SUBJECT = new ReplaySubject<Context>(1);
   private _root: SVGSVGElement;
   private _defs: Element<SVGDefsElement>;
-  private _target: SVGElement;
   constructor();
   constructor(id: string, window?: Window, renderer?: Renderer);
   constructor(el: SVGSVGElement, window?: Window, renderer?: Renderer);
@@ -64,7 +63,6 @@ export class Context {
     this._root.setAttribute("xmlns", XMLNS);
     this._root.setAttributeNS(XMLNS, "xlink", XLINK);
     this._root.setAttribute("version", "1.1");
-    this._target = this._root;
     const defsElements = this._root.getElementsByTagName("defs");
     const defsElement = defsElements.item(0);
     if (defsElement) {
@@ -73,6 +71,9 @@ export class Context {
       this._defs = new Element<SVGDefsElement>(this, "defs");
     }
     Context._CONTEXT_SUBJECT.next(this);
+  }
+  public get root(): SVGSVGElement {
+    return this._root;
   }
   public get window(): Window {
     return this._window;
@@ -105,7 +106,12 @@ export class Context {
     this._defs.add(def);
   }
   public addChild(el: SVGElement | Element<SVGElement>) {
-    this._target.appendChild((el instanceof Element) ? el.node : el);
+    if (el instanceof Element) {
+      el.context = this;
+      this._root.appendChild(el.node);
+    } else {
+      this._root.appendChild(el);
+    }
   }
   public async load(url: string): Promise<ExternalSVG> {
     const xmlDocument = await makeRequest("GET", url);

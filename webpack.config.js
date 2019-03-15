@@ -1,9 +1,10 @@
 'use strict';
 
 module.exports = {
+    // mode: "development",
+    // devtool: 'eval-source-map',
     mode: "production",
     context: __dirname, // to automatically find tsconfig.json
-    // devtool: 'inline-source-map',
     entry: './src/index.ts',
     output: {
         filename: 'savagedom.js',

@@ -1,9 +1,10 @@
 
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { EasingFunction, linear } from "../animation";
 import { Core_Attributes, HasClass, HasColor, HasColorInterpolation, HasColorRendering, HasCursor, HasOpacity, HasStyle, HasVisibility, Inherit, None } from "../attributes/base";
 import { Point } from "../attributes/point";
-import { Transformable } from "../attributes/transform";
+import { Transform, Transformable, TransformList } from "../attributes/transform";
 import { Element } from "../element";
 import { Focus_Events, Mouse_Events, OnlyPointEvents, ResolvedPointEvent, SVG_Events } from "../events";
 import { HasFilter } from "./filter";
@@ -42,5 +43,27 @@ export abstract class AbstractRenderable<ELEMENT extends SVGGraphicsElement, ATT
         screen: new Point(action.screenX, action.screenY),
       };
     }));
+  }
+  public async reparent(child: AbstractRenderable<SVGGraphicsElement>, duration: number, easing: EasingFunction = linear): Promise<any> {
+    const tempGroup = this.context.group();
+    const screenCTM = this.context.root.getScreenCTM();
+    if (screenCTM) {
+      const inverseScreenCTM = screenCTM.inverse();
+      const childMatrix = child.node.getScreenCTM();
+      if (childMatrix) {
+        const transform = this.context.root.createSVGTransformFromMatrix(inverseScreenCTM.multiply(childMatrix));
+        tempGroup.node.transform.baseVal.initialize(transform);
+        tempGroup.add(child);
+      }
+      const targetMatrix = this.node.getScreenCTM();
+      if (targetMatrix) {
+        const transformList = new TransformList([
+          Transform.matrix(inverseScreenCTM.multiply(targetMatrix)),
+        ]);
+        await tempGroup.animateAttribute("transform", transformList, duration, easing);
+      }
+    }
+    this.add(child);
+    tempGroup.destroy();
   }
 }
