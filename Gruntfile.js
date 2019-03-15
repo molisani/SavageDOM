@@ -78,13 +78,13 @@ module.exports = function(grunt) {
 
   require("load-grunt-tasks")(grunt);
 
-  grunt.registerTask("build", ["ts:lib", "webpack:all", "concat:all", "replace:all", "clean:tscommand"]);
-
-  grunt.registerTask("docs", ["clean:docs", "typedoc:build"]);
-
   grunt.registerTask("lint", ["parallelize:tslint"]);
 
+  grunt.registerTask("build", ["ts:lib", "webpack:all", "concat:all", "replace:all", "clean:tscommand"]);
+
   grunt.registerTask("check", ["lint", "build"]);
+
+  grunt.registerTask("docs", ["clean:docs", "typedoc:build"]);
 
   grunt.registerTask("prepublish", ["check", "docs"]);
 
