@@ -8,6 +8,15 @@ jobs:
     - stage: release
       node_js: lts/*
 
+deploy:
+  provider: pages
+  local_dir: docs
+  skip-cleanup: true
+  github-token: $GH_TOKEN
+  keep-history: true
+  on:
+    branch: master
+
 notifications:
   email: false
 
