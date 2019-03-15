@@ -1,7 +1,6 @@
 
 import { fromEvent, merge, Observable, Subscription } from "rxjs";
 import { EasingFunction } from "./animation/easing";
-import { Renderer } from "./animation/renderer";
 import { Attribute, isAttribute } from "./attribute";
 import { Core_Attributes } from "./attributes/base";
 import { Box } from "./attributes/box";
@@ -57,11 +56,11 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
     }
   }
   public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
-    const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, name, val);
+    const render = this.context.renderer.queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, name, val);
     this._pendingRenders.push(render);
   }
   public setAttributes(attrs: Partial<ATTRIBUTES>): void {
-    const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, attrs);
+    const render = this.context.renderer.queueAttributeUpdate<ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, attrs);
     this._pendingRenders.push(render);
   }
   public animateAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr], duration: number, easing: EasingFunction): Promise<number> | undefined {
@@ -74,10 +73,10 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
       return;
     }
     const from = attr.get(this._node, name);
-    return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolator(from), duration, easing);
+    return this.context.renderer.registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolator(from), duration, easing);
   }
   public linkDynamicAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: Observable<ATTRIBUTES[Attr]>): Subscription {
-    const subscription = Renderer.getInstance().subscribeAttributeObservable(this, name, val);
+    const subscription = this.context.renderer.subscribeAttributeObservable(this, name, val);
     const existingSubscription = this._linkedAttributes[name];
     if (existingSubscription && !existingSubscription.closed) {
       existingSubscription.unsubscribe();
@@ -87,7 +86,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
   }
   public async flush(): Promise<number> {
     if (this._pendingRenders.length === 0) {
-      return performance.now();
+      return Date.now();
     }
     const pending = Promise.all(this._pendingRenders);
     this._pendingRenders = [];

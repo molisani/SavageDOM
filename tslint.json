@@ -34,6 +34,7 @@
         "indent": [true, "spaces"],
         "max-classes-per-file": false,
         "max-line-length": [false],
+        "no-implicit-dependencies": false,
         "object-literal-sort-keys": false,
         "prefer-const": true,
         "trailing-comma": [true, { "multiline": "always", "singleline": "never" }],

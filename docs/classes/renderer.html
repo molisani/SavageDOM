@@ -87,9 +87,10 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="renderer.html#_animationframe" class="tsd-kind-icon">_animation<wbr>Frame</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="renderer.html#_animationframes" class="tsd-kind-icon">_animation<wbr>Frames</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="renderer.html#_attributeinterpolations" class="tsd-kind-icon">_attribute<wbr>Interpolations</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="renderer.html#_attributeupdates" class="tsd-kind-icon">_attribute<wbr>Updates</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="renderer.html#_rendersubscription" class="tsd-kind-icon">_render<wbr>Subscription</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="renderer.html#_instance" class="tsd-kind-icon">_instance</a></li>
 							</ul>
 						</section>
@@ -99,6 +100,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-private"><a href="renderer.html#_render" class="tsd-kind-icon">_render</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="renderer.html#queueattributeupdate" class="tsd-kind-icon">queue<wbr>Attribute<wbr>Update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="renderer.html#registerattributeinterpolation" class="tsd-kind-icon">register<wbr>Attribute<wbr>Interpolation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="renderer.html#startrendering" class="tsd-kind-icon">start<wbr>Rendering</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="renderer.html#stoprendering" class="tsd-kind-icon">stop<wbr>Rendering</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="renderer.html#subscribeattributeobservable" class="tsd-kind-icon">subscribe<wbr>Attribute<wbr>Observable</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="renderer.html#getinstance" class="tsd-kind-icon">get<wbr>Instance</a></li>
 							</ul>
@@ -112,15 +115,21 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Renderer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="renderer.html" class="tsd-signature-type">Renderer</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Renderer<span class="tsd-signature-symbol">(</span>_animationFrames<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="renderer.html" class="tsd-signature-type">Renderer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L45">animation/renderer.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L48">animation/renderer.ts:48</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> _animationFrames: <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;interval(0, animationFrameScheduler)</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="renderer.html" class="tsd-signature-type">Renderer</a></h4>
 						</li>
 					</ul>
@@ -129,12 +138,12 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_animationframe" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _animation<wbr>Frame</h3>
-					<div class="tsd-signature tsd-kind-icon">_animation<wbr>Frame<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;interval(0, animationFrameScheduler)</span></div>
+					<a name="_animationframes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _animation<wbr>Frames</h3>
+					<div class="tsd-signature tsd-kind-icon">_animation<wbr>Frames<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L43">animation/renderer.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L49">animation/renderer.ts:49</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -144,7 +153,7 @@
 					<div class="tsd-signature tsd-kind-icon">_attribute<wbr>Interpolations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L45">animation/renderer.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L47">animation/renderer.ts:47</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -162,17 +171,27 @@
 					<div class="tsd-signature tsd-kind-icon">_attribute<wbr>Updates<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Subject</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/elementupdaterender.html" class="tsd-signature-type">ElementUpdateRender</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><a href="element.html" class="tsd-signature-type">Element</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/core_attributes.html" class="tsd-signature-type">Core_Attributes</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/baseevents.html" class="tsd-signature-type">BaseEvents</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Subject&lt;ElementUpdateRender&lt;any, Element&lt;any&gt;&gt;&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L44">animation/renderer.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L46">animation/renderer.ts:46</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="_rendersubscription" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagOptional">Optional</span> _render<wbr>Subscription</h3>
+					<div class="tsd-signature tsd-kind-icon">_render<wbr>Subscription<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Subscription</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L48">animation/renderer.ts:48</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 					<a name="_instance" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> _instance</h3>
-					<div class="tsd-signature tsd-kind-icon">_instance<span class="tsd-signature-symbol">:</span> <a href="renderer.html" class="tsd-signature-type">Renderer</a><span class="tsd-signature-symbol"> =&nbsp;new Renderer()</span></div>
+					<div class="tsd-signature tsd-kind-icon">_instance<span class="tsd-signature-symbol">:</span> <a href="renderer.html" class="tsd-signature-type">Renderer</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L42">animation/renderer.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L45">animation/renderer.ts:45</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -189,7 +208,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L80">animation/renderer.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L96">animation/renderer.ts:96</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -219,7 +238,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L49">animation/renderer.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L65">animation/renderer.ts:65</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -245,7 +264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L50">animation/renderer.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L66">animation/renderer.ts:66</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -286,7 +305,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L65">animation/renderer.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L81">animation/renderer.ts:81</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -341,6 +360,40 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="startrendering" class="tsd-anchor"></a>
+					<h3>start<wbr>Rendering</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">start<wbr>Rendering<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L52">animation/renderer.ts:52</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="stoprendering" class="tsd-anchor"></a>
+					<h3>stop<wbr>Rendering</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">stop<wbr>Rendering<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L57">animation/renderer.ts:57</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="subscribeattributeobservable" class="tsd-anchor"></a>
 					<h3>subscribe<wbr>Attribute<wbr>Observable</h3>
@@ -351,7 +404,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L73">animation/renderer.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L89">animation/renderer.ts:89</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -386,7 +439,7 @@
 					<a name="getinstance" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Instance</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Instance<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="renderer.html" class="tsd-signature-type">Renderer</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Instance<span class="tsd-signature-symbol">(</span>animationFrames<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="renderer.html" class="tsd-signature-type">Renderer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -395,6 +448,12 @@
 									<li>Defined in <a href="https://github.com/molisani/SavageDOM/blob/master/src/animation/renderer.ts#L39">animation/renderer.ts:39</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> animationFrames: <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="renderer.html" class="tsd-signature-type">Renderer</a></h4>
 						</li>
 					</ul>
@@ -420,13 +479,16 @@
 								<a href="renderer.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="renderer.html#_animationframe" class="tsd-kind-icon">_animation<wbr>Frame</a>
+								<a href="renderer.html#_animationframes" class="tsd-kind-icon">_animation<wbr>Frames</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="renderer.html#_attributeinterpolations" class="tsd-kind-icon">_attribute<wbr>Interpolations</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="renderer.html#_attributeupdates" class="tsd-kind-icon">_attribute<wbr>Updates</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="renderer.html#_rendersubscription" class="tsd-kind-icon">_render<wbr>Subscription</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 								<a href="renderer.html#_instance" class="tsd-kind-icon">_instance</a>
@@ -439,6 +501,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="renderer.html#registerattributeinterpolation" class="tsd-kind-icon">register<wbr>Attribute<wbr>Interpolation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="renderer.html#startrendering" class="tsd-kind-icon">start<wbr>Rendering</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="renderer.html#stoprendering" class="tsd-kind-icon">stop<wbr>Rendering</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="renderer.html#subscribeattributeobservable" class="tsd-kind-icon">subscribe<wbr>Attribute<wbr>Observable</a>

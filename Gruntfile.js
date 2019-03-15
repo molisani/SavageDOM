@@ -42,12 +42,21 @@ module.exports = function(grunt) {
         ],
       },
     },
+    mochaTest: {
+      all: {
+        options: {
+          reporter: "spec",
+          require: "ts-node/register",
+        },
+        src: ["src/**/*.spec.ts"],
+      },
+    },
     tslint: {
       options: {
         configuration: grunt.file.readJSON("tslint.json")
       },
       all: {
-        src: ["src/**/*.ts", "test/**/*.ts"]
+        src: ["src/**/*.ts"]
       }
     },
     parallelize: {
@@ -82,9 +91,11 @@ module.exports = function(grunt) {
 
   grunt.registerTask("docs", ["clean:docs", "typedoc:build"]);
 
+  grunt.registerTask("test", ["mochaTest:all"]);
+
   grunt.registerTask("lint", ["parallelize:tslint"]);
 
-  grunt.registerTask("check", ["lint", "build"]);
+  grunt.registerTask("check", ["lint", "test", "build"]);
 
   grunt.registerTask("prepublish", ["check", "docs"]);
 
