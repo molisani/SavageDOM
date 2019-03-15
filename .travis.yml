@@ -13,8 +13,9 @@ jobs:
         script:
           - npx semantic-release
         on:
-          branch: master
-          condition: $CUSTOM_BUILD = true
+          all_branches: true
+          tags: true
+          condition: "$TRAVIS_TAG =~ ^release$"
 
 deploy:
   provider: pages
