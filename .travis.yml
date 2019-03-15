@@ -11,11 +11,7 @@ jobs:
         provider: script
         skip_cleanup: true
         script:
-          - npx semantic-release -b $TRAVIS_TAG
-        on:
-          all_branches: true
-          tags: true
-          condition: "$TRAVIS_TAG =~ ^deploy-[0-9]+$"
+          - npx semantic-release
 
 deploy:
   provider: pages
