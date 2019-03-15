@@ -15,7 +15,7 @@ jobs:
         on:
           all_branches: true
           tags: true
-          condition: "$TRAVIS_TAG =~ ^release$"
+          condition: "$TRAVIS_TAG =~ ^deploy-[0-9]+$"
 
 deploy:
   provider: pages
