@@ -26,8 +26,9 @@ function _attributeHelper(width?: number, height?: number, x?: number, y?: numbe
 }
 
 export class ClipPath extends AbstractNonRenderable<SVGClipPathElement, ClipPath_Attributes> {
-  constructor(public context: Context, w?: number, h?: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox") {
-    super(context, context.window.document.createElementNS(XMLNS.SVG, "clipPath"), _attributeHelper(w, h, x, y, units, contentUnits));
-    this.context.addDef(this);
+  public static create(context: Context, w?: number, h?: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox"): ClipPath {
+    const clipPath = new ClipPath(context, context.window.document.createElementNS(XMLNS.SVG, "clipPath"), _attributeHelper(w, h, x, y, units, contentUnits));
+    context.addDef(clipPath);
+    return clipPath;
   }
 }

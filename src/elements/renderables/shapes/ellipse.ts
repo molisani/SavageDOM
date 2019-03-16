@@ -26,10 +26,10 @@ function _attributeHelper(a1: Length | Point, a2: Length | Point, a3?: Length, a
 }
 
 export class Ellipse extends AbstractShape<SVGEllipseElement, Ellipse_Attributes> {
-  constructor(context: Context, c: Point, r: Point);
-  constructor(context: Context, cx: Length, cy: Length, rx: Length, ry: Length);
-  constructor(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length);
-  constructor(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length) {
-    super(context, context.window.document.createElementNS(XMLNS.SVG, "ellipse"), _attributeHelper(a1, a2, a3, a4));
+  public static create(context: Context, c: Point, r: Point): Ellipse;
+  public static create(context: Context, cx: Length, cy: Length, rx: Length, ry: Length): Ellipse;
+  public static create(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length): Ellipse;
+  public static create(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length): Ellipse {
+    return new Ellipse(context, context.window.document.createElementNS(XMLNS.SVG, "ellipse"), _attributeHelper(a1, a2, a3, a4));
   }
 }

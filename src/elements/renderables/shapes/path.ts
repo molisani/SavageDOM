@@ -14,7 +14,7 @@ function _attributeHelper(d: PathSegment[], pathLength?: number): Partial<Path_A
 }
 
 export class Path extends AbstractShape<SVGPathElement, Path_Attributes> {
-  constructor(context: Context, d: PathSegment[], pathLength?: number) {
-    super(context, context.window.document.createElementNS(XMLNS.SVG, "path"), _attributeHelper(d, pathLength));
+  public static create(context: Context, d: PathSegment[], pathLength?: number): Path {
+    return new Path(context, context.window.document.createElementNS(XMLNS.SVG, "path"), _attributeHelper(d, pathLength));
   }
 }

@@ -1,6 +1,7 @@
 import { Subscription } from "rxjs";
 import { EasingFunction, linear } from "../../animation/easing";
 import { Transform, TransformList } from "../../attributes/transform";
+import { XMLNS } from "../../constants";
 import { Context } from "../../context";
 import { Group } from "./group";
 
@@ -29,7 +30,7 @@ export class Component extends Group {
   private static _CONTEXT?: Context;
   private _hidden = false;
   constructor(origin?: { x: number, y: number }, protected easing: EasingFunction = linear) {
-    super(Component.context);
+    super(Component.context, Component.context.window.document.createElementNS(XMLNS.SVG, "g"));
     const transforms = [Transform.translate(), Transform.rotate(0), Transform.scale()];
     if (origin) {
       transforms.push(Transform.translate(-origin.x, -origin.y));

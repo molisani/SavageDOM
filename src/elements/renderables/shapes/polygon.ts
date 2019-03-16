@@ -13,7 +13,7 @@ function _attributeHelper(points: Point[]): Partial<Polygon_Attributes> {
 }
 
 export class Polygon extends AbstractShape<SVGPolygonElement, Polygon_Attributes> {
-  constructor(context: Context, points: Point[]) {
-    super(context, context.window.document.createElementNS(XMLNS.SVG, "polygon"), _attributeHelper(points));
+  public static create(context: Context, points: Point[]): Polygon {
+    return new Polygon(context, context.window.document.createElementNS(XMLNS.SVG, "polygon"), _attributeHelper(points));
   }
 }

@@ -46,11 +46,12 @@ function _attributeHelper(w: number | SVGPatternElement, h: number, x: number, y
 }
 
 export class Pattern extends AbstractPaintServer<SVGPatternElement, Pattern_Attributes> {
-  constructor(context: Context, el: SVGPatternElement);
-  constructor(context: Context, w: number, h: number, x?: number, y?: number, view?: Box);
-  constructor(context: Context, w: number | SVGPatternElement, h: number = (w instanceof SVGPatternElement) ? 0 : w, x: number = 0, y: number = 0, view?: Box) {
-    super(context, context.window.document.createElementNS(XMLNS.SVG, "pattern"), _attributeHelper(w, h, x, y, view));
-    this.context.addDef(this);
+  public static create(context: Context, el: SVGPatternElement): Pattern;
+  public static create(context: Context, w: number, h: number, x?: number, y?: number, view?: Box): Pattern;
+  public static create(context: Context, w: number | SVGPatternElement, h: number = (w instanceof SVGPatternElement) ? 0 : w, x: number = 0, y: number = 0, view?: Box): Pattern {
+    const pattern = new Pattern(context, context.window.document.createElementNS(XMLNS.SVG, "pattern"), _attributeHelper(w, h, x, y, view));
+    context.addDef(pattern);
+    return pattern;
   }
   public clone(deep: boolean = true): Pattern {
     return new Pattern(this.context, super.cloneNode(deep));

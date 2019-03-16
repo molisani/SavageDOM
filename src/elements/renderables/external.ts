@@ -1,3 +1,4 @@
+import { XMLNS } from "../../constants";
 import { Context } from "../../context";
 import { makeRequest, SVGDocument } from "../../document";
 import { Renderable_Attributes } from "../renderable";
@@ -6,7 +7,7 @@ import { Group } from "./group";
 
 export class ExternalSVG extends Group {
   constructor(context: Context, doc: SVGDocument, attrs?: Partial<Renderable_Attributes>) {
-    super(context, attrs);
+    super(context, context.window.document.createElementNS(XMLNS.SVG, "g"), attrs);
     doc.children.forEach((child) => {
       const importedNode = context.window.document.importNode(child, true);
       this.add(importedNode);
