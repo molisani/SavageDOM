@@ -61,7 +61,7 @@ export class Context {
     if (defsElement) {
       this._defs = new Element<SVGDefsElement>(this, defsElement);
     } else {
-      this._defs = new Element<SVGDefsElement>(this, "defs");
+      this._defs = new Element(this, this.window.document.createElementNS(XMLNS, "defs"));
     }
     Context._CONTEXT_SUBJECT.next(this);
   }
@@ -158,5 +158,10 @@ export class Context {
   }
   public text(...args: ElementConstructorArgumentsType<typeof Text>): Text {
     return new Text(this, ...args);
+  }
+  public wrapExisting(node: SVGCircleElement): Circle;
+  public wrapExisting<SVG extends SVGElement>(node: SVG): Element<SVG>;
+  public wrapExisting<SVG extends SVGElement>(node: SVG): Element<SVG> {
+    return new Element(this, node);
   }
 }

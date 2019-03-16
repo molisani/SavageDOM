@@ -6,7 +6,6 @@ import { Attribute, isAttribute } from "./attribute";
 import { Core_Attributes } from "./attributes/base";
 import { Box } from "./attributes/box";
 import { NumberWrapper } from "./attributes/wrappers";
-import { XMLNS } from "./constants";
 import { Context } from "./context";
 import { BaseEvents } from "./events";
 import { randomShortStringId } from "./id";
@@ -16,25 +15,13 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
   protected readonly _style: CSSStyleDeclaration;
   private _pendingRenders: Promise<number>[] = [];
   private _linkedAttributes: { [Attr in keyof ATTRIBUTES]?: Subscription } = {};
-  constructor(context: Context, el: SVG, attrs?: Partial<ATTRIBUTES>);
-  constructor(context: Context, name: string, attrs?: Partial<ATTRIBUTES>, id?: string);
-  constructor(context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, id?: string);
-  constructor(public context: Context, el: string | SVG, attrs?: Partial<ATTRIBUTES>, private _id: string = randomShortStringId()) {
-    if (typeof el === "string") {
-      this._node = this.context.window.document.createElementNS(XMLNS, el) as SVG;
-      this.context.addChild(this._node);
-      if (attrs !== undefined) {
-        this.setAttributes(attrs);
-      }
-      this._node.setAttribute("id", this._id);
+  constructor(public context: Context, el: SVG, attrs?: Partial<ATTRIBUTES>, private _id: string = randomShortStringId()) {
+    this._node = el;
+    const id = this._node.getAttribute("id");
+    if (id !== null) {
+      this._id = id;
     } else {
-      this._node = el;
-      const id = this._node.getAttribute("id");
-      if (id !== null) {
-        this._id = id;
-      } else {
-        this._node.setAttribute("id", this._id);
-      }
+      this._node.setAttribute("id", this._id);
     }
     this._style = this.context.window.getComputedStyle(this._node);
   }

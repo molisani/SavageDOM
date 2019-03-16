@@ -1,5 +1,6 @@
 import { Length } from "../../../attributes/base";
 import { Point } from "../../../attributes/point";
+import { XMLNS } from "../../../constants";
 import { Context } from "../../../context";
 import { AbstractShape, Shape_Attributes } from "../shape";
 
@@ -19,6 +20,6 @@ export class Circle extends AbstractShape<SVGCircleElement, Circle_Attributes> {
   constructor(context: Context, cx: Length, cy: Length, r: Length);
   constructor(context: Context, a1: Length | Point, a2: Length, a3?: Length);
   constructor(context: Context, a1: Length | Point, a2: Length, a3?: Length) {
-    super(context, "circle", _attributeHelper(a1, a2, a3));
+    super(context, context.window.document.createElementNS(XMLNS, "circle"), _attributeHelper(a1, a2, a3));
   }
 }

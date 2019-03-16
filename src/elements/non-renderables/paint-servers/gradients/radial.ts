@@ -1,5 +1,6 @@
 import { Length } from "../../../../attributes/base";
 import { Point } from "../../../../attributes/point";
+import { XMLNS } from "../../../../constants";
 import { Context } from "../../../../context";
 import { AbstractGradient, Gradient_Attributes, Stops } from "../gradient";
 
@@ -15,6 +16,6 @@ export interface RadialGradient_Attributes extends Gradient_Attributes {
 
 export class RadialGradient extends AbstractGradient<SVGRadialGradientElement, RadialGradient_Attributes> {
   constructor(context: Context, stops: Stops, attrs?: Partial<RadialGradient_Attributes>) {
-    super(context, "radialGradient", stops, attrs);
+    super(context, context.window.document.createElementNS(XMLNS, "radialGradient"), stops, attrs);
   }
 }

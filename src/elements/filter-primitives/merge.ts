@@ -1,3 +1,4 @@
+import { XMLNS } from "../../constants";
 import { Filter, FilterInput } from "../filter";
 import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
@@ -7,12 +8,17 @@ export interface MergeNode_Attributes extends FilterPrimitive_Attributes {
 
 export class MergeNode_Primitive extends FilterPrimitive<SVGFEMergeNodeElement, MergeNode_Attributes> {
   constructor(filter: Filter, attrs?: Partial<MergeNode_Attributes>) {
-    super(filter, "feMergeNode", attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS, "feMergeNode"), attrs);
   }
 }
 
 export class Merge_Primitive extends FilterPrimitive<SVGFEMergeElement> {
   constructor(filter: Filter) {
-    super(filter, "feMerge");
+    super(filter, filter.context.window.document.createElementNS(XMLNS, "feMerge"));
+  }
+  public addInputs(inputs: ReadonlyArray<FilterInput>) {
+    for (const input of inputs) {
+      this.add(new MergeNode_Primitive(this._filter, { in: input }));
+    }
   }
 }

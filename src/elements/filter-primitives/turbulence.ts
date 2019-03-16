@@ -1,4 +1,5 @@
 import { NumberOptionalNumber } from "../../attributes/number-optional-number";
+import { XMLNS } from "../../constants";
 import { Filter } from "../filter";
 import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
@@ -12,6 +13,6 @@ export interface Turbulence_Attributes extends FilterPrimitive_Attributes {
 
 export class Turbulence_Primitive extends FilterPrimitive<SVGFETurbulenceElement, Turbulence_Attributes> {
   constructor(filter: Filter, attrs?: Partial<Turbulence_Attributes>) {
-    super(filter, "feTurbulence", attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS, "feTurbulence"), attrs);
   }
 }

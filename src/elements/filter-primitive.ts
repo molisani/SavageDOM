@@ -19,10 +19,10 @@ export interface FilterPrimitive_Attributes extends Core_Attributes, HasClass, H
 export interface FilterPrimitive_Events extends SVG_Events {}
 
 export class FilterPrimitive<ELEMENT extends SVGElement, ATTRIBUTES extends FilterPrimitive_Attributes = FilterPrimitive_Attributes> extends Element<ELEMENT, ATTRIBUTES, FilterPrimitive_Events> {
-  constructor(filter: Filter, name: string, attrs: Partial<ATTRIBUTES> = {}, private _ref: string = filter.getUniquePrimitiveReference()) {
-    super(filter.context, name, attrs, `${filter.id}-${_ref}`);
+  constructor(protected readonly _filter: Filter, el: ELEMENT, attrs: Partial<ATTRIBUTES> = {}, private _ref: string = _filter.getUniquePrimitiveReference()) {
+    super(_filter.context, el, attrs, `${_filter.id}-${_ref}`);
     this.setAttribute("result", _ref as any);
-    filter.add(this);
+    _filter.add(this);
   }
   public toString(): string {
     return this._ref;
