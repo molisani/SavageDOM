@@ -34,6 +34,6 @@ export class Image extends AbstractRenderable<SVGImageElement, Image_Attributes,
     return image;
   }
   constructor(context: Context, attrs?: Partial<Image_Attributes>) {
-    super(context, context.window.document.createElementNS(XMLNS, "image"), attrs);
+    super(context, context.window.document.createElementNS(XMLNS.SVG, "image"), attrs);
   }
 }

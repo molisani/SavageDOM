@@ -15,6 +15,6 @@ export interface LinearGradient_Attributes extends Gradient_Attributes {
 
 export class LinearGradient extends AbstractGradient<SVGLinearGradientElement, LinearGradient_Attributes> {
   constructor(context: Context, stops: Stops, attrs?: Partial<LinearGradient_Attributes>) {
-    super(context, context.window.document.createElementNS(XMLNS, "linearGradient"), stops, attrs);
+    super(context, context.window.document.createElementNS(XMLNS.SVG, "linearGradient"), stops, attrs);
   }
 }

@@ -11,6 +11,6 @@ export interface Morphology_Attributes extends FilterPrimitive_Attributes {
 
 export class Morphology_Primitive extends FilterPrimitive<SVGFEMorphologyElement, Morphology_Attributes> {
   constructor(filter: Filter, attrs?: Partial<Morphology_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS, "feMorphology"), attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feMorphology"), attrs);
   }
 }

@@ -11,6 +11,6 @@ export interface GaussianBlur_Attributes extends FilterPrimitive_Attributes {
 
 export class GaussianBlur_Primitive extends FilterPrimitive<SVGFEGaussianBlurElement, GaussianBlur_Attributes> {
   constructor(filter: Filter, attrs?: Partial<GaussianBlur_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS, "feGaussianBlur"), attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feGaussianBlur"), attrs);
   }
 }

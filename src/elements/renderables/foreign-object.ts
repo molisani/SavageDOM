@@ -12,7 +12,7 @@ export interface ForeignObject_Attributes extends Containers_Attributes, HasOpac
 
 export class ForeignObject extends AbstractRenderable<SVGForeignObjectElement, ForeignObject_Attributes> {
   constructor(context: Context, attrs?: Partial<ForeignObject_Attributes>, html?: HTMLElement) {
-    super(context, context.window.document.createElementNS(XMLNS, "foreignObject"), attrs);
+    super(context, context.window.document.createElementNS(XMLNS.SVG, "foreignObject"), attrs);
     if (html) {
       this.addHTML(html);
     }

@@ -49,7 +49,7 @@ export class Pattern extends AbstractPaintServer<SVGPatternElement, Pattern_Attr
   constructor(context: Context, el: SVGPatternElement);
   constructor(context: Context, w: number, h: number, x?: number, y?: number, view?: Box);
   constructor(context: Context, w: number | SVGPatternElement, h: number = (w instanceof SVGPatternElement) ? 0 : w, x: number = 0, y: number = 0, view?: Box) {
-    super(context, context.window.document.createElementNS(XMLNS, "pattern"), _attributeHelper(w, h, x, y, view));
+    super(context, context.window.document.createElementNS(XMLNS.SVG, "pattern"), _attributeHelper(w, h, x, y, view));
     this.context.addDef(this);
   }
   public clone(deep: boolean = true): Pattern {

@@ -42,6 +42,6 @@ export interface ComponentTransfer_Attributes extends FilterPrimitive_Attributes
 
 export class ComponentTransfer_Primitive extends FilterPrimitive<SVGFEComponentTransferElement, ComponentTransfer_Attributes> {
   constructor(filter: Filter, attrs?: Partial<ComponentTransfer_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS, "feComponentTransfer"), attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feComponentTransfer"), attrs);
   }
 }

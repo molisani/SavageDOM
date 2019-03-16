@@ -14,6 +14,6 @@ export interface SpecularLighting_Attributes extends Lighting_Attributes {
 
 export class SpecularLighting extends FilterPrimitive<SVGFESpecularLightingElement, SpecularLighting_Attributes> {
   constructor(filter: Filter, attrs?: Partial<SpecularLighting_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS, "feSpecularLighting"), attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feSpecularLighting"), attrs);
   }
 }

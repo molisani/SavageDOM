@@ -30,6 +30,6 @@ export class Ellipse extends AbstractShape<SVGEllipseElement, Ellipse_Attributes
   constructor(context: Context, cx: Length, cy: Length, rx: Length, ry: Length);
   constructor(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length);
   constructor(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length) {
-    super(context, context.window.document.createElementNS(XMLNS, "ellipse"), _attributeHelper(a1, a2, a3, a4));
+    super(context, context.window.document.createElementNS(XMLNS.SVG, "ellipse"), _attributeHelper(a1, a2, a3, a4));
   }
 }
