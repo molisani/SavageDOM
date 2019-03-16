@@ -3,6 +3,9 @@ language: node_js
 node_js:
 - 8
 
+env:
+  DEPLOY_BUILD=false
+
 jobs:
   include:
     - stage: release
@@ -12,6 +15,8 @@ jobs:
         skip_cleanup: true
         script:
           - npx semantic-release
+        on:
+          condition: $DEPLOY_BUILD = true
 
 deploy:
   provider: pages
