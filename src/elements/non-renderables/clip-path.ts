@@ -24,7 +24,7 @@ function _attributeHelper(width?: number, height?: number, x?: number, y?: numbe
   return { width, height, x, y, maskUnits, maskContentUnits };
 }
 
-export class ClipPath extends AbstractNonRenderable<SVGMaskElement, ClipPath_Attributes> {
+export class ClipPath extends AbstractNonRenderable<SVGClipPathElement, ClipPath_Attributes> {
   constructor(public context: Context, w?: number, h?: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox") {
     super(context, "clipPath", _attributeHelper(w, h, x, y, units, contentUnits));
     this.context.addDef(this);
