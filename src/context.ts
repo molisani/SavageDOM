@@ -24,7 +24,7 @@ import { Polyline } from "./elements/renderables/shapes/polyline";
 import { Rect } from "./elements/renderables/shapes/rect";
 import { Text } from "./elements/renderables/text";
 import { ResolvedPointEvent } from "./events";
-import { ElementArgumentsType, ElementConstructorArgumentsType } from "./util";
+import { ElementArgumentsType } from "./util";
 
 export class Context {
   public static DEFAULT_WINDOW: Window = window;
@@ -108,60 +108,55 @@ export class Context {
     const externalDocument = new SVGDocument(this, xmlDocument);
     return new ExternalSVG(this, externalDocument);
   }
-  public clipPath(...args: ElementConstructorArgumentsType<typeof ClipPath>): ClipPath {
-    return new ClipPath(this, ...args);
+  public clipPath(...args: ElementArgumentsType<typeof ClipPath.create>): ClipPath {
+    return ClipPath.create(this, ...args);
   }
-  public marker(...args: ElementConstructorArgumentsType<typeof Marker>): Marker {
-    return new Marker(this, ...args);
+  public marker(...args: ElementArgumentsType<typeof Marker.create>): Marker {
+    return Marker.create(this, ...args);
   }
-  public mask(...args: ElementConstructorArgumentsType<typeof Mask>): Mask {
-    return new Mask(this, ...args);
+  public mask(...args: ElementArgumentsType<typeof Mask.create>): Mask {
+    return Mask.create(this, ...args);
   }
-  public linearGradient(...args: ElementConstructorArgumentsType<typeof LinearGradient>): LinearGradient {
-    return new LinearGradient(this, ...args);
+  public linearGradient(...args: ElementArgumentsType<typeof LinearGradient.create>): LinearGradient {
+    return LinearGradient.create(this, ...args);
   }
-  public radialGradient(...args: ElementConstructorArgumentsType<typeof RadialGradient>): RadialGradient {
-    return new RadialGradient(this, ...args);
+  public radialGradient(...args: ElementArgumentsType<typeof RadialGradient.create>): RadialGradient {
+    return RadialGradient.create(this, ...args);
   }
-  public pattern(...args: ElementConstructorArgumentsType<typeof Pattern>): Pattern {
-    return new Pattern(this, ...args);
+  public pattern(...args: ElementArgumentsType<typeof Pattern.create>): Pattern {
+    return Pattern.create(this, ...args);
   }
-  public foreignObject(...args: ElementConstructorArgumentsType<typeof ForeignObject>): ForeignObject {
-    return new ForeignObject(this, ...args);
+  public foreignObject(...args: ElementArgumentsType<typeof ForeignObject.create>): ForeignObject {
+    return ForeignObject.create(this, ...args);
   }
-  public group(...args: ElementConstructorArgumentsType<typeof Group>): Group {
-    return new Group(this, ...args);
+  public group(...args: ElementArgumentsType<typeof Group.create>): Group {
+    return Group.create(this, ...args);
   }
   public async imageAfterLoad(...args: ElementArgumentsType<typeof Image.afterLoad>): Promise<Image> {
     return Image.afterLoad(this, ...args);
   }
-  public circle(...args: ElementConstructorArgumentsType<typeof Circle>): Circle {
-    return new Circle(this, ...args);
+  public circle(...args: ElementArgumentsType<typeof Circle.create>): Circle {
+    return Circle.create(this, ...args);
   }
-  public ellipse(...args: ElementConstructorArgumentsType<typeof Ellipse>): Ellipse {
-    return new Ellipse(this, ...args);
+  public ellipse(...args: ElementArgumentsType<typeof Ellipse.create>): Ellipse {
+    return Ellipse.create(this, ...args);
   }
-  public line(...args: ElementConstructorArgumentsType<typeof Line>): Line {
-    return new Line(this, ...args);
+  public line(...args: ElementArgumentsType<typeof Line.create>): Line {
+    return Line.create(this, ...args);
   }
-  public path(...args: ElementConstructorArgumentsType<typeof Path>): Path {
-    return new Path(this, ...args);
+  public path(...args: ElementArgumentsType<typeof Path.create>): Path {
+    return Path.create(this, ...args);
   }
-  public polygon(...args: ElementConstructorArgumentsType<typeof Polygon>): Polygon {
-    return new Polygon(this, ...args);
+  public polygon(...args: ElementArgumentsType<typeof Polygon.create>): Polygon {
+    return Polygon.create(this, ...args);
   }
-  public polyline(...args: ElementConstructorArgumentsType<typeof Polyline>): Polyline {
-    return new Polyline(this, ...args);
+  public polyline(...args: ElementArgumentsType<typeof Polyline.create>): Polyline {
+    return Polyline.create(this, ...args);
   }
-  public rect(...args: ElementConstructorArgumentsType<typeof Rect>): Rect {
-    return new Rect(this, ...args);
+  public rect(...args: ElementArgumentsType<typeof Rect.create>): Rect {
+    return Rect.create(this, ...args);
   }
-  public text(...args: ElementConstructorArgumentsType<typeof Text>): Text {
-    return new Text(this, ...args);
-  }
-  public wrapExisting(node: SVGCircleElement): Circle;
-  public wrapExisting<SVG extends SVGElement>(node: SVG): Element<SVG>;
-  public wrapExisting<SVG extends SVGElement>(node: SVG): Element<SVG> {
-    return new Element(this, node);
+  public text(...args: ElementArgumentsType<typeof Text.create>): Text {
+    return Text.create(this, ...args);
   }
 }

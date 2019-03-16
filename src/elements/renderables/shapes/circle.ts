@@ -16,10 +16,10 @@ function _attributeHelper(a1: Length | Point, a2: Length, a3?: Length): Partial<
 }
 
 export class Circle extends AbstractShape<SVGCircleElement, Circle_Attributes> {
-  constructor(context: Context, c: Point, r: Length);
-  constructor(context: Context, cx: Length, cy: Length, r: Length);
-  constructor(context: Context, a1: Length | Point, a2: Length, a3?: Length);
-  constructor(context: Context, a1: Length | Point, a2: Length, a3?: Length) {
-    super(context, context.window.document.createElementNS(XMLNS.SVG, "circle"), _attributeHelper(a1, a2, a3));
+  public static create(context: Context, c: Point, r: Length): Circle;
+  public static create(context: Context, cx: Length, cy: Length, r: Length): Circle;
+  public static create(context: Context, a1: Length | Point, a2: Length, a3?: Length): Circle;
+  public static create(context: Context, a1: Length | Point, a2: Length, a3?: Length): Circle {
+    return new Circle(context, context.window.document.createElementNS(XMLNS.SVG, "circle"), _attributeHelper(a1, a2, a3));
   }
 }

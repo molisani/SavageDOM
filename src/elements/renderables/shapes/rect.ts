@@ -76,13 +76,13 @@ function _attributeHelper(a1: Box | Point | Length, a2?: Point | Length, a3?: Le
 }
 
 export class Rect extends AbstractShape<SVGRectElement, Rect_Attributes> {
-  constructor(context: Context, box: Box, r?: Point);
-  constructor(context: Context, box: Box, rx?: Length, ry?: Length);
-  constructor(context: Context, p: Point, width: Length, height: Length, r?: Point);
-  constructor(context: Context, p: Point, width: Length, height: Length, rx?: Length, ry?: Length);
-  constructor(context: Context, x: Length, y: Length, width: Length, height: Length, r?: Point);
-  constructor(context: Context, a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length);
-  constructor(context: Context, a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length) {
-    super(context, context.window.document.createElementNS(XMLNS.SVG, "rect"), _attributeHelper(a1, a2, a3, a4, a5, a6));
+  public static create(context: Context, box: Box, r?: Point): Rect;
+  public static create(context: Context, box: Box, rx?: Length, ry?: Length): Rect;
+  public static create(context: Context, p: Point, width: Length, height: Length, r?: Point): Rect;
+  public static create(context: Context, p: Point, width: Length, height: Length, rx?: Length, ry?: Length): Rect;
+  public static create(context: Context, x: Length, y: Length, width: Length, height: Length, r?: Point): Rect;
+  public static create(context: Context, a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length): Rect;
+  public static create(context: Context, a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length): Rect {
+    return new Rect(context, context.window.document.createElementNS(XMLNS.SVG, "rect"), _attributeHelper(a1, a2, a3, a4, a5, a6));
   }
 }

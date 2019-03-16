@@ -58,14 +58,44 @@ function _attributeHelper(a1: Point | Length, a2?: Length): Partial<Text_Attribu
 }
 
 export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes> {
-  constructor(context: Context, content: string, p: Point);
-  constructor(context: Context, content: string, x: Length, y: Length);
-  constructor(context: Context, content: string, a1: Point | Length, a2?: Length);
-  constructor(context: Context, content: string, a1: Point | Length, a2?: Length) {
-    super(context, context.window.document.createElementNS(XMLNS.SVG, "text"), _attributeHelper(a1, a2));
+  public static create(context: Context, text: string, p: Point): Text;
+  public static create(context: Context, content: string, x: Length, y: Length): Text;
+  public static create(context: Context, content: string, a1: Point | Length, a2?: Length): Text;
+  public static create(context: Context, content: string, a1: Point | Length, a2?: Length): Text {
+    const element = context.window.document.createElementNS(XMLNS.SVG, "text");
+    const attrs = _attributeHelper(a1, a2);
+    const text = new Text(context, element, attrs);
     if (content) {
-      this.addSpan(content);
+      text.addSpan(content);
     }
+    return text;
+  }
+  public static createMultiline(context: Context, content: string, width: number, attrs: Partial<Text_Attributes>, p: Point): Text;
+  public static createMultiline(context: Context, content: string, width: number, attrs: Partial<Text_Attributes>, x: Length, y: Length): Text;
+  public static createMultiline(context: Context, content: string, width: number, attrs: Partial<Text_Attributes>, a1: Point | Length, a2?: Length): Text {
+    const multilineText = Text.create(context, "", a1, a2);
+    const temp = Text.create(context, "", a1, a2);
+    temp.setAttribute("opacity", 0);
+    const span = new TextSpan(context, attrs);
+    temp.add(span);
+    const lines = [""];
+    content.split(" ").forEach((word, i) => {
+      const line = lines[lines.length - 1];
+      const newLine = (line.length === 0) ? word : `${line} ${word}`;
+      const lineContent = new TextContent(newLine);
+      span.setAttribute("textContent", lineContent);
+      if (span.computedLength > width && line.length > 0) {
+        lines.push(word);
+      } else {
+        lines[lines.length - 1] = newLine;
+      }
+    });
+    lines.forEach(line => {
+      if (line.length > 0) {
+        multilineText.addSpan(line, 1);
+      }
+    });
+    return multilineText;
   }
   public addSpan(content: string, lineHeight?: number | Length, update: boolean = true): TextSpan {
     const span = new TextSpan(this.context);
@@ -83,34 +113,5 @@ export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes> {
   }
   public get computedLength(): number {
     return this._node.getComputedTextLength();
-  }
-}
-
-export class MultilineText extends Text {
-  constructor(context: Context, text: string, width: number, attrs: Partial<Text_Attributes> & { "x:y": Point });
-  constructor(context: Context, text: string, width: number, attrs: Partial<Text_Attributes> & { x: Length, y: Length });
-  constructor(context: Context, text: string, width: number, attrs: Partial<Text_Attributes> & ({ "x:y": Point } | { x: Length, y: Length })) {
-    super(context, "", attrs["x:y"] || attrs.x, attrs.y);
-    const temp = new Text(context, "", attrs["x:y"] || attrs.x, attrs.y);
-    temp.setAttribute("opacity", 0);
-    const span = new TextSpan(context, attrs);
-    temp.add(span);
-    const lines = [""];
-    text.split(" ").forEach((word, i) => {
-      const line = lines[lines.length - 1];
-      const newLine = (line.length === 0) ? word : `${line} ${word}`;
-      const lineContent = new TextContent(newLine);
-      span.setAttribute("textContent", lineContent);
-      if (span.computedLength > width && line.length > 0) {
-        lines.push(word);
-      } else {
-        lines[lines.length - 1] = newLine;
-      }
-    });
-    lines.forEach(line => {
-      if (line.length > 0) {
-        this.addSpan(line, 1);
-      }
-    });
   }
 }

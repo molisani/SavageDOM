@@ -27,10 +27,10 @@ function _attributeHelper(a1: Length | Point, a2: Length | Point, a3?: Length, a
 }
 
 export class Line extends AbstractShape<SVGLineElement, Line_Attributes> {
-  constructor(context: Context, p1: Point, p2: Point);
-  constructor(context: Context, x1: Length, y1: Length, x2: Length, y2: Length);
-  constructor(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length);
-  constructor(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length) {
-    super(context, context.window.document.createElementNS(XMLNS.SVG, "line"), _attributeHelper(a1, a2, a3, a4));
+  public static create(context: Context, p1: Point, p2: Point): Line;
+  public static create(context: Context, x1: Length, y1: Length, x2: Length, y2: Length): Line;
+  public static create(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length): Line;
+  public static create(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length): Line {
+    return new Line(context, context.window.document.createElementNS(XMLNS.SVG, "line"), _attributeHelper(a1, a2, a3, a4));
   }
 }
