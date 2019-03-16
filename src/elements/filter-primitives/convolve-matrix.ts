@@ -22,6 +22,6 @@ export interface ConvolveMatrix_Attributes extends FilterPrimitive_Attributes {
 
 export class ConvolveMatrix_Primitive extends FilterPrimitive<SVGFEConvolveMatrixElement, ConvolveMatrix_Attributes> {
   constructor(filter: Filter, attrs?: Partial<ConvolveMatrix_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS, "feConvolveMatrix"), attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feConvolveMatrix"), attrs);
   }
 }

@@ -25,6 +25,6 @@ export interface Marker_Attributes extends NonRenderable_Attributes, HasOverflow
 
 export class Marker extends AbstractNonRenderable<SVGMarkerElement, Marker_Attributes> {
   constructor(context: Context, attrs?: Partial<NonRenderable_Attributes | Marker_Attributes>) {
-    super(context, context.window.document.createElementNS(XMLNS, "marker"), attrs);
+    super(context, context.window.document.createElementNS(XMLNS.SVG, "marker"), attrs);
   }
 }

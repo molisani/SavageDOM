@@ -50,18 +50,18 @@ export class Context {
         this._root = root;
       }
     } else {
-      this._root = this._window.document.createElementNS(XMLNS, "svg") as SVGSVGElement;
+      this._root = this._window.document.createElementNS(XMLNS.SVG, "svg") as SVGSVGElement;
       this._window.document.body.appendChild(this._root);
     }
-    this._root.setAttribute("xmlns", XMLNS);
-    this._root.setAttributeNS(XMLNS, "xlink", XLINK);
+    this._root.setAttribute("xmlns", XMLNS.SVG);
+    this._root.setAttributeNS(XMLNS.SVG, "xlink", XLINK);
     this._root.setAttribute("version", "1.1");
     const defsElements = this._root.getElementsByTagName("defs");
     const defsElement = defsElements.item(0);
     if (defsElement) {
       this._defs = new Element<SVGDefsElement>(this, defsElement);
     } else {
-      this._defs = new Element(this, this.window.document.createElementNS(XMLNS, "defs"));
+      this._defs = new Element(this, this.window.document.createElementNS(XMLNS.SVG, "defs"));
     }
     Context._CONTEXT_SUBJECT.next(this);
   }

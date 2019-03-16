@@ -13,6 +13,6 @@ export interface DiffuseLighting_Attributes extends Lighting_Attributes {
 
 export class DiffuseLighting extends FilterPrimitive<SVGFEDiffuseLightingElement, DiffuseLighting_Attributes> {
   constructor(filter: Filter, attrs?: Partial<DiffuseLighting_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS, "feDiffuseLighting"), attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feDiffuseLighting"), attrs);
   }
 }

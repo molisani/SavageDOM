@@ -26,7 +26,7 @@ function _attributeHelper(width?: number, height?: number, x?: number, y?: numbe
 
 export class Mask extends AbstractNonRenderable<SVGMaskElement, Mask_Attributes> {
   constructor(public context: Context, w?: number, h?: number, x?: number, y?: number, units?: "userSpaceOnUse" | "objectBoundingBox", contentUnits?: "userSpaceOnUse" | "objectBoundingBox") {
-    super(context, context.window.document.createElementNS(XMLNS, "mask"), _attributeHelper(w, h, x, y, units, contentUnits));
+    super(context, context.window.document.createElementNS(XMLNS.SVG, "mask"), _attributeHelper(w, h, x, y, units, contentUnits));
     this.context.addDef(this);
   }
 }

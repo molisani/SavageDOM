@@ -11,6 +11,6 @@ export interface Flood_Attributes extends FilterPrimitive_Attributes, HasColor {
 
 export class Flood_Primitive extends FilterPrimitive<SVGFEFloodElement, Flood_Attributes> {
   constructor(filter: Filter, attrs?: Partial<Flood_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS, "feFlood"), attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feFlood"), attrs);
   }
 }

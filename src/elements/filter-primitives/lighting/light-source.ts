@@ -42,18 +42,18 @@ export abstract class AbstractLightSource<ELEMENT extends SVGFEDistantLightEleme
 
 export class DistantLight extends AbstractLightSource<SVGFEDistantLightElement, DistantLight_Attributes> {
   constructor(filter: Filter, attrs?: Partial<DistantLight_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS, "feDistantLight"), attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feDistantLight"), attrs);
   }
 }
 
 export class PointLight extends AbstractLightSource<SVGFEPointLightElement, PointLight_Attributes> {
   constructor(filter: Filter, attrs?: Partial<PointLight_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS, "fePointLight"), attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "fePointLight"), attrs);
   }
 }
 
 export class SpotLight extends AbstractLightSource<SVGFESpotLightElement, SpotLight_Attributes> {
   constructor(filter: Filter, attrs?: Partial<SpotLight_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS, "feSpotLight"), attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feSpotLight"), attrs);
   }
 }

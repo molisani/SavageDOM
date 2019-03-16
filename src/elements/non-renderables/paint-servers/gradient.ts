@@ -33,7 +33,7 @@ export interface Stop_Attributes extends Core_Attributes, HasClass, HasStyle {
 
 export class Stop extends Element<SVGStopElement, Stop_Attributes, NonRenderable_Events> {
   constructor(context: Context, public offset: number, color: "currentColor" | Color | Inherit) {
-    super(context, context.window.document.createElementNS(XMLNS, "stop"), {
+    super(context, context.window.document.createElementNS(XMLNS.SVG, "stop"), {
       offset: new Dimension<"%">(offset * 100, "%"),
       "stop-color": color,
     });

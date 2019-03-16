@@ -62,7 +62,7 @@ const merge = <A, B>(a: A, b: B): A & B => {
 export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_Events> {
   private _refCounter: number = 0;
   constructor(public context: Context) {
-    super(context, context.window.document.createElementNS(XMLNS, "filter"));
+    super(context, context.window.document.createElementNS(XMLNS.SVG, "filter"));
     this.context.addDef(this);
   }
   public getUniquePrimitiveReference(): string {
@@ -86,11 +86,11 @@ export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_
     const componentTransfer = new ComponentTransfer_Primitive(this, {
       in: input,
     });
-    componentTransfer.add(new TransferFunction_Primitive(this, this.context.window.document.createElementNS(XMLNS, "feFuncR"), r));
-    componentTransfer.add(new TransferFunction_Primitive(this, this.context.window.document.createElementNS(XMLNS, "feFuncG"), g));
-    componentTransfer.add(new TransferFunction_Primitive(this, this.context.window.document.createElementNS(XMLNS, "feFuncB"), b));
+    componentTransfer.add(new TransferFunction_Primitive(this, this.context.window.document.createElementNS(XMLNS.SVG, "feFuncR"), r));
+    componentTransfer.add(new TransferFunction_Primitive(this, this.context.window.document.createElementNS(XMLNS.SVG, "feFuncG"), g));
+    componentTransfer.add(new TransferFunction_Primitive(this, this.context.window.document.createElementNS(XMLNS.SVG, "feFuncB"), b));
     if (a !== undefined) {
-      componentTransfer.add(new TransferFunction_Primitive(this, this.context.window.document.createElementNS(XMLNS, "feFuncA"), a));
+      componentTransfer.add(new TransferFunction_Primitive(this, this.context.window.document.createElementNS(XMLNS.SVG, "feFuncA"), a));
     }
     return componentTransfer;
   }

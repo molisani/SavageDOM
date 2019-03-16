@@ -14,6 +14,6 @@ function _attributeHelper(points: Point[]): Partial<Polyline_Attributes> {
 
 export class Polyline extends AbstractShape<SVGPolylineElement, Polyline_Attributes> {
   constructor(context: Context, points: Point[]) {
-    super(context, context.window.document.createElementNS(XMLNS, "polyline"), _attributeHelper(points));
+    super(context, context.window.document.createElementNS(XMLNS.SVG, "polyline"), _attributeHelper(points));
   }
 }

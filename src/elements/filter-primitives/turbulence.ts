@@ -13,6 +13,6 @@ export interface Turbulence_Attributes extends FilterPrimitive_Attributes {
 
 export class Turbulence_Primitive extends FilterPrimitive<SVGFETurbulenceElement, Turbulence_Attributes> {
   constructor(filter: Filter, attrs?: Partial<Turbulence_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS, "feTurbulence"), attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feTurbulence"), attrs);
   }
 }

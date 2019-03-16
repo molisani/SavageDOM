@@ -10,7 +10,7 @@ export interface Group_Attributes extends Containers_Attributes, HasOpacity {}
 
 export class Group extends AbstractRenderable<SVGGElement, Group_Attributes> {
   constructor(context: Context, attrs?: Partial<Renderable_Attributes>, els: Element<any>[] = []) {
-    super(context, context.window.document.createElementNS(XMLNS, "g"), attrs);
+    super(context, context.window.document.createElementNS(XMLNS.SVG, "g"), attrs);
     if (this.constructor.name !== Group.name) {
       this._node.setAttribute("data-class", this.constructor.name);
     }
