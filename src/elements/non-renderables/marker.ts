@@ -1,6 +1,7 @@
 import { HasOpacity, HasOverflow, Inherit, Length, None } from "../../attributes/base";
 import { Box } from "../../attributes/box";
 import { Point } from "../../attributes/point";
+import { XMLNS } from "../../constants";
 import { Context } from "../../context";
 import { AbstractNonRenderable, NonRenderable_Attributes } from "../non-renderable";
 
@@ -24,6 +25,6 @@ export interface Marker_Attributes extends NonRenderable_Attributes, HasOverflow
 
 export class Marker extends AbstractNonRenderable<SVGMarkerElement, Marker_Attributes> {
   constructor(context: Context, attrs?: Partial<NonRenderable_Attributes | Marker_Attributes>) {
-    super(context, "marker", attrs);
+    super(context, context.window.document.createElementNS(XMLNS, "marker"), attrs);
   }
 }

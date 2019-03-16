@@ -5,6 +5,7 @@ import { ColorMatrix } from "../attributes/color-matrix";
 import { NumberOptionalNumber } from "../attributes/number-optional-number";
 import { Point } from "../attributes/point";
 import { PreserveAspectRatio } from "../attributes/preserve-aspect-ratio";
+import { XMLNS } from "../constants";
 import { Context } from "../context";
 import { Element } from "../element";
 import { SVG_Events } from "../events";
@@ -21,7 +22,7 @@ import { Image_Primitive } from "./filter-primitives/image";
 import { DiffuseLighting, DiffuseLighting_Attributes } from "./filter-primitives/lighting/diffuse";
 import { DistantLight, LightSource_Attributes, PointLight, SpotLight } from "./filter-primitives/lighting/light-source";
 import { SpecularLighting, SpecularLighting_Attributes } from "./filter-primitives/lighting/specular";
-import { Merge_Primitive, MergeNode_Primitive } from "./filter-primitives/merge";
+import { Merge_Primitive } from "./filter-primitives/merge";
 import { Morphology_Primitive } from "./filter-primitives/morphology";
 import { Offset_Primitive } from "./filter-primitives/offset";
 import { Tile_Primitive } from "./filter-primitives/tile";
@@ -61,7 +62,7 @@ const merge = <A, B>(a: A, b: B): A & B => {
 export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_Events> {
   private _refCounter: number = 0;
   constructor(public context: Context) {
-    super(context, "filter");
+    super(context, context.window.document.createElementNS(XMLNS, "filter"));
     this.context.addDef(this);
   }
   public getUniquePrimitiveReference(): string {
@@ -85,11 +86,11 @@ export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_
     const componentTransfer = new ComponentTransfer_Primitive(this, {
       in: input,
     });
-    componentTransfer.add(new TransferFunction_Primitive(this, "R", r));
-    componentTransfer.add(new TransferFunction_Primitive(this, "G", g));
-    componentTransfer.add(new TransferFunction_Primitive(this, "B", b));
+    componentTransfer.add(new TransferFunction_Primitive(this, this.context.window.document.createElementNS(XMLNS, "feFuncR"), r));
+    componentTransfer.add(new TransferFunction_Primitive(this, this.context.window.document.createElementNS(XMLNS, "feFuncG"), g));
+    componentTransfer.add(new TransferFunction_Primitive(this, this.context.window.document.createElementNS(XMLNS, "feFuncB"), b));
     if (a !== undefined) {
-      componentTransfer.add(new TransferFunction_Primitive(this, "A", a));
+      componentTransfer.add(new TransferFunction_Primitive(this, this.context.window.document.createElementNS(XMLNS, "feFuncA"), a));
     }
     return componentTransfer;
   }
@@ -138,12 +139,9 @@ export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_
       preserveAspectRatio,
     });
   }
-  public merge(inputs: FilterInput[]): Merge_Primitive {
+  public merge(inputs: ReadonlyArray<FilterInput>): Merge_Primitive {
     const fe = new Merge_Primitive(this);
-    inputs.forEach(input => {
-      const mergeNode = new MergeNode_Primitive(this, { in: input });
-      fe.add(mergeNode);
-    });
+    fe.addInputs(inputs);
     return fe;
   }
   public morphology(operator: "erode" | "dilate", radius: NumberOptionalNumber, input?: FilterInput): Morphology_Primitive {
