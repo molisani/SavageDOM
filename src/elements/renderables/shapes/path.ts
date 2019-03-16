@@ -1,4 +1,5 @@
 import { PathSegment } from "../../../attributes/path-segment";
+import { XMLNS } from "../../../constants";
 import { Context } from "../../../context";
 import { HasMarker } from "../../non-renderables/marker";
 import { AbstractShape, Shape_Attributes } from "../shape";
@@ -14,6 +15,6 @@ function _attributeHelper(d: PathSegment[], pathLength?: number): Partial<Path_A
 
 export class Path extends AbstractShape<SVGPathElement, Path_Attributes> {
   constructor(context: Context, d: PathSegment[], pathLength?: number) {
-    super(context, "path", _attributeHelper(d, pathLength));
+    super(context, context.window.document.createElementNS(XMLNS, "path"), _attributeHelper(d, pathLength));
   }
 }

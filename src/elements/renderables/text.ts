@@ -2,6 +2,7 @@ import { HasFill, HasStroke, HasVisibility, Inherit, Length, None } from "../../
 import { Dimension } from "../../attributes/dimension";
 import { Point } from "../../attributes/point";
 import { TextContent } from "../../attributes/text-content";
+import { XMLNS } from "../../constants";
 import { Context } from "../../context";
 import { AbstractRenderable, Graphics_Attributes, Renderable_Attributes } from "../renderable";
 
@@ -35,7 +36,7 @@ export interface TextSpan_Attributes extends Renderable_Attributes, Text_Attribu
 
 export class TextSpan extends AbstractRenderable<SVGTSpanElement, TextSpan_Attributes> {
   constructor(context: Context, attrs?: Partial<TextSpan_Attributes>) {
-    super(context, "tspan", attrs);
+    super(context, context.window.document.createElementNS(XMLNS, "tspan"), attrs);
   }
   public get computedLength(): number {
     return this._node.getComputedTextLength();
@@ -61,7 +62,7 @@ export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes> {
   constructor(context: Context, content: string, x: Length, y: Length);
   constructor(context: Context, content: string, a1: Point | Length, a2?: Length);
   constructor(context: Context, content: string, a1: Point | Length, a2?: Length) {
-    super(context, "text", _attributeHelper(a1, a2));
+    super(context, context.window.document.createElementNS(XMLNS, "text"), _attributeHelper(a1, a2));
     if (content) {
       this.addSpan(content);
     }

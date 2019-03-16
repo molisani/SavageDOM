@@ -2,6 +2,7 @@ import { HasOverflow, Inherit, Length } from "../../attributes/base";
 import { Box } from "../../attributes/box";
 import { Point } from "../../attributes/point";
 import { PreserveAspectRatio } from "../../attributes/preserve-aspect-ratio";
+import { XMLNS } from "../../constants";
 import { Context } from "../../context";
 import { AbstractRenderable, Graphics_Attributes, Renderable_Events } from "../renderable";
 
@@ -33,6 +34,6 @@ export class Image extends AbstractRenderable<SVGImageElement, Image_Attributes,
     return image;
   }
   constructor(context: Context, attrs?: Partial<Image_Attributes>) {
-    super(context, "image", attrs);
+    super(context, context.window.document.createElementNS(XMLNS, "image"), attrs);
   }
 }

@@ -1,5 +1,6 @@
 import { Length } from "../../../../attributes/base";
 import { Point } from "../../../../attributes/point";
+import { XMLNS } from "../../../../constants";
 import { Context } from "../../../../context";
 import { AbstractGradient, Gradient_Attributes, Stops } from "../gradient";
 
@@ -14,6 +15,6 @@ export interface LinearGradient_Attributes extends Gradient_Attributes {
 
 export class LinearGradient extends AbstractGradient<SVGLinearGradientElement, LinearGradient_Attributes> {
   constructor(context: Context, stops: Stops, attrs?: Partial<LinearGradient_Attributes>) {
-    super(context, "linearGradient", stops, attrs);
+    super(context, context.window.document.createElementNS(XMLNS, "linearGradient"), stops, attrs);
   }
 }

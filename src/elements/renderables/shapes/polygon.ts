@@ -1,4 +1,5 @@
 import { Point } from "../../../attributes/point";
+import { XMLNS } from "../../../constants";
 import { Context } from "../../../context";
 import { HasMarker } from "../../non-renderables/marker";
 import { AbstractShape, Shape_Attributes } from "../shape";
@@ -13,6 +14,6 @@ function _attributeHelper(points: Point[]): Partial<Polygon_Attributes> {
 
 export class Polygon extends AbstractShape<SVGPolygonElement, Polygon_Attributes> {
   constructor(context: Context, points: Point[]) {
-    super(context, "polygon", _attributeHelper(points));
+    super(context, context.window.document.createElementNS(XMLNS, "polygon"), _attributeHelper(points));
   }
 }

@@ -1,4 +1,5 @@
 import { NumberOptionalNumber } from "../../../attributes/number-optional-number";
+import { XMLNS } from "../../../constants";
 import { Filter, FilterInput } from "../../filter";
 import { FilterPrimitive } from "../../filter-primitive";
 import { Lighting_Attributes } from "./attributes";
@@ -13,6 +14,6 @@ export interface SpecularLighting_Attributes extends Lighting_Attributes {
 
 export class SpecularLighting extends FilterPrimitive<SVGFESpecularLightingElement, SpecularLighting_Attributes> {
   constructor(filter: Filter, attrs?: Partial<SpecularLighting_Attributes>) {
-    super(filter, "feSpecularLighting", attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS, "feSpecularLighting"), attrs);
   }
 }

@@ -1,5 +1,6 @@
 import { Core_Attributes, Length } from "../../../attributes/base";
 import { Point } from "../../../attributes/point";
+import { XMLNS } from "../../../constants";
 import { Element } from "../../../element";
 import { Filter } from "../../filter";
 
@@ -34,25 +35,25 @@ export interface SpotLight_Attributes extends Core_Attributes {
 export type LightSource_Attributes = DistantLight_Attributes | PointLight_Attributes | SpotLight_Attributes;
 
 export abstract class AbstractLightSource<ELEMENT extends SVGFEDistantLightElement | SVGFEPointLightElement | SVGFESpotLightElement, ATTRIBUTES extends LightSource_Attributes> extends Element<ELEMENT, ATTRIBUTES> {
-  constructor(filter: Filter, name: "feDistantLight" | "fePointLight" | "feSpotLight", attrs?: Partial<ATTRIBUTES>) {
-    super(filter.context, name, attrs);
+  constructor(filter: Filter, el: ELEMENT, attrs?: Partial<ATTRIBUTES>) {
+    super(filter.context, el, attrs);
   }
 }
 
 export class DistantLight extends AbstractLightSource<SVGFEDistantLightElement, DistantLight_Attributes> {
   constructor(filter: Filter, attrs?: Partial<DistantLight_Attributes>) {
-    super(filter, "feDistantLight", attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS, "feDistantLight"), attrs);
   }
 }
 
 export class PointLight extends AbstractLightSource<SVGFEPointLightElement, PointLight_Attributes> {
   constructor(filter: Filter, attrs?: Partial<PointLight_Attributes>) {
-    super(filter, "fePointLight", attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS, "fePointLight"), attrs);
   }
 }
 
 export class SpotLight extends AbstractLightSource<SVGFESpotLightElement, SpotLight_Attributes> {
   constructor(filter: Filter, attrs?: Partial<SpotLight_Attributes>) {
-    super(filter, "feSpotLight", attrs);
+    super(filter, filter.context.window.document.createElementNS(XMLNS, "feSpotLight"), attrs);
   }
 }

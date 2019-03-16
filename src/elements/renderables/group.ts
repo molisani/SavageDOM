@@ -1,5 +1,6 @@
 import { HasOpacity } from "../../attributes/base";
 import { Box } from "../../attributes/box";
+import { XMLNS } from "../../constants";
 import { Context } from "../../context";
 import { Element } from "../../element";
 import { Pattern } from "../non-renderables/paint-servers/pattern";
@@ -9,7 +10,7 @@ export interface Group_Attributes extends Containers_Attributes, HasOpacity {}
 
 export class Group extends AbstractRenderable<SVGGElement, Group_Attributes> {
   constructor(context: Context, attrs?: Partial<Renderable_Attributes>, els: Element<any>[] = []) {
-    super(context, "g", attrs);
+    super(context, context.window.document.createElementNS(XMLNS, "g"), attrs);
     if (this.constructor.name !== Group.name) {
       this._node.setAttribute("data-class", this.constructor.name);
     }

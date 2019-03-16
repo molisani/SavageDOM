@@ -1,4 +1,5 @@
 import { HasOpacity, Length } from "../../attributes/base";
+import { XMLNS } from "../../constants";
 import { Context } from "../../context";
 import { AbstractRenderable, Containers_Attributes } from "../renderable";
 
@@ -11,7 +12,7 @@ export interface ForeignObject_Attributes extends Containers_Attributes, HasOpac
 
 export class ForeignObject extends AbstractRenderable<SVGForeignObjectElement, ForeignObject_Attributes> {
   constructor(context: Context, attrs?: Partial<ForeignObject_Attributes>, html?: HTMLElement) {
-    super(context, "foreignObject", attrs);
+    super(context, context.window.document.createElementNS(XMLNS, "foreignObject"), attrs);
     if (html) {
       this.addHTML(html);
     }

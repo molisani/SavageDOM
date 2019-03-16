@@ -2,6 +2,7 @@ import { Core_Attributes, HasClass, HasStyle, Inherit } from "../../../attribute
 import { Color } from "../../../attributes/color";
 import { Dimension, Percentage } from "../../../attributes/dimension";
 import { Transform, TransformList } from "../../../attributes/transform";
+import { XMLNS } from "../../../constants";
 import { Context } from "../../../context";
 import { Element } from "../../../element";
 import { NonRenderable_Events } from "../../non-renderable";
@@ -32,7 +33,7 @@ export interface Stop_Attributes extends Core_Attributes, HasClass, HasStyle {
 
 export class Stop extends Element<SVGStopElement, Stop_Attributes, NonRenderable_Events> {
   constructor(context: Context, public offset: number, color: "currentColor" | Color | Inherit) {
-    super(context, "stop", {
+    super(context, context.window.document.createElementNS(XMLNS, "stop"), {
       offset: new Dimension<"%">(offset * 100, "%"),
       "stop-color": color,
     });
@@ -40,8 +41,8 @@ export class Stop extends Element<SVGStopElement, Stop_Attributes, NonRenderable
 }
 
 export abstract class AbstractGradient<ELEMENT extends SVGElement, ATTRIBUTES extends Gradient_Attributes> extends AbstractPaintServer<ELEMENT, ATTRIBUTES> {
-  constructor(context: Context, name: string, stops: Stops, attrs?: Partial<ATTRIBUTES>) {
-    super(context, name, attrs);
+  constructor(context: Context, el: ELEMENT, stops: Stops, attrs?: Partial<ATTRIBUTES>) {
+    super(context, el, attrs);
     this.context.addDef(this);
     const stopArr: Stop[] = [];
     Object.keys(stops).forEach((offset) => {
