@@ -103,6 +103,11 @@ export class Context {
       this._root.appendChild(el);
     }
   }
+  public ensureChild(el: SVGElement) {
+    if (!this._root.contains(el)) {
+      this._root.appendChild(el);
+    }
+  }
   public async load(url: string): Promise<ExternalSVG> {
     const xmlDocument = await makeRequest("GET", url);
     const externalDocument = new SVGDocument(this, xmlDocument);
