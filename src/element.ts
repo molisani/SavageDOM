@@ -11,12 +11,11 @@ import { BaseEvents } from "./events";
 import { randomShortStringId } from "./id";
 
 export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes = Core_Attributes, EVENTS extends BaseEvents = BaseEvents> {
-  protected readonly _node: SVG;
   protected readonly _style: CSSStyleDeclaration;
   private _pendingRenders: Promise<number>[] = [];
   private _linkedAttributes: { [Attr in keyof ATTRIBUTES]?: Subscription } = {};
-  constructor(public context: Context, el: SVG, attrs?: Partial<ATTRIBUTES>, private _id: string = randomShortStringId()) {
-    this._node = el;
+  constructor(public context: Context, protected readonly _node: SVG, attrs?: Partial<ATTRIBUTES>, private _id: string = randomShortStringId()) {
+    this.context.ensureChild(this._node);
     const id = this._node.getAttribute("id");
     if (id !== null) {
       this._id = id;
