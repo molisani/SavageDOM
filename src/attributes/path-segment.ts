@@ -144,7 +144,7 @@ export namespace PathSegment {
     public toString(): string {
       return Command.ClosePath;
     }
-    public parseArgs(css: string): ClosePath {
+    public parseArgs(_css: string): ClosePath {
       return new ClosePath();
     }
     public defaultInstance(): ClosePath {

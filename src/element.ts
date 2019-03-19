@@ -23,6 +23,9 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
       this._node.setAttribute("id", this._id);
     }
     this._style = this.context.window.getComputedStyle(this._node);
+    if (attrs) {
+      this.setAttributes(attrs);
+    }
   }
   public get id(): string {
     return this._id;
