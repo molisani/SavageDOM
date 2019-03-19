@@ -21,10 +21,10 @@ export class TextContent implements Attribute<TextContent> {
   public parse(css: string | null): TextContent {
     return new TextContent(css || "");
   }
-  public get<Attrs, A extends keyof Attrs>(element: SVGElement, attr: A): TextContent {
+  public get<Attrs, A extends keyof Attrs>(element: SVGElement, _attr: A): TextContent {
     return this.parse(element.textContent);
   }
-  public set<Attrs, A extends keyof Attrs>(element: SVGElement, attr: A, override?: TextContent): void {
+  public set<Attrs, A extends keyof Attrs>(element: SVGElement, _attr: A, _override?: TextContent): void {
     element.textContent = TextContent.escapeHtml(this._cb());
   }
   public interpolator(from: TextContent): (t: number) => TextContent {

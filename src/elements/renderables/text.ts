@@ -79,7 +79,7 @@ export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes> {
     const span = new TextSpan(context, attrs);
     temp.add(span);
     const lines = [""];
-    content.split(" ").forEach((word, i) => {
+    content.split(" ").forEach((word) => {
       const line = lines[lines.length - 1];
       const newLine = (line.length === 0) ? word : `${line} ${word}`;
       const lineContent = new TextContent(newLine);
@@ -97,7 +97,7 @@ export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes> {
     });
     return multilineText;
   }
-  public addSpan(content: string, lineHeight?: number | Length, update: boolean = true): TextSpan {
+  public addSpan(content: string, lineHeight?: number | Length): TextSpan {
     const span = new TextSpan(this.context);
     span.setAttribute("textContent", new TextContent(content));
     if (lineHeight) {
