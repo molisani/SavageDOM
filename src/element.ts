@@ -148,6 +148,16 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
   public destroy() {
     this._node.remove();
   }
+  public injectDocument(doc: Document) {
+    this.context.injectDocumentDefs(doc);
+    if (doc.documentElement) {
+      const childElements = Array.from(doc.documentElement.children) as SVGElement[];
+      for (const child of childElements) {
+        const importedChild = this.context.window.document.importNode(child, true);
+        this.add(importedChild);
+      }
+    }
+  }
   protected cloneNode(deep: boolean = true): SVG {
     const clone = this._node.cloneNode(deep) as SVG;
     clone.setAttribute("id", randomShortStringId());

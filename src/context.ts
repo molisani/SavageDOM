@@ -3,7 +3,7 @@ import { fromEvent, Observable, ReplaySubject } from "rxjs";
 import { map } from "rxjs/operators";
 import { Point } from "./attributes/point";
 import { XLINK, XMLNS } from "./constants";
-import { makeRequest, SVGDocument } from "./document";
+import { makeRequest } from "./document";
 import { Element } from "./element";
 import { ClipPath } from "./elements/non-renderables/clip-path";
 import { Marker } from "./elements/non-renderables/marker";
@@ -34,6 +34,7 @@ export class Context {
   private static _CONTEXT_SUBJECT = new ReplaySubject<Context>(1);
   private _root: SVGSVGElement;
   private _defs: Element<SVGDefsElement>;
+  private _linkedDocs = new WeakSet<Document>();
   constructor();
   constructor(id: string, window?: Window);
   constructor(el: SVGSVGElement, window?: Window);
@@ -95,6 +96,23 @@ export class Context {
   public addDef(def: SVGElement | Element<SVGElement>) {
     this._defs.add(def);
   }
+  public injectDocumentDefs(doc: Document) {
+    if (!this._linkedDocs.has(doc)) {
+      const allDefs = Array.from(doc.getElementsByTagName("defs"));
+      for (const defs of allDefs) {
+        const childDefs = Array.from(defs.children) as SVGElement[];
+        for (const def of childDefs) {
+          const importedDef = this.window.document.importNode(def, true);
+          this.addDef(importedDef);
+        }
+      }
+      this._linkedDocs.add(doc);
+    }
+  }
+  public async load(url: string): Promise<ExternalSVG> {
+    const xmlDocument = await makeRequest("GET", url);
+    return new ExternalSVG(this, xmlDocument);
+  }
   public addChild(el: SVGElement | Element<SVGElement>) {
     if (el instanceof Element) {
       el.context = this;
@@ -107,11 +125,6 @@ export class Context {
     if (!this._root.contains(el)) {
       this._root.appendChild(el);
     }
-  }
-  public async load(url: string): Promise<ExternalSVG> {
-    const xmlDocument = await makeRequest("GET", url);
-    const externalDocument = new SVGDocument(this, xmlDocument);
-    return new ExternalSVG(this, externalDocument);
   }
   public clipPath(...args: ElementArgumentsType<typeof ClipPath.create>): ClipPath {
     return ClipPath.create(this, ...args);
