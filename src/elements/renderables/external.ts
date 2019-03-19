@@ -1,17 +1,14 @@
 import { XMLNS } from "../../constants";
 import { Context } from "../../context";
-import { makeRequest, SVGDocument } from "../../document";
+import { makeRequest } from "../../document";
 import { Renderable_Attributes } from "../renderable";
 import { Component } from "./component";
 import { Group } from "./group";
 
 export class ExternalSVG extends Group {
-  constructor(context: Context, doc: SVGDocument, attrs?: Partial<Renderable_Attributes>) {
+  constructor(context: Context, doc: Document, attrs?: Partial<Renderable_Attributes>) {
     super(context, context.window.document.createElementNS(XMLNS.SVG, "g"), attrs);
-    doc.children.forEach((child) => {
-      const importedNode = context.window.document.importNode(child, true);
-      this.add(importedNode);
-    });
+    this.injectDocument(doc);
   }
 }
 
@@ -21,21 +18,12 @@ export declare class ExternalComponent extends Component {
 }
 
 export function buildExternalComponentClass(url: string, origin: { x: number, y: number } = { x: 0, y: 0 }): typeof ExternalComponent {
-  const xmlDocument_p = makeRequest("GET", url);
-  const context_p = Context.contexts.toPromise();
-  const doc_p = Promise.all([context_p, xmlDocument_p]).then(([context, xml]) => {
-    return new SVGDocument(context, xml);
-  });
+  const doc_p = makeRequest("GET", url);
   return class extends Component {
     public loaded: Promise<any>;
     constructor() {
       super(origin);
-      this.loaded = doc_p.then((doc) => {
-        doc.children.forEach((child) => {
-          const importedNode = this.context.window.document.importNode(child, true);
-          this.add(importedNode);
-        });
-      });
+      this.loaded = doc_p.then((doc) => this.injectDocument(doc));
       this._node.setAttribute("data-source-url", url);
     }
   };
