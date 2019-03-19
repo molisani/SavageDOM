@@ -9,6 +9,7 @@ import { NumberWrapper } from "./attributes/wrappers";
 import { Context } from "./context";
 import { BaseEvents } from "./events";
 import { randomShortStringId } from "./id";
+import { TagElementMapping } from "./tag-mapping";
 
 export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes = Core_Attributes, EVENTS extends BaseEvents = BaseEvents> {
   protected readonly _style: CSSStyleDeclaration;
@@ -141,6 +142,15 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
       elements.push(new Element(this.context, children.item(i) as SVGElement));
     }
     return elements;
+  }
+  public getElementsByClassName(className: string): ReadonlyArray<Element<SVGElement>> {
+    const elements = Array.from(this._node.getElementsByClassName(className)) as SVGElement[];
+    return elements.map((element) => new Element(this.context, element));
+  }
+  public getElementsByTagName<TAG extends keyof TagElementMapping>(tagName: TAG): ReadonlyArray<TagElementMapping[TAG]>;
+  public getElementsByTagName(tagName: string): ReadonlyArray<Element<SVGElement>> {
+    const elements = Array.from(this._node.getElementsByTagName(tagName)) as SVGElement[];
+    return elements.map((element) => new Element(this.context, element));
   }
   public clone(deep: boolean = true, id: string = randomShortStringId()): Element<SVG, ATTRIBUTES, EVENTS> {
     const copy = new Element<SVG, ATTRIBUTES, EVENTS>(this.context, this._node.cloneNode(deep) as SVG);

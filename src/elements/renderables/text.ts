@@ -35,9 +35,6 @@ export interface TextSpan_Attributes extends Renderable_Attributes, Text_Attribu
 }
 
 export class TextSpan extends AbstractRenderable<SVGTSpanElement, TextSpan_Attributes> {
-  constructor(context: Context, attrs?: Partial<TextSpan_Attributes>) {
-    super(context, context.window.document.createElementNS(XMLNS.SVG, "tspan"), attrs);
-  }
   public get computedLength(): number {
     return this._node.getComputedTextLength();
   }
@@ -76,7 +73,7 @@ export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes> {
     const multilineText = Text.create(context, "", a1, a2);
     const temp = Text.create(context, "", a1, a2);
     temp.setAttribute("opacity", 0);
-    const span = new TextSpan(context, attrs);
+    const span = new TextSpan(context, context.window.document.createElementNS(XMLNS.SVG, "tspan"), attrs);
     temp.add(span);
     const lines = [""];
     content.split(" ").forEach((word) => {
@@ -98,7 +95,7 @@ export class Text extends AbstractRenderable<SVGTextElement, Text_Attributes> {
     return multilineText;
   }
   public addSpan(content: string, lineHeight?: number | Length): TextSpan {
-    const span = new TextSpan(this.context);
+    const span = new TextSpan(this.context, this.context.window.document.createElementNS(XMLNS.SVG, "tspan"));
     span.setAttribute("textContent", new TextContent(content));
     if (lineHeight) {
       span.setAttribute("x", parseFloat(this.getAttribute("x") || "0"));

@@ -1,6 +1,5 @@
 import { Core_Attributes, Length } from "../../../attributes/base";
 import { Point } from "../../../attributes/point";
-import { XMLNS } from "../../../constants";
 import { Element } from "../../../element";
 import { Filter } from "../../filter";
 
@@ -41,19 +40,10 @@ export abstract class AbstractLightSource<ELEMENT extends SVGFEDistantLightEleme
 }
 
 export class DistantLight extends AbstractLightSource<SVGFEDistantLightElement, DistantLight_Attributes> {
-  constructor(filter: Filter, attrs?: Partial<DistantLight_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feDistantLight"), attrs);
-  }
 }
 
 export class PointLight extends AbstractLightSource<SVGFEPointLightElement, PointLight_Attributes> {
-  constructor(filter: Filter, attrs?: Partial<PointLight_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "fePointLight"), attrs);
-  }
 }
 
 export class SpotLight extends AbstractLightSource<SVGFESpotLightElement, SpotLight_Attributes> {
-  constructor(filter: Filter, attrs?: Partial<SpotLight_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feSpotLight"), attrs);
-  }
 }

@@ -1,7 +1,6 @@
 import { Core_Attributes } from "../../attributes/base";
-import { XMLNS } from "../../constants";
 import { Element } from "../../element";
-import { Filter, FilterInput } from "../filter";
+import { FilterInput } from "../filter";
 import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
 export interface IdentityFunction_Attributes extends Core_Attributes {
@@ -31,9 +30,6 @@ type TransferFunction_Elements = SVGFEFuncRElement | SVGFEFuncGElement | SVGFEFu
 export type TransferFunction_Attributes = IdentityFunction_Attributes | TabularFunction_Attributes | LinearFunction_Attributes | GammaFunction_Attributes;
 
 export class TransferFunction_Primitive extends Element<TransferFunction_Elements, TransferFunction_Attributes> {
-  constructor(filter: Filter, el: TransferFunction_Elements, attrs?: Partial<TransferFunction_Attributes>) {
-    super(filter.context, el, attrs);
-  }
 }
 
 export interface ComponentTransfer_Attributes extends FilterPrimitive_Attributes {
@@ -41,7 +37,4 @@ export interface ComponentTransfer_Attributes extends FilterPrimitive_Attributes
 }
 
 export class ComponentTransfer_Primitive extends FilterPrimitive<SVGFEComponentTransferElement, ComponentTransfer_Attributes> {
-  constructor(filter: Filter, attrs?: Partial<ComponentTransfer_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feComponentTransfer"), attrs);
-  }
 }
