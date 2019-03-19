@@ -27,13 +27,10 @@ export interface Image_Events extends Renderable_Events {
 
 export class Image extends AbstractRenderable<SVGImageElement, Image_Attributes, Image_Events> {
   public static async afterLoad(context: Context, href: string, attrs: Partial<Image_Attributes> = {}): Promise<Image> {
-    const image = new Image(context, attrs);
+    const image = new Image(context, context.window.document.createElementNS(XMLNS.SVG, "image"), attrs);
     const onLoad = image.getEvent("load").toPromise();
     image.setAttribute("href", href);
     await onLoad;
     return image;
-  }
-  constructor(context: Context, attrs?: Partial<Image_Attributes>) {
-    super(context, context.window.document.createElementNS(XMLNS.SVG, "image"), attrs);
   }
 }

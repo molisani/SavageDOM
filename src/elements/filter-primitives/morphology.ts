@@ -1,6 +1,5 @@
 import { NumberOptionalNumber } from "../../attributes/number-optional-number";
-import { XMLNS } from "../../constants";
-import { Filter, FilterInput } from "../filter";
+import { FilterInput } from "../filter";
 import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
 export interface Morphology_Attributes extends FilterPrimitive_Attributes {
@@ -10,7 +9,4 @@ export interface Morphology_Attributes extends FilterPrimitive_Attributes {
 }
 
 export class Morphology_Primitive extends FilterPrimitive<SVGFEMorphologyElement, Morphology_Attributes> {
-  constructor(filter: Filter, attrs?: Partial<Morphology_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feMorphology"), attrs);
-  }
 }

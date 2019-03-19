@@ -1,5 +1,4 @@
-import { XMLNS } from "../../constants";
-import { Filter, FilterInput } from "../filter";
+import { FilterInput } from "../filter";
 import { FilterPrimitive, FilterPrimitive_Attributes } from "../filter-primitive";
 
 export interface DisplacementMap_Attributes extends FilterPrimitive_Attributes {
@@ -11,7 +10,4 @@ export interface DisplacementMap_Attributes extends FilterPrimitive_Attributes {
 }
 
 export class DisplacementMap_Primitive extends FilterPrimitive<SVGFEDisplacementMapElement, DisplacementMap_Attributes> {
-  constructor(filter: Filter, attrs?: Partial<DisplacementMap_Attributes>) {
-    super(filter, filter.context.window.document.createElementNS(XMLNS.SVG, "feDisplacementMap"), attrs);
-  }
 }
