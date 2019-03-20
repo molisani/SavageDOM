@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = {
-    mode: "development",
-    devtool: 'eval-source-map',
-    // mode: "production",
+    // mode: "development",
+    // devtool: 'eval-source-map',
+    mode: "production",
     context: __dirname, // to automatically find tsconfig.json
     entry: './src/index.ts',
     output: {
