@@ -1,7 +1,7 @@
 
 import { fromEvent, merge, Observable, Subscription } from "rxjs";
-import { EasingFunction } from "./animation/easing";
 import { Renderer } from "./animation/renderer";
+import { AnimationTiming } from "./animation/timing";
 import { Attribute, isAttribute } from "./attribute";
 import { Core_Attributes } from "./attributes/base";
 import { Box } from "./attributes/box";
@@ -54,7 +54,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
     const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, attrs);
     this._pendingRenders.push(render);
   }
-  public animateAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr], duration: number, easing: EasingFunction): Promise<number> | undefined {
+  public animateAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr], timing: AnimationTiming): Promise<number> | undefined {
     let attr: Attribute<any>;
     if (typeof val === "number") {
       attr = new NumberWrapper(val);
@@ -64,7 +64,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
       return;
     }
     const from = attr.get(this._node, name);
-    return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolator(from), duration, easing);
+    return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolator(from), timing);
   }
   public linkDynamicAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: Observable<ATTRIBUTES[Attr]>): Subscription {
     const subscription = Renderer.getInstance().subscribeAttributeObservable(this, name, val);

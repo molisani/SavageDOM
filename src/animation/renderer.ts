@@ -4,7 +4,7 @@ import { bufferWhen, filter, map } from "rxjs/operators";
 import { Core_Attributes } from "../attributes/base";
 import { Element } from "../element";
 import { randomShortStringId } from "../id";
-import { EasingFunction } from "./easing";
+import { AnimationTiming } from "./timing";
 
 export interface TimeResolvable {
   resolve?: (t: number) => void;
@@ -27,12 +27,10 @@ export interface AttributeInterpolation<ATTRIBUTES, ATTRIBUTE extends keyof ATTR
   val(t: number): ATTRIBUTES[ATTRIBUTE];
 }
 
-export interface ElementInterpolateRender<ATTRIBUTES extends Core_Attributes, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>> extends TimeResolvable {
+export interface ElementInterpolateRender<ATTRIBUTES extends Core_Attributes, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>> extends TimeResolvable, AnimationTiming {
   el: ELEMENT;
   attributes: AttributeInterpolation<ATTRIBUTES, keyof ATTRIBUTES>[];
   start: number;
-  duration: number;
-  easing: EasingFunction;
 }
 
 export class Renderer {
@@ -62,12 +60,12 @@ export class Renderer {
     }
     throw new Error("No attributes specified for attribute update");
   }
-  public registerAttributeInterpolation<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attr: ATTRIBUTE, val: (t: number) => ATTRIBUTES[ATTRIBUTE], duration: number, easing: EasingFunction): Promise<number> {
+  public registerAttributeInterpolation<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attr: ATTRIBUTE, val: (t: number) => ATTRIBUTES[ATTRIBUTE], timing: AnimationTiming): Promise<number> {
     return new Promise((resolve) => {
       const key = randomShortStringId();
       const start = performance.now();
       const attributes = [{ name: attr, val }];
-      this._attributeInterpolations[key] = { el, attributes, start, duration, easing, resolve };
+      this._attributeInterpolations[key] = { el, attributes, start, duration: timing.duration, easing: timing.easing, resolve };
     });
   }
   public subscribeAttributeObservable<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attr: ATTRIBUTE, val: Observable<ATTRIBUTES[ATTRIBUTE]>): Subscription {
