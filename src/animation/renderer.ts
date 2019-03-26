@@ -3,7 +3,7 @@ import { animationFrameScheduler, interval, Observable, Subject, Subscription } 
 import { bufferWhen, filter, map } from "rxjs/operators";
 import { Core_Attributes } from "../attributes/base";
 import { Element } from "../element";
-import { randomShortStringId } from "../id";
+import { clamp } from "../util";
 import { AnimationTiming } from "./timing";
 
 export interface TimeResolvable {
@@ -29,8 +29,14 @@ export interface AttributeInterpolation<ATTRIBUTES, ATTRIBUTE extends keyof ATTR
 
 export interface ElementInterpolateRender<ATTRIBUTES extends Core_Attributes, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>> extends TimeResolvable, AnimationTiming {
   el: ELEMENT;
-  attributes: AttributeInterpolation<ATTRIBUTES, keyof ATTRIBUTES>[];
+  attribute: AttributeInterpolation<ATTRIBUTES, keyof ATTRIBUTES>;
   start: number;
+}
+
+type ElementAttributeKey = string & { __ElementAttributeKey: never };
+
+function asKey<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attr: ATTRIBUTE): ElementAttributeKey {
+  return `${el.id}#${attr}` as ElementAttributeKey;
 }
 
 export class Renderer {
@@ -40,7 +46,7 @@ export class Renderer {
   private static _instance = new Renderer();
   private _animationFrame = interval(0, animationFrameScheduler);
   private _attributeUpdates = new Subject<ElementUpdateRender<any, Element<any>>>();
-  private _attributeInterpolations: { [key: string]: ElementInterpolateRender<any, Element<any>> } = {};
+  private _attributeInterpolations = new Map<ElementAttributeKey, ElementInterpolateRender<any, Element<any>>>();
   constructor() {
     this._attributeUpdates.pipe(bufferWhen(() => this._animationFrame)).subscribe((updates) => this._render(updates));
   }
@@ -62,10 +68,16 @@ export class Renderer {
   }
   public registerAttributeInterpolation<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attr: ATTRIBUTE, val: (t: number) => ATTRIBUTES[ATTRIBUTE], timing: AnimationTiming): Promise<number> {
     return new Promise((resolve) => {
-      const key = randomShortStringId();
+      const key = asKey(el, attr);
       const start = performance.now();
-      const attributes = [{ name: attr, val }];
-      this._attributeInterpolations[key] = { el, attributes, start, duration: timing.duration, easing: timing.easing, resolve };
+      this._attributeInterpolations.set(key, {
+        el,
+        attribute: { name: attr, val },
+        start,
+        duration: timing.duration,
+        easing: timing.easing,
+        resolve,
+      });
     });
   }
   public subscribeAttributeObservable<ATTRIBUTES extends Core_Attributes, ATTRIBUTE extends keyof ATTRIBUTES, ELEMENT extends AttributeOnlyElement<ATTRIBUTES>>(el: ELEMENT, attr: ATTRIBUTE, val: Observable<ATTRIBUTES[ATTRIBUTE]>): Subscription {
@@ -84,21 +96,18 @@ export class Renderer {
         pendingResolutions.push(resolve);
       }
     });
-    Object.keys(this._attributeInterpolations).forEach((key) => {
-      const interpolation = this._attributeInterpolations[key];
+    for (const [key, interpolation] of this._attributeInterpolations) {
       const finalRender = now >= (interpolation.start + interpolation.duration);
-      const t = (finalRender) ? 1 : interpolation.easing((now - interpolation.start) / interpolation.duration);
-      interpolation.attributes.forEach((attribute) => {
-        const val = attribute.val(t);
-        interpolation.el.renderAttribute(attribute.name, val);
-      });
+      const t = clamp(interpolation.easing((now - interpolation.start) / interpolation.duration), 0, 1);
+      const val = interpolation.attribute.val(t);
+      interpolation.el.renderAttribute(interpolation.attribute.name, val);
       if (finalRender) {
-        delete this._attributeInterpolations[key];
+        this._attributeInterpolations.delete(key);
         if (interpolation.resolve) {
           pendingResolutions.push(interpolation.resolve);
         }
       }
-    });
+    }
     if (pendingResolutions.length > 0) {
       setImmediate(() => {
         pendingResolutions.forEach((resolve) => resolve(now));
