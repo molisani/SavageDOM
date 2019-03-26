@@ -1,7 +1,7 @@
 
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { EasingFunction, linear } from "../animation";
+import { AnimationTiming } from "../animation/timing";
 import { Core_Attributes, HasClass, HasColor, HasColorInterpolation, HasColorRendering, HasCursor, HasOpacity, HasStyle, HasVisibility, Inherit, None } from "../attributes/base";
 import { Point } from "../attributes/point";
 import { Transform, Transformable, TransformList } from "../attributes/transform";
@@ -44,7 +44,7 @@ export abstract class AbstractRenderable<ELEMENT extends SVGGraphicsElement, ATT
       };
     }));
   }
-  public async reparent(child: AbstractRenderable<SVGGraphicsElement>, duration: number, easing: EasingFunction = linear): Promise<any> {
+  public async reparent(child: AbstractRenderable<SVGGraphicsElement>, timing: AnimationTiming): Promise<any> {
     const tempGroup = this.context.group();
     const screenCTM = this.context.root.getScreenCTM();
     if (screenCTM) {
@@ -60,7 +60,7 @@ export abstract class AbstractRenderable<ELEMENT extends SVGGraphicsElement, ATT
         const transformList = new TransformList([
           Transform.matrix(inverseScreenCTM.multiply(targetMatrix)),
         ]);
-        await tempGroup.animateAttribute("transform", transformList, duration, easing);
+        await tempGroup.animateAttribute("transform", transformList, timing);
       }
     }
     this.add(child);
