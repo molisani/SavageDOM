@@ -17,7 +17,7 @@
     "removeComments": true,
     // "noEmit": true,
     // "importHelpers": true,
-    // "downlevelIteration": true,
+    "downlevelIteration": true,
     // "isolatedModules": true,
 
     /* Strict Type-Checking Options */
