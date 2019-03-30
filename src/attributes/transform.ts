@@ -8,7 +8,7 @@ export class Transform<TYPE extends TransformType = any> implements Attribute<Tr
   public static fromString(css: string): Transform {
     const pivot = css.indexOf("(");
     const type = css.substring(0, pivot) as TransformType;
-    const args = css.substring(pivot + 1, css.length - 1).split(" ").map(parseFloat);
+    const args = css.substring(pivot + 1, css.length - 1).split(/\s*,\s*|\s+/i).map(parseFloat);
     return new Transform(type, args);
   }
   public static matrix(m: DOMMatrix): Transform<"matrix">;
