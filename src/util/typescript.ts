@@ -1,8 +1,4 @@
-import { Context } from "./context";
-
-export function clamp(n: number, lowerBound: number, upperBound: number): number {
-  return Math.min(Math.max(n, lowerBound), upperBound);
-}
+import { Context } from "../context";
 
 export type SubType<Base, Condition> = Pick<Base, {
   [Key in keyof Base]: Base[Key] extends Condition ? Key : never;

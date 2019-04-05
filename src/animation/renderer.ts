@@ -3,8 +3,8 @@ import { animationFrameScheduler, interval, Observable, Subject, Subscription } 
 import { bufferWhen, filter, map } from "rxjs/operators";
 import { Core_Attributes } from "../attributes/base";
 import { Element } from "../element";
-import { clamp } from "../util";
 import { AnimationTiming } from "./timing";
+import { clamp } from "../util/math";
 
 export interface TimeResolvable {
   resolve?: (t: number) => void;

@@ -24,7 +24,7 @@ import { Polyline } from "./elements/renderables/shapes/polyline";
 import { Rect } from "./elements/renderables/shapes/rect";
 import { Text } from "./elements/renderables/text";
 import { ResolvedPointEvent } from "./events";
-import { ElementArgumentsType } from "./util";
+import { ElementArgumentsType } from "./util/typescript";
 
 export class Context {
   public static DEFAULT_WINDOW: Window = window;
