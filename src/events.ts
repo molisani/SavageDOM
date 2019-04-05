@@ -1,5 +1,5 @@
 import { Point } from "./attributes/point";
-import { SubType } from "./util";
+import { SubType } from "./util/typescript";
 
 export interface BaseEvents {
   [event: string]: Event;
