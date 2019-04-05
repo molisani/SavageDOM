@@ -70,6 +70,10 @@ export class Renderer {
     return new Promise((resolve) => {
       const key = asKey(el, attr);
       const start = performance.now();
+      const existing = this._attributeInterpolations.get(key);
+      if (existing && existing.resolve) {
+        existing.resolve(start);
+      }
       this._attributeInterpolations.set(key, {
         el,
         attribute: { name: attr, val },
