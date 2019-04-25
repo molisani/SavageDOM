@@ -1,15 +1,19 @@
-import { Core_Attributes, Inherit, Length, None } from "../attributes/base";
-import { Box } from "../attributes/box";
+import { BaseAttributes, Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter, Inherit, Length, None, numberOrDimensionParser, numberOrDimensionSerializer } from "../attributes/base";
+import { Box, buildBoxCompositeParser, buildBoxCompositeSerializer } from "../attributes/box";
 import { Color } from "../attributes/color";
 import { ColorMatrix } from "../attributes/color-matrix";
+import { anyParser, asManualParser, AttributeGetter } from "../attributes/getter";
+import { AttributeInterpolator, unsupportedTweenBuilder } from "../attributes/interpolator";
+import { buildStringLiteralParser, buildStringLiteralSerializer } from "../attributes/literal";
 import { NumberOptionalNumber } from "../attributes/number-optional-number";
-import { Point } from "../attributes/point";
+import { buildPointCompositeParser, buildPointCompositeSerializer, Point, pointTweenBuilder } from "../attributes/point";
 import { PreserveAspectRatio } from "../attributes/preserve-aspect-ratio";
+import { asNativeSerializer, AttributeSetter, defaultSerializer } from "../attributes/setter";
 import { XMLNS } from "../constants";
 import { Context } from "../context";
-import { Element } from "../element";
+import { AbstractElement } from "../element";
 import { SVG_Events } from "../events";
-import { FilterPrimitive, FilterPrimitive_Attributes, FilterPrimitive_Elements } from "./filter-primitive";
+import { AbstractFilterPrimitive, FilterPrimitive, FilterPrimitive_Attributes, FilterPrimitive_Element } from "./filter-primitive";
 import { Blend_Primitive } from "./filter-primitives/blend";
 import { ColorMatrix_Primitive } from "./filter-primitives/color-matrix";
 import { ComponentTransfer_Primitive, TransferFunction_Attributes, TransferFunction_Primitive } from "./filter-primitives/component-transfer";
@@ -29,23 +33,103 @@ import { FILTER_PRIMITIVE_CTOR_BY_TAG, TagFilterPrimitiveMapping } from "./filte
 import { Tile_Primitive } from "./filter-primitives/tile";
 import { Turbulence_Attributes, Turbulence_Primitive } from "./filter-primitives/turbulence";
 
-export interface HasFilter {
+export interface HasFilter extends BaseAttributes {
   "filter": Filter | string | None | Inherit;
 }
 
-export type FilterInput = "SourceGraphic" | "SourceAlpha" | "BackgroundImage" | "BackgroundAlpha" | "FillPaint" | "StrokePaint" | FilterPrimitive<any, any>;
+export const HasFilter_AttributeGetter: AttributeGetter<HasFilter> = {
+  filter: anyParser,
+};
+
+export const HasFilter_AttributeSetter: AttributeSetter<HasFilter> = {
+  filter: defaultSerializer,
+};
+
+export const HasFilter_AttributeInterpolator: AttributeInterpolator<HasFilter> = {
+  filter: unsupportedTweenBuilder,
+};
+
+type FilterInputLiteral = "SourceGraphic" | "SourceAlpha" | "BackgroundImage" | "BackgroundAlpha" | "FillPaint" | "StrokePaint";
+
+export type FilterInput = FilterInputLiteral | AbstractFilterPrimitive<any, any>;
+
+const filterInputLiterals = ["SourceGraphic", "SourceAlpha", "BackgroundImage", "BackgroundAlpha", "FillPaint", "StrokePaint"] as const;
+
+function isFilterInputLiteral(repr: string | null): repr is FilterInputLiteral {
+  if (!repr) {
+    return false;
+  }
+  return filterInputLiterals.indexOf(repr as FilterInputLiteral) !== -1;
+}
+
+export const filterInputParser = asManualParser<FilterInput>((element, name) => {
+  const repr = element.getAttribute(name);
+  if (!repr) {
+    return "SourceGraphic";
+  } else if (isFilterInputLiteral(repr)) {
+    return repr;
+  }
+  if (!(element instanceof AbstractFilterPrimitive)) {
+    return "SourceGraphic";
+  }
+  return element.filter.getPrimitiveById(repr) || "SourceGraphic";
+});
+
+export const filterInputSerializer = asNativeSerializer<FilterInput>((value) => {
+  if (value instanceof AbstractFilterPrimitive) {
+    return value.toString();
+  }
+  return value;
+});
 
 export interface Filter_Attributes extends Core_Attributes {
   x: Length;
   y: Length;
-  "x:y": Point;
+  p: Point;
   width: Length;
   height: Length;
-  "width:height": Point;
   "x:y:width:height": Box;
   filterUnits: "userSpaceOnUse" | "objectBoundingBox";
   primitiveUnits: "userSpaceOnUse" | "objectBoundingBox";
 }
+
+const unitsLiterals = ["userSpaceOnUse", "objectBoundingBox"] as const;
+
+const Filter_AttributeGetter: AttributeGetter<Filter_Attributes> = {
+  ...Core_AttributeGetter,
+  x: numberOrDimensionParser,
+  y: numberOrDimensionParser,
+  p: buildPointCompositeParser("x", "y"),
+  width: numberOrDimensionParser,
+  height: numberOrDimensionParser,
+  "x:y:width:height": buildBoxCompositeParser("x", "y", "width", "height"),
+  filterUnits: buildStringLiteralParser(unitsLiterals, "userSpaceOnUse"),
+  primitiveUnits: buildStringLiteralParser(unitsLiterals, "userSpaceOnUse"),
+};
+
+const Filter_AttributeSetter: AttributeSetter<Filter_Attributes> = {
+  ...Core_AttributeSetter,
+  x: numberOrDimensionSerializer,
+  y: numberOrDimensionSerializer,
+  p: buildPointCompositeSerializer("x", "y"),
+  width: numberOrDimensionSerializer,
+  height: numberOrDimensionSerializer,
+  "x:y:width:height": buildBoxCompositeSerializer("x", "y", "width", "height"),
+  filterUnits: buildStringLiteralSerializer(unitsLiterals, "userSpaceOnUse"),
+  primitiveUnits: buildStringLiteralSerializer(unitsLiterals, "userSpaceOnUse"),
+};
+
+const Filter_AttributeInterpolator: AttributeInterpolator<Filter_Attributes> = {
+  ...Core_AttributeInterpolator,
+  x: unsupportedTweenBuilder,
+  y: unsupportedTweenBuilder,
+  p: pointTweenBuilder,
+  width: unsupportedTweenBuilder,
+  height: unsupportedTweenBuilder,
+  "x:y:width:height": unsupportedTweenBuilder,
+  filterUnits: unsupportedTweenBuilder,
+  primitiveUnits: unsupportedTweenBuilder,
+};
 
 export interface Filter_Events extends SVG_Events {}
 
@@ -60,8 +144,11 @@ const merge = <A, B>(a: A, b: B): A & B => {
   return obj;
 };
 
-export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_Events> {
+export class Filter extends AbstractElement<SVGFilterElement, Filter_Attributes, Filter_Events> {
   private _refCounter: number = 0;
+  protected _getter = Filter_AttributeGetter;
+  protected _setter = Filter_AttributeSetter;
+  protected _interpolator = Filter_AttributeInterpolator;
   constructor(public context: Context) {
     super(context, context.window.document.createElementNS(XMLNS.SVG, "filter"));
     this.context.addDef(this);
@@ -69,14 +156,25 @@ export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_
   public getUniquePrimitiveReference(): string {
     return (++this._refCounter).toString();
   }
-  public getPrimitivesByClassName(className: string): ReadonlyArray<FilterPrimitive<FilterPrimitive_Elements>> {
-    const elements = Array.from(this._node.getElementsByClassName(className)) as FilterPrimitive_Elements[];
+  public getPrimitiveById(id: string): AbstractFilterPrimitive<FilterPrimitive_Element> | undefined {
+    if (!this._node.ownerDocument) {
+      return;
+    }
+    const primitiveElement = this._node.ownerDocument.getElementById(id) as unknown as FilterPrimitive_Element;
+    if (!primitiveElement) {
+      return;
+    }
+    const ctor = FILTER_PRIMITIVE_CTOR_BY_TAG.get(primitiveElement.tagName) || AbstractFilterPrimitive;
+    return new ctor(this, primitiveElement);
+  }
+  public getPrimitivesByClassName(className: string): ReadonlyArray<AbstractFilterPrimitive<FilterPrimitive_Element>> {
+    const elements = Array.from(this._node.getElementsByClassName(className)) as FilterPrimitive_Element[];
     return elements.map((element) => new FilterPrimitive(this, element));
   }
   public getPrimitivesByTagName<TAG extends keyof TagFilterPrimitiveMapping>(tagName: TAG): ReadonlyArray<TagFilterPrimitiveMapping[TAG]>;
-  public getPrimitivesByTagName(tagName: string): ReadonlyArray<FilterPrimitive<FilterPrimitive_Elements>> {
-    const elements = Array.from(this._node.getElementsByTagName(tagName)) as FilterPrimitive_Elements[];
-    const ctor = FILTER_PRIMITIVE_CTOR_BY_TAG.get(tagName) || FilterPrimitive;
+  public getPrimitivesByTagName(tagName: string): ReadonlyArray<AbstractFilterPrimitive<FilterPrimitive_Element>> {
+    const elements = Array.from(this._node.getElementsByTagName(tagName)) as FilterPrimitive_Element[];
+    const ctor = FILTER_PRIMITIVE_CTOR_BY_TAG.get(tagName) || AbstractFilterPrimitive;
     return elements.map((element) => new ctor(this, element));
   }
   public blend(mode: "normal" | "multiply" | "screen" | "darken" | "lighten", input1: FilterInput, input2?: FilterInput): Blend_Primitive {
@@ -129,7 +227,7 @@ export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_
   }
   public flood(color: Color, area: Box): Flood_Primitive {
     const fe = new Flood_Primitive(this, this.context.window.document.createElementNS(XMLNS.SVG, "feFlood"), { "flood-color": color });
-    fe.setAttributes({
+    fe.renderAttributes({
       x: area.x,
       y: area.y,
       width: area.width,
@@ -176,7 +274,7 @@ export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_
   }
   public tile(area: Box, input?: FilterInput): Tile_Primitive {
     const fe = new Tile_Primitive(this, this.context.window.document.createElementNS(XMLNS.SVG, "feTile"), { in: input });
-    fe.setAttributes({
+    fe.renderAttributes({
       x: area.x,
       y: area.y,
       width: area.width,
@@ -187,7 +285,7 @@ export class Filter extends Element<SVGFilterElement, Filter_Attributes, Filter_
   public turbulence(attrs: Partial<Turbulence_Attributes>): Turbulence_Primitive {
     return new Turbulence_Primitive(this, this.context.window.document.createElementNS(XMLNS.SVG, "feTurbulence"), attrs);
   }
-  private addLights(lighting: Element<SVGFEDiffuseLightingElement | SVGFESpecularLightingElement, FilterPrimitive_Attributes>, lights: LightSource_Attributes[]): void {
+  private addLights<LIGHT_ATTRIBUTES extends FilterPrimitive_Attributes>(lighting: AbstractElement<SVGFEDiffuseLightingElement | SVGFESpecularLightingElement, LIGHT_ATTRIBUTES>, lights: LightSource_Attributes[]): void {
     lights.forEach(light => {
       switch (light.type) {
         case "point":

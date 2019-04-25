@@ -2,19 +2,44 @@
 import { fromEvent, merge, Observable, Subscription } from "rxjs";
 import { Renderer } from "./animation/renderer";
 import { AnimationTiming } from "./animation/timing";
-import { Attribute, isAttribute } from "./attribute";
-import { Core_Attributes } from "./attributes/base";
+import { Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter } from "./attributes/base";
 import { Box } from "./attributes/box";
-import { NumberWrapper } from "./attributes/wrappers";
+import { AttributeGetter, AttributeParser } from "./attributes/getter";
+import { AttributeInterpolator, AttributeTweenBuilder } from "./attributes/interpolator";
+import { AttributeSerializer, AttributeSetter } from "./attributes/setter";
 import { Context } from "./context";
 import { BaseEvents } from "./events";
 import { randomShortStringId } from "./id";
 import { TagElementMapping } from "./tag-mapping";
 
-export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes = Core_Attributes, EVENTS extends BaseEvents = BaseEvents> {
+function getAttribute<T>(parser: AttributeParser<T>, node: Element<SVGElement>, name: string): T {
+  if (parser.type === "native") {
+    const value = node.getAttribute(name);
+    return parser(value);
+  }
+  return parser(node, name);
+}
+
+function setAttribute<T>(serializer: AttributeSerializer<T>, node: SVGElement, name: string, value: T) {
+  if (serializer.type === "manual") {
+    serializer(node, name, value);
+    return;
+  }
+  const repr = serializer(value);
+  if (serializer.type === "native") {
+    node.setAttribute(name, repr);
+  } else {
+    node.style.setProperty(name, repr);
+  }
+}
+
+export abstract class AbstractElement<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes = Core_Attributes, EVENTS extends BaseEvents = BaseEvents> {
   protected readonly _style: CSSStyleDeclaration;
   private _pendingRenders: Promise<number>[] = [];
   private _linkedAttributes: { [Attr in keyof ATTRIBUTES]?: Subscription } = {};
+  protected abstract _getter: AttributeGetter<ATTRIBUTES>;
+  protected abstract _setter: AttributeSetter<ATTRIBUTES>;
+  protected abstract _interpolator: AttributeInterpolator<ATTRIBUTES>;
   constructor(public context: Context, protected readonly _node: SVG, attrs?: Partial<ATTRIBUTES>, private _id: string = randomShortStringId()) {
     this.context.ensureChild(this._node);
     const id = this._node.getAttribute("id");
@@ -25,7 +50,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
     }
     this._style = this.context.window.getComputedStyle(this._node);
     if (attrs) {
-      this.setAttributes(attrs);
+      this.renderAttributes(attrs);
     }
   }
   public get id(): string {
@@ -37,34 +62,70 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
   public toString(): string {
     return `url(#${this._id})`;
   }
-  public renderAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
-    if (isAttribute(val)) {
-      val.set(this._node, name);
-    } else if (Array.isArray(val)) {
-      this._node.setAttribute(name, val.join("\t"));
-    } else {
-      this._node.setAttribute(name, String(val));
+  public getAttribute<Attr extends keyof ATTRIBUTES>(name: Attr): ATTRIBUTES[Attr] {
+    if (!(name in this._getter)) {
+      throw new Error(`No parser found for attribute "${name}"`);
     }
+    const parser: AttributeParser<ATTRIBUTES[Attr]> = this._getter[name];
+    return getAttribute(parser, this as any, name);
   }
-  public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
-    const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, name, val);
-    this._pendingRenders.push(render);
-  }
-  public setAttributes(attrs: Partial<ATTRIBUTES>): void {
-    const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, attrs);
-    this._pendingRenders.push(render);
-  }
-  public animateAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr], timing: AnimationTiming): Promise<number> | undefined {
-    let attr: Attribute<any>;
-    if (typeof val === "number") {
-      attr = new NumberWrapper(val);
-    } else if (isAttribute(val)) {
-      attr = val;
-    } else {
+  public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void;
+  public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: string | null, bypass: "native"): void;
+  public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: string, bypass: "css"): void;
+  public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr] | string | null, bypass?: "native" | "css"): void {
+    if (!(name in this._setter)) {
+      throw new Error(`No serializer found for attribute "${name}"`);
+    }
+    if (bypass) {
+      if (bypass === "native") {
+        this._node.setAttribute(name, val as string);
+      } else {
+        this._node.style.setProperty(name, val);
+      }
       return;
     }
-    const from = attr.get(this._node, name);
-    return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolator(from), timing);
+    const serializer: AttributeSerializer<ATTRIBUTES[Attr]> = this._setter[name];
+    setAttribute(serializer, this._node, name, val as ATTRIBUTES[Attr]);
+  }
+  public renderAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): Promise<any> {
+    const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, AbstractElement<any, ATTRIBUTES, any>>(this, name, val);
+    this._pendingRenders.push(render);
+    return render;
+  }
+  public renderAttributes(attrs: Partial<ATTRIBUTES>): Promise<any> {
+    const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, AbstractElement<any, ATTRIBUTES, any>>(this, attrs);
+    this._pendingRenders.push(render);
+    return render;
+  }
+  public animateAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, to: ATTRIBUTES[Attr], timing: AnimationTiming): Promise<number> | undefined {
+    if (!(name in this._interpolator)) {
+      throw new Error(`No tween builder found for attribute "${name}"`);
+    }
+    const tweenBuilder: AttributeTweenBuilder<ATTRIBUTES[Attr]> = this._interpolator[name];
+    if (tweenBuilder.bypass) {
+      if (!(name in this._setter)) {
+        throw new Error();
+      }
+      const serializer: AttributeSerializer<ATTRIBUTES[Attr]> = this._setter[name];
+      if (serializer.type === "manual") {
+        throw new Error();
+      }
+      if (tweenBuilder.type === "native") {
+        const from = this._node.getAttribute(name);
+        const toRepr = serializer(to);
+        const tween = tweenBuilder(from, toRepr);
+        return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, AbstractElement<SVG, ATTRIBUTES, EVENTS>>(this, name, tween, timing, tweenBuilder.type);
+      } else {
+        const from = this._node.style.getPropertyValue(name);
+        const toRepr = serializer(to);
+        const tween = tweenBuilder(from, toRepr);
+        return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, AbstractElement<SVG, ATTRIBUTES, EVENTS>>(this, name, tween, timing, tweenBuilder.type);
+      }
+    } else {
+      const from = this.getAttribute(name);
+      const tween = tweenBuilder(from, to);
+      return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, AbstractElement<SVG, ATTRIBUTES, EVENTS>>(this, name, tween, timing);
+    }
   }
   public linkDynamicAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: Observable<ATTRIBUTES[Attr]>): Subscription {
     const subscription = Renderer.getInstance().subscribeAttributeObservable(this, name, val);
@@ -84,13 +145,9 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
     const renders = await pending;
     return Math.max(...renders);
   }
-  public getAttribute<Attr extends keyof ATTRIBUTES>(name: Attr): string | null {
-    const val = this._node.getAttribute(name) || this._style.getPropertyValue(name);
-    return (val === "" || val === "none") ? null : val;
-  }
-  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>): void;
-  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean): void;
-  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude?: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean = true): void {
+  public copyStyleFrom(el: AbstractElement<SVGElement, ATTRIBUTES, any>): void;
+  public copyStyleFrom(el: AbstractElement<SVGElement, ATTRIBUTES, any>, includeExclude: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean): void;
+  public copyStyleFrom(el: AbstractElement<SVGElement, ATTRIBUTES, any>, includeExclude?: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean = true): void {
     const style = {} as ATTRIBUTES;
     const attrs = el._node.attributes;
     if (includeExclude) {
@@ -112,7 +169,7 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
         }
       }
     }
-    this.setAttributes(style);
+    this.renderAttributes(style);
   }
 
   public getEvent<EVENT extends keyof EVENTS>(event: EVENT): Observable<EVENTS[EVENT]> {
@@ -125,9 +182,14 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
 
   public get boundingBox(): Box {
     const rect = this._node.getBoundingClientRect();
-    return new Box(rect.left, rect.top, rect.width, rect.height);
+    return {
+      x: rect.left,
+      y: rect.top,
+      width: rect.width,
+      height: rect.height,
+    };
   }
-  public add(el: Element<SVGElement> | SVGElement) {
+  public add<CHILD_ATTRIBUTES extends Core_Attributes>(el: AbstractElement<SVGElement, CHILD_ATTRIBUTES> | SVGElement) {
     if (el instanceof SVGElement) {
       this._node.appendChild(el);
     } else {
@@ -135,28 +197,29 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
       this._node.appendChild(el._node);
     }
   }
-  public getChildren(): Element<SVGElement>[] {
+  public getChildren(): AbstractElement<SVGElement>[] {
     const children = this._node.childNodes;
-    const elements: Element<SVGElement>[] = [];
+    const elements: AbstractElement<SVGElement>[] = [];
     for (let i = 0; i < children.length; ++i) {
       elements.push(new Element(this.context, children.item(i) as SVGElement));
     }
     return elements;
   }
-  public getElementsByClassName(className: string): ReadonlyArray<Element<SVGElement>> {
+  public getElementsByClassName(className: string): ReadonlyArray<AbstractElement<SVGElement>> {
     const elements = Array.from(this._node.getElementsByClassName(className)) as SVGElement[];
     return elements.map((element) => new Element(this.context, element));
   }
   public getElementsByTagName<TAG extends keyof TagElementMapping>(tagName: TAG): ReadonlyArray<TagElementMapping[TAG]>;
-  public getElementsByTagName(tagName: string): ReadonlyArray<Element<SVGElement>> {
+  public getElementsByTagName(tagName: string): ReadonlyArray<AbstractElement<SVGElement>> {
     const elements = Array.from(this._node.getElementsByTagName(tagName)) as SVGElement[];
     return elements.map((element) => new Element(this.context, element));
   }
-  public clone(deep: boolean = true, id: string = randomShortStringId()): Element<SVG, ATTRIBUTES, EVENTS> {
-    const copy = new Element<SVG, ATTRIBUTES, EVENTS>(this.context, this._node.cloneNode(deep) as SVG);
+  public clone(deep: boolean = true, id: string = randomShortStringId()): AbstractElement<SVG, ATTRIBUTES, EVENTS> {
+    const copy = new Element<SVG>(this.context, this._node.cloneNode(deep) as SVG);
     copy._id = id;
     copy._node.setAttribute("id", copy._id);
-    return copy;
+    copy["_getter"] = this._getter;
+    return copy as any;
   }
   public destroy() {
     this._node.remove();
@@ -171,9 +234,18 @@ export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes 
       }
     }
   }
+  protected _setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr] | string): void {
+    this._node.setAttribute(name, String(val));
+  }
   protected cloneNode(deep: boolean = true): SVG {
     const clone = this._node.cloneNode(deep) as SVG;
     clone.setAttribute("id", randomShortStringId());
     return clone;
   }
+}
+
+export class Element<SVG extends SVGElement> extends AbstractElement<SVG> {
+  protected _getter = Core_AttributeGetter;
+  protected _setter = Core_AttributeSetter;
+  protected _interpolator = Core_AttributeInterpolator;
 }

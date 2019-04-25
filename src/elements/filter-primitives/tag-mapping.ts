@@ -1,5 +1,5 @@
 import { Filter } from "../filter";
-import { FilterPrimitive, FilterPrimitive_Elements } from "../filter-primitive";
+import { AbstractFilterPrimitive, FilterPrimitive_Element } from "../filter-primitive";
 import { Blend_Primitive } from "./blend";
 import { ColorMatrix_Primitive } from "./color-matrix";
 import { ComponentTransfer_Primitive } from "./component-transfer";
@@ -17,12 +17,10 @@ import { Offset_Primitive } from "./offset";
 import { Tile_Primitive } from "./tile";
 import { Turbulence_Primitive } from "./turbulence";
 
-interface SimpleFilterPrimitiveConstructor<ELEMENT extends FilterPrimitive_Elements> {
-  new(filter: Filter, element: ELEMENT): FilterPrimitive<ELEMENT>
-}
+type SimpleFilterPrimitiveConstructor<ELEMENT extends FilterPrimitive_Element> = new(filter: Filter, element: ELEMENT) => AbstractFilterPrimitive<ELEMENT, any>;
 
 export interface TagFilterPrimitiveMapping {
-  [tagName: string]: FilterPrimitive<FilterPrimitive_Elements>;
+  [tagName: string]: AbstractFilterPrimitive<FilterPrimitive_Element, any>;
   feBlend: Blend_Primitive;
   feColorMatrix: ColorMatrix_Primitive;
   feComponentTransfer: ComponentTransfer_Primitive;
@@ -42,7 +40,7 @@ export interface TagFilterPrimitiveMapping {
   feTurbulence: Turbulence_Primitive;
 }
 
-export const FILTER_PRIMITIVE_CTOR_BY_TAG: ReadonlyMap<keyof TagFilterPrimitiveMapping, SimpleFilterPrimitiveConstructor<FilterPrimitive_Elements>> = new Map<string, SimpleFilterPrimitiveConstructor<any>>([
+export const FILTER_PRIMITIVE_CTOR_BY_TAG: ReadonlyMap<keyof TagFilterPrimitiveMapping, SimpleFilterPrimitiveConstructor<FilterPrimitive_Element>> = new Map<string, SimpleFilterPrimitiveConstructor<any>>([
   ["feBlend", Blend_Primitive as SimpleFilterPrimitiveConstructor<SVGFEBlendElement>],
   ["feColorMatrix", ColorMatrix_Primitive as SimpleFilterPrimitiveConstructor<SVGFEColorMatrixElement>],
   ["feComponentTransfer", ComponentTransfer_Primitive as SimpleFilterPrimitiveConstructor<SVGFEComponentTransferElement>],

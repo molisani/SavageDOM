@@ -1,5 +1,5 @@
 import { Context } from "./context";
-import { Element } from "./element";
+import { AbstractElement } from "./element";
 import { Filter } from "./elements/filter";
 import { ClipPath } from "./elements/non-renderables/clip-path";
 import { Marker } from "./elements/non-renderables/marker";
@@ -17,12 +17,10 @@ import { Polyline } from "./elements/renderables/shapes/polyline";
 import { Rect } from "./elements/renderables/shapes/rect";
 import { Text, TextSpan } from "./elements/renderables/text";
 
-export interface SimpleElementConstructor {
-  new(context: Context, element: SVGElement): Element<SVGElement>
-}
+export type SimpleElementConstructor = new(context: Context, element: SVGElement) => AbstractElement<SVGElement, any>;
 
 export interface TagElementMapping {
-  [tagName: string]: Element<SVGElement>;
+  [tagName: string]: AbstractElement<SVGElement, any>;
   circle: Circle;
   clipPath: ClipPath;
   ellipse: Ellipse;

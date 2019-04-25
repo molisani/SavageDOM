@@ -3,9 +3,11 @@
     "rules": {
         "adjacent-overload-signatures": true,
         "member-access": true,
+        "member-ordering": false,
         "no-empty-interface": false,
         "no-namespace": false,
         "no-reference": true,
+        "ordered-imports": false,
         "prefer-for-of": false,
         "unified-signatures": false,
 
@@ -47,6 +49,7 @@
         "no-submodule-imports": false,
         "object-literal-key-quotes": [true, "as-needed"],
         "one-variable-per-declaration": [true],
+        "prefer-object-spread": false,
         "semicolon": [true, "always", "ignore-interfaces"],
         "space-before-function-paren": [true, { "anonymous": "never", "named": "never", "asyncArrow": "always", "method": "never", "constructor": "never" }],
         "variable-name": [false],

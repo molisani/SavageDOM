@@ -1,35 +1,27 @@
-import { interpolate } from "d3-interpolate";
-import { Attribute } from "../attribute";
+import { asNativeParser } from "./getter";
+import { d3BypassTweenBuilder } from "./interpolator";
+import { asNativeSerializer } from "./setter";
 
-export class NumberOptionalNumber implements Attribute<NumberOptionalNumber> {
-  constructor(public n: number, public o?: number) {}
-  public toString(): string {
-    return (this.o !== undefined) ? `${this.n},${this.o}` : this.n.toString();
-  }
-  public parse(css: string | null): NumberOptionalNumber {
-    if (css !== null) {
-      const toks = css.split(",");
-      if (toks.length === 1) {
-        return new NumberOptionalNumber(parseFloat(toks[0]));
-      } else {
-        return new NumberOptionalNumber(parseFloat(toks[0]), parseFloat(toks[1]));
-      }
-    } else {
-      return new NumberOptionalNumber(0);
-    }
-  }
-  public get(element: SVGElement, attr: string): NumberOptionalNumber {
-    return this.parse(element.getAttribute(attr));
-  }
-  public set(element: SVGElement, attr: string, override?: NumberOptionalNumber): void {
-    if (override !== undefined) {
-      element.setAttribute(attr, override.toString());
-    } else {
-      element.setAttribute(attr, this.toString());
-    }
-  }
-  public interpolator(from: NumberOptionalNumber): (t: number) => NumberOptionalNumber {
-    const func = interpolate(from.toString(), this.toString());
-    return (t: number) => this.parse(func(t));
-  }
+export interface NumberOptionalNumber {
+  n: number;
+  o?: number;
 }
+
+export const numberOptionalNumberParser = asNativeParser<NumberOptionalNumber>((repr: string | null) => {
+  if (repr !== null) {
+    const toks = repr.split(/\s?,\s?/);
+    if (toks.length === 1) {
+      return { n: parseFloat(toks[0]) };
+    } else {
+      return { n: parseFloat(toks[0]), o: parseFloat(toks[1]) };
+    }
+  } else {
+    return { n: 0 };
+  }
+});
+
+export const numberOptionalNumberSerializer = asNativeSerializer((value: NumberOptionalNumber) => {
+  return (value.o !== undefined) ? `${value.n},${value.o}` : value.n.toString();
+});
+
+export const numberOptionalNumberTweenBuilder = d3BypassTweenBuilder;

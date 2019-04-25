@@ -1,443 +1,196 @@
-import { interpolate } from "d3-interpolate";
-import { Attribute } from "../attribute";
-import { Length, LengthParse } from "./base";
+import { interpolateArray } from "d3-interpolate";
+import { arraySerializer } from "./array";
+import { asNativeParser, AttributeParser } from "./getter";
+import { asParsedTweenBuilder, AttributeTweenBuilder } from "./interpolator";
 import { Point } from "./point";
+import { asNativeSerializer, AttributeSerializer } from "./setter";
 
-export abstract class PathSegment implements Attribute<PathSegment> {
-  constructor(public command: PathSegment.Command) {}
-  public abstract toString(): string;
-  public parse(css: string | null): PathSegment {
-    if (css !== null) {
-      return this.parseArgs(css.substr(2));
-    } else {
-      return this.defaultInstance();
+export type PathSegmentCommand = "M" | "m" | "L" | "l" | "H" | "h" | "V" | "v" | "C" | "c" | "S" | "s" | "Q" | "q" | "T" | "t" | "A" | "a" | "Z" | "z";
+
+interface PathSegmentArgLength {
+  M: [number, number];
+  m: [number, number];
+  L: [number, number];
+  l: [number, number];
+  H: [number];
+  h: [number];
+  V: [number];
+  v: [number];
+  C: [number, number, number, number, number, number];
+  c: [number, number, number, number, number, number];
+  S: [number, number, number, number];
+  s: [number, number, number, number];
+  Q: [number, number, number, number];
+  q: [number, number, number, number];
+  T: [number, number];
+  t: [number, number];
+  A: [number, number, number, number, number, number, number];
+  a: [number, number, number, number, number, number, number];
+  Z: [];
+  z: [];
+}
+
+export interface PathSegment<COMMAND extends PathSegmentCommand = PathSegmentCommand> {
+  command: COMMAND;
+  args: PathSegmentArgLength[COMMAND];
+}
+
+export function moveTo(p: Point, rel: boolean = false): PathSegment<"m" | "M"> {
+  return { command: (rel) ? "m" : "M", args: [p.x, p.y] };
+}
+
+export function isMoveTo(segment: PathSegment): segment is PathSegment<"m" | "M"> {
+  return segment.command === "m" || segment.command === "M";
+}
+
+export function lineTo(p: Point, rel: boolean = false): PathSegment<"l" | "L"> {
+  return { command: (rel) ? "l" : "L", args: [p.x, p.y] };
+}
+
+export function isLineTo(segment: PathSegment): segment is PathSegment<"l" | "L"> {
+  return segment.command === "l" || segment.command === "L";
+}
+
+export function hLineTo(x: number, rel: boolean = false): PathSegment<"h" | "H"> {
+  return { command: (rel) ? "h" : "H", args: [x] };
+}
+
+export function isHLineTo(segment: PathSegment): segment is PathSegment<"h" | "H"> {
+  return segment.command === "h" || segment.command === "H";
+}
+
+export function vLineTo(y: number, rel: boolean = false): PathSegment<"v" | "V"> {
+  return { command: (rel) ? "v" : "V", args: [y] };
+}
+
+export function isVLineTo(segment: PathSegment): segment is PathSegment<"v" | "V"> {
+  return segment.command === "v" || segment.command === "V";
+}
+
+export function cubicCurveTo(c1: Point, c2: Point, p: Point, rel: boolean = false): PathSegment<"c" | "C"> {
+  return { command: (rel) ? "c" : "C", args: [c1.x, c1.y, c2.x, c2.y, p.x, p.y] };
+}
+
+export function isCubicCurveTo(segment: PathSegment): segment is PathSegment<"c" | "C"> {
+  return segment.command === "c" || segment.command === "C";
+}
+
+export function smoothCubicCurveTo(c2: Point, p: Point, rel: boolean = false): PathSegment<"s" | "S"> {
+  return { command: (rel) ? "s" : "S", args: [c2.x, c2.y, p.x, p.y] };
+}
+
+export function isSmoothCubicCurveTo(segment: PathSegment): segment is PathSegment<"s" | "S"> {
+  return segment.command === "s" || segment.command === "S";
+}
+
+export function quadCurveTo(c: Point, p: Point, rel: boolean = false): PathSegment<"q" | "Q"> {
+  return { command: (rel) ? "q" : "Q", args: [c.x, c.y, p.x, p.y] };
+}
+
+export function isQuadCurveTo(segment: PathSegment): segment is PathSegment<"q" | "Q"> {
+  return segment.command === "q" || segment.command === "Q";
+}
+
+export function smoothQuadCurveTo(p: Point, rel: boolean = false): PathSegment<"t" | "T"> {
+  return { command: (rel) ? "t" : "T", args: [p.x, p.y] };
+}
+
+export function isSmoothQuadCurveTo(segment: PathSegment): segment is PathSegment<"t" | "T"> {
+  return segment.command === "t" || segment.command === "T";
+}
+
+export function arcTo(r: Point, angle: number, largeArcFlag: 0 | 1, sweepFlag: 0 | 1, p: Point, rel: boolean = false): PathSegment<"a" | "A"> {
+  return { command: (rel) ? "a" : "A", args: [r.x, r.y, angle, largeArcFlag, sweepFlag, p.x, p.y] };
+}
+
+export function isArcTo(segment: PathSegment): segment is PathSegment<"a" | "A"> {
+  return segment.command === "a" || segment.command === "A";
+}
+
+export function closePath(): PathSegment<"Z"> {
+  return { command: "Z", args: [] };
+}
+
+export function isClosePath(segment: PathSegment): segment is PathSegment<"z" | "Z"> {
+  return segment.command === "z" || segment.command === "Z";
+}
+
+export const pathSegmentParser: AttributeParser<PathSegment> = asNativeParser((repr: string | null) => {
+  if (!repr) {
+    return closePath();
+  }
+  const command = repr.substr(0, 1) as PathSegmentCommand;
+  const args = repr.substring(1).split(/\s*,\s*|\s+/i).map(parseFloat) as PathSegment["args"];
+  return { command, args };
+});
+
+export const pathSegmentSerializer: AttributeSerializer<PathSegment> = asNativeSerializer((value: PathSegment) => {
+  return [value.command, ...value.args].join(" ");
+});
+
+const PATH_SEGMENT_COMMAND_PATTERN = /^M|m|L|l|H|h|V|v|C|c|S|s|Q|q|T|t|A|a|Z|z/;
+
+function* tokenizePathDef(repr: string): IterableIterator<PathSegmentCommand | number> {
+  const tokens = repr.split(/\s*,\s*|\s+/i);
+  for (let token of tokens) {
+    if (PATH_SEGMENT_COMMAND_PATTERN.test(token)) {
+      yield token.substr(0, 1) as PathSegmentCommand;
+      token = token.substring(1);
     }
-  }
-  public get(element: SVGElement, attr: string): PathSegment {
-    return this.parse(element.getAttribute(attr));
-  }
-  public set(element: SVGElement, attr: string, override?: PathSegment): void {
-    if (override !== undefined) {
-      element.setAttribute(attr, override.toString());
-    } else {
-      element.setAttribute(attr, this.toString());
+    if (token) {
+      yield parseFloat(token);
     }
-  }
-  public abstract parseArgs(css: string): PathSegment;
-  public abstract defaultInstance(): PathSegment;
-  public interpolator(from: PathSegment): (t: number) => PathSegment {
-    const func = interpolate(from.toString(), this.toString());
-    return (t: number) => this.parse(func(t));
   }
 }
 
-export namespace PathSegment {
-
-  export enum Command {
-    MoveToAbs = "M",
-    MoveToRel = "m",
-    ClosePath = "Z",
-    LineToAbs = "L",
-    LineToRel = "l",
-    LineToHorizontalAbs = "H",
-    LineToHorizontalRel = "h",
-    LineToVerticalAbs = "V",
-    LineToVerticalRel = "v",
-    CurveToCubicAbs = "C",
-    CurveToCubicRel = "c",
-    CurveToCubicSmoothAbs = "S",
-    CurveToCubicSmoothRel = "s",
-    CurveToQuadraticAbs = "Q",
-    CurveToQuadraticRel = "q",
-    CurveToQuadraticSmoothAbs = "T",
-    CurveToQuadraticSmoothRel = "t",
-    ArcToAbs = "A",
-    ArcToRel = "a",
-  }
-
-  export abstract class SingleLength extends PathSegment {
-    constructor(command: Command.LineToHorizontalAbs | Command.LineToHorizontalRel | Command.LineToVerticalAbs | Command.LineToVerticalRel, public l: Length = 0) {
-      super(command);
-    }
-    public toString(): string {
-      return `${this.command} ${this.l.toString()}`;
-    }
-    public parseArgs(css: string): SingleLength {
-      return this.buildInstance(LengthParse(css));
-    }
-    public abstract buildInstance(l: Length): SingleLength;
-    public abstract defaultInstance(): SingleLength;
-  }
-  export abstract class SinglePoint extends PathSegment {
-    constructor(command: Command.MoveToAbs | Command.MoveToRel | Command.LineToAbs | Command.LineToRel | Command.CurveToQuadraticSmoothAbs | Command.CurveToQuadraticSmoothRel, public p: Point = new Point(0, 0)) {
-      super(command);
-    }
-    public toString(): string {
-      return `${this.command} ${this.p.toString()}`;
-    }
-    public parseArgs(css: string): SinglePoint {
-      return this.buildInstance(this.p.parse(css));
-    }
-    public abstract buildInstance(p: Point): SinglePoint;
-    public abstract defaultInstance(): SinglePoint;
-  }
-  export abstract class DoublePoint extends PathSegment {
-    constructor(command: Command.CurveToQuadraticAbs | Command.CurveToQuadraticRel | Command.CurveToCubicSmoothAbs | Command.CurveToCubicSmoothRel, public p1: Point = new Point(0, 0), public p2: Point = new Point(0, 0)) {
-      super(command);
-    }
-    public toString(): string {
-      return `${this.command} ${this.p1.toString()} ${this.p2.toString()}`;
-    }
-    public parseArgs(css: string): DoublePoint {
-      const toks = css.split(" ");
-      return this.buildInstance(this.p1.parse(toks[0]), this.p2.parse(toks[1]));
-    }
-    public abstract buildInstance(p1: Point, p2: Point): DoublePoint;
-    public abstract defaultInstance(): DoublePoint;
-  }
-  export abstract class TriplePoint extends PathSegment {
-    constructor(command: Command.CurveToCubicAbs | Command.CurveToCubicRel, public p1: Point = new Point(0, 0), public p2: Point = new Point(0, 0), public p3: Point = new Point(0, 0)) {
-      super(command);
-    }
-    public toString(): string {
-      return `${this.command} ${this.p1.toString()} ${this.p2.toString()} ${this.p3.toString()}`;
-    }
-    public parseArgs(css: string): TriplePoint {
-      const toks = css.split(" ");
-      return this.buildInstance(this.p1.parse(toks[0]), this.p2.parse(toks[1]), this.p3.parse(toks[2]));
-    }
-    public abstract buildInstance(p1: Point, p2: Point, p3: Point): TriplePoint;
-    public abstract defaultInstance(): TriplePoint;
-  }
-
-  export class MoveToAbs extends SinglePoint {
-    constructor(p?: Point)
-    constructor(x: Length, y: Length)
-    constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
-      super(Command.MoveToAbs, p instanceof Point ? p : new Point(p, y));
-    }
-    public buildInstance(p: Point): MoveToAbs {
-      return new MoveToAbs(p);
-    }
-    public defaultInstance(): MoveToAbs {
-      return new MoveToAbs();
-    }
-  }
-  export class MoveToRel extends SinglePoint {
-    constructor(p?: Point)
-    constructor(x: Length, y: Length)
-    constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
-      super(Command.MoveToRel, p instanceof Point ? p : new Point(p, y));
-    }
-    public buildInstance(p: Point): MoveToRel {
-      return new MoveToRel(p);
-    }
-    public defaultInstance(): MoveToRel {
-      return new MoveToRel();
-    }
-  }
-
-  export class ClosePath extends PathSegment {
-    constructor() {
-      super(Command.ClosePath);
-    }
-    public toString(): string {
-      return Command.ClosePath;
-    }
-    public parseArgs(_css: string): ClosePath {
-      return new ClosePath();
-    }
-    public defaultInstance(): ClosePath {
-      return new ClosePath();
-    }
-  }
-
-  export class LineToAbs extends SinglePoint {
-    constructor(p?: Point)
-    constructor(x: Length, y: Length)
-    constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
-      super(Command.LineToAbs, p instanceof Point ? p : new Point(p, y));
-    }
-    public buildInstance(p: Point): LineToAbs {
-      return new LineToAbs(p);
-    }
-    public defaultInstance(): LineToAbs {
-      return new LineToAbs();
-    }
-  }
-  export class LineToRel extends SinglePoint {
-    constructor(p?: Point)
-    constructor(x: Length, y: Length)
-    constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
-      super(Command.LineToRel, p instanceof Point ? p : new Point(p, y));
-    }
-    public buildInstance(p: Point): LineToRel {
-      return new LineToRel(p);
-    }
-    public defaultInstance(): LineToRel {
-      return new LineToRel();
-    }
-  }
-
-  export class LineToHorizontalAbs extends SingleLength {
-    constructor(h: Length = 0) {
-      super(Command.LineToHorizontalAbs, h);
-    }
-    public buildInstance(h: Length): LineToHorizontalAbs {
-      return new LineToHorizontalAbs(h);
-    }
-    public defaultInstance(): LineToHorizontalAbs {
-      return new LineToHorizontalAbs();
-    }
-  }
-  export class LineToHorizontalRel extends SingleLength {
-    constructor(h: Length = 0) {
-      super(Command.LineToHorizontalRel, h);
-    }
-    public buildInstance(h: Length): LineToHorizontalRel {
-      return new LineToHorizontalRel(h);
-    }
-    public defaultInstance(): LineToHorizontalRel {
-      return new LineToHorizontalRel();
-    }
-  }
-
-  export class LineToVerticalAbs extends SingleLength {
-    constructor(v: Length = 0) {
-      super(Command.LineToVerticalAbs, v);
-    }
-    public buildInstance(v: Length): LineToVerticalAbs {
-      return new LineToVerticalAbs(v);
-    }
-    public defaultInstance(): LineToVerticalAbs {
-      return new LineToVerticalAbs();
-    }
-  }
-  export class LineToVerticalRel extends SingleLength {
-    constructor(v: Length = 0) {
-      super(Command.LineToVerticalRel, v);
-    }
-    public buildInstance(v: Length): LineToVerticalAbs {
-      return new LineToVerticalAbs(v);
-    }
-    public defaultInstance(): LineToVerticalAbs {
-      return new LineToVerticalAbs();
-    }
-  }
-
-  export class CurveToCubicAbs extends TriplePoint {
-    constructor(c1?: Point, c2?: Point, p?: Point)
-    constructor(c1x: Length, c1y: Length, c2x: Length, c2y: Length, px: Length, py: Length)
-    constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c: Length | Point = new Point(0, 0), d?: Length, e?: Length, f?: Length) {
-      const c1: Point = a instanceof Point ? a : new Point(a, b as Length);
-      const c2: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
-      const p: Point = c instanceof Point ? c : new Point(e as Length, f as Length);
-      super(Command.CurveToCubicAbs, c1, c2, p);
-    }
-    public buildInstance(c1: Point, c2: Point, p: Point): CurveToCubicAbs {
-      return new CurveToCubicAbs(c1, c2, p);
-    }
-    public defaultInstance(): CurveToCubicAbs {
-      return new CurveToCubicAbs();
-    }
-  }
-  export class CurveToCubicRel extends TriplePoint {
-    constructor(c1?: Point, c2?: Point, p?: Point)
-    constructor(c1x: Length, c1y: Length, c2x: Length, c2y: Length, px: Length, py: Length)
-    constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c: Length | Point = new Point(0, 0), d?: Length, e?: Length, f?: Length) {
-      const c1: Point = a instanceof Point ? a : new Point(a, b as Length);
-      const c2: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
-      const p: Point = c instanceof Point ? c : new Point(e as Length, f as Length);
-      super(Command.CurveToCubicRel, c1, c2, p);
-    }
-    public buildInstance(c1: Point, c2: Point, p: Point): CurveToCubicRel {
-      return new CurveToCubicRel(c1, c2, p);
-    }
-    public defaultInstance(): CurveToCubicRel {
-      return new CurveToCubicRel();
-    }
-  }
-
-  export class CurveToCubicSmoothAbs extends DoublePoint {
-    constructor(c2?: Point, p?: Point)
-    constructor(c2x: Length, c2y: Length, px: Length, py: Length)
-    constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c?: Length, d?: Length) {
-      const c2: Point = a instanceof Point ? a : new Point(a as Length, b as Length);
-      const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
-      super(Command.CurveToCubicSmoothAbs, c2, p);
-    }
-    public buildInstance(c2: Point, p: Point): CurveToCubicSmoothAbs {
-      return new CurveToCubicSmoothAbs(c2, p);
-    }
-    public defaultInstance(): CurveToCubicSmoothAbs {
-      return new CurveToCubicSmoothAbs();
-    }
-  }
-  export class CurveToCubicSmoothRel extends DoublePoint {
-    constructor(c2?: Point, p?: Point)
-    constructor(c2x: Length, c2y: Length, px: Length, py: Length)
-    constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c?: Length, d?: Length) {
-      const c2: Point = a instanceof Point ? a : new Point(a as Length, b as Length);
-      const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
-      super(Command.CurveToCubicSmoothRel, c2, p);
-    }
-    public buildInstance(c2: Point, p: Point): CurveToCubicSmoothRel {
-      return new CurveToCubicSmoothRel(c2, p);
-    }
-    public defaultInstance(): CurveToCubicSmoothRel {
-      return new CurveToCubicSmoothRel();
-    }
-  }
-
-  export class CurveToQuadraticAbs extends DoublePoint {
-    constructor(c1?: Point, p?: Point)
-    constructor(c1x: Length, c1y: Length, px: Length, py: Length)
-    constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c?: Length, d?: Length) {
-      const c1: Point = a instanceof Point ? a : new Point(a as Length, b as Length);
-      const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
-      super(Command.CurveToQuadraticAbs, c1, p);
-    }
-    public buildInstance(c1: Point, p: Point): CurveToQuadraticAbs {
-      return new CurveToQuadraticAbs(c1, p);
-    }
-    public defaultInstance(): CurveToQuadraticAbs {
-      return new CurveToQuadraticAbs();
-    }
-  }
-  export class CurveToQuadraticRel extends DoublePoint {
-    constructor(c1?: Point, p?: Point)
-    constructor(c1x: Length, c1y: Length, px: Length, py: Length)
-    constructor(a: Length | Point = new Point(0, 0), b: Length | Point = new Point(0, 0), c?: Length, d?: Length) {
-      const c1: Point = a instanceof Point ? a : new Point(a as Length, b as Length);
-      const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
-      super(Command.CurveToQuadraticRel, c1, p);
-    }
-    public buildInstance(c1: Point, p: Point): CurveToQuadraticRel {
-      return new CurveToQuadraticRel(c1, p);
-    }
-    public defaultInstance(): CurveToQuadraticRel {
-      return new CurveToQuadraticRel();
-    }
-  }
-
-  export class CurveToQuadraticSmoothAbs extends SinglePoint {
-    constructor(p?: Point)
-    constructor(x: Length, y: Length)
-    constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
-      super(Command.CurveToQuadraticSmoothAbs, p instanceof Point ? p : new Point(p, y));
-    }
-    public buildInstance(p: Point): CurveToQuadraticSmoothAbs {
-      return new CurveToQuadraticSmoothAbs(p);
-    }
-    public defaultInstance(): CurveToQuadraticSmoothAbs {
-      return new CurveToQuadraticSmoothAbs();
-    }
-  }
-  export class CurveToQuadraticSmoothRel extends SinglePoint {
-    constructor(p?: Point)
-    constructor(x: Length, y: Length)
-    constructor(p: Point | Length = new Point(0, 0), y: Length = 0) {
-      super(Command.CurveToQuadraticSmoothRel, p instanceof Point ? p : new Point(p, y));
-    }
-    public buildInstance(p: Point): CurveToQuadraticSmoothRel {
-      return new CurveToQuadraticSmoothRel(p);
-    }
-    public defaultInstance(): CurveToQuadraticSmoothRel {
-      return new CurveToQuadraticSmoothRel();
-    }
-  }
-
-  export abstract class ArcTo extends PathSegment {
-    constructor(command: Command.ArcToAbs | Command.ArcToRel, public r: Point = new Point(0, 0), public p: Point = new Point(0, 0), public xAxisRotate: number = 0, public largeArc: boolean = false, public sweepClockwise: boolean = true) {
-      super(command);
-    }
-    public toString(): string {
-      return `${this.r.toString()} ${this.xAxisRotate} ${this.largeArc ? 1 : 0} ${this.sweepClockwise ? 1 : 0} ${this.p.toString()}`;
-    }
-    public parseArgs(css: string): ArcTo {
-      const toks = css.split(" ");
-      return this.buildInstance(this.r.parse(toks[0]), this.p.parse(toks[4]), parseFloat(toks[1]), toks[2] === "1", toks[3] === "1");
-    }
-    public abstract buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise: boolean): ArcTo;
-    public abstract defaultInstance(): ArcTo;
-  }
-
-  export class ArcToAbs extends ArcTo {
-    constructor(r?: Point, p?: Point, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean)
-    constructor(rx: Length, ry: Length, px: Length, py: Length, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean)
-    constructor(a: Point | Length = new Point(0, 0), b: Point | Length = new Point(0, 0), c?: number | Length, d?: boolean | Length, e?: boolean | number, f?: boolean, g?: boolean) {
-      const r: Point = a instanceof Point ? a : new Point(a, b as Length);
-      const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
-      let xAxisRotate: number = 0;
-      let largeArc: boolean = false;
-      let sweepClockwise: boolean = true;
-      if (a instanceof Point && b instanceof Point) {
-        if (typeof c !== "undefined") {
-          xAxisRotate = c as number;
-        }
-        if (typeof d !== "undefined") {
-          largeArc = d as boolean;
-        }
-        if (typeof e !== "undefined") {
-          sweepClockwise = e as boolean;
-        }
-      } else {
-        if (typeof e !== "undefined") {
-          xAxisRotate = e as number;
-        }
-        if (typeof f !== "undefined") {
-          largeArc = f as boolean;
-        }
-        if (typeof g !== "undefined") {
-          sweepClockwise = g as boolean;
-        }
-      }
-      super(Command.ArcToAbs, r, p, xAxisRotate, largeArc, sweepClockwise);
-    }
-    public buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise: boolean): ArcToAbs {
-      return new ArcToAbs(r, p, xAxisRotate, largeArc, sweepClockwise);
-    }
-    public defaultInstance(): ArcToAbs {
-      return new ArcToAbs();
-    }
-  }
-  export class ArcToRel extends ArcTo {
-    constructor(r?: Point, p?: Point, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean)
-    constructor(rx: Length, ry: Length, px: Length, py: Length, xAxisRotate?: number, largeArc?: boolean, sweepClockwise?: boolean)
-    constructor(a: Point | Length = new Point(0, 0), b: Point | Length = new Point(0, 0), c?: number | Length, d?: boolean | Length, e?: boolean | number, f?: boolean, g?: boolean) {
-      const r: Point = a instanceof Point ? a : new Point(a, b as Length);
-      const p: Point = b instanceof Point ? b : new Point(c as Length, d as Length);
-      let xAxisRotate: number = 0;
-      let largeArc: boolean = false;
-      let sweepClockwise: boolean = true;
-      if (a instanceof Point && b instanceof Point) {
-        if (typeof c !== "undefined") {
-          xAxisRotate = c as number;
-        }
-        if (typeof d !== "undefined") {
-          largeArc = d as boolean;
-        }
-        if (typeof e !== "undefined") {
-          sweepClockwise = e as boolean;
-        }
-      } else {
-        if (typeof e !== "undefined") {
-          xAxisRotate = e as number;
-        }
-        if (typeof f !== "undefined") {
-          largeArc = f as boolean;
-        }
-        if (typeof g !== "undefined") {
-          sweepClockwise = g as boolean;
-        }
-      }
-      super(Command.ArcToRel, r, p, xAxisRotate, largeArc, sweepClockwise);
-    }
-    public buildInstance(r: Point, p: Point, xAxisRotate: number, largeArc: boolean, sweepClockwise: boolean): ArcToRel {
-      return new ArcToRel(r, p, xAxisRotate, largeArc, sweepClockwise);
-    }
-    public defaultInstance(): ArcToRel {
-      return new ArcToRel();
-    }
+function isCompletePathSegment(segment: PathSegment): boolean {
+  switch (segment.command) {
+    case "M": return segment.args.length === 2;
+    case "m": return segment.args.length === 2;
+    case "L": return segment.args.length === 2;
+    case "l": return segment.args.length === 2;
+    case "H": return segment.args.length === 1;
+    case "h": return segment.args.length === 1;
+    case "V": return segment.args.length === 1;
+    case "v": return segment.args.length === 1;
+    case "C": return segment.args.length === 6;
+    case "c": return segment.args.length === 6;
+    case "S": return segment.args.length === 4;
+    case "s": return segment.args.length === 4;
+    case "Q": return segment.args.length === 4;
+    case "q": return segment.args.length === 4;
+    case "T": return segment.args.length === 2;
+    case "t": return segment.args.length === 2;
+    case "A": return segment.args.length === 6;
+    case "a": return segment.args.length === 6;
+    case "Z": return segment.args.length === 0;
+    case "z": return segment.args.length === 0;
   }
 }
+
+export const pathDefParser: AttributeParser<PathSegment[]> = asNativeParser((repr: string | null) => {
+  if (!repr) {
+    return [];
+  }
+  const segments: PathSegment[] = [];
+  let current!: PathSegment;
+  for (const token of tokenizePathDef(repr)) {
+    if (typeof token === "string") {
+      if (current) {
+        segments.push(current);
+      }
+      current = { command: token, args: [] };
+    } else if (isCompletePathSegment(current)) {
+      segments.push(current);
+      current = { command: current.command, args: [token] };
+    } else {
+      (current.args as number[]).push(token);
+    }
+  }
+  segments.push(current);
+  return segments;
+});
+
+export const pathDefSerializer: AttributeSerializer<PathSegment[]> = arraySerializer(pathSegmentSerializer);
+
+export const pathDefTweenBuilder: AttributeTweenBuilder<PathSegment[]> = asParsedTweenBuilder(interpolateArray);

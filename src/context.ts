@@ -1,10 +1,10 @@
 
 import { fromEvent, Observable, ReplaySubject } from "rxjs";
 import { map } from "rxjs/operators";
-import { Point } from "./attributes/point";
+import { Core_Attributes } from "./attributes";
 import { XLINK, XMLNS } from "./constants";
 import { makeRequest } from "./document";
-import { Element } from "./element";
+import { AbstractElement, Element } from "./element";
 import { ClipPath } from "./elements/non-renderables/clip-path";
 import { Marker } from "./elements/non-renderables/marker";
 import { Mask } from "./elements/non-renderables/mask";
@@ -33,7 +33,7 @@ export class Context {
   }
   private static _CONTEXT_SUBJECT = new ReplaySubject<Context>(1);
   private _root: SVGSVGElement;
-  private _defs: Element<SVGDefsElement>;
+  private _defs: AbstractElement<SVGDefsElement>;
   private _linkedDocs = new WeakSet<Document>();
   constructor();
   constructor(id: string, window?: Window);
@@ -87,13 +87,13 @@ export class Context {
       const local = this.calculateLocalPoint(this._root, event);
       return {
         ...event,
-        local: new Point(local.x, local.y),
-        page: new Point(event.pageX, event.pageY),
-        screen: new Point(event.screenX, event.screenY),
+        local: { x: local.x, y: local.y },
+        page: { x: event.pageX, y: event.pageY },
+        screen: { x: event.screenX, y: event.screenY },
       };
     }));
   }
-  public addDef(def: SVGElement | Element<SVGElement>) {
+  public addDef<DEF_ATTRIBUTES extends Core_Attributes>(def: SVGElement | AbstractElement<SVGElement, DEF_ATTRIBUTES>) {
     this._defs.add(def);
   }
   public injectDocumentDefs(doc: Document) {
@@ -113,8 +113,8 @@ export class Context {
     const xmlDocument = await makeRequest("GET", url);
     return new ExternalSVG(this, xmlDocument);
   }
-  public addChild(el: SVGElement | Element<SVGElement>) {
-    if (el instanceof Element) {
+  public addChild(el: SVGElement | AbstractElement<SVGElement>) {
+    if (el instanceof AbstractElement) {
       el.context = this;
       this._root.appendChild(el.node);
     } else {
