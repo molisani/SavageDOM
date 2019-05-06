@@ -1,6 +1,7 @@
 
 import { fromEvent, Observable, ReplaySubject } from "rxjs";
 import { map } from "rxjs/operators";
+import { Renderer } from "./animation/renderer";
 import { Core_Attributes } from "./attributes";
 import { XLINK, XMLNS } from "./constants";
 import { makeRequest } from "./document";
@@ -26,8 +27,14 @@ import { Text } from "./elements/renderables/text";
 import { ResolvedPointEvent } from "./events";
 import { ElementArgumentsType } from "./util/typescript";
 
+function isSVGSVGElement(el: { tagName: string } | null): el is SVGSVGElement {
+  if (el) {
+    return el.tagName === "svg";
+  }
+  return false;
+}
+
 export class Context {
-  public static DEFAULT_WINDOW: Window = window;
   public static get contexts(): Observable<Context> {
     return Context._CONTEXT_SUBJECT.asObservable();
   }
@@ -36,13 +43,13 @@ export class Context {
   private _defs: AbstractElement<SVGDefsElement>;
   private _linkedDocs = new WeakSet<Document>();
   constructor();
-  constructor(id: string, window?: Window);
-  constructor(el: SVGSVGElement, window?: Window);
-  constructor(root?: string | SVGSVGElement, private _window: Window = Context.DEFAULT_WINDOW) {
+  constructor(id: string, window?: Window, renderer?: Renderer);
+  constructor(el: SVGSVGElement, window?: Window, renderer?: Renderer);
+  constructor(root?: string | SVGSVGElement, private _window: Window = window, private _renderer: Renderer = Renderer.getInstance()) {
     if (root) {
       if (typeof root === "string") {
         const el = this._window.document.getElementById(root);
-        if (el instanceof SVGSVGElement) {
+        if (isSVGSVGElement(el)) {
           this._root = el;
         } else {
           throw new Error("Element with specified ID is not valid");
@@ -71,6 +78,9 @@ export class Context {
   }
   public get window(): Window {
     return this._window;
+  }
+  public get renderer(): Renderer {
+    return this._renderer;
   }
   public calculateLocalPoint<ELEMENT extends SVGGraphicsElement>(elementNode: ELEMENT, action: MouseEvent | Touch): DOMPoint {
     const ref = this._root.createSVGPoint();

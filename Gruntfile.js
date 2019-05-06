@@ -42,6 +42,15 @@ module.exports = function(grunt) {
         ],
       },
     },
+    mochaTest: {
+      all: {
+        options: {
+          reporter: "spec",
+          require: "ts-node/register",
+        },
+        src: ["src/**/*.spec.ts"],
+      },
+    },
     tslint: {
       options: {
         configuration: grunt.file.readJSON("tslint.json")
@@ -82,7 +91,9 @@ module.exports = function(grunt) {
 
   grunt.registerTask("build", ["ts:lib", "webpack:all", "concat:all", "replace:all", "clean:tscommand"]);
 
-  grunt.registerTask("check", ["lint", "build"]);
+  grunt.registerTask("test", ["mochaTest:all"]);
+
+  grunt.registerTask("check", ["lint", "test", "build"]);
 
   grunt.registerTask("docs", ["clean:docs", "typedoc:build"]);
 

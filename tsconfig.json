@@ -43,7 +43,7 @@
     // "paths": {},
     // "rootDirs": [],
     // "typeRoots": [],
-    "types": ["node"],
+    "types": ["node", "mocha"],
     // "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     // "preserveSymlinks": true,

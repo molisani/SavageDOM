@@ -38,7 +38,7 @@ const Circle_AttributeInterpolator: AttributeInterpolator<Circle_Attributes> = {
   r: unsupportedTweenBuilder,
 };
 
-function _attributeHelper(a1: number | Point, a2: number, a3?: number): Partial<Circle_Attributes> {
+function _attributeHelper(a1: Length | Point, a2: Length, a3?: Length): Partial<Circle_Attributes> {
   if (isPoint(a1)) {
     return { c: a1, r: a2 };
   }
@@ -46,11 +46,14 @@ function _attributeHelper(a1: number | Point, a2: number, a3?: number): Partial<
 }
 
 export class Circle extends AbstractShape<SVGCircleElement, Circle_Attributes> {
-  public static create(context: Context, c: Point, r: number): Circle;
-  public static create(context: Context, cx: number, cy: number, r: number): Circle;
-  public static create(context: Context, a1: number | Point, a2: number, a3?: number): Circle;
-  public static create(context: Context, a1: number | Point, a2: number, a3?: number): Circle {
-    return new Circle(context, context.window.document.createElementNS(XMLNS.SVG, "circle"), _attributeHelper(a1, a2, a3));
+  public static new(context: Context, attrs: Partial<Circle_Attributes> = {}): Circle {
+    return new Circle(context, context.window.document.createElementNS(XMLNS.SVG, "circle"), attrs);
+  }
+  public static create(context: Context, c: Point, r: Length): Circle;
+  public static create(context: Context, cx: Length, cy: Length, r: Length): Circle;
+  public static create(context: Context, a1: Length | Point, a2: Length, a3?: Length): Circle;
+  public static create(context: Context, a1: Length | Point, a2: Length, a3?: Length): Circle {
+    return Circle.new(context, _attributeHelper(a1, a2, a3));
   }
   protected _getter = Circle_AttributeGetter;
   protected _setter = Circle_AttributeSetter;
