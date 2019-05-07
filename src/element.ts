@@ -1,6 +1,5 @@
 
 import { fromEvent, merge, Observable, Subscription } from "rxjs";
-import { Renderer } from "./animation/renderer";
 import { AnimationTiming } from "./animation/timing";
 import { Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter } from "./attributes/base";
 import { Box } from "./attributes/box";
@@ -12,12 +11,12 @@ import { BaseEvents } from "./events";
 import { randomShortStringId } from "./id";
 import { TagElementMapping } from "./tag-mapping";
 
-function getAttribute<T>(parser: AttributeParser<T>, node: Element<SVGElement>, name: string): T {
+function getAttribute<T>(parser: AttributeParser<T>, element: Element<SVGElement>, name: string): T {
   if (parser.type === "native") {
-    const value = node.getAttribute(name);
+    const value = element.node.getAttribute(name);
     return parser(value);
   }
-  return parser(node, name);
+  return parser(element, name);
 }
 
 function setAttribute<T>(serializer: AttributeSerializer<T>, node: SVGElement, name: string, value: T) {
@@ -88,12 +87,12 @@ export abstract class AbstractElement<SVG extends SVGElement, ATTRIBUTES extends
     setAttribute(serializer, this._node, name, val as ATTRIBUTES[Attr]);
   }
   public renderAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): Promise<any> {
-    const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, AbstractElement<any, ATTRIBUTES, any>>(this, name, val);
+    const render = this.context.renderer.queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, AbstractElement<any, ATTRIBUTES, any>>(this, name, val);
     this._pendingRenders.push(render);
     return render;
   }
   public renderAttributes(attrs: Partial<ATTRIBUTES>): Promise<any> {
-    const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, AbstractElement<any, ATTRIBUTES, any>>(this, attrs);
+    const render = this.context.renderer.queueAttributeUpdate<ATTRIBUTES, AbstractElement<any, ATTRIBUTES, any>>(this, attrs);
     this._pendingRenders.push(render);
     return render;
   }
@@ -114,21 +113,21 @@ export abstract class AbstractElement<SVG extends SVGElement, ATTRIBUTES extends
         const from = this._node.getAttribute(name);
         const toRepr = serializer(to);
         const tween = tweenBuilder(from, toRepr);
-        return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, AbstractElement<SVG, ATTRIBUTES, EVENTS>>(this, name, tween, timing, tweenBuilder.type);
+        return this.context.renderer.registerAttributeInterpolation<ATTRIBUTES, Attr, AbstractElement<SVG, ATTRIBUTES, EVENTS>>(this, name, tween, timing, tweenBuilder.type);
       } else {
         const from = this._node.style.getPropertyValue(name);
         const toRepr = serializer(to);
         const tween = tweenBuilder(from, toRepr);
-        return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, AbstractElement<SVG, ATTRIBUTES, EVENTS>>(this, name, tween, timing, tweenBuilder.type);
+        return this.context.renderer.registerAttributeInterpolation<ATTRIBUTES, Attr, AbstractElement<SVG, ATTRIBUTES, EVENTS>>(this, name, tween, timing, tweenBuilder.type);
       }
     } else {
       const from = this.getAttribute(name);
       const tween = tweenBuilder(from, to);
-      return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, AbstractElement<SVG, ATTRIBUTES, EVENTS>>(this, name, tween, timing);
+      return this.context.renderer.registerAttributeInterpolation<ATTRIBUTES, Attr, AbstractElement<SVG, ATTRIBUTES, EVENTS>>(this, name, tween, timing);
     }
   }
   public linkDynamicAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: Observable<ATTRIBUTES[Attr]>): Subscription {
-    const subscription = Renderer.getInstance().subscribeAttributeObservable(this, name, val);
+    const subscription = this.context.renderer.subscribeAttributeObservable(this, name, val);
     const existingSubscription = this._linkedAttributes[name];
     if (existingSubscription && !existingSubscription.closed) {
       existingSubscription.unsubscribe();
@@ -138,7 +137,7 @@ export abstract class AbstractElement<SVG extends SVGElement, ATTRIBUTES extends
   }
   public async flush(): Promise<number> {
     if (this._pendingRenders.length === 0) {
-      return performance.now();
+      return Date.now();
     }
     const pending = Promise.all(this._pendingRenders);
     this._pendingRenders = [];
