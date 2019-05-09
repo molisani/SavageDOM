@@ -73,10 +73,10 @@ export function isDimension(value: number | Dimension<DimensionUnit>): value is 
   return typeof value === "object" && "unit" in value;
 }
 
-const DIMENSION_PATTERN = /(-?\d+|\d+\.\d+)(px|in|cm|mm|pt|pc|em|ex|deg|grad|rad|turn)/i;
+const DIMENSION_PATTERN = /(-?\d+|\d+\.\d+)(px|in|cm|mm|pt|pc|em|ex|deg|grad|rad|turn|%)/i;
 
 export function extractDimension(repr: string): Dimension<DimensionUnit> | null {
-  const result = DIMENSION_PATTERN.exec(repr || "");
+  const result = DIMENSION_PATTERN.exec(repr);
   if (!result) {
     return null;
   }

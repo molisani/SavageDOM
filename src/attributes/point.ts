@@ -38,8 +38,8 @@ export const pointSerializer = asNativeSerializer((value: Point) => {
 
 export function buildPointCompositeSerializer(xName: string, yName: string): ManualAttributeSerializer<Point> {
   return buildSerializerFromDecompositions([
-    (value) => [xName, String(value.x)],
-    (value) => [yName, String(value.y)],
+    (value) => [xName, numberOrDimensionSerializer(value.x)],
+    (value) => [yName, numberOrDimensionSerializer(value.y)],
   ]);
 }
 

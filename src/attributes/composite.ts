@@ -10,7 +10,7 @@ type MappedCompositions<ARR extends any[]> = {
 export function buildParserFromCompositions<T, ARGS extends any[]>(func: (...args: ARGS) => T, compositions: MappedCompositions<ARGS>): ManualAttributeParser<T> {
   return asManualParser((element, _name) => {
     const args = compositions.map(([compKey, compParser]) => {
-      const repr = element.getAttribute(compKey);
+      const repr = element.node.getAttribute(compKey);
       return compParser(repr);
     }) as ARGS;
     return func(...args);

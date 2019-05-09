@@ -45,7 +45,7 @@
         "arrow-parens": false,
         "class-name": false,
         "interface-name": [false],
-        "interface-over-type-literal": true,
+        "interface-over-type-literal": false,
         "no-consecutive-blank-lines": [true],
         "no-submodule-imports": false,
         "object-literal-key-quotes": [true, "as-needed"],
