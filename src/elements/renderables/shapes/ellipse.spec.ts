@@ -2,42 +2,47 @@ import { point } from "../../../attributes";
 import { lengthTest } from "../../../attributes/base.spec";
 import { pointTest } from "../../../attributes/point.spec";
 import { runAttributeTests, runCreateTest } from "../../../util/test-env";
-import { ShapeAttributeTests } from "../shape.spec";
-import { Circle, Circle_Attributes } from "./circle";
+import { ShapeAttributeTests as Shape_AttributeTests } from "../shape.spec";
+import { Ellipse, Ellipse_Attributes } from "./ellipse";
 
-describe("Circle", () => {
+describe("Ellipse", () => {
 
   describe(".create()", () => {
 
-    runCreateTest(Circle.create, "circle", [
+    runCreateTest(Ellipse.create, "ellipse", [
       ["Point", point(1, 2)],
-      ["Length", 3],
+      ["Point", point(3, 4)],
     ], {
       cx: "1",
       cy: "2",
-      r: "3",
+      rx: "3",
+      ry: "4",
     });
 
-    runCreateTest(Circle.create, "circle", [
+    runCreateTest(Ellipse.create, "ellipse", [
       ["Length", 1],
       ["Length", 2],
       ["Length", 3],
+      ["Length", 4],
     ], {
       cx: "1",
       cy: "2",
-      r: "3",
+      rx: "3",
+      ry: "4",
     });
 
   });
 
   describe("attributes", () => {
 
-    runAttributeTests<Circle_Attributes>(Circle.new, {
-      ...ShapeAttributeTests,
+    runAttributeTests<Ellipse_Attributes>(Ellipse.new, {
+      ...Shape_AttributeTests,
       cx: lengthTest("cx"),
       cy: lengthTest("cy"),
       c: pointTest("c"),
-      r: lengthTest("r"),
+      rx: lengthTest("rx"),
+      ry: lengthTest("ry"),
+      r: pointTest("r"),
     });
 
   });

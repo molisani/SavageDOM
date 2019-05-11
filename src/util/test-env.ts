@@ -104,7 +104,7 @@ export type ElementBuilder<A extends string, T> = (context: Context) => HasAttri
 export type AttributeTestSuite<A extends string, T> = (builder: ElementBuilder<A, T>) => void;
 
 export type AttributeTests<ATTRIBUTES extends Core_Attributes> = {
-  [ATTRIBUTE in keyof ATTRIBUTES]?: AttributeTestSuite<ATTRIBUTE, ATTRIBUTES[ATTRIBUTE]>;
+  [ATTRIBUTE in keyof ATTRIBUTES]: AttributeTestSuite<ATTRIBUTE, ATTRIBUTES[ATTRIBUTE]>;
 };
 
 export function runAttributeTests<ATTRIBUTES extends Core_Attributes>(builder: ElementBuilder<keyof ATTRIBUTES, ATTRIBUTES[keyof ATTRIBUTES]>, tests: AttributeTests<ATTRIBUTES>) {

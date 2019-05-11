@@ -8,7 +8,13 @@ module.exports = function(grunt) {
     ts: {
       lib: {
         tsconfig: {
-          tsconfig: "tsconfig.json",
+          tsconfig: "configs/tsconfig.lib.json",
+          passThrough: true,
+        },
+      },
+      test: {
+        tsconfig: {
+          tsconfig: "configs/tsconfig.test.json",
           passThrough: true,
         },
       },
@@ -45,10 +51,9 @@ module.exports = function(grunt) {
     mochaTest: {
       all: {
         options: {
-          reporter: "spec",
-          require: "ts-node/register",
+          reporter: "dot",
         },
-        src: ["src/**/*.spec.ts"],
+        src: ["lib-test/**/*.spec.js"],
       },
     },
     tslint: {
@@ -71,7 +76,7 @@ module.exports = function(grunt) {
           mode: "file",
           name: "SavageDOM",
           target: "ES2015",
-          project: "tsconfig.json",
+          project: "configs/tsconfig.lib.json",
           gitRevision: "master",
           ignoreCompilerErrors: true,
         },
@@ -91,12 +96,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask("build", ["ts:lib", "webpack:all", "concat:all", "replace:all", "clean:tscommand"]);
 
-  grunt.registerTask("test", ["mochaTest:all"]);
-
-  grunt.registerTask("check", ["lint", "test", "build"]);
+  grunt.registerTask("test", ["ts:test", "mochaTest:all"]);
 
   grunt.registerTask("docs", ["clean:docs", "typedoc:build"]);
 
-  grunt.registerTask("prepublish", ["check", "docs"]);
+  grunt.registerTask("prepublish", ["lint", "test", "build", "docs"]);
 
 };
