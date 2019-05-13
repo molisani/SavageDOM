@@ -1,11 +1,20 @@
+import { color } from "d3-color";
 import { PaintServer } from "../elements/non-renderables/paint-server";
 import { arrayParser, arraySerializer } from "./array";
-import { Color, colorParser, colorSerializer, isColor } from "./color";
-import { CSSAbsoluteUnit, CSSAngleUnit, CSSRelativeUnit, Dimension, dimensionSerializer, DimensionUnit, extractDimension, isDimension, Percentage } from "./dimension";
-import { asNativeParser, AttributeGetter, numberParser, stringParser } from "./getter";
+import { Color, colorParser, colorSerializer } from "./color";
+import { CSSAbsoluteUnit, CSSAngleUnit, CSSRelativeUnit, Dimension, dimensionSerializer, extractDimension, isDimension, Percentage } from "./dimension";
+import { asNativeParser, AttributeGetter } from "./getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "./interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer, buildStringLiteralUnionParser, buildStringLiteralUnionSerializer } from "./literal";
 import { asNativeSerializer, AttributeSetter, defaultSerializer } from "./setter";
+
+export const stringParser = asNativeParser((repr: string | null) => repr || "");
+
+export const numberParser = asNativeParser((repr: string | null): number => Number(repr));
+
+export const booleanParser = asNativeParser((repr: string | null) => Boolean(repr));
+
+export const anyParser = asNativeParser((repr: string | null): any => repr);
 
 export type Inherit = "inherit";
 
@@ -15,13 +24,14 @@ export type CurrentColor = "currentColor";
 
 type PaintLiteral = None | CurrentColor | Inherit;
 
-const paintLiterals: readonly PaintLiteral[] = ["none", "currentColor", "inherit"];
+export const paintLiterals: readonly PaintLiteral[] = ["none", "currentColor", "inherit"];
 
 export type Paint = Color | PaintServer | PaintLiteral;
 
 export const paintParser = buildStringLiteralUnionParser((repr: string | null): Color | PaintServer => {
-  if (isColor(repr)) {
-    return repr;
+  const colorValue = color(repr || "");
+  if (colorValue !== null) {
+    return colorValue;
   }
   throw new Error();
 }, paintLiterals);
@@ -30,11 +40,11 @@ export type Length = number | Dimension<CSSAbsoluteUnit | CSSRelativeUnit | "%">
 
 export type Angle = number | Dimension<CSSAngleUnit>;
 
-export const numberOrDimensionParser = asNativeParser<number | Dimension<DimensionUnit>>((repr: string | null) => {
+export const numberOrDimensionParser = asNativeParser<number | Dimension<any>>((repr: string | null) => {
   return extractDimension(repr || "") || Number(repr);
 });
 
-export const numberOrDimensionSerializer = asNativeSerializer((value: number | Dimension<DimensionUnit>) => {
+export const numberOrDimensionSerializer = asNativeSerializer((value: number | Dimension<any>) => {
   return isDimension(value) ? dimensionSerializer(value) : value.toString();
 });
 
@@ -105,7 +115,7 @@ export interface HasOverflow extends BaseAttributes {
   overflow: "visible" | "hidden" | "scroll" | "auto" | Inherit;
 }
 
-const overflowLiterals = ["visible", "hidden", "scroll", "auto", "inherit"] as const;
+export const overflowLiterals = ["visible", "hidden", "scroll", "auto", "inherit"] as const;
 
 export const HasOverflow_AttributeGetter: AttributeGetter<HasOverflow> = {
   overflow: buildStringLiteralParser(overflowLiterals, "inherit"),
@@ -143,7 +153,7 @@ export interface HasColorInterpolation extends BaseAttributes {
   "color-interpolation": "auto" | "sRGB" | "linearRGB" | Inherit;
 }
 
-const colorInterpolationLiterals = ["auto", "sRGB", "linearRGB", "inherit"] as const;
+export const colorInterpolationLiterals = ["auto", "sRGB", "linearRGB", "inherit"] as const;
 
 export const HasColorInterpolation_AttributeGetter: AttributeGetter<HasColorInterpolation> = {
   "color-interpolation": buildStringLiteralParser(colorInterpolationLiterals, "inherit"),
@@ -161,7 +171,7 @@ export interface HasColorRendering extends BaseAttributes {
   "color-rendering": "auto" | "optimizeSpeed" | "optimizeQuality" | Inherit;
 }
 
-const colorRenderingLiterals = ["auto", "optimizeSpeed", "optimizeQuality", "inherit"] as const;
+export const colorRenderingLiterals = ["auto", "optimizeSpeed", "optimizeQuality", "inherit"] as const;
 
 export const HasColorRendering_AttributeGetter: AttributeGetter<HasColorRendering> = {
   "color-rendering": buildStringLiteralParser(colorRenderingLiterals, "inherit"),
@@ -179,7 +189,7 @@ export interface HasCursor extends BaseAttributes {
   cursor: "auto" | "crosshair" | "default" | "pointer" | "move" | "e-resize" | "ne-resize" | "nw-resize" | "n-resize" | "se-resize" | "sw-resize" | "s-resize" | "w-resize" | "text" | "wait" | "help" | Inherit;
 }
 
-const cursorLiterals = ["auto", "crosshair", "default", "pointer", "move", "e-resize", "ne-resize", "nw-resize", "n-resize", "se-resize", "sw-resize", "s-resize", "w-resize", "text", "wait", "help", "inherit"] as const;
+export const cursorLiterals = ["auto", "crosshair", "default", "pointer", "move", "e-resize", "ne-resize", "nw-resize", "n-resize", "se-resize", "sw-resize", "s-resize", "w-resize", "text", "wait", "help", "inherit"] as const;
 
 export const HasCursor_AttributeGetter: AttributeGetter<HasCursor> = {
   cursor: buildStringLiteralParser(cursorLiterals, "inherit"),
@@ -201,7 +211,7 @@ export interface HasFill extends BaseAttributes {
 
 const numberOrInheritParser = buildStringLiteralUnionParser(numberParser, ["inherit"]);
 
-const fillRuleLiterals = ["nonzero", "evenodd", "inherit"] as const;
+export const fillRuleLiterals = ["nonzero", "evenodd", "inherit"] as const;
 
 export const HasFill_AttributeGetter: AttributeGetter<HasFill> = {
   fill: paintParser,
@@ -250,8 +260,8 @@ export interface HasStroke extends BaseAttributes {
   "stroke-width": Length | Percentage | Inherit;
 }
 
-const strokeLinecapLiterals = ["butt", "round", "square", "inherit"] as const;
-const strokeLinejoinLiterals = ["miter", "round", "bevel", "inherit"] as const;
+export const strokeLinecapLiterals = ["butt", "round", "square", "inherit"] as const;
+export const strokeLinejoinLiterals = ["miter", "round", "bevel", "inherit"] as const;
 
 export const HasStroke_AttributeGetter: AttributeGetter<HasStroke> = {
   stroke: paintParser,
@@ -290,7 +300,7 @@ export interface HasVisibility extends BaseAttributes {
   visibility: "visible" | "hidden" | "collapse" | Inherit;
 }
 
-const visibilityLiterals = ["visible", "hidden", "collapse", "inherit"] as const;
+export const visibilityLiterals = ["visible", "hidden", "collapse", "inherit"] as const;
 
 export const HasVisibility_AttributeGetter: AttributeGetter<HasVisibility> = {
   visibility: buildStringLiteralParser(visibilityLiterals, "inherit"),

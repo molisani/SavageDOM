@@ -3,7 +3,7 @@ import { parse } from "fast-xml-parser";
 import { JSDOM } from "jsdom";
 import { timer } from "rxjs";
 import { Renderer } from "../animation";
-import { Core_Attributes } from "../attributes";
+import { BaseAttributes } from "../attributes";
 import { Context } from "../context";
 import { AbstractElement } from "../element";
 
@@ -101,17 +101,43 @@ export type StringAttributes = { [attr: string]: string };
 
 export type ElementBuilder<A extends string, T> = (context: Context) => HasAttribute<A, T>;
 
-export type AttributeTestSuite<A extends string, T> = (builder: ElementBuilder<A, T>) => void;
+export interface AttributeTestSuite<T> {
+  type: string;
+  values: [string, T, T?][];
+}
 
-export type AttributeTests<ATTRIBUTES extends Core_Attributes> = {
-  [ATTRIBUTE in keyof ATTRIBUTES]: AttributeTestSuite<ATTRIBUTE, ATTRIBUTES[ATTRIBUTE]>;
+export type AttributeTests<ATTRIBUTES extends BaseAttributes> = {
+  [ATTRIBUTE in keyof ATTRIBUTES]: AttributeTestSuite<ATTRIBUTES[ATTRIBUTE]>[];
 };
 
-export function runAttributeTests<ATTRIBUTES extends Core_Attributes>(builder: ElementBuilder<keyof ATTRIBUTES, ATTRIBUTES[keyof ATTRIBUTES]>, tests: AttributeTests<ATTRIBUTES>) {
+export async function testAttribute<A extends string, T>(builder: ElementBuilder<A, T>, attr: A, writeValue: T, expectedReadValue: T = writeValue) {
+  const { context, getDocumentsOf } = buildTestHarness();
+  const el = builder(context);
+  el.setAttribute(attr, writeValue);
+  await getDocumentsOf(el as any);
+  const readValue = el.getAttribute(attr);
+  if (Array.isArray(expectedReadValue)) {
+    expect(readValue).to.have.deep.members(expectedReadValue);
+  } else {
+    expect(readValue).to.deep.equal(expectedReadValue);
+  }
+}
+
+export function runAttributeTests<ATTRIBUTES extends BaseAttributes>(builder: ElementBuilder<keyof ATTRIBUTES, ATTRIBUTES[keyof ATTRIBUTES]>, tests: AttributeTests<ATTRIBUTES>) {
   Object.keys(tests).forEach((attr: keyof ATTRIBUTES) => {
     const test = tests[attr];
     if (test) {
-      test(builder);
+      describe(attr, () => {
+        test.forEach((suite) => {
+          describe(suite.type, () => {
+            suite.values.forEach(([desc, writeValue, expectedReadValue]) => {
+              it(desc, async () => {
+                await testAttribute(builder, attr, writeValue, expectedReadValue);
+              });
+            });
+          });
+        });
+      });
     }
   });
 }

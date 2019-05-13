@@ -1,4 +1,5 @@
-import { AttributeGetter, stringParser } from "../../attributes/getter";
+import { stringParser } from "../../attributes/base";
+import { AttributeGetter } from "../../attributes/getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "../../attributes/interpolator";
 import { PreserveAspectRatio, preserveAspectRatioParser, preserveAspectRatioSerializer } from "../../attributes/preserve-aspect-ratio";
 import { AttributeSetter, defaultSerializer } from "../../attributes/setter";

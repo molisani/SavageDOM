@@ -1,6 +1,6 @@
-import { BaseAttributes, Inherit, Length, None, numberOrDimensionParser, numberOrDimensionSerializer } from "../../attributes/base";
+import { anyParser, BaseAttributes, Inherit, Length, None, numberOrDimensionParser, numberOrDimensionSerializer } from "../../attributes/base";
 import { Box, buildBoxCompositeParser, buildBoxCompositeSerializer } from "../../attributes/box";
-import { anyParser, AttributeGetter } from "../../attributes/getter";
+import { AttributeGetter } from "../../attributes/getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "../../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer } from "../../attributes/literal";
 import { AttributeSetter, defaultSerializer } from "../../attributes/setter";
@@ -13,14 +13,16 @@ export interface HasClipPath extends BaseAttributes {
   "clip-rule": "nonzero" | "evenodd" | Inherit;
 }
 
+export const clipRuleLiterals = ["nonzero", "evenodd", "inherit"] as const;
+
 export const HasClipPath_AttributeGetter: AttributeGetter<HasClipPath> = {
   "clip-path": anyParser,
-  "clip-rule": buildStringLiteralParser(["nonzero", "evenodd", "inherit"], "inherit"),
+  "clip-rule": buildStringLiteralParser(clipRuleLiterals, "inherit"),
 };
 
 export const HasClipPath_AttributeSetter: AttributeSetter<HasClipPath> = {
   "clip-path": defaultSerializer,
-  "clip-rule": buildStringLiteralSerializer(["nonzero", "evenodd", "inherit"], "inherit"),
+  "clip-rule": buildStringLiteralSerializer(clipRuleLiterals, "inherit"),
 };
 
 export const HasClipPath_AttributeInterpolator: AttributeInterpolator<HasClipPath> = {

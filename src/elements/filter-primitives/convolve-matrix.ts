@@ -1,6 +1,6 @@
 import { Matrix, matrixParser, matrixSerializer } from "../../attributes";
-import { Length, None, numberOrDimensionParser, numberOrDimensionSerializer } from "../../attributes/base";
-import { AttributeGetter, booleanParser, numberParser } from "../../attributes/getter";
+import { booleanParser, Length, None, numberOrDimensionParser, numberOrDimensionSerializer, numberParser } from "../../attributes/base";
+import { AttributeGetter } from "../../attributes/getter";
 import { AttributeInterpolator, d3BypassTweenBuilder, numberParsedTweenBuilder, unsupportedTweenBuilder } from "../../attributes/interpolator";
 import { buildStringLiteralParser } from "../../attributes/literal";
 import { NumberOptionalNumber, numberOptionalNumberParser, numberOptionalNumberSerializer, numberOptionalNumberTweenBuilder } from "../../attributes/number-optional-number";

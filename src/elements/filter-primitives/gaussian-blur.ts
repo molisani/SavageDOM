@@ -1,5 +1,5 @@
-import { None } from "../../attributes/base";
-import { AttributeGetter, numberParser } from "../../attributes/getter";
+import { None, numberParser } from "../../attributes/base";
+import { AttributeGetter } from "../../attributes/getter";
 import { AttributeInterpolator, numberParsedTweenBuilder, unsupportedTweenBuilder } from "../../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer } from "../../attributes/literal";
 import { AttributeSetter, defaultSerializer } from "../../attributes/setter";

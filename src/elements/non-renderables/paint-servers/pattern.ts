@@ -1,6 +1,6 @@
-import { HasOpacity, HasOpacity_AttributeGetter, HasOpacity_AttributeInterpolator, HasOpacity_AttributeSetter, HasOverflow, HasOverflow_AttributeGetter, HasOverflow_AttributeInterpolator, HasOverflow_AttributeSetter, Length, numberOrDimensionParser, numberOrDimensionSerializer } from "../../../attributes/base";
+import { HasOpacity, HasOpacity_AttributeGetter, HasOpacity_AttributeInterpolator, HasOpacity_AttributeSetter, HasOverflow, HasOverflow_AttributeGetter, HasOverflow_AttributeInterpolator, HasOverflow_AttributeSetter, Length, numberOrDimensionParser, numberOrDimensionSerializer, stringParser } from "../../../attributes/base";
 import { Box, boxParser, boxSerializer, boxTweenBuilder, buildBoxCompositeParser, buildBoxCompositeSerializer } from "../../../attributes/box";
-import { AttributeGetter, stringParser } from "../../../attributes/getter";
+import { AttributeGetter } from "../../../attributes/getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "../../../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer } from "../../../attributes/literal";
 import { buildPointCompositeParser, buildPointCompositeSerializer, Point, pointTweenBuilder } from "../../../attributes/point";

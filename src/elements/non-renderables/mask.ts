@@ -1,6 +1,6 @@
-import { BaseAttributes, Inherit, Length, None, numberOrDimensionParser, numberOrDimensionSerializer } from "../../attributes/base";
+import { anyParser, BaseAttributes, Inherit, Length, None, numberOrDimensionParser, numberOrDimensionSerializer } from "../../attributes/base";
 import { Box, buildBoxCompositeParser, buildBoxCompositeSerializer } from "../../attributes/box";
-import { anyParser, AttributeGetter } from "../../attributes/getter";
+import { AttributeGetter } from "../../attributes/getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "../../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer } from "../../attributes/literal";
 import { AttributeSetter, defaultSerializer } from "../../attributes/setter";
@@ -9,7 +9,7 @@ import { Context } from "../../context";
 import { AbstractNonRenderable, NonRenderable_AttributeGetter, NonRenderable_AttributeInterpolator, NonRenderable_Attributes, NonRenderable_AttributeSetter } from "../non-renderable";
 
 export interface HasMask extends BaseAttributes {
-  "mask": Mask | None | Inherit;
+  mask: Mask | None | Inherit;
 }
 
 export const HasMask_AttributeGetter: AttributeGetter<HasMask> = {

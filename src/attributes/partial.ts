@@ -3,7 +3,7 @@ import { asManualSerializer, ManualAttributeSerializer } from "./setter";
 
 export function buildPartialParser<T>(root: string, subparser: (name: string, repr: string | null) => T): ManualAttributeParser<T> {
   return asManualParser((element, name) => {
-    const repr = element.getAttribute(root);
+    const repr = element.node.getAttribute(root);
     return subparser(name, repr);
   });
 }

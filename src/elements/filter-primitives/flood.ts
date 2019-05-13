@@ -1,6 +1,6 @@
-import { CurrentColor, HasColor, HasColor_AttributeGetter, HasColor_AttributeInterpolator, HasColor_AttributeSetter, Inherit } from "../../attributes/base";
+import { CurrentColor, HasColor, HasColor_AttributeGetter, HasColor_AttributeInterpolator, HasColor_AttributeSetter, Inherit, numberParser } from "../../attributes/base";
 import { Color, colorParser, colorSerializer } from "../../attributes/color";
-import { AttributeGetter, numberParser } from "../../attributes/getter";
+import { AttributeGetter } from "../../attributes/getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "../../attributes/interpolator";
 import { buildStringLiteralUnionParser, buildStringLiteralUnionSerializer } from "../../attributes/literal";
 import { AttributeSetter, defaultSerializer } from "../../attributes/setter";

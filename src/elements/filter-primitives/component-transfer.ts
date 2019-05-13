@@ -1,6 +1,6 @@
-import { arrayParser, arraySerializer } from "../../attributes";
-import { Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter } from "../../attributes/base";
-import { AttributeGetter, numberParser } from "../../attributes/getter";
+import { arrayParser, arraySerializer } from "../../attributes/array";
+import { Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter, numberParser } from "../../attributes/base";
+import { AttributeGetter } from "../../attributes/getter";
 import { AttributeInterpolator, numberParsedTweenBuilder, unsupportedTweenBuilder } from "../../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer } from "../../attributes/literal";
 import { AttributeSetter, defaultSerializer } from "../../attributes/setter";

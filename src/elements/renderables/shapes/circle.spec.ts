@@ -1,5 +1,5 @@
 import { point } from "../../../attributes";
-import { lengthTest } from "../../../attributes/base.spec";
+import { lengthTests } from "../../../attributes/base.spec";
 import { pointTest } from "../../../attributes/point.spec";
 import { runAttributeTests, runCreateTest } from "../../../util/test-env";
 import { ShapeAttributeTests } from "../shape.spec";
@@ -34,10 +34,10 @@ describe("Circle", () => {
 
     runAttributeTests<Circle_Attributes>(Circle.new, {
       ...ShapeAttributeTests,
-      cx: lengthTest("cx"),
-      cy: lengthTest("cy"),
-      c: pointTest("c"),
-      r: lengthTest("r"),
+      cx: lengthTests,
+      cy: lengthTests,
+      c: [pointTest],
+      r: lengthTests,
     });
 
   });

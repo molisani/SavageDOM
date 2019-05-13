@@ -19,9 +19,9 @@ export interface Renderable_Attributes extends Core_Attributes, HasStyle, HasCla
   "pointer-events": "visiblePainted" | "visibleFill" | "visibleStroke" | "visible" | "painted" | "fill" | "stroke" | "all" | None | Inherit;
 }
 
-const displayLiterals = ["inline", "block", "list-item", "run-in", "compact", "marker", "table", "inline-table", "table-row-group", "table-header-group", "table-footer-group", "table-row", "table-column-group", "table-column", "table-cell", "table-caption", "none", "inherit"] as const;
+export const displayLiterals = ["inline", "block", "list-item", "run-in", "compact", "marker", "table", "inline-table", "table-row-group", "table-header-group", "table-footer-group", "table-row", "table-column-group", "table-column", "table-cell", "table-caption", "none", "inherit"] as const;
 
-const pointerEventsLiterals = ["visiblePainted", "visibleFill", "visibleStroke", "visible", "painted", "fill", "stroke", "all", "none", "inherit"] as const;
+export const pointerEventsLiterals = ["visiblePainted", "visibleFill", "visibleStroke", "visible", "painted", "fill", "stroke", "all", "none", "inherit"] as const;
 
 export const Renderable_AttributeGetter: AttributeGetter<Renderable_Attributes> = {
   ...Core_AttributeGetter,

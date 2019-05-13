@@ -1,6 +1,6 @@
-import { Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter, HasClass, HasClass_AttributeGetter, HasClass_AttributeInterpolator, HasClass_AttributeSetter, HasStyle, HasStyle_AttributeGetter, HasStyle_AttributeInterpolator, HasStyle_AttributeSetter, Inherit, Length, numberOrDimensionParser, numberOrDimensionSerializer } from "../attributes/base";
+import { Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter, HasClass, HasClass_AttributeGetter, HasClass_AttributeInterpolator, HasClass_AttributeSetter, HasStyle, HasStyle_AttributeGetter, HasStyle_AttributeInterpolator, HasStyle_AttributeSetter, Inherit, Length, numberOrDimensionParser, numberOrDimensionSerializer, stringParser } from "../attributes/base";
 import { Box, buildBoxCompositeParser, buildBoxCompositeSerializer } from "../attributes/box";
-import { AttributeGetter, stringParser, withDefault } from "../attributes/getter";
+import { AttributeGetter, withDefault } from "../attributes/getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer } from "../attributes/literal";
 import { AttributeSetter, defaultSerializer } from "../attributes/setter";

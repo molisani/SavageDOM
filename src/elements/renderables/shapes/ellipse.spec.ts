@@ -1,5 +1,5 @@
 import { point } from "../../../attributes";
-import { lengthTest } from "../../../attributes/base.spec";
+import { lengthTests } from "../../../attributes/base.spec";
 import { pointTest } from "../../../attributes/point.spec";
 import { runAttributeTests, runCreateTest } from "../../../util/test-env";
 import { ShapeAttributeTests as Shape_AttributeTests } from "../shape.spec";
@@ -37,12 +37,12 @@ describe("Ellipse", () => {
 
     runAttributeTests<Ellipse_Attributes>(Ellipse.new, {
       ...Shape_AttributeTests,
-      cx: lengthTest("cx"),
-      cy: lengthTest("cy"),
-      c: pointTest("c"),
-      rx: lengthTest("rx"),
-      ry: lengthTest("ry"),
-      r: pointTest("r"),
+      cx: lengthTests,
+      cy: lengthTests,
+      c: [pointTest],
+      rx: lengthTests,
+      ry: lengthTests,
+      r: [pointTest],
     });
 
   });

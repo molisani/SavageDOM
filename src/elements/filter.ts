@@ -1,8 +1,8 @@
-import { BaseAttributes, Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter, Inherit, Length, None, numberOrDimensionParser, numberOrDimensionSerializer } from "../attributes/base";
+import { anyParser, BaseAttributes, Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter, Inherit, Length, None, numberOrDimensionParser, numberOrDimensionSerializer } from "../attributes/base";
 import { Box, buildBoxCompositeParser, buildBoxCompositeSerializer } from "../attributes/box";
 import { Color } from "../attributes/color";
 import { ColorMatrix } from "../attributes/color-matrix";
-import { anyParser, asManualParser, AttributeGetter } from "../attributes/getter";
+import { asManualParser, AttributeGetter } from "../attributes/getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer } from "../attributes/literal";
 import { NumberOptionalNumber } from "../attributes/number-optional-number";

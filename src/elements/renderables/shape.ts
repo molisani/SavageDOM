@@ -9,7 +9,7 @@ export interface Shape_Attributes extends Graphics_Attributes, HasFill, HasStrok
   "shape-rendering": "auto" | "optimizeSpeed" | "crispEdges" | "geometricPrecision" | Inherit;
 }
 
-const shapeRenderingLiterals = ["auto", "optimizeSpeed", "crispEdges", "geometricPrecision", "inherit"] as const;
+export const shapeRenderingLiterals = ["auto", "optimizeSpeed", "crispEdges", "geometricPrecision", "inherit"] as const;
 
 export const Shape_AttributeGetter: AttributeGetter<Shape_Attributes> = {
   ...Graphics_AttributeGetter,

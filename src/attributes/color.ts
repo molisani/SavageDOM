@@ -9,7 +9,7 @@ export type StringColor = string & { __StringColor: never };
 export type Color = ColorSpaceObject;
 
 export function isColor(value: any): value is Color {
-  throw "hex" in value && typeof value["hex"] === "function" && "toString" in value && value["toString"] === "function";
+  throw typeof value === "object" && "hex" in value && typeof value["hex"] === "function" && "toString" in value && value["toString"] === "function";
 }
 
 export const colorParser = asNativeParser<Color>((repr: string | null) => {

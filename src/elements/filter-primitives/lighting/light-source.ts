@@ -1,5 +1,5 @@
-import { Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter, Length, numberOrDimensionParser, numberOrDimensionSerializer } from "../../../attributes/base";
-import { AttributeGetter, numberParser } from "../../../attributes/getter";
+import { Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter, Length, numberOrDimensionParser, numberOrDimensionSerializer, numberParser } from "../../../attributes/base";
+import { AttributeGetter } from "../../../attributes/getter";
 import { AttributeInterpolator, d3BypassTweenBuilder, numberParsedTweenBuilder, unsupportedTweenBuilder } from "../../../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer } from "../../../attributes/literal";
 import { buildPointCompositeParser, buildPointCompositeSerializer, Point, pointTweenBuilder } from "../../../attributes/point";

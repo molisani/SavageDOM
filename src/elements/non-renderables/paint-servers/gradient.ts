@@ -1,7 +1,7 @@
-import { Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter, CurrentColor, HasClass, HasClass_AttributeGetter, HasClass_AttributeInterpolator, HasClass_AttributeSetter, HasStyle, HasStyle_AttributeGetter, HasStyle_AttributeInterpolator, HasStyle_AttributeSetter, Inherit } from "../../../attributes/base";
+import { Core_AttributeGetter, Core_AttributeInterpolator, Core_Attributes, Core_AttributeSetter, CurrentColor, HasClass, HasClass_AttributeGetter, HasClass_AttributeInterpolator, HasClass_AttributeSetter, HasStyle, HasStyle_AttributeGetter, HasStyle_AttributeInterpolator, HasStyle_AttributeSetter, Inherit, numberParser, stringParser } from "../../../attributes/base";
 import { Color, colorParser, colorSerializer } from "../../../attributes/color";
 import { dimension, Percentage, percentageParser } from "../../../attributes/dimension";
-import { asNativeParser, AttributeGetter, numberParser, stringParser } from "../../../attributes/getter";
+import { asNativeParser, AttributeGetter } from "../../../attributes/getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "../../../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer, buildStringLiteralUnionParser, buildStringLiteralUnionSerializer } from "../../../attributes/literal";
 import { AttributeSetter, defaultSerializer } from "../../../attributes/setter";

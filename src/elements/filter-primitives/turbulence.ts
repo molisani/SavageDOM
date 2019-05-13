@@ -1,4 +1,5 @@
-import { AttributeGetter, numberParser } from "../../attributes/getter";
+import { numberParser } from "../../attributes/base";
+import { AttributeGetter } from "../../attributes/getter";
 import { AttributeInterpolator, numberParsedTweenBuilder, unsupportedTweenBuilder } from "../../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer } from "../../attributes/literal";
 import { NumberOptionalNumber, numberOptionalNumberParser, numberOptionalNumberSerializer, numberOptionalNumberTweenBuilder } from "../../attributes/number-optional-number";

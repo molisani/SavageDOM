@@ -1,5 +1,6 @@
+import { anyParser } from "../../attributes/base";
 import { ColorMatrix } from "../../attributes/color-matrix";
-import { anyParser, AttributeGetter } from "../../attributes/getter";
+import { AttributeGetter } from "../../attributes/getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "../../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer } from "../../attributes/literal";
 import { AttributeSetter, defaultSerializer } from "../../attributes/setter";

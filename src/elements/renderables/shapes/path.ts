@@ -1,4 +1,5 @@
-import { AttributeGetter, numberParser } from "../../../attributes/getter";
+import { numberParser } from "../../../attributes/base";
+import { AttributeGetter } from "../../../attributes/getter";
 import { AttributeInterpolator, numberParsedTweenBuilder } from "../../../attributes/interpolator";
 import { pathDefParser, pathDefSerializer, pathDefTweenBuilder, PathSegment } from "../../../attributes/path-segment";
 import { AttributeSetter, defaultSerializer } from "../../../attributes/setter";

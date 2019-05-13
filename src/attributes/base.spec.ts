@@ -1,54 +1,98 @@
-import { expect } from "chai";
-import { AttributeTestSuite, buildTestHarness } from "../util/test-env";
-import { Length } from "./base";
-import { dimension } from "./dimension";
+import { AttributeTests, AttributeTestSuite } from "../util/test-env";
+import { colorInterpolationLiterals, colorRenderingLiterals, Core_Attributes, cursorLiterals, fillRuleLiterals, HasClass, HasColor, HasColorInterpolation, HasColorRendering, HasCursor, HasFill, HasOpacity, HasOverflow, HasStroke, HasStyle, HasVisibility, Length, overflowLiterals, Paint, paintLiterals, strokeLinecapLiterals, strokeLinejoinLiterals, visibilityLiterals } from "./base";
+import { colorTest } from "./color.spec";
+import { absoluteDimensionTest, percentageTest, relativeDimensionTest } from "./dimension.spec";
+import { buildLiteralTest } from "./literal.spec";
 
-export function lengthTest<A extends string>(attr: A): AttributeTestSuite<A, Length> {
-  return (builder) => {
+export const stringTest: AttributeTestSuite<string> = {
+  type: "string",
+  values: [
+    ["empty string", ""],
+  ],
+};
 
-    describe(`${attr}: Length`, () => {
+export const numberTest: AttributeTestSuite<number> = {
+  type: "number",
+  values: [
+    ["0", 0],
+    ["1.1", 1.1],
+    ["-1.2", -1.2],
+  ],
+};
 
-      it("number", async () => {
-        const { context, getDocumentsOf } = buildTestHarness();
-        const writeValue = 123;
-        const el = builder(context);
-        el.setAttribute(attr, writeValue);
-        await getDocumentsOf(el as any);
-        const readValue = el.getAttribute(attr);
-        expect(readValue).to.deep.equal(writeValue);
-      });
+export const lengthTests: AttributeTestSuite<Length>[] = [
+  numberTest,
+  absoluteDimensionTest,
+  relativeDimensionTest,
+  percentageTest,
+];
 
-      it("Dimension<px>", async () => {
-        const { context, getDocumentsOf } = buildTestHarness();
-        const writeValue = dimension(10, "px");
-        const el = builder(context);
-        el.setAttribute(attr, writeValue);
-        await getDocumentsOf(el as any);
-        const readValue = el.getAttribute(attr);
-        expect(readValue).to.deep.equal(writeValue);
-      });
+export const paintTests: AttributeTestSuite<Paint>[] = [
+  colorTest,
+  buildLiteralTest(paintLiterals),
+];
 
-      it("Dimension<em>", async () => {
-        const { context, getDocumentsOf } = buildTestHarness();
-        const writeValue = dimension(10, "em");
-        const el = builder(context);
-        el.setAttribute(attr, writeValue);
-        await getDocumentsOf(el as any);
-        const readValue = el.getAttribute(attr);
-        expect(readValue).to.deep.equal(writeValue);
-      });
+export const Core_AttributeTests: AttributeTests<Core_Attributes> = {
+  id: [stringTest],
+  lang: [stringTest],
+  tabindex: [numberTest],
+};
 
-      it("Dimension<%>", async () => {
-        const { context, getDocumentsOf } = buildTestHarness();
-        const writeValue = dimension(50, "%");
-        const el = builder(context);
-        el.setAttribute(attr, writeValue);
-        await getDocumentsOf(el as any);
-        const readValue = el.getAttribute(attr);
-        expect(readValue).to.deep.equal(writeValue);
-      });
+export const HasStyle_AttributeTests: AttributeTests<HasStyle> = {
+  style: [stringTest],
+};
 
-    });
+export const HasClass_AttributeTests: AttributeTests<HasClass> = {
+  class: [stringTest],
+};
 
-  };
-}
+export const HasOverflow_AttributeTests: AttributeTests<HasOverflow> = {
+  overflow: [buildLiteralTest(overflowLiterals, "inherit")],
+};
+
+export const HasColor_AttributeTests: AttributeTests<HasColor> = {
+  color: [
+    colorTest,
+    buildLiteralTest(["inherit"] as const),
+  ],
+};
+
+export const HasColorInterpolation_AttributeTests: AttributeTests<HasColorInterpolation> = {
+  "color-interpolation": [buildLiteralTest(colorInterpolationLiterals, "inherit")],
+};
+
+export const HasColorRendering_AttributeTests: AttributeTests<HasColorRendering> = {
+  "color-rendering": [buildLiteralTest(colorRenderingLiterals, "inherit")],
+};
+
+export const HasCursor_AttributeTests: AttributeTests<HasCursor> = {
+  cursor: [buildLiteralTest(cursorLiterals, "inherit")],
+};
+
+export const HasFill_AttributeTests: AttributeTests<HasFill> = {
+  fill: paintTests,
+  "fill-opacity": [
+    numberTest,
+    buildLiteralTest(["inherit"] as const),
+  ],
+  "fill-rule": [buildLiteralTest(fillRuleLiterals, "inherit")],
+};
+
+export const HasOpacity_AttributeTests: AttributeTests<HasOpacity> = {
+  opacity: [numberTest, buildLiteralTest(["inherit"] as const)],
+};
+
+export const HasStroke_AttributeTests: AttributeTests<HasStroke> = {
+  stroke: paintTests,
+  "stroke-dasharray": [buildLiteralTest(["none", "inherit"] as const)],
+  "stroke-dashoffset": [...lengthTests, buildLiteralTest(["inherit"] as const)],
+  "stroke-linecap": [buildLiteralTest(strokeLinecapLiterals, "inherit")],
+  "stroke-linejoin": [buildLiteralTest(strokeLinejoinLiterals, "inherit")],
+  "stroke-miterlimit": [numberTest, buildLiteralTest(["inherit"] as const)],
+  "stroke-opacity": [numberTest, buildLiteralTest(["inherit"] as const)],
+  "stroke-width": [...lengthTests, buildLiteralTest(["inherit"] as const)],
+};
+
+export const HasVisibility_AttributeTests: AttributeTests<HasVisibility> = {
+  visibility: [buildLiteralTest(visibilityLiterals, "inherit")],
+};

@@ -1,6 +1,6 @@
-import { HasOverflow, HasOverflow_AttributeGetter, HasOverflow_AttributeInterpolator, HasOverflow_AttributeSetter, Inherit, Length, numberOrDimensionParser, numberOrDimensionSerializer } from "../../attributes/base";
+import { HasOverflow, HasOverflow_AttributeGetter, HasOverflow_AttributeInterpolator, HasOverflow_AttributeSetter, Inherit, Length, numberOrDimensionParser, numberOrDimensionSerializer, stringParser } from "../../attributes/base";
 import { Box, boxParser, buildBoxCompositeParser, buildBoxCompositeSerializer } from "../../attributes/box";
-import { AttributeGetter, stringParser } from "../../attributes/getter";
+import { AttributeGetter } from "../../attributes/getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "../../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer, buildStringLiteralUnionParser, buildStringLiteralUnionSerializer } from "../../attributes/literal";
 import { buildPointCompositeParser, buildPointCompositeSerializer, Point, pointTweenBuilder } from "../../attributes/point";

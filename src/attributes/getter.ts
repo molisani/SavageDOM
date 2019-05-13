@@ -27,14 +27,6 @@ export type AttributeGetter<ATTRIBUTES extends BaseAttributes> = {
   [Attr in keyof ATTRIBUTES]-?: AttributeParser<ATTRIBUTES[Attr]>;
 };
 
-export const stringParser = asNativeParser((repr: string | null) => repr || "");
-
-export const numberParser = asNativeParser((repr: string | null): number => Number(repr));
-
-export const booleanParser = asNativeParser((repr: string | null) => Boolean(repr));
-
-export const anyParser = asNativeParser((repr: string | null): any => repr);
-
 export function withDefault<T>(parser: AttributeNullableStringParser<T | undefined | null>, defaultValue: T): NativeAttributeParser<T> {
   return asNativeParser((repr: string | null) => {
     const parsed = parser(repr);

@@ -1,6 +1,6 @@
-import { dimension } from "../../attributes";
-import { BaseAttributes, HasFill, HasFill_AttributeGetter, HasFill_AttributeInterpolator, HasFill_AttributeSetter, HasStroke, HasStroke_AttributeGetter, HasStroke_AttributeInterpolator, HasStroke_AttributeSetter, HasVisibility, HasVisibility_AttributeGetter, HasVisibility_AttributeInterpolator, HasVisibility_AttributeSetter, Inherit, Length, None, numberOrDimensionParser, numberOrDimensionSerializer } from "../../attributes/base";
-import { anyParser, asManualParser, AttributeGetter, numberParser, stringParser, withDefault } from "../../attributes/getter";
+import { anyParser, BaseAttributes, HasFill, HasFill_AttributeGetter, HasFill_AttributeInterpolator, HasFill_AttributeSetter, HasStroke, HasStroke_AttributeGetter, HasStroke_AttributeInterpolator, HasStroke_AttributeSetter, HasVisibility, HasVisibility_AttributeGetter, HasVisibility_AttributeInterpolator, HasVisibility_AttributeSetter, Inherit, Length, None, numberOrDimensionParser, numberOrDimensionSerializer, numberParser, stringParser } from "../../attributes/base";
+import { dimension } from "../../attributes/dimension";
+import { asManualParser, AttributeGetter, withDefault } from "../../attributes/getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "../../attributes/interpolator";
 import { buildStringLiteralParser, buildStringLiteralSerializer, buildStringLiteralUnionParser, buildStringLiteralUnionSerializer } from "../../attributes/literal";
 import { buildPointCompositeParser, buildPointCompositeSerializer, isPoint, Point, pointTweenBuilder } from "../../attributes/point";
