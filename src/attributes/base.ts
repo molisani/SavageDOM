@@ -12,7 +12,12 @@ export const stringParser = asNativeParser((repr: string | null) => repr || "");
 
 export const numberParser = asNativeParser((repr: string | null): number => Number(repr));
 
-export const booleanParser = asNativeParser((repr: string | null) => Boolean(repr));
+export const booleanParser = asNativeParser((repr: string | null) => {
+  if (!repr) {
+    return false;
+  }
+  return repr.toLowerCase() === "true";
+});
 
 export const anyParser = asNativeParser((repr: string | null): any => repr);
 

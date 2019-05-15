@@ -51,7 +51,7 @@ module.exports = function(grunt) {
     mochaTest: {
       all: {
         options: {
-          reporter: "dot",
+          reporter: process.env.CI ? "tap" : "dot",
         },
         src: ["lib-test/**/*.spec.js"],
       },

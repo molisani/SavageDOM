@@ -63,11 +63,14 @@ function _attributeHelper(a1: Length | Point, a2: Length | Point, a3?: Length, a
 }
 
 export class Line extends AbstractShape<SVGLineElement, Line_Attributes> {
+  public static new(context: Context, attrs: Partial<Line_Attributes> = {}) {
+    return new Line(context, context.window.document.createElementNS(XMLNS.SVG, "line"), attrs);
+  }
   public static create(context: Context, p1: Point, p2: Point): Line;
   public static create(context: Context, x1: Length, y1: Length, x2: Length, y2: Length): Line;
   public static create(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length): Line;
   public static create(context: Context, a1: Length | Point, a2: Length | Point, a3?: Length, a4?: Length): Line {
-    return new Line(context, context.window.document.createElementNS(XMLNS.SVG, "line"), _attributeHelper(a1, a2, a3, a4));
+    return Line.new(context, _attributeHelper(a1, a2, a3, a4));
   }
   protected _getter = Line_AttributeGetter;
   protected _setter = Line_AttributeSetter;

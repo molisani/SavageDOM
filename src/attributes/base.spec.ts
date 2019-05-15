@@ -1,8 +1,15 @@
 import { AttributeTests, AttributeTestSuite } from "../util/test-env";
-import { colorInterpolationLiterals, colorRenderingLiterals, Core_Attributes, cursorLiterals, fillRuleLiterals, HasClass, HasColor, HasColorInterpolation, HasColorRendering, HasCursor, HasFill, HasOpacity, HasOverflow, HasStroke, HasStyle, HasVisibility, Length, overflowLiterals, Paint, paintLiterals, strokeLinecapLiterals, strokeLinejoinLiterals, visibilityLiterals } from "./base";
+import { booleanParser, colorInterpolationLiterals, colorRenderingLiterals, Core_Attributes, cursorLiterals, fillRuleLiterals, HasClass, HasColor, HasColorInterpolation, HasColorRendering, HasCursor, HasFill, HasOpacity, HasOverflow, HasStroke, HasStyle, HasVisibility, Length, numberParser, overflowLiterals, Paint, paintLiterals, stringParser, strokeLinecapLiterals, strokeLinejoinLiterals, visibilityLiterals } from "./base";
 import { colorTest } from "./color.spec";
 import { absoluteDimensionTest, percentageTest, relativeDimensionTest } from "./dimension.spec";
+import { runNativeParserTests } from "./getter.spec";
 import { buildLiteralTest } from "./literal.spec";
+
+runNativeParserTests("string", stringParser, [
+  [null, ""],
+  ["", ""],
+  ["any", "any"],
+]);
 
 export const stringTest: AttributeTestSuite<string> = {
   type: "string",
@@ -10,6 +17,13 @@ export const stringTest: AttributeTestSuite<string> = {
     ["empty string", ""],
   ],
 };
+
+runNativeParserTests("number", numberParser, [
+  [null, 0],
+  ["0", 0],
+  ["1.1", 1.1],
+  ["-1.2", -1.2],
+]);
 
 export const numberTest: AttributeTestSuite<number> = {
   type: "number",
@@ -19,6 +33,12 @@ export const numberTest: AttributeTestSuite<number> = {
     ["-1.2", -1.2],
   ],
 };
+
+runNativeParserTests("boolean", booleanParser, [
+  [null, false],
+  ["false", false],
+  ["true", true],
+]);
 
 export const lengthTests: AttributeTestSuite<Length>[] = [
   numberTest,

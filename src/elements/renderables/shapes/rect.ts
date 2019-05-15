@@ -2,7 +2,7 @@ import { Length, numberOrDimensionParser, numberOrDimensionSerializer } from "..
 import { Box, buildBoxCompositeParser, buildBoxCompositeSerializer, isBox } from "../../../attributes/box";
 import { AttributeGetter } from "../../../attributes/getter";
 import { AttributeInterpolator, unsupportedTweenBuilder } from "../../../attributes/interpolator";
-import { isPoint, Point, pointParser, pointSerializer, pointTweenBuilder } from "../../../attributes/point";
+import { buildPointCompositeParser, buildPointCompositeSerializer, isPoint, Point, pointTweenBuilder } from "../../../attributes/point";
 import { AttributeSetter } from "../../../attributes/setter";
 import { XMLNS } from "../../../constants";
 import { Context } from "../../../context";
@@ -24,26 +24,26 @@ const Rect_AttributeGetter: AttributeGetter<Rect_Attributes> = {
   ...Shape_AttributeGetter,
   x: numberOrDimensionParser,
   y: numberOrDimensionParser,
-  p: pointParser,
+  p: buildPointCompositeParser("x", "y"),
   width: numberOrDimensionParser,
   height: numberOrDimensionParser,
   "x:y:width:height": buildBoxCompositeParser("x", "y", "width", "height"),
   rx: numberOrDimensionParser,
   ry: numberOrDimensionParser,
-  r: pointParser,
+  r: buildPointCompositeParser("rx", "ry"),
 };
 
 const Rect_AttributeSetter: AttributeSetter<Rect_Attributes> = {
   ...Shape_AttributeSetter,
   x: numberOrDimensionSerializer,
   y: numberOrDimensionSerializer,
-  p: pointSerializer,
+  p: buildPointCompositeSerializer("x", "y"),
   width: numberOrDimensionSerializer,
   height: numberOrDimensionSerializer,
   "x:y:width:height": buildBoxCompositeSerializer("x", "y", "width", "height"),
   rx: numberOrDimensionSerializer,
   ry: numberOrDimensionSerializer,
-  r: pointSerializer,
+  r: buildPointCompositeSerializer("rx", "ry"),
 };
 
 const Rect_AttributeInterpolator: AttributeInterpolator<Rect_Attributes> = {
@@ -117,6 +117,9 @@ function _attributeHelper(a1: Box | Point | Length, a2?: Point | Length, a3?: Le
 }
 
 export class Rect extends AbstractShape<SVGRectElement, Rect_Attributes> {
+  public static new(context: Context, attrs: Partial<Rect_Attributes> = {}) {
+    return new Rect(context, context.window.document.createElementNS(XMLNS.SVG, "rect"), attrs);
+  }
   public static create(context: Context, box: Box, r?: Point): Rect;
   public static create(context: Context, box: Box, rx?: Length, ry?: Length): Rect;
   public static create(context: Context, p: Point, width: Length, height: Length, r?: Point): Rect;
@@ -124,7 +127,7 @@ export class Rect extends AbstractShape<SVGRectElement, Rect_Attributes> {
   public static create(context: Context, x: Length, y: Length, width: Length, height: Length, r?: Point): Rect;
   public static create(context: Context, a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length): Rect;
   public static create(context: Context, a1: Box | Point | Length, a2?: Point | Length, a3?: Length, a4?: Length | Point, a5?: Length | Point, a6?: Length): Rect {
-    return new Rect(context, context.window.document.createElementNS(XMLNS.SVG, "rect"), _attributeHelper(a1, a2, a3, a4, a5, a6));
+    return Rect.new(context, _attributeHelper(a1, a2, a3, a4, a5, a6));
   }
   protected _getter = Rect_AttributeGetter;
   protected _setter = Rect_AttributeSetter;
