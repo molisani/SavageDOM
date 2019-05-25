@@ -1,50 +1,29 @@
-import { color, ColorSpaceObject, hsl, HSLColor, rgb, RGBColor } from "d3-color";
+import { color, ColorSpaceObject, rgb } from "d3-color";
 import { ColorGammaInterpolationFactory, interpolateRgb } from "d3-interpolate";
-import { Attribute } from "../attribute";
+import { asNativeParser } from "./getter";
+import { asNativeBypassTweenBuilder, AttributeTweenBuilder } from "./interpolator";
+import { asNativeSerializer } from "./setter";
 
-export class Color implements Attribute<Color> {
-  public static DEFAULT_INTERPOLATION: ColorGammaInterpolationFactory = interpolateRgb;
-  private _data: ColorSpaceObject;
-  constructor(c: string | ColorSpaceObject, public interpolationFactory: ColorGammaInterpolationFactory = Color.DEFAULT_INTERPOLATION) {
-    if (typeof c === "string") {
-      const data = color(c);
-      if (data) {
-        this._data = data;
-      } else {
-        throw new Error(`Unable to parse color from string "${c}"`);
-      }
-    } else {
-      this._data = color(c);
-    }
-  }
-  public asRGB(): RGBColor {
-    return rgb(this._data);
-  }
-  public asHSL(): HSLColor {
-    return hsl(this._data);
-  }
-  public toString(): string {
-    return this._data.toString();
-  }
-  public parse(css: string | null): Color {
-    if (css !== null) {
-      return new Color(css);
-    } else {
-      return new Color(`#000`);
-    }
-  }
-  public get(element: SVGElement, attr: string): Color {
-    return this.parse(element.getAttribute(attr));
-  }
-  public set(element: SVGElement, attr: string, override?: Color): void {
-    if (override !== undefined) {
-      element.setAttribute(attr, override.toString());
-    } else {
-      element.setAttribute(attr, this.toString());
-    }
-  }
-  public interpolator(from: Color): (t: number) => Color {
-    const func = this.interpolationFactory(from.toString(), this.toString());
-    return (t: number) => this.parse(func(t));
-  }
+export type StringColor = string & { __StringColor: never };
+
+export type Color = ColorSpaceObject;
+
+export function isColor(value: any): value is Color {
+  throw typeof value === "object" && "hex" in value && typeof value["hex"] === "function" && "toString" in value && value["toString"] === "function";
 }
+
+export const colorParser = asNativeParser<Color>((repr: string | null) => {
+  return color(repr || "") || rgb(0, 0, 0);
+});
+
+export const colorSerializer = asNativeSerializer((value: Color): string => {
+  return value.toString();
+});
+
+export function buildColorTweenBuilder(interpolationFactory: ColorGammaInterpolationFactory): AttributeTweenBuilder<Color> {
+  return asNativeBypassTweenBuilder((a: string | null, b: string | null) => {
+    return interpolationFactory(a || "", b || "");
+  });
+}
+
+export const rgbTweenBuilder = buildColorTweenBuilder(interpolateRgb);

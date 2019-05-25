@@ -1,60 +1,58 @@
-import { interpolate } from "d3-interpolate";
-import { Attribute } from "../attribute";
-import { Length } from "./base";
+import { Length } from ".";
+import { buildParserFromCompositions, buildSerializerFromDecompositions } from "./composite";
+import { asNativeParser, ManualAttributeParser } from "./getter";
+import { d3BypassTweenBuilder } from "./interpolator";
+import { asNativeSerializer, ManualAttributeSerializer } from "./setter";
 
-export class Box implements Attribute<Box> {
-  constructor(public x: Length, public y: Length, public width: Length, public height: Length) {}
-  public toString(): string {
-    return `${this.x} ${this.y} ${this.width} ${this.height}`;
-  }
-  public parse(css: string | null): Box {
-    if (css !== null) {
-      const toks = css.split(" ");
-      return new Box(parseFloat(toks[0]), parseFloat(toks[1]), parseFloat(toks[2]), parseFloat(toks[3]));
-    } else {
-      return new Box(0, 0, 0, 0);
-    }
-  }
-  public get(element: SVGElement, attr: string): Box {
-    const toks = attr.split(":");
-    if (toks.length === 4) {
-      const cssX = element.getAttribute(toks[0]);
-      const cssY = element.getAttribute(toks[1]);
-      const cssWidth = element.getAttribute(toks[2]);
-      const cssHeight = element.getAttribute(toks[3]);
-      if (cssX !== null && cssY !== null && cssWidth !== null && cssHeight !== null) {
-        return new Box(parseFloat(cssX), parseFloat(cssY), parseFloat(cssWidth), parseFloat(cssHeight));
-      } else {
-        return new Box(0, 0, 0, 0);
-      }
-    } else {
-      return this.parse(element.getAttribute(attr));
-    }
-  }
-  public set(element: SVGElement, attr: string, override?: Box): void {
-    const toks = attr.split(":");
-    if (toks.length === 4) {
-      if (override !== undefined) {
-        element.setAttribute(toks[0], override.x.toString());
-        element.setAttribute(toks[1], override.y.toString());
-        element.setAttribute(toks[2], override.width.toString());
-        element.setAttribute(toks[3], override.height.toString());
-      } else {
-        element.setAttribute(toks[0], this.x.toString());
-        element.setAttribute(toks[1], this.y.toString());
-        element.setAttribute(toks[2], this.width.toString());
-        element.setAttribute(toks[3], this.height.toString());
-      }
-    } else {
-      if (override !== undefined) {
-        element.setAttribute(attr, override.toString());
-      } else {
-        element.setAttribute(attr, this.toString());
-      }
-    }
-  }
-  public interpolator(from: Box): (t: number) => Box {
-    const func = interpolate(from.toString(), this.toString());
-    return (t: number) => this.parse(func(t));
-  }
+export interface Box {
+  x: Length;
+  y: Length;
+  width: Length;
+  height: Length;
 }
+
+export function box(x: Length = 0, y: Length = 0, width: Length = 0, height: Length = 0): Box {
+  return { x, y, width, height };
+}
+
+export function isBox(value: any): value is Box {
+  return typeof value === "object" && "x" in value && "y" in value && "width" in value && "height" in value;
+}
+
+export const boxParser = asNativeParser<Box>((repr: string | null) => {
+  if (repr !== null) {
+    const toks = repr.split(/\s/);
+    return {
+      x: parseFloat(toks[0]),
+      y: parseFloat(toks[1]),
+      width: parseFloat(toks[2]),
+      height: parseFloat(toks[3]),
+    };
+  } else {
+    return { x: 0, y: 0, width: 0, height: 0 };
+  }
+});
+
+export function buildBoxCompositeParser(xName: string, yName: string, widthName: string, heightName: string): ManualAttributeParser<Box> {
+  return buildParserFromCompositions(box, [
+    [xName, (repr: string | null) => parseFloat(repr || "")],
+    [yName, (repr: string | null) => parseFloat(repr || "")],
+    [widthName, (repr: string | null) => parseFloat(repr || "")],
+    [heightName, (repr: string | null) => parseFloat(repr || "")],
+  ]);
+}
+
+export const boxSerializer = asNativeSerializer((value: Box) => {
+  return [value.x, value.y, value.width, value.height].join(" ");
+});
+
+export function buildBoxCompositeSerializer(xName: string, yName: string, widthName: string, heightName: string): ManualAttributeSerializer<Box> {
+  return buildSerializerFromDecompositions([
+    (value) => [xName, String(value.x)],
+    (value) => [yName, String(value.y)],
+    (value) => [widthName, String(value.width)],
+    (value) => [heightName, String(value.height)],
+  ]);
+}
+
+export const boxTweenBuilder = d3BypassTweenBuilder;

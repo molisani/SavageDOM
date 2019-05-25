@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.base",
+  "exclude": [
+    "../src/**/*.spec.ts",
+    "../src/util/test-env.ts"
+  ]
+}

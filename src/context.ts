@@ -1,10 +1,11 @@
 
 import { fromEvent, Observable, ReplaySubject } from "rxjs";
 import { map } from "rxjs/operators";
-import { Point } from "./attributes/point";
+import { Renderer } from "./animation/renderer";
+import { Core_Attributes } from "./attributes";
 import { XLINK, XMLNS } from "./constants";
 import { makeRequest } from "./document";
-import { Element } from "./element";
+import { AbstractElement, Element } from "./element";
 import { ClipPath } from "./elements/non-renderables/clip-path";
 import { Marker } from "./elements/non-renderables/marker";
 import { Mask } from "./elements/non-renderables/mask";
@@ -26,23 +27,29 @@ import { Text } from "./elements/renderables/text";
 import { ResolvedPointEvent } from "./events";
 import { ElementArgumentsType } from "./util/typescript";
 
+function isSVGSVGElement(el: { tagName: string } | null): el is SVGSVGElement {
+  if (el) {
+    return el.tagName === "svg";
+  }
+  return false;
+}
+
 export class Context {
-  public static DEFAULT_WINDOW: Window = window;
   public static get contexts(): Observable<Context> {
     return Context._CONTEXT_SUBJECT.asObservable();
   }
   private static _CONTEXT_SUBJECT = new ReplaySubject<Context>(1);
   private _root: SVGSVGElement;
-  private _defs: Element<SVGDefsElement>;
+  private _defs: AbstractElement<SVGDefsElement>;
   private _linkedDocs = new WeakSet<Document>();
   constructor();
-  constructor(id: string, window?: Window);
-  constructor(el: SVGSVGElement, window?: Window);
-  constructor(root?: string | SVGSVGElement, private _window: Window = Context.DEFAULT_WINDOW) {
+  constructor(id: string, window?: Window, renderer?: Renderer);
+  constructor(el: SVGSVGElement, window?: Window, renderer?: Renderer);
+  constructor(root?: string | SVGSVGElement, private _window: Window = window, private _renderer: Renderer = Renderer.getInstance()) {
     if (root) {
       if (typeof root === "string") {
         const el = this._window.document.getElementById(root);
-        if (el instanceof SVGSVGElement) {
+        if (isSVGSVGElement(el)) {
           this._root = el;
         } else {
           throw new Error("Element with specified ID is not valid");
@@ -72,6 +79,9 @@ export class Context {
   public get window(): Window {
     return this._window;
   }
+  public get renderer(): Renderer {
+    return this._renderer;
+  }
   public calculateLocalPoint<ELEMENT extends SVGGraphicsElement>(elementNode: ELEMENT, action: MouseEvent | Touch): DOMPoint {
     const ref = this._root.createSVGPoint();
     ref.x = action.clientX;
@@ -87,13 +97,13 @@ export class Context {
       const local = this.calculateLocalPoint(this._root, event);
       return {
         ...event,
-        local: new Point(local.x, local.y),
-        page: new Point(event.pageX, event.pageY),
-        screen: new Point(event.screenX, event.screenY),
+        local: { x: local.x, y: local.y },
+        page: { x: event.pageX, y: event.pageY },
+        screen: { x: event.screenX, y: event.screenY },
       };
     }));
   }
-  public addDef(def: SVGElement | Element<SVGElement>) {
+  public addDef<DEF_ATTRIBUTES extends Core_Attributes>(def: SVGElement | AbstractElement<SVGElement, DEF_ATTRIBUTES>) {
     this._defs.add(def);
   }
   public injectDocumentDefs(doc: Document) {
@@ -113,8 +123,8 @@ export class Context {
     const xmlDocument = await makeRequest("GET", url);
     return new ExternalSVG(this, xmlDocument);
   }
-  public addChild(el: SVGElement | Element<SVGElement>) {
-    if (el instanceof Element) {
+  public addChild(el: SVGElement | AbstractElement<SVGElement>) {
+    if (el instanceof AbstractElement) {
       el.context = this;
       this._root.appendChild(el.node);
     } else {

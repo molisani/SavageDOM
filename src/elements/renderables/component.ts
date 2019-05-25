@@ -1,6 +1,6 @@
 import { Subscription } from "rxjs";
 import { AnimationTiming } from "../../animation/timing";
-import { Transform, TransformList } from "../../attributes/transform";
+import { rotate, scale, translate } from "../../attributes/transform";
 import { XMLNS } from "../../constants";
 import { Context } from "../../context";
 import { Group } from "./group";
@@ -30,29 +30,29 @@ export class Component extends Group {
   private static _CONTEXT?: Context;
   constructor(origin?: { x: number, y: number }) {
     super(Component.context, Component.context.window.document.createElementNS(XMLNS.SVG, "g"));
-    const transforms = [Transform.translate(), Transform.rotate(0), Transform.scale()];
+    const transforms = [translate(), rotate(0), scale()];
     if (origin) {
-      transforms.push(Transform.translate(-origin.x, -origin.y));
+      transforms.push(translate(-origin.x, -origin.y));
     }
-    this.setAttribute("transform", new TransformList(transforms));
+    this.setAttribute("transform", transforms);
   }
   public moveTo(x: number, y: number) {
-    this.setAttribute("transform.translate", Transform.translate(x, y));
+    this.setAttribute("transform.translate", translate(x, y));
   }
   public async moveTo_anim(timing: AnimationTiming, x: number, y: number) {
-    return this.animateAttribute("transform.translate", Transform.translate(x, y), timing);
+    return this.animateAttribute("transform.translate", translate(x, y), timing);
   }
   public rotate(angle: number) {
-    this.setAttribute("transform.rotate", Transform.rotate(angle));
+    this.setAttribute("transform.rotate", rotate(angle));
   }
   public async rotate_anim(timing: AnimationTiming, angle: number) {
-    return this.animateAttribute("transform.rotate", Transform.rotate(angle), timing);
+    return this.animateAttribute("transform.rotate", rotate(angle), timing);
   }
   public scale(x: number, y: number = x) {
-    this.setAttribute("transform.scale", Transform.scale(x, y));
+    this.setAttribute("transform.scale", scale(x, y));
   }
   public async scale_anim(timing: AnimationTiming, x: number, y: number = x) {
-    return this.animateAttribute("transform.scale", Transform.scale(x, y), timing);
+    return this.animateAttribute("transform.scale", scale(x, y), timing);
   }
   public show() {
     this.setAttribute("opacity", 1);
