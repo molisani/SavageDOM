@@ -1,179 +1,261 @@
+import { SVGElementStyleTagNameMap, SVGStyleType } from "./style";
+import { matrix, rotate, scale, skewX, skewY, Transform, translate } from "./transforms";
+import { Mutable, Replace, Select } from "./ts-util";
+import { Angle, angle, AngleUnit, isAngleUnit, isLengthUnit, Length, length, LengthUnit, Point, point } from "./types";
 
-import { fromEvent, merge, Observable, Subscription } from "rxjs";
-import { Renderer } from "./animation/renderer";
-import { AnimationTiming } from "./animation/timing";
-import { Attribute, isAttribute } from "./attribute";
-import { Core_Attributes } from "./attributes/base";
-import { Box } from "./attributes/box";
-import { NumberWrapper } from "./attributes/wrappers";
-import { Context } from "./context";
-import { BaseEvents } from "./events";
-import { randomShortStringId } from "./id";
-import { TagElementMapping } from "./tag-mapping";
+type ReplaceProperties<E extends SVGElement, T, R> = Mutable<Replace<Omit<Select<E, T>, "className" | "animatedPoints">, R>>;
 
-export class Element<SVG extends SVGElement, ATTRIBUTES extends Core_Attributes = Core_Attributes, EVENTS extends BaseEvents = BaseEvents> {
-  protected readonly _style: CSSStyleDeclaration;
-  private _pendingRenders: Promise<number>[] = [];
-  private _linkedAttributes: { [Attr in keyof ATTRIBUTES]?: Subscription } = {};
-  constructor(public context: Context, protected readonly _node: SVG, attrs?: Partial<ATTRIBUTES>, private _id: string = randomShortStringId()) {
-    this.context.ensureChild(this._node);
-    const id = this._node.getAttribute("id");
-    if (id !== null) {
-      this._id = id;
-    } else {
-      this._node.setAttribute("id", this._id);
-    }
-    this._style = this.context.window.getComputedStyle(this._node);
-    if (attrs) {
-      this.setAttributes(attrs);
-    }
+type SavageDOMProperties<E extends SVGElement> =
+  & ReplaceProperties<E, SVGAnimatedAngle, Angle>
+  & ReplaceProperties<E, SVGAnimatedBoolean, boolean>
+  & ReplaceProperties<E, SVGAnimatedInteger, number>
+  & ReplaceProperties<E, SVGAnimatedLength, Length>
+  & ReplaceProperties<E, SVGAnimatedLengthList, readonly Length[]>
+  & ReplaceProperties<E, SVGAnimatedNumber, number>
+  & ReplaceProperties<E, SVGAnimatedNumberList, readonly number[]>
+  & ReplaceProperties<E, SVGPointList, readonly Point[]>
+  & ReplaceProperties<E, SVGAnimatedString, string>
+  & ReplaceProperties<E, SVGAnimatedTransformList, readonly Transform[]>;
+
+interface PropertyAccessor<P> {
+  get<K extends keyof P>(key: NonNullable<K>): P[K];
+  set<K extends keyof P>(key: NonNullable<K>, value: P[K]): void;
+}
+
+const AngleTypeMap: { [lengthType: number]: AngleUnit } = {
+  [SVGAngle.SVG_ANGLETYPE_DEG]: "deg",
+  [SVGAngle.SVG_ANGLETYPE_RAD]: "rad",
+  [SVGAngle.SVG_ANGLETYPE_GRAD]: "grad",
+};
+
+function fromSVGAngle(svg: SVGAngle): Angle {
+  const value = svg.value;
+  const unitType = svg.unitType;
+  if (unitType === SVGAngle.SVG_ANGLETYPE_UNKNOWN || unitType === SVGAngle.SVG_ANGLETYPE_UNSPECIFIED) {
+    return value;
   }
-  public get id(): string {
-    return this._id;
+  return angle(value, AngleTypeMap[svg.unitType]);
+}
+
+const LengthTypeMap: { [lengthType: number]: LengthUnit } = {
+  [SVGLength.SVG_LENGTHTYPE_PERCENTAGE]: "%",
+  [SVGLength.SVG_LENGTHTYPE_EMS]: "em",
+  [SVGLength.SVG_LENGTHTYPE_EXS]: "ex",
+  [SVGLength.SVG_LENGTHTYPE_PX]: "px",
+  [SVGLength.SVG_LENGTHTYPE_CM]: "cm",
+  [SVGLength.SVG_LENGTHTYPE_MM]: "mm",
+  [SVGLength.SVG_LENGTHTYPE_IN]: "in",
+  [SVGLength.SVG_LENGTHTYPE_PT]: "pt",
+  [SVGLength.SVG_LENGTHTYPE_PC]: "pc",
+};
+
+function fromSVGLength(svg: SVGLength): Length {
+  const value = svg.value;
+  const unitType = svg.unitType;
+  if (unitType === SVGLength.SVG_LENGTHTYPE_UNKNOWN || unitType === SVGLength.SVG_LENGTHTYPE_NUMBER) {
+    return value;
   }
-  public get node(): SVG {
-    return this._node;
-  }
-  public toString(): string {
-    return `url(#${this._id})`;
-  }
-  public renderAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
-    if (isAttribute(val)) {
-      val.set(this._node, name);
-    } else if (Array.isArray(val)) {
-      this._node.setAttribute(name, val.join("\t"));
-    } else {
-      this._node.setAttribute(name, String(val));
-    }
-  }
-  public setAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr]): void {
-    const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, keyof ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, name, val);
-    this._pendingRenders.push(render);
-  }
-  public setAttributes(attrs: Partial<ATTRIBUTES>): void {
-    const render = Renderer.getInstance().queueAttributeUpdate<ATTRIBUTES, Element<any, ATTRIBUTES, any>>(this, attrs);
-    this._pendingRenders.push(render);
-  }
-  public animateAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: ATTRIBUTES[Attr], timing: AnimationTiming): Promise<number> | undefined {
-    let attr: Attribute<any>;
-    if (typeof val === "number") {
-      attr = new NumberWrapper(val);
-    } else if (isAttribute(val)) {
-      attr = val;
-    } else {
-      return;
-    }
-    const from = attr.get(this._node, name);
-    return Renderer.getInstance().registerAttributeInterpolation<ATTRIBUTES, Attr, Element<SVG, ATTRIBUTES, EVENTS>>(this, name, attr.interpolator(from), timing);
-  }
-  public linkDynamicAttribute<Attr extends keyof ATTRIBUTES>(name: Attr, val: Observable<ATTRIBUTES[Attr]>): Subscription {
-    const subscription = Renderer.getInstance().subscribeAttributeObservable(this, name, val);
-    const existingSubscription = this._linkedAttributes[name];
-    if (existingSubscription && !existingSubscription.closed) {
-      existingSubscription.unsubscribe();
-    }
-    this._linkedAttributes[name] = subscription;
-    return subscription;
-  }
-  public async flush(): Promise<number> {
-    if (this._pendingRenders.length === 0) {
-      return performance.now();
-    }
-    const pending = Promise.all(this._pendingRenders);
-    this._pendingRenders = [];
-    const renders = await pending;
-    return Math.max(...renders);
-  }
-  public getAttribute<Attr extends keyof ATTRIBUTES>(name: Attr): string | null {
-    const val = this._node.getAttribute(name) || this._style.getPropertyValue(name);
-    return (val === "" || val === "none") ? null : val;
-  }
-  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>): void;
-  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean): void;
-  public copyStyleFrom(el: Element<SVGElement, ATTRIBUTES, any>, includeExclude?: { [A in keyof ATTRIBUTES]: boolean }, defaultInclude: boolean = true): void {
-    const style = {} as ATTRIBUTES;
-    const attrs = el._node.attributes;
-    if (includeExclude) {
-      for (let i = 0; i < attrs.length; ++i) {
-        const attr = attrs.item(i);
-        if (attr) {
-          const name = attr.name;
-          if (includeExclude[name as keyof ATTRIBUTES] === true || defaultInclude) {
-            style[name] = el._style.getPropertyValue(name);
-          }
-        }
+  return length(value, LengthTypeMap[svg.unitType]);
+}
+
+function fromDOMPoint(dom: DOMPoint): Point {
+  return point(dom.x, dom.y);
+}
+
+interface SVGListOf<T> {
+  readonly numberOfItems: number;
+  getItem(index: number): T;
+}
+
+function fromSVGTransform(svg: SVGTransform): Transform {
+  const { a, b, c, d, e, f } = svg.matrix;
+  switch (svg.type) {
+    case SVGTransform.SVG_TRANSFORM_MATRIX:
+      return matrix([a, b, c, d, e, f]);
+    case SVGTransform.SVG_TRANSFORM_TRANSLATE:
+      return translate(e, f);
+    case SVGTransform.SVG_TRANSFORM_SCALE:
+      return scale(a, d);
+    case SVGTransform.SVG_TRANSFORM_ROTATE: {
+      const radians = (svg.angle / 180) * Math.PI;
+      let cx: number;
+      let cy: number;
+      if (svg.angle % 180 === 0) {
+        cx = 0.5 * e;
+        cy = 0.5 * f;
+      } else {
+        const halfCot = 1 / Math.tan(radians / 2);
+        cx = 0.5 * (e - f * halfCot);
+        cy = 0.5 * (e * halfCot + f);
       }
-    } else {
-      for (let i = 0; i < attrs.length; ++i) {
-        const attr = attrs.item(i);
-        if (attr) {
-          const name = attr.name;
-          style[name] = el._style.getPropertyValue(name);
-        }
-      }
+      return rotate(svg.angle, cx, cy);
     }
-    this.setAttributes(style);
+    case SVGTransform.SVG_TRANSFORM_SKEWX:
+      return skewX(svg.angle);
+    case SVGTransform.SVG_TRANSFORM_SKEWY:
+      return skewY(svg.angle);
   }
+  throw new Error(`Unknown SVGTransform type=${svg.type}`);
+}
 
-  public getEvent<EVENT extends keyof EVENTS>(event: EVENT): Observable<EVENTS[EVENT]> {
-    return fromEvent(this._node, event) as Observable<EVENTS[EVENT]>;
-  }
-
-  public getEvents(...events: (keyof EVENTS)[]): Observable<Event> {
-    return merge(...(events).map((event) => fromEvent(this._node, event)));
-  }
-
-  public get boundingBox(): Box {
-    const rect = this._node.getBoundingClientRect();
-    return new Box(rect.left, rect.top, rect.width, rect.height);
-  }
-  public add(el: Element<SVGElement> | SVGElement) {
-    if (el instanceof SVGElement) {
-      this._node.appendChild(el);
-    } else {
-      el.context = this.context;
-      this._node.appendChild(el._node);
-    }
-  }
-  public getChildren(): Element<SVGElement>[] {
-    const children = this._node.childNodes;
-    const elements: Element<SVGElement>[] = [];
-    for (let i = 0; i < children.length; ++i) {
-      elements.push(new Element(this.context, children.item(i) as SVGElement));
-    }
-    return elements;
-  }
-  public getElementsByClassName(className: string): ReadonlyArray<Element<SVGElement>> {
-    const elements = Array.from(this._node.getElementsByClassName(className)) as SVGElement[];
-    return elements.map((element) => new Element(this.context, element));
-  }
-  public getElementsByTagName<TAG extends keyof TagElementMapping>(tagName: TAG): ReadonlyArray<TagElementMapping[TAG]>;
-  public getElementsByTagName(tagName: string): ReadonlyArray<Element<SVGElement>> {
-    const elements = Array.from(this._node.getElementsByTagName(tagName)) as SVGElement[];
-    return elements.map((element) => new Element(this.context, element));
-  }
-  public clone(deep: boolean = true, id: string = randomShortStringId()): Element<SVG, ATTRIBUTES, EVENTS> {
-    const copy = new Element<SVG, ATTRIBUTES, EVENTS>(this.context, this._node.cloneNode(deep) as SVG);
-    copy._id = id;
-    copy._node.setAttribute("id", copy._id);
-    return copy;
-  }
-  public destroy() {
-    this._node.remove();
-  }
-  public injectDocument(doc: Document) {
-    this.context.injectDocumentDefs(doc);
-    if (doc.documentElement) {
-      const childElements = Array.from(doc.documentElement.children) as SVGElement[];
-      for (const child of childElements) {
-        const importedChild = this.context.window.document.importNode(child, true);
-        this.add(importedChild);
-      }
-    }
-  }
-  protected cloneNode(deep: boolean = true): SVG {
-    const clone = this._node.cloneNode(deep) as SVG;
-    clone.setAttribute("id", randomShortStringId());
-    return clone;
+function* iterateList<T>(svg: SVGListOf<T>): Generator<T> {
+  for (let i = 0; i < svg.numberOfItems; ++i) {
+    yield svg.getItem(i);
   }
 }
+
+function fromSVGTransformList(svg: SVGTransformList): readonly Transform[] {
+  return Array.from(iterateList(svg)).map(fromSVGTransform);
+}
+
+function getAttribute<E extends SVGElement>(el: E, key: keyof E): any {
+  const current = el[key];
+  if (current instanceof SVGAnimatedBoolean || current instanceof SVGAnimatedInteger || current instanceof SVGAnimatedNumber || current instanceof SVGAnimatedString) {
+    return current.baseVal;
+  }
+  if (current instanceof SVGAnimatedAngle) {
+    return fromSVGAngle(current.baseVal);
+  }
+  if (current instanceof SVGAnimatedLength) {
+    return fromSVGLength(current.baseVal);
+  }
+  if (current instanceof SVGAnimatedLengthList) {
+    return Array.from(current.baseVal).map(fromSVGLength);
+  }
+  if (current instanceof SVGAnimatedNumberList) {
+    return Array.from(current.baseVal).map((svg) => svg.value);
+  }
+  if (current instanceof SVGPointList) {
+    return Array.from(current).map(fromDOMPoint);
+  }
+  if (current instanceof SVGAnimatedTransformList) {
+    return fromSVGTransformList(current.baseVal);
+  }
+  if (key in el.style) {
+    const styleValue = el.style[key as keyof CSSStyleDeclaration];
+    if (key === "stroke-dasharray" && typeof styleValue === "string") {
+      return styleValue.split(/\s+,?\s*|,\s*/).map((dash) => {
+        const dashValue = parseFloat(dash);
+        if (isNaN(dashValue)) {
+          return 0;
+        }
+        const numberAsString = dashValue.toString();
+        const suffix = dash.slice(0, numberAsString.length);
+        if (isLengthUnit(suffix)) {
+          return length(dashValue, suffix);
+        }
+        return dashValue;
+      });
+    }
+    try {
+      if (typeof styleValue === "string") {
+        const styleNumberValue = parseFloat(styleValue);
+        if (!isNaN(styleNumberValue)) {
+          const numberAsString = styleNumberValue.toString();
+          const suffix = styleValue.slice(0, numberAsString.length);
+          if (isLengthUnit(suffix)) {
+            return length(styleNumberValue, suffix);
+          }
+          if (isAngleUnit(suffix)) {
+            return angle(styleNumberValue, suffix);
+          }
+          return styleNumberValue;
+        }
+      }
+    } catch {
+      // no-op
+    }
+    try {
+      if (typeof styleValue === "string" && styleValue.startsWith("url(")) {
+        const id = styleValue.slice(5, -1);
+        const funciriElement = document.getElementById(id);
+        if (funciriElement) {
+          return funciriElement;
+        }
+      }
+    } catch {
+      // no-op
+    }
+    return styleValue;
+  }
+  throw new Error(`Querying attribute "${key}" is not currently supported through this API`);
+}
+
+function setAttribute<E extends SVGElement>(el: E, key: keyof E, value: any): void {
+  if (value instanceof SVGElement) {
+    value = `url(#${value.id})`;
+  }
+  if (Array.isArray(value)) {
+    el.setAttribute(key, value.map((val: any) => String(val)).join(" "));
+  } else {
+    el.setAttribute(key, String(value));
+  }
+}
+
+interface SVGEventEmitter {
+  once<E extends keyof SVGElementEventMap>(type: E): Promise<SVGElementEventMap[E]>;
+}
+
+type ElementCollectionsByTagName = {
+  [TAG in keyof SVGElementTagNameMap]: ArrayLike<SavageDOMElement<SVGElementTagNameMap[TAG], SVGElementStyleTagNameMap[TAG]>>;
+};
+
+interface SVGParent {
+  add(element: SVGElement, prefix?: boolean): void;
+  remove(element: SVGElement): void;
+  readonly inner: ArrayLike<SavageDOMElement<SVGElement>> & ElementCollectionsByTagName;
+}
+
+export type SavageDOMElement<E extends SVGElement, STYLE = SVGStyleType<E>> = Omit<E, "__SavageDOMStyleProperties"> & PropertyAccessor<SavageDOMProperties<E> & STYLE> & SVGEventEmitter & SVGParent;
+
+type SavageDOMElementConstructor<E extends SVGElement> = (props?: Partial<SavageDOMProperties<E>>) => SavageDOMElement<E>;
+
+function mapCollection(collection: HTMLCollection, map: (el: SVGElement) => SavageDOMElement<SVGElement>): ArrayLike<SavageDOMElement<SVGElement>> {
+  return new Proxy(collection, {
+    get: (_obj: any, key: keyof HTMLCollection) => {
+      if (key === "length") {
+        return collection.length;
+      }
+      if (key in collection) {
+        return map(collection[key] as any);
+      }
+    },
+  });
+}
+
+const wrap = <E extends SVGElement>(el: E, props?: Partial<SavageDOMProperties<E>>): SavageDOMElement<E> => {
+  const wrappedElement = Object.assign(el, {
+    get: getAttribute.bind(void 0, el),
+    set: setAttribute.bind(void 0, el),
+    once: <EVENT extends keyof SVGElementEventMap>(type: EVENT) => new Promise<SVGElementEventMap[EVENT]>((resolve) => el.addEventListener(type, resolve, { once: true })),
+    add: (element: SVGElement, prefix = false) => {
+      (prefix) ? el.prepend(element) : el.append(element);
+    },
+    remove: (element: SVGElement) => el.removeChild(element),
+    get inner() {
+      const collection = mapCollection(el.children, wrap);
+      return new Proxy(collection, {
+        get: (_obj: any, key: number | "length" | keyof SVGElementTagNameMap) => {
+          if (typeof key === "number" || key === "length") {
+            return collection[key];
+          }
+          return mapCollection(el.getElementsByTagNameNS("http://www.w3.org/2000/svg", key), wrap);
+        },
+      });
+    },
+  }) as any as SavageDOMElement<E>;
+  if (props) {
+    for (const [key, value] of Object.entries(props)) {
+      wrappedElement.set(key as any, value as any);
+    }
+  }
+  return wrappedElement;
+};
+
+type ElementCreator = {
+  [TAG in keyof SVGElementTagNameMap]: SavageDOMElementConstructor<SVGElementTagNameMap[TAG]>;
+};
+
+export const element = new Proxy<ElementCreator & typeof wrap>(wrap as any, {
+  get: (_obj: any, tagName: keyof SVGElementTagNameMap) => wrap.bind(void 0, document.createElementNS("http://www.w3.org/2000/svg", tagName)),
+});

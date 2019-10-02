@@ -5,10 +5,9 @@ node_modules/
 *.js.map
 *.d.ts
 
-!Gruntfile.js
-!dist/*
-!lib/**/*
-
-docs/
 src/
 test/
+docs/
+
+!dist/savagedom.js
+!lib/**/*

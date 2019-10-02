@@ -1,37 +1,26 @@
-'use strict';
+"use strict";
+const path = require("path");
 
 module.exports = {
-    // mode: "development",
-    // devtool: 'eval-source-map',
-    mode: "production",
-    context: __dirname, // to automatically find tsconfig.json
-    entry: './src/index.ts',
-    output: {
-        filename: 'savagedom.js',
-        library: 'SavageDOM',
-        libraryTarget: 'umd',
-        umdNamedDefine: true
-    },
-    module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                loader: 'ts-loader',
-            }
-        ]
-    },
-    resolve: {
-        extensions: [ '.ts', '.tsx', 'js' ]
-    },
-    plugins: [],
-    externals: {
-        rxjs: "rxjs",
-        "rxjs/operators": {
-            commonjs: ["rxjs", "operators"],
-            commonjs2: ["rxjs", "operators"],
-            root: ["rxjs", "operators"],
-        },
-        "d3-color": "d3",
-        "d3-interpolate": "d3",
-    },
+  mode: "production",
+  entry: "./src/index.ts",
+  module: {
+    rules: [
+      {
+        test: /\.ts?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "output.js",
+    library: "savagedom",
+    libraryTarget: "umd",
+    umdNamedDefine: true,
+  }
 };
