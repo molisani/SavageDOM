@@ -157,7 +157,7 @@ function _wrap<ELEMENT extends SVGElement>(element: ELEMENT): SavageDOMElement<E
   return element as any as SavageDOMElement<ELEMENT>;
 }
 
-function wrap<ELEMENT extends SVGElement>(element: ELEMENT, props?: Partial<SavageDOMAttributes<ELEMENT>>): SavageDOMElement<ELEMENT> {
+function _wrapWithProps<ELEMENT extends SVGElement>(element: ELEMENT, props?: Partial<SavageDOMAttributes<ELEMENT>>): SavageDOMElement<ELEMENT> {
   const wrappedElement = _wrap(element);
   if (props) {
     _assignProperties(wrappedElement, props);
@@ -168,13 +168,9 @@ function wrap<ELEMENT extends SVGElement>(element: ELEMENT, props?: Partial<Sava
 const _creator = (() => {
   const creator = Object.create(null);
   for (const tagName of SVGElementTagNames) {
-    creator[tagName] = (properties: any) => wrap(document.createElementNS("http://www.w3.org/2000/svg", tagName), properties);
+    creator[tagName] = (properties: any) => _wrapWithProps(document.createElementNS("http://www.w3.org/2000/svg", tagName), properties);
   }
   return creator as ElementCreator;
 })();
 
-function _addElementCreator<T>(target: T): T & ElementCreator {
-  return Object.assign(target, _creator);
-}
-
-export const element = _addElementCreator(wrap);
+export const element = Object.assign(_wrapWithProps, _creator);

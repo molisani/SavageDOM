@@ -14,30 +14,58 @@ SavageDOM is a lightweight module to create and manipulate SVG elements.
 
 Automatically-generated documentation is available [here](https://molisani.github.io/SavageDOM/index.html).
 
+This module functions as a utility wrapper on top of the existing DOM element definitons. All augmentations are manually applied by this module so no prototype manipulation happens.
 
+#### Default Export `element`
 
-The library is distributed as a single ES6 JavaScript file. This library has a runtime dependency on `rxjs` and `d3` (but only `d3-color` and `d3-interpolation`). The documentation can be found [here](https://molisani.github.io/SavageDOM/index.html), but due to TypeDoc's poor support for some advanced TypeScript features it is always good to revert to the definition file.
+- `element(svgElement, props?)`
+  - Wraps an `SVGElement` and returns the corresponding `SavageDOMElement`
+  - An optional property object can also be specified, which will be applied to the new element
 
-- **Core**
+- `element.<tagName>(props?)`
+  - Invoking any method on `element` will construct a new `SavageDOMElement` with that `tagName`
+  - An optional property object can also be specified, which will be applied to the new element
 
-  - `Element<SVGElement, Attributes>` - The base class for all elements created by this library
-  - `Context` - Stores the `<svg>` context for element creation
-  - Attributes, including the base `Attribute<T>` class
-    - Core attributes: `Number`, `Dimension`, `Point`, `Color`
-    - Complex attributes: `Transform`, `Color Matrix`
-    - Derived attributes: `Inherit`, `Length`, `Angle`, `Paint`
-    - [Element attribute caterogies](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute): `Presentation`, `Textual`
+#### `SavageDOMElement` wrapper
 
-- **Elements** - Includes everything in core and also features additional, common svg elements.
+The `SavageDOMElement` type is an additive wrapper, so any method that requires an `SVGElement` will accept a `SavageDOMElement` instead.
 
-  - Renderable: `<circle>`, `<ellipse>`, `<line>`, `<polygon>`, `<polyline>`, `<path>`, `<rect>`, `<image>`, `<text>`, `<g>`
-  - NonRenderable: `<linearGradient>`, `<radialGradient>`, `<pattern>`, `<marker>`, `<mask>`
-  - Filter (`<filter>`) with primitives: `<feBlend>`, `<feColorMatrix>`, `<feComponentTransfer>`, `<feComposite>`, `<feConvolveMatrix>`, `<feDiffuseLighting>`, `<feDisplacementMap>`, `<feFlood>`, `<feGaussianBlur>`, `<feImage>`, `<feMerge>`, `<feMergeNode>`, `<feMorphology>`, `<feOffset>`, `<feSpecularLighting>`, `<feTile>`, `<feTurbulence>`, `<feFuncR>`, `<feFuncG>`, `<feFuncB>`, `<feFuncA>`, `<feDistantLight>`, `<fePointLight>`, `<feSpotLight>`
+- `SavageDOMElement.get(key)`
+  - Fully-typed attribute access
+  - Combines both native SVG attributes as well as available CSS style attributes
+  - Returns deserialized value (depends on attribute)
 
-- **Animation** - Provides the functionality to animate attributes or set dynamic attributes.
+- `SavageDOMElement.set(key, value)`
+  - Fully-typed attribute access
+  - Combines both native SVG attributes as well as available CSS style attributes
+  - Default serialization assumes `value` can be coerced to `string`
+  - Additional processing exists for `<funciri>` and `list-of` types
 
-  - Dynamic: Constantly updating attribute value (ex: `MousePosition`)
-  - Animation
-    - Define animation endpoint as another set of attributes
-    - Control easing with functions (linear, quadratic, exponent, etc.)
-    - Makes use of ES6 Promises for animation completion (therefore, all versions with animation target ES6 instead of ES5)
+- `SavageDOMElement.once(event)`
+  - Utility wrapper around one time event listener
+
+- `SavageDOMElement.add(svgElement, prefix?)`
+  - Adds any SVGElement beneath this element
+  - Optional argument to prepend instead of append (default)
+
+- `SavageDOMElement.add.<tagName>(props?)`
+  - Identical to `element.<tagName>(props?)` for constructing new elements
+  - All element created this way will be appended to current element
+
+- `SavageDOMElement.remove(svgElement)`
+  - Utility wrapper around `Node.removeChild`
+
+- `SavageDOMElement.inject(document)`
+  - Inserts a copy of a `Document` into the current element
+  - `Document` must be an SVG document with a top-level `<svg>` tag
+  - This method will modify the input `Document` by migrating all `defs` to the parent `<svg>` of this element
+  - All contents will be added inside of a `<g>` element
+  - The same `Document` can be injected more than once independently
+
+- `SavageDOMElement.sub`
+  - A live `ArrayLike` object that contains all sub-elements of this element
+  - Accessing any sub-elements will return them as a wrapped `SavageDOMElement`
+
+- `SavageDOMElement.subByTag.<tagName>`
+  - A live `ArrayLike` object that contains all sub-elements with the corresponding `tagName` under this element
+  - Accessing any sub-elements will return them as a wrapped `SavageDOMElement`
