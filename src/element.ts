@@ -94,7 +94,7 @@ function _importDocument(svg: SVGElement, foreignDocument: Document): SVGGElemen
     foreignRoot.removeChild(foreignDefs);
     localRoot.append(foreignDefs);
   }
-  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  const g = localDocument.createElementNS("http://www.w3.org/2000/svg", "g");
   for (const child of Array.from(foreignRoot.children)) {
     const importedChild = localDocument.importNode(child as SVGElement, true);
     g.append(importedChild);
