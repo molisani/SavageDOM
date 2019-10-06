@@ -4,6 +4,8 @@ node_modules/
 *.js
 *.js.map
 *.d.ts
+*.tsbuildinfo
+tsconfig.json
 
 src/
 test/

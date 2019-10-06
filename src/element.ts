@@ -1,216 +1,108 @@
+import { getAttribute, setAttribute } from "./attributes";
 import { SVGElementStyleTagNameMap, SVGStyleType } from "./style";
-import { matrix, rotate, scale, skewX, skewY, Transform, translate } from "./transforms";
+import { Transform } from "./transforms";
 import { Mutable, Replace, Select } from "./ts-util";
-import { Angle, angle, AngleUnit, isAngleUnit, isLengthUnit, Length, length, LengthUnit, Point, point } from "./types";
+import { Angle, Length, Point } from "./types";
 
-type ReplaceProperties<E extends SVGElement, T, R> = Mutable<Replace<Omit<Select<E, T>, "className" | "animatedPoints">, R>>;
+type SVGElementTagName = keyof SVGElementTagNameMap;
 
-type SavageDOMProperties<E extends SVGElement> =
-  & ReplaceProperties<E, SVGAnimatedAngle, Angle>
-  & ReplaceProperties<E, SVGAnimatedBoolean, boolean>
-  & ReplaceProperties<E, SVGAnimatedInteger, number>
-  & ReplaceProperties<E, SVGAnimatedLength, Length>
-  & ReplaceProperties<E, SVGAnimatedLengthList, readonly Length[]>
-  & ReplaceProperties<E, SVGAnimatedNumber, number>
-  & ReplaceProperties<E, SVGAnimatedNumberList, readonly number[]>
-  & ReplaceProperties<E, SVGPointList, readonly Point[]>
-  & ReplaceProperties<E, SVGAnimatedString, string>
-  & ReplaceProperties<E, SVGAnimatedTransformList, readonly Transform[]>;
+const SVGElementTagNames = new Set<SVGElementTagName>(["a","circle","clipPath","defs","desc","ellipse","feBlend","feColorMatrix","feComponentTransfer","feComposite","feConvolveMatrix","feDiffuseLighting","feDisplacementMap","feDistantLight","feFlood","feFuncA","feFuncB","feFuncG","feFuncR","feGaussianBlur","feImage","feMerge","feMergeNode","feMorphology","feOffset","fePointLight","feSpecularLighting","feSpotLight","feTile","feTurbulence","filter","foreignObject","g","image","line","linearGradient","marker","mask","metadata","path","pattern","polygon","polyline","radialGradient","rect","script","stop","style","svg","switch","symbol","text","textPath","title","tspan","use","view"]);
 
-interface PropertyAccessor<P> {
-  get<K extends keyof P>(key: NonNullable<K>): P[K];
-  set<K extends keyof P>(key: NonNullable<K>, value: P[K]): void;
-}
+type ReplaceAttributes<ELEMENT extends SVGElement, T, R> = Mutable<Replace<Omit<Select<ELEMENT, T>, "className" | "animatedPoints">, R>>;
 
-const AngleTypeMap: { [lengthType: number]: AngleUnit } = {
-  [SVGAngle.SVG_ANGLETYPE_DEG]: "deg",
-  [SVGAngle.SVG_ANGLETYPE_RAD]: "rad",
-  [SVGAngle.SVG_ANGLETYPE_GRAD]: "grad",
-};
+type SavageDOMAttributes<ELEMENT extends SVGElement = SVGElement> =
+  & ReplaceAttributes<ELEMENT, SVGAnimatedAngle, Angle>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedBoolean, boolean>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedInteger, number>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedLength, Length>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedLengthList, readonly Length[]>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedNumber, number>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedNumberList, readonly number[]>
+  & ReplaceAttributes<ELEMENT, SVGPointList, readonly Point[]>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedString, string>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedTransformList, readonly Transform[]>;
 
-function fromSVGAngle(svg: SVGAngle): Angle {
-  const value = svg.value;
-  const unitType = svg.unitType;
-  if (unitType === SVGAngle.SVG_ANGLETYPE_UNKNOWN || unitType === SVGAngle.SVG_ANGLETYPE_UNSPECIFIED) {
-    return value;
-  }
-  return angle(value, AngleTypeMap[svg.unitType]);
-}
-
-const LengthTypeMap: { [lengthType: number]: LengthUnit } = {
-  [SVGLength.SVG_LENGTHTYPE_PERCENTAGE]: "%",
-  [SVGLength.SVG_LENGTHTYPE_EMS]: "em",
-  [SVGLength.SVG_LENGTHTYPE_EXS]: "ex",
-  [SVGLength.SVG_LENGTHTYPE_PX]: "px",
-  [SVGLength.SVG_LENGTHTYPE_CM]: "cm",
-  [SVGLength.SVG_LENGTHTYPE_MM]: "mm",
-  [SVGLength.SVG_LENGTHTYPE_IN]: "in",
-  [SVGLength.SVG_LENGTHTYPE_PT]: "pt",
-  [SVGLength.SVG_LENGTHTYPE_PC]: "pc",
-};
-
-function fromSVGLength(svg: SVGLength): Length {
-  const value = svg.value;
-  const unitType = svg.unitType;
-  if (unitType === SVGLength.SVG_LENGTHTYPE_UNKNOWN || unitType === SVGLength.SVG_LENGTHTYPE_NUMBER) {
-    return value;
-  }
-  return length(value, LengthTypeMap[svg.unitType]);
-}
-
-function fromDOMPoint(dom: DOMPoint): Point {
-  return point(dom.x, dom.y);
-}
-
-interface SVGListOf<T> {
-  readonly numberOfItems: number;
-  getItem(index: number): T;
-}
-
-function fromSVGTransform(svg: SVGTransform): Transform {
-  const { a, b, c, d, e, f } = svg.matrix;
-  switch (svg.type) {
-    case SVGTransform.SVG_TRANSFORM_MATRIX:
-      return matrix([a, b, c, d, e, f]);
-    case SVGTransform.SVG_TRANSFORM_TRANSLATE:
-      return translate(e, f);
-    case SVGTransform.SVG_TRANSFORM_SCALE:
-      return scale(a, d);
-    case SVGTransform.SVG_TRANSFORM_ROTATE: {
-      const radians = (svg.angle / 180) * Math.PI;
-      let cx: number;
-      let cy: number;
-      if (svg.angle % 180 === 0) {
-        cx = 0.5 * e;
-        cy = 0.5 * f;
-      } else {
-        const halfCot = 1 / Math.tan(radians / 2);
-        cx = 0.5 * (e - f * halfCot);
-        cy = 0.5 * (e * halfCot + f);
-      }
-      return rotate(svg.angle, cx, cy);
-    }
-    case SVGTransform.SVG_TRANSFORM_SKEWX:
-      return skewX(svg.angle);
-    case SVGTransform.SVG_TRANSFORM_SKEWY:
-      return skewY(svg.angle);
-  }
-  throw new Error(`Unknown SVGTransform type=${svg.type}`);
-}
-
-function* iterateList<T>(svg: SVGListOf<T>): Generator<T> {
-  for (let i = 0; i < svg.numberOfItems; ++i) {
-    yield svg.getItem(i);
-  }
-}
-
-function fromSVGTransformList(svg: SVGTransformList): readonly Transform[] {
-  return Array.from(iterateList(svg)).map(fromSVGTransform);
-}
-
-function getAttribute<E extends SVGElement>(el: E, key: keyof E): any {
-  const current = el[key];
-  if (current instanceof SVGAnimatedBoolean || current instanceof SVGAnimatedInteger || current instanceof SVGAnimatedNumber || current instanceof SVGAnimatedString) {
-    return current.baseVal;
-  }
-  if (current instanceof SVGAnimatedAngle) {
-    return fromSVGAngle(current.baseVal);
-  }
-  if (current instanceof SVGAnimatedLength) {
-    return fromSVGLength(current.baseVal);
-  }
-  if (current instanceof SVGAnimatedLengthList) {
-    return Array.from(current.baseVal).map(fromSVGLength);
-  }
-  if (current instanceof SVGAnimatedNumberList) {
-    return Array.from(current.baseVal).map((svg) => svg.value);
-  }
-  if (current instanceof SVGPointList) {
-    return Array.from(current).map(fromDOMPoint);
-  }
-  if (current instanceof SVGAnimatedTransformList) {
-    return fromSVGTransformList(current.baseVal);
-  }
-  if (key in el.style) {
-    const styleValue = el.style[key as keyof CSSStyleDeclaration];
-    if (key === "stroke-dasharray" && typeof styleValue === "string") {
-      return styleValue.split(/\s+,?\s*|,\s*/).map((dash) => {
-        const dashValue = parseFloat(dash);
-        if (isNaN(dashValue)) {
-          return 0;
-        }
-        const numberAsString = dashValue.toString();
-        const suffix = dash.slice(0, numberAsString.length);
-        if (isLengthUnit(suffix)) {
-          return length(dashValue, suffix);
-        }
-        return dashValue;
-      });
-    }
-    try {
-      if (typeof styleValue === "string") {
-        const styleNumberValue = parseFloat(styleValue);
-        if (!isNaN(styleNumberValue)) {
-          const numberAsString = styleNumberValue.toString();
-          const suffix = styleValue.slice(0, numberAsString.length);
-          if (isLengthUnit(suffix)) {
-            return length(styleNumberValue, suffix);
-          }
-          if (isAngleUnit(suffix)) {
-            return angle(styleNumberValue, suffix);
-          }
-          return styleNumberValue;
-        }
-      }
-    } catch {
-      // no-op
-    }
-    try {
-      if (typeof styleValue === "string" && styleValue.startsWith("url(")) {
-        const id = styleValue.slice(5, -1);
-        const funciriElement = document.getElementById(id);
-        if (funciriElement) {
-          return funciriElement;
-        }
-      }
-    } catch {
-      // no-op
-    }
-    return styleValue;
-  }
-  throw new Error(`Querying attribute "${key}" is not currently supported through this API`);
-}
-
-function setAttribute<E extends SVGElement>(el: E, key: keyof E, value: any): void {
-  if (value instanceof SVGElement) {
-    value = `url(#${value.id})`;
-  }
-  if (Array.isArray(value)) {
-    el.setAttribute(key, value.map((val: any) => String(val)).join(" "));
-  } else {
-    el.setAttribute(key, String(value));
-  }
+interface AttributeAccessor<PROPS> {
+  get<KEY extends keyof PROPS>(key: NonNullable<KEY>): PROPS[KEY];
+  set<KEY extends keyof PROPS>(key: NonNullable<KEY>, value: PROPS[KEY]): void;
 }
 
 interface SVGEventEmitter {
-  once<E extends keyof SVGElementEventMap>(type: E): Promise<SVGElementEventMap[E]>;
+  once<EVENT extends keyof SVGElementEventMap>(type: EVENT): Promise<SVGElementEventMap[EVENT]>;
 }
 
 type ElementCollectionsByTagName = {
-  [TAG in keyof SVGElementTagNameMap]: ArrayLike<SavageDOMElement<SVGElementTagNameMap[TAG], SVGElementStyleTagNameMap[TAG]>>;
+  [TAG in SVGElementTagName]: ArrayLike<SavageDOMElement<SVGElementTagNameMap[TAG], SVGElementStyleTagNameMap[TAG]>>;
+};
+
+type SavageDOMElementConstructor<ELEMENT extends SVGElement = SVGElement> = (props?: Partial<SavageDOMAttributes<ELEMENT>>) => SavageDOMElement<ELEMENT>;
+
+type ElementWrapper = <ELEMENT extends SVGElement = SVGElement>(element: ELEMENT) => SavageDOMElement<ELEMENT>;
+
+type ElementSearchConstructor = new(wrapFn: ElementWrapper, parent: SVGElement) => ElementCollectionsByTagName;
+
+type ElementCreator = {
+  [TAG in SVGElementTagName]: SavageDOMElementConstructor<SVGElementTagNameMap[TAG]>;
 };
 
 interface SVGParent {
-  add(element: SVGElement, prefix?: boolean): void;
+  add: ElementCreator & ((element: SVGElement, prefix?: boolean) => void);
   remove(element: SVGElement): void;
-  readonly inner: ArrayLike<SavageDOMElement<SVGElement>> & ElementCollectionsByTagName;
+  inject(doc: Document): SavageDOMElement<SVGGElement>;
+  readonly sub: ArrayLike<SavageDOMElement>;
+  readonly subByTag: ElementCollectionsByTagName;
 }
 
-export type SavageDOMElement<E extends SVGElement, STYLE = SVGStyleType<E>> = Omit<E, "__SavageDOMStyleProperties"> & PropertyAccessor<SavageDOMProperties<E> & STYLE> & SVGEventEmitter & SVGParent;
+export type SavageDOMElement<ELEMENT extends SVGElement = SVGElement, STYLE = SVGStyleType<ELEMENT>> = Omit<ELEMENT, "__SavageDOMStyleProperties"> & AttributeAccessor<SavageDOMAttributes<ELEMENT> & STYLE> & SVGEventEmitter & SVGParent;
 
-type SavageDOMElementConstructor<E extends SVGElement> = (props?: Partial<SavageDOMProperties<E>>) => SavageDOMElement<E>;
 
-function mapCollection(collection: HTMLCollection, map: (el: SVGElement) => SavageDOMElement<SVGElement>): ArrayLike<SavageDOMElement<SVGElement>> {
+function _assignProperties<ELEMENT extends SVGElement>(element: SavageDOMElement<ELEMENT>, props: Partial<SavageDOMAttributes<ELEMENT>>) {
+  for (const [key, value] of Object.entries(props)) {
+    element.set(key as any, value as any);
+  }
+}
+
+function _createChild(wrapFn: ElementWrapper, parent: SVGElement, tagName: SVGElementTagName, props?: SavageDOMAttributes): SavageDOMElement {
+  const child = document.createElementNS("http://www.w3.org/2000/svg", tagName);
+  parent.append(child);
+  const wrapped = wrapFn(child);
+  if (props) {
+    _assignProperties(wrapped, props);
+  }
+  return wrapped;
+}
+
+interface SVGDocument extends Document {
+  children: HTMLCollection & [SVGSVGElement];
+}
+
+function _isSVGDocument(doc: Document): doc is SVGDocument {
+  return doc.children.length === 1 && doc.children[0] instanceof SVGSVGElement;
+}
+
+function _importDocument(svg: SVGElement, foreignDocument: Document): SVGGElement {
+  const localRoot = svg.ownerSVGElement;
+  const localDocument = svg.ownerDocument;
+  if (!localRoot || !localDocument) {
+    throw new Error("Target element must live inside a <svg>");
+  }
+  if (!_isSVGDocument(foreignDocument)) {
+    throw new Error("Can only inject SVG documents (with <svg> as root node)");
+  }
+  const foreignRoot = foreignDocument.children[0];
+  for (const foreignDefs of Array.from(foreignRoot.getElementsByTagNameNS("http://www.w3.org/2000/svg", "defs"))) {
+    foreignRoot.removeChild(foreignDefs);
+    localRoot.append(foreignDefs);
+  }
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  for (const child of Array.from(foreignRoot.children)) {
+    const importedChild = localDocument.importNode(child as SVGElement, true);
+    g.append(importedChild);
+  }
+  return g;
+}
+
+function _mapCollection(collection: HTMLCollection, map: (element: SVGElement) => SavageDOMElement): ArrayLike<SavageDOMElement> {
   return new Proxy(collection, {
     get: (_obj: any, key: keyof HTMLCollection) => {
       if (key === "length") {
@@ -223,39 +115,66 @@ function mapCollection(collection: HTMLCollection, map: (el: SVGElement) => Sava
   });
 }
 
-const wrap = <E extends SVGElement>(el: E, props?: Partial<SavageDOMProperties<E>>): SavageDOMElement<E> => {
-  const wrappedElement = Object.assign(el, {
-    get: getAttribute.bind(void 0, el),
-    set: setAttribute.bind(void 0, el),
-    once: <EVENT extends keyof SVGElementEventMap>(type: EVENT) => new Promise<SVGElementEventMap[EVENT]>((resolve) => el.addEventListener(type, resolve, { once: true })),
-    add: (element: SVGElement, prefix = false) => {
-      (prefix) ? el.prepend(element) : el.append(element);
+const _ElementSearch = (() => {
+  class ElementSearch {
+    constructor(public wrapFn: ElementWrapper, public parent: SVGElement) {}
+  }
+  for (const tagName of SVGElementTagNames) {
+    Object.defineProperty(ElementSearch.prototype, tagName, {
+      get: function(this: ElementSearch) {
+        const collection = this.parent.getElementsByTagNameNS("http://www.w3.org/2000/svg", tagName);
+        return _mapCollection(collection, this.wrapFn);
+      },
+    });
+  }
+  return ElementSearch as any as ElementSearchConstructor;
+})();
+
+function _wrap<ELEMENT extends SVGElement>(element: ELEMENT): SavageDOMElement<ELEMENT> {
+  function _add(child: SVGElement, prefix: boolean = false) {
+    (prefix) ? element.prepend(child) : element.append(child);
+  }
+  Object.assign(element, {
+    get: getAttribute.bind(void 0, element),
+    set: setAttribute.bind(void 0, element),
+    once: (type: string) => new Promise((res) => element.addEventListener(type, res, { once: true })),
+    add: new Proxy(_add, {
+      get: (_obj, tagName: SVGElementTagName) => {
+        return _createChild.bind(void 0, _wrap, element, tagName);
+      },
+    }),
+    remove: (child: SVGElement) => element.removeChild(child),
+    inject: (doc: Document) => {
+      const imported = _importDocument(element, doc);
+      _add(imported);
+      return _wrap(imported);
     },
-    remove: (element: SVGElement) => el.removeChild(element),
-    get inner() {
-      const collection = mapCollection(el.children, wrap);
-      return new Proxy(collection, {
-        get: (_obj: any, key: number | "length" | keyof SVGElementTagNameMap) => {
-          if (typeof key === "number" || key === "length") {
-            return collection[key];
-          }
-          return mapCollection(el.getElementsByTagNameNS("http://www.w3.org/2000/svg", key), wrap);
-        },
-      });
-    },
-  }) as any as SavageDOMElement<E>;
+  });
+  const sub = _mapCollection(element.children, _wrap);
+  Object.defineProperty(element, "sub", { get: () => sub });
+  const subByTag = new _ElementSearch(_wrap, element);
+  Object.defineProperty(element, "subByTag", { get: () => subByTag });
+  return element as any as SavageDOMElement<ELEMENT>;
+}
+
+function wrap<ELEMENT extends SVGElement>(element: ELEMENT, props?: Partial<SavageDOMAttributes<ELEMENT>>): SavageDOMElement<ELEMENT> {
+  const wrappedElement = _wrap(element);
   if (props) {
-    for (const [key, value] of Object.entries(props)) {
-      wrappedElement.set(key as any, value as any);
-    }
+    _assignProperties(wrappedElement, props);
   }
   return wrappedElement;
-};
+}
 
-type ElementCreator = {
-  [TAG in keyof SVGElementTagNameMap]: SavageDOMElementConstructor<SVGElementTagNameMap[TAG]>;
-};
+const _creator = (() => {
+  const creator = Object.create(null);
+  for (const tagName of SVGElementTagNames) {
+    creator[tagName] = (properties: any) => wrap(document.createElementNS("http://www.w3.org/2000/svg", tagName), properties);
+  }
+  return creator as ElementCreator;
+})();
 
-export const element = new Proxy<ElementCreator & typeof wrap>(wrap as any, {
-  get: (_obj: any, tagName: keyof SVGElementTagNameMap) => wrap.bind(void 0, document.createElementNS("http://www.w3.org/2000/svg", tagName)),
-});
+function _addElementCreator<T>(target: T): T & ElementCreator {
+  return Object.assign(target, _creator);
+}
+
+export const element = _addElementCreator(wrap);

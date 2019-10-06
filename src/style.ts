@@ -153,17 +153,6 @@ interface TextSubElement extends HasDisplay, HasVisibility {
   "baseline-shift": "baseline" | "sub" | "super" | Length | Inherit;
 }
 
-declare const SavageDOMStyleProperties: unique symbol;
-
-declare global {
-  interface SVGElement {
-    readonly __SavageDOMStyleProperties: {};
-  }
-  interface SVGAElement {
-    readonly __SavageDOMStyleProperties: Container & HasDisplay;
-  }
-}
-
 export interface SVGElementStyleTagNameMap {
   a: Container & HasDisplay;
   circle: Shape;
@@ -226,178 +215,178 @@ export interface SVGElementStyleTagNameMap {
 
 declare global {
   interface SVGElement {
-    readonly __SavageDOMStyleProperties: {};
+    readonly __SavageDOMStyleProperties?: {};
   }
   interface SVGAElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["a"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["a"];
   }
   interface SVGCircleElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["circle"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["circle"];
   }
   interface SVGClipPathElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["clipPath"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["clipPath"];
   }
   interface SVGDefsElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["defs"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["defs"];
   }
   interface SVGDescElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["desc"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["desc"];
   }
   interface SVGEllipseElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["ellipse"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["ellipse"];
   }
   interface SVGFEBlendElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feBlend"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feBlend"];
   }
   interface SVGFEColorMatrixElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feColorMatrix"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feColorMatrix"];
   }
   interface SVGFEComponentTransferElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feComponentTransfer"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feComponentTransfer"];
   }
   interface SVGFECompositeElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feComposite"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feComposite"];
   }
   interface SVGFEConvolveMatrixElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feConvolveMatrix"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feConvolveMatrix"];
   }
   interface SVGFEDiffuseLightingElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feDiffuseLighting"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feDiffuseLighting"];
   }
   interface SVGFEDisplacementMapElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feDisplacementMap"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feDisplacementMap"];
   }
   interface SVGFEDistantLightElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feDistantLight"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feDistantLight"];
   }
   interface SVGFEFloodElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feFlood"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feFlood"];
   }
   interface SVGFEFuncAElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feFuncA"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feFuncA"];
   }
   interface SVGFEFuncBElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feFuncB"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feFuncB"];
   }
   interface SVGFEFuncGElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feFuncG"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feFuncG"];
   }
   interface SVGFEFuncRElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feFuncR"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feFuncR"];
   }
   interface SVGFEGaussianBlurElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feGaussianBlur"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feGaussianBlur"];
   }
   interface SVGFEImageElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feImage"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feImage"];
   }
   interface SVGFEMergeElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feMerge"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feMerge"];
   }
   interface SVGFEMergeNodeElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feMergeNode"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feMergeNode"];
   }
   interface SVGFEMorphologyElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feMorphology"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feMorphology"];
   }
   interface SVGFEOffsetElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feOffset"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feOffset"];
   }
   interface SVGFEPointLightElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["fePointLight"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["fePointLight"];
   }
   interface SVGFESpecularLightingElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feSpecularLighting"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feSpecularLighting"];
   }
   interface SVGFESpotLightElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feSpotLight"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feSpotLight"];
   }
   interface SVGFETileElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feTile"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feTile"];
   }
   interface SVGFETurbulenceElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["feTurbulence"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["feTurbulence"];
   }
   interface SVGFilterElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["filter"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["filter"];
   }
   interface SVGForeignObjectElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["foreignObject"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["foreignObject"];
   }
   interface SVGGElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["g"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["g"];
   }
   interface SVGImageElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["image"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["image"];
   }
   interface SVGLineElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["line"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["line"];
   }
   interface SVGLinearGradientElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["linearGradient"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["linearGradient"];
   }
   interface SVGMarkerElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["marker"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["marker"];
   }
   interface SVGMaskElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["mask"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["mask"];
   }
   interface SVGMetadataElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["metadata"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["metadata"];
   }
   interface SVGPathElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["path"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["path"];
   }
   interface SVGPatternElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["pattern"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["pattern"];
   }
   interface SVGPolygonElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["polygon"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["polygon"];
   }
   interface SVGPolylineElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["polyline"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["polyline"];
   }
   interface SVGRadialGradientElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["radialGradient"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["radialGradient"];
   }
   interface SVGRectElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["rect"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["rect"];
   }
   interface SVGScriptElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["script"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["script"];
   }
   interface SVGStopElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["stop"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["stop"];
   }
   interface SVGStyleElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["style"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["style"];
   }
   interface SVGSVGElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["svg"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["svg"];
   }
   interface SVGSwitchElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["switch"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["switch"];
   }
   interface SVGSymbolElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["symbol"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["symbol"];
   }
   interface SVGTextElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["text"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["text"];
   }
   interface SVGTextPathElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["textPath"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["textPath"];
   }
   interface SVGTitleElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["title"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["title"];
   }
   interface SVGTSpanElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["tspan"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["tspan"];
   }
   interface SVGUseElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["use"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["use"];
   }
   interface SVGViewElement {
-    readonly __SavageDOMStyleProperties: SVGElementStyleTagNameMap["view"];
+    readonly __SavageDOMStyleProperties?: SVGElementStyleTagNameMap["view"];
   }
 }
 

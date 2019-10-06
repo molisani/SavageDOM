@@ -4,10 +4,10 @@ node_modules/
 *.js
 *.js.map
 *.d.ts
+*.tsbuildinfo
 
 docs/
 dist/
 lib/
 
 !webpack.config.js
-*.tsbuildinfo
