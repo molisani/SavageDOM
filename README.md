@@ -52,7 +52,7 @@ The `SavageDOMElement` type is an additive wrapper, so any method that requires 
   - Identical to `element.<tagName>(props?)` for constructing new elements
   - All element created this way will be appended to current element
 
-- `SavageDOMElement.remove(svgElement)`
+- `SavageDOMElement.rm(svgElement)`
   - Utility wrapper around `Node.removeChild`
 
 - `SavageDOMElement.inject(document)`

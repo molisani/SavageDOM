@@ -47,7 +47,7 @@ type ElementCreator = {
 
 interface SVGParent {
   add: ElementCreator & ((element: SVGElement, prefix?: boolean) => void);
-  remove(element: SVGElement): void;
+  rm(element: SVGElement): void;
   inject(doc: Document): SavageDOMElement<SVGGElement>;
   readonly sub: ArrayLike<SavageDOMElement>;
   readonly subByTag: ElementCollectionsByTagName;
@@ -143,7 +143,7 @@ function _wrap<ELEMENT extends SVGElement>(element: ELEMENT): SavageDOMElement<E
         return _createChild.bind(void 0, _wrap, element, tagName);
       },
     }),
-    remove: (child: SVGElement) => element.removeChild(child),
+    rm: (child: SVGElement) => element.removeChild(child),
     inject: (doc: Document) => {
       const imported = _importDocument(element, doc);
       _add(imported);
