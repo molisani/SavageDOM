@@ -390,4 +390,4 @@ declare global {
   }
 }
 
-export type SVGStyleType<E extends SVGElement> = E["__SavageDOMStyleProperties"];
+export type SVGStyleType<E extends SVGElement> = NonNullable<E["__SavageDOMStyleProperties"]>;
