@@ -1,10 +1,10 @@
+import { Color } from "./colors";
 import { Angle, Length } from "./types";
 
 type None = "none";
 type Inherit = "inherit";
 type CurrentColor = "currentColor";
 type PaintLiteral = None | CurrentColor | Inherit;
-export type Color = string & { readonly __Color: unique symbol };
 type Paint = Color | PaintLiteral;
 type DashArray = readonly Length[];
 type ShapeElement = SVGCircleElement | SVGEllipseElement | SVGLineElement | SVGPathElement | SVGPolygonElement | SVGPolylineElement | SVGRectElement;

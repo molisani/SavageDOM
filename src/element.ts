@@ -19,7 +19,7 @@ type ElementCollectionsByTagName = {
   [TAG in SVGElementTagName]: ArrayLike<SavageDOMElement<SVGElementTagNameMap[TAG], SVGElementStyleTagNameMap[TAG]>>;
 };
 
-type SavageDOMElementConstructor<ELEMENT extends SVGElement = SVGElement> = (props?: Partial<SavageDOMAttributes<ELEMENT>>) => SavageDOMElement<ELEMENT>;
+type SavageDOMElementConstructor<ELEMENT extends SVGElement = SVGElement> = (props?: Partial<SavageDOMAttributes<ELEMENT> & SVGStyleType<ELEMENT>>) => SavageDOMElement<ELEMENT>;
 
 type ElementWrapper = <ELEMENT extends SVGElement = SVGElement>(element: ELEMENT) => SavageDOMElement<ELEMENT>;
 
