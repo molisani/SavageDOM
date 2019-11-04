@@ -153,7 +153,7 @@ function _wrap<ELEMENT extends SVGElement>(element: ELEMENT): SavageDOMElement<E
   return element as any as SavageDOMElement<ELEMENT>;
 }
 
-function _wrapWithProps<ELEMENT extends SVGElement>(element: ELEMENT, props?: Partial<SavageDOMAttributes<ELEMENT>>): SavageDOMElement<ELEMENT> {
+function _wrapWithProps<ELEMENT extends SVGElement>(element: ELEMENT, props?: Partial<SavageDOMAttributes<ELEMENT> & SVGStyleType<ELEMENT>>): SavageDOMElement<ELEMENT> {
   const wrappedElement = _wrap(element);
   if (props) {
     _assignProperties(wrappedElement, props);

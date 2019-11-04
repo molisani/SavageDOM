@@ -125,7 +125,7 @@ interface Stop extends HasColor {
   "stop-opacity": number | Inherit;
 }
 
-interface TextContent extends HasFill {
+interface TextContent extends HasFill, HasStroke {
   direction: "ltr" | "rtl" | Inherit;
   "dominant-baselint": "auto" | "use-script" | "no-change" | "reset-size" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | "central" | "middle" | "text-after-edge" | "text-before-edge" | Inherit;
   "font-family": FontFamily | Inherit;
