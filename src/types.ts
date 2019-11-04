@@ -1,4 +1,3 @@
-
 export type LengthUnit = "em" | "ex" | "px" | "in" | "cm" | "mm" | "pt" | "pc" | "%";
 
 export function isLengthUnit(str: string): str is LengthUnit {
@@ -17,45 +16,73 @@ export function isLengthUnit(str: string): str is LengthUnit {
   return false;
 }
 
-export type Length = number | {
-  readonly lengthUnit: LengthUnit;
+interface LengthWithUnit {
+  readonly value: number;
+  readonly unit: LengthUnit;
   valueOf(): number;
   toString(): string;
 }
 
-export function length(value: number, lengthUnit: LengthUnit): Length {
-  return {
-    valueOf: () => value,
-    lengthUnit,
-    toString: () => `${value}${lengthUnit}`,
-  };
+const LengthWithUnitPrototype = {
+  valueOf(this: LengthWithUnit) {
+    return this.value;
+  },
+  toString(this: LengthWithUnit) {
+    return `${this.value}${this.unit}`;
+  },
+};
+
+export function length(value: number, unit: LengthUnit): LengthWithUnit {
+  return Object.create(LengthWithUnitPrototype, {
+    value: { value },
+    unit: { value: unit },
+  });
 }
 
-export type AngleUnit = "deg" | "grad" | "rad";
+export type Length = number | LengthWithUnit;
+
+export type AngleUnit = "deg" | "grad" | "rad" | "turn";
 
 export function isAngleUnit(str: string): str is AngleUnit {
   switch (str) {
     case "deg":
     case "grad":
     case "rad":
+    case "turn":
       return true;
   }
   return false;
 }
 
-export type Angle = number | {
-  readonly angleUnit: AngleUnit;
+interface AngleWithUnit {
+  readonly value: number;
+  readonly unit: AngleUnit;
   valueOf(): number;
   toString(): string;
 }
 
-export function angle(value: number, angleUnit: AngleUnit): Angle {
-  return {
-    angleUnit,
-    valueOf: () => value,
-    toString: () => `${value}${angleUnit}`,
-  };
+const AngleWithUnitPrototype = {
+  valueOf(this: AngleWithUnit) {
+    switch (this.unit) {
+      case "deg": return this.value;
+      case "grad": return this.value * 360 / 400;
+      case "rad": return this.value * 180 / Math.PI;
+      case "turn": return this.value * 360;
+    }
+  },
+  toString(this: AngleWithUnit) {
+    return `${this.value}${this.unit}`;
+  },
+};
+
+export function angle(value: number, unit: AngleUnit): AngleWithUnit {
+  return Object.create(AngleWithUnitPrototype, {
+    value: { value },
+    unit: { value: unit },
+  });
 }
+
+export type Angle = number | AngleWithUnit;
 
 export interface Point {
   readonly x: number;
@@ -63,10 +90,15 @@ export interface Point {
   toString(): string;
 }
 
+const PointPrototype = {
+  toString(this: Point) {
+    return `${this.x} ${this.y}`;
+  }
+};
+
 export function point(x: number, y: number): Point {
-  return {
-    x,
-    y,
-    toString: () => `${x} ${y}`,
-  };
+  return Object.create(PointPrototype, {
+    x: { value: x },
+    y: { value: y },
+  });
 }

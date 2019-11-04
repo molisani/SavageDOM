@@ -35,10 +35,11 @@ The `SavageDOMElement` type is an additive wrapper, so any method that requires 
   - Combines both native SVG attributes as well as available CSS style attributes
   - Returns deserialized value (depends on attribute)
 
-- `SavageDOMElement.set(key, value)`
+- `SavageDOMElement.set(key, value)` / `SavageDOMElement.set(props)`
   - Fully-typed attribute access
   - Combines both native SVG attributes as well as available CSS style attributes
   - Default serialization assumes `value` can be coerced to `string`
+  - Supports single `key`, `value` args or `props` object of multiple keys/values
   - Additional processing exists for `<funciri>` and `list-of` types
 
 - `SavageDOMElement.once(event)`

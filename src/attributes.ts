@@ -1,5 +1,8 @@
-import { matrix, rotate, scale, skewX, skewY, Transform, translate } from "./transforms";
+import { isTransform, matrix, rotate, scale, skewX, skewY, Transform, translate } from "./transforms";
+import { Mutable, Replace, Select } from "./ts-util";
 import { angle, Angle, AngleUnit, isAngleUnit, isLengthUnit, Length, length, LengthUnit, point, Point } from "./types";
+
+type SerializeHint = "svg" | "css";
 
 const AngleTypeMap: { [lengthType: number]: AngleUnit } = {
   [SVGAngle.SVG_ANGLETYPE_DEG]: "deg",
@@ -87,7 +90,52 @@ function fromSVGTransformList(svg: SVGTransformList): readonly Transform[] {
   return Array.from(iterateList(svg)).map(fromSVGTransform);
 }
 
-export function getAttribute<E extends SVGElement>(el: E, key: keyof E): any {
+export function parseAttribute(key: string, cssValue: string): any {
+  if (key === "stroke-dasharray") {
+    return cssValue.split(/\s+,?\s*|,\s*/).map((dash) => {
+      const dashValue = parseFloat(dash);
+      if (isNaN(dashValue)) {
+        return 0;
+      }
+      const numberAsString = dashValue.toString();
+      const suffix = dash.slice(0, numberAsString.length);
+      if (isLengthUnit(suffix)) {
+        return length(dashValue, suffix);
+      }
+      return dashValue;
+    });
+  }
+  try {
+    const cssNumberValue = parseFloat(cssValue);
+    if (!isNaN(cssNumberValue)) {
+      const numberAsString = cssNumberValue.toString();
+      const suffix = cssValue.slice(0, numberAsString.length);
+      if (isLengthUnit(suffix)) {
+        return length(cssNumberValue, suffix);
+      }
+      if (isAngleUnit(suffix)) {
+        return angle(cssNumberValue, suffix);
+      }
+      return cssNumberValue;
+    }
+  } catch {
+    // no-op
+  }
+  try {
+    if (cssValue.startsWith("url(")) {
+      const id = cssValue.slice(5, -1);
+      const funciriElement = document.getElementById(id);
+      if (funciriElement) {
+        return funciriElement;
+      }
+    }
+  } catch {
+    // no-op
+  }
+  return cssValue;
+}
+
+export function getAttribute<ELEMENT extends SVGElement>(el: ELEMENT, key: keyof ELEMENT): any {
   const current = el[key];
   if (current instanceof SVGAnimatedBoolean || current instanceof SVGAnimatedInteger || current instanceof SVGAnimatedNumber || current instanceof SVGAnimatedString) {
     return current.baseVal;
@@ -112,61 +160,51 @@ export function getAttribute<E extends SVGElement>(el: E, key: keyof E): any {
   }
   if (key in el.style) {
     const styleValue = el.style[key as keyof CSSStyleDeclaration];
-    if (key === "stroke-dasharray" && typeof styleValue === "string") {
-      return styleValue.split(/\s+,?\s*|,\s*/).map((dash) => {
-        const dashValue = parseFloat(dash);
-        if (isNaN(dashValue)) {
-          return 0;
-        }
-        const numberAsString = dashValue.toString();
-        const suffix = dash.slice(0, numberAsString.length);
-        if (isLengthUnit(suffix)) {
-          return length(dashValue, suffix);
-        }
-        return dashValue;
-      });
-    }
-    try {
-      if (typeof styleValue === "string") {
-        const styleNumberValue = parseFloat(styleValue);
-        if (!isNaN(styleNumberValue)) {
-          const numberAsString = styleNumberValue.toString();
-          const suffix = styleValue.slice(0, numberAsString.length);
-          if (isLengthUnit(suffix)) {
-            return length(styleNumberValue, suffix);
-          }
-          if (isAngleUnit(suffix)) {
-            return angle(styleNumberValue, suffix);
-          }
-          return styleNumberValue;
-        }
-      }
-    } catch {
-      // no-op
-    }
-    try {
-      if (typeof styleValue === "string" && styleValue.startsWith("url(")) {
-        const id = styleValue.slice(5, -1);
-        const funciriElement = document.getElementById(id);
-        if (funciriElement) {
-          return funciriElement;
-        }
-      }
-    } catch {
-      // no-op
+    if (typeof styleValue === "string") {
+      return parseAttribute(key, styleValue);
     }
     return styleValue;
   }
   throw new Error(`Querying attribute "${key}" is not currently supported through this API`);
 }
 
-export function setAttribute<E extends SVGElement>(el: E, key: keyof E, value: any): void {
+export function serializeAttribute(value: any, hint: SerializeHint = "svg"): string {
   if (value instanceof SVGElement) {
-    value = `url(#${value.id})`;
+    return `url(#${value.id})`;
   }
   if (Array.isArray(value)) {
-    el.setAttribute(key, value.map((val: any) => String(val)).join(" "));
-  } else {
-    el.setAttribute(key, String(value));
+    return value.map((val: any) => {
+      if (hint === "css" && isTransform(val)) {
+        return val.toCSS();
+      }
+      return String(val);
+    }).join(" ");
   }
+  return String(value);
 }
+
+export function setAttribute(el: SVGElement, key: object): void;
+export function setAttribute(el: SVGElement, key: string, value: any): void;
+export function setAttribute(el: SVGElement, key: object | string, value?: any): void {
+  if (typeof key === "object") {
+    for (const [innerKey, innerValue] of Object.entries(key)) {
+      setAttribute(el, innerKey, innerValue);
+    }
+    return;
+  }
+  el.setAttribute(key, serializeAttribute(value));
+}
+
+type ReplaceAttributes<ELEMENT extends SVGElement, T, R> = Mutable<Replace<Omit<Select<ELEMENT, T>, "className" | "animatedPoints">, R>>;
+
+export type SavageDOMAttributes<ELEMENT extends SVGElement = SVGElement> =
+  & ReplaceAttributes<ELEMENT, SVGAnimatedAngle, Angle>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedBoolean, boolean>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedInteger, number>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedLength, Length>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedLengthList, readonly Length[]>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedNumber, number>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedNumberList, readonly number[]>
+  & ReplaceAttributes<ELEMENT, SVGPointList, readonly Point[]>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedString, string>
+  & ReplaceAttributes<ELEMENT, SVGAnimatedTransformList, readonly Transform[]>;

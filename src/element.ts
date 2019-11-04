@@ -1,29 +1,13 @@
-import { getAttribute, setAttribute } from "./attributes";
+import { getAttribute, SavageDOMAttributes, setAttribute } from "./attributes";
 import { SVGElementStyleTagNameMap, SVGStyleType } from "./style";
-import { Transform } from "./transforms";
-import { Mutable, Replace, Select } from "./ts-util";
-import { Angle, Length, Point } from "./types";
 
 type SVGElementTagName = keyof SVGElementTagNameMap;
 
 const SVGElementTagNames = new Set<SVGElementTagName>(["a","circle","clipPath","defs","desc","ellipse","feBlend","feColorMatrix","feComponentTransfer","feComposite","feConvolveMatrix","feDiffuseLighting","feDisplacementMap","feDistantLight","feFlood","feFuncA","feFuncB","feFuncG","feFuncR","feGaussianBlur","feImage","feMerge","feMergeNode","feMorphology","feOffset","fePointLight","feSpecularLighting","feSpotLight","feTile","feTurbulence","filter","foreignObject","g","image","line","linearGradient","marker","mask","metadata","path","pattern","polygon","polyline","radialGradient","rect","script","stop","style","svg","switch","symbol","text","textPath","title","tspan","use","view"]);
 
-type ReplaceAttributes<ELEMENT extends SVGElement, T, R> = Mutable<Replace<Omit<Select<ELEMENT, T>, "className" | "animatedPoints">, R>>;
-
-type SavageDOMAttributes<ELEMENT extends SVGElement = SVGElement> =
-  & ReplaceAttributes<ELEMENT, SVGAnimatedAngle, Angle>
-  & ReplaceAttributes<ELEMENT, SVGAnimatedBoolean, boolean>
-  & ReplaceAttributes<ELEMENT, SVGAnimatedInteger, number>
-  & ReplaceAttributes<ELEMENT, SVGAnimatedLength, Length>
-  & ReplaceAttributes<ELEMENT, SVGAnimatedLengthList, readonly Length[]>
-  & ReplaceAttributes<ELEMENT, SVGAnimatedNumber, number>
-  & ReplaceAttributes<ELEMENT, SVGAnimatedNumberList, readonly number[]>
-  & ReplaceAttributes<ELEMENT, SVGPointList, readonly Point[]>
-  & ReplaceAttributes<ELEMENT, SVGAnimatedString, string>
-  & ReplaceAttributes<ELEMENT, SVGAnimatedTransformList, readonly Transform[]>;
-
 interface AttributeAccessor<PROPS> {
   get<KEY extends keyof PROPS>(key: NonNullable<KEY>): PROPS[KEY];
+  set(props: Partial<PROPS>): void;
   set<KEY extends keyof PROPS>(key: NonNullable<KEY>, value: PROPS[KEY]): void;
 }
 
@@ -130,7 +114,19 @@ const _ElementSearch = (() => {
   return ElementSearch as any as ElementSearchConstructor;
 })();
 
+const __symbol = Symbol("SavageDOMElement");
+
+export function isSavageDOMElement<ELEMENT extends SVGElement>(element: ELEMENT): element is ELEMENT & SavageDOMElement<ELEMENT>;
+export function isSavageDOMElement(element: unknown): element is SavageDOMElement;
+export function isSavageDOMElement(element: any): element is SavageDOMElement {
+  return Object.prototype.hasOwnProperty.call(element, __symbol);
+}
+
 function _wrap<ELEMENT extends SVGElement>(element: ELEMENT): SavageDOMElement<ELEMENT> {
+  if (isSavageDOMElement(element)) {
+    return element;
+  }
+  Object.defineProperty(element, __symbol, { value: null });
   function _add(child: SVGElement, prefix: boolean = false) {
     (prefix) ? element.prepend(child) : element.append(child);
   }
