@@ -42,6 +42,13 @@ The `SavageDOMElement` type is an additive wrapper, so any method that requires 
   - Supports single `key`, `value` args or `props` object of multiple keys/values
   - Additional processing exists for `<funciri>` and `list-of` types
 
+- `SavageDOMElement.animateTo(timing, key, value)` / `SavageDOMElement.animateTo(timing, props)`
+  - Fully-typed attribute access
+  - Combines both native SVG attributes as well as available CSS style attributes
+  - Default serialization assumes `value` can be coerced to `string`
+  - Supports single `key`, `value` args or `props` object of multiple keys/values
+  - Only supports interpolation for: `boolean`, `number`, `angle`, `length`, and `color` as well as list of `number`, `length`, `point`, and `transform`
+
 - `SavageDOMElement.once(event)`
   - Utility wrapper around one time event listener
 

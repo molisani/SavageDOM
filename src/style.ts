@@ -391,3 +391,5 @@ declare global {
 }
 
 export type SVGStyleType<E extends SVGElement> = NonNullable<E["__SavageDOMStyleProperties"]>;
+
+export const ColorStyleProperties = new Set<string>(["color", "fill", "stroke", "lighting-color", "flood-color", "stop-color"]);
