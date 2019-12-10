@@ -1,4 +1,6 @@
+import { computeActualEffectTiming, SVGAnimation, SVGEffectTiming, SVGRenderer } from "./animations";
 import { getAttribute, SavageDOMAttributes, setAttribute } from "./attributes";
+import { getInterpolator, SVGPropertyInterpolators } from "./interpolators";
 import { SVGElementStyleTagNameMap, SVGStyleType } from "./style";
 
 type SVGElementTagName = keyof SVGElementTagNameMap;
@@ -9,6 +11,8 @@ interface AttributeAccessor<PROPS> {
   get<KEY extends keyof PROPS>(key: NonNullable<KEY>): PROPS[KEY];
   set(props: Partial<PROPS>): void;
   set<KEY extends keyof PROPS>(key: NonNullable<KEY>, value: PROPS[KEY]): void;
+  animateTo(timing: SVGEffectTiming, props: Partial<PROPS>): SVGAnimation;
+  animateTo<KEY extends keyof PROPS>(timing: SVGEffectTiming, key: NonNullable<KEY>, value: PROPS[KEY]): SVGAnimation;
 }
 
 interface SVGEventEmitter {
@@ -131,8 +135,23 @@ function _wrap<ELEMENT extends SVGElement>(element: ELEMENT): SavageDOMElement<E
     (prefix) ? element.prepend(child) : element.append(child);
   }
   Object.assign(element, {
-    get: getAttribute.bind(void 0, element),
+    get: (key: string) => {
+      return getAttribute(element, key as any)[1];
+    },
     set: setAttribute.bind(void 0, element),
+    animateTo: (timing: SVGEffectTiming, keyOrProps: any, value?: any) => {
+      const computedTiming = computeActualEffectTiming(timing);
+      const interpolators: SVGPropertyInterpolators<any> = {};
+      if (typeof keyOrProps === "string") {
+        interpolators[keyOrProps] = getInterpolator(element, keyOrProps as any, value);
+      } else {
+        for (const [key, val] of Object.entries(keyOrProps)) {
+          interpolators[key] = getInterpolator(element, key as any, val);
+        }
+      }
+      const renderer = SVGRenderer.getFromWindow(window);
+      return renderer.enqueue(computedTiming, element as any, interpolators);
+    },
     once: (type: string) => new Promise((res) => element.addEventListener(type, res, { once: true })),
     add: new Proxy(_add, {
       get: (_obj, tagName: SVGElementTagName) => {

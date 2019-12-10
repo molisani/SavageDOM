@@ -1,3 +1,5 @@
+import { ColorString, isColorString } from "./colors";
+import { ColorStyleProperties } from "./style";
 import { isTransform, matrix, rotate, scale, skewX, skewY, Transform, translate } from "./transforms";
 import { Mutable, Replace, Select } from "./ts-util";
 import { angle, Angle, AngleUnit, isAngleUnit, isLengthUnit, Length, length, LengthUnit, point, Point } from "./types";
@@ -90,9 +92,26 @@ function fromSVGTransformList(svg: SVGTransformList): readonly Transform[] {
   return Array.from(iterateList(svg)).map(fromSVGTransform);
 }
 
-export function parseAttribute(key: string, cssValue: string): any {
+export type TypedAttributeValue =
+  | ["boolean", boolean]
+  | ["number", number]
+  | ["string", string]
+  | ["angle", Angle]
+  | ["length", Length]
+  | ["funciri", HTMLElement]
+  | ["color-string", ColorString]
+  | ["length-array", readonly Length[]]
+  | ["number-array", readonly number[]]
+  | ["point-array", readonly Point[]]
+  | ["transform-array", readonly Transform[]]
+
+function isAttributeColorString(key: string, cssValue: string): cssValue is ColorString {
+  return isColorString(cssValue) || ColorStyleProperties.has(key);
+}
+
+export function parseAttribute(key: string, cssValue: string): TypedAttributeValue {
   if (key === "stroke-dasharray") {
-    return cssValue.split(/\s+,?\s*|,\s*/).map((dash) => {
+    return ["length-array", cssValue.split(/\s+,?\s*|,\s*/).map((dash) => {
       const dashValue = parseFloat(dash);
       if (isNaN(dashValue)) {
         return 0;
@@ -103,7 +122,7 @@ export function parseAttribute(key: string, cssValue: string): any {
         return length(dashValue, suffix);
       }
       return dashValue;
-    });
+    })];
   }
   try {
     const cssNumberValue = parseFloat(cssValue);
@@ -111,12 +130,12 @@ export function parseAttribute(key: string, cssValue: string): any {
       const numberAsString = cssNumberValue.toString();
       const suffix = cssValue.slice(0, numberAsString.length);
       if (isLengthUnit(suffix)) {
-        return length(cssNumberValue, suffix);
+        return ["length", length(cssNumberValue, suffix)];
       }
       if (isAngleUnit(suffix)) {
-        return angle(cssNumberValue, suffix);
+        return ["angle", angle(cssNumberValue, suffix)];
       }
-      return cssNumberValue;
+      return ["number", cssNumberValue];
     }
   } catch {
     // no-op
@@ -126,44 +145,50 @@ export function parseAttribute(key: string, cssValue: string): any {
       const id = cssValue.slice(5, -1);
       const funciriElement = document.getElementById(id);
       if (funciriElement) {
-        return funciriElement;
+        return ["funciri", funciriElement];
       }
     }
   } catch {
     // no-op
   }
-  return cssValue;
+  if (isAttributeColorString(key, cssValue)) {
+    return ["color-string", cssValue];
+  }
+  return ["string", cssValue];
 }
 
-export function getAttribute<ELEMENT extends SVGElement>(el: ELEMENT, key: keyof ELEMENT): any {
+export function getAttribute<ELEMENT extends SVGElement>(el: ELEMENT, key: keyof ELEMENT): TypedAttributeValue {
   const current = el[key];
-  if (current instanceof SVGAnimatedBoolean || current instanceof SVGAnimatedInteger || current instanceof SVGAnimatedNumber || current instanceof SVGAnimatedString) {
-    return current.baseVal;
+  if (current instanceof SVGAnimatedBoolean) {
+    return ["boolean", current.baseVal];
+  }
+  if (current instanceof SVGAnimatedInteger || current instanceof SVGAnimatedNumber) {
+    return ["number", current.baseVal];
+  }
+  if (current instanceof SVGAnimatedString) {
+    return ["string", current.baseVal];
   }
   if (current instanceof SVGAnimatedAngle) {
-    return fromSVGAngle(current.baseVal);
+    return ["angle", fromSVGAngle(current.baseVal)];
   }
   if (current instanceof SVGAnimatedLength) {
-    return fromSVGLength(current.baseVal);
+    return ["length", fromSVGLength(current.baseVal)];
   }
   if (current instanceof SVGAnimatedLengthList) {
-    return Array.from(current.baseVal).map(fromSVGLength);
+    return ["length-array", Array.from(current.baseVal).map(fromSVGLength)];
   }
   if (current instanceof SVGAnimatedNumberList) {
-    return Array.from(current.baseVal).map((svg) => svg.value);
+    return ["number-array", Array.from(current.baseVal).map((svg) => svg.value)];
   }
   if (current instanceof SVGPointList) {
-    return Array.from(current).map(fromDOMPoint);
+    return ["point-array", Array.from(current).map(fromDOMPoint)];
   }
   if (current instanceof SVGAnimatedTransformList) {
-    return fromSVGTransformList(current.baseVal);
+    return ["transform-array", fromSVGTransformList(current.baseVal)];
   }
-  if (key in el.style) {
-    const styleValue = el.style[key as keyof CSSStyleDeclaration];
-    if (typeof styleValue === "string") {
-      return parseAttribute(key, styleValue);
-    }
-    return styleValue;
+  const strValue = el.getAttribute(key);
+  if (strValue !== null) {
+    return parseAttribute(key, strValue);
   }
   throw new Error(`Querying attribute "${key}" is not currently supported through this API`);
 }

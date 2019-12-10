@@ -1,6 +1,6 @@
 import { Angle } from "./types";
 
-interface RGB {
+export interface RGB {
   readonly type: "rgb";
   readonly r: number;
   readonly g: number;
@@ -33,7 +33,11 @@ export function rgb(r: number, g: number, b: number, a?: number): RGB {
   });
 }
 
-interface HSL {
+export function isRGB(value: unknown): value is RGB {
+  return typeof value === "object" && value !== null && RGBPrototype.isPrototypeOf(value);
+}
+
+export interface HSL {
   readonly type: "hsl";
   readonly h: Angle;
   readonly s: number;
@@ -66,6 +70,10 @@ export function hsl(h: Angle, s: number, l: number, a?: number): HSL {
     l: { value: l },
     a: { value: a },
   });
+}
+
+export function isHSL(value: unknown): value is HSL {
+  return typeof value === "object" && value !== null && HSLPrototype.isPrototypeOf(value);
 }
 
 RGBPrototype.asHSL = function(this: RGB): HSL {
@@ -116,8 +124,6 @@ HSLPrototype.asRGB = function(this: HSL): RGB {
   return rgb(r, g, b, this.a);
 };
 
-export type ColorString = string & { readonly __Color: unique symbol };
-
 const INTEGER_PATTERN = "\\s*([+-]?\\d+)\\s*";
 const NUMBER_PATTERN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*";
 const PERCENTAGE_PATTERN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*";
@@ -139,8 +145,179 @@ const COLOR_REGEX_LIST = [
   HSLA_REGEX,
 ];
 
+export type ColorLiteral = string & { readonly __Color: unique symbol };
+
+export function isColorLiteral(str: unknown): str is ColorLiteral {
+  return typeof str === "string" && COLOR_REGEX_LIST.some((regex) => regex.test(str));
+}
+
+const COLOR_KEYWORDS = {
+  black: "#000000" as ColorLiteral,
+  silver: "#c0c0c0" as ColorLiteral,
+  gray: "#808080" as ColorLiteral,
+  white: "#ffffff" as ColorLiteral,
+  maroon: "#800000" as ColorLiteral,
+  red: "#ff0000" as ColorLiteral,
+  purple: "#800080" as ColorLiteral,
+  fuchsia: "#ff00ff" as ColorLiteral,
+  green: "#008000" as ColorLiteral,
+  lime: "#00ff00" as ColorLiteral,
+  olive: "#808000" as ColorLiteral,
+  yellow: "#ffff00" as ColorLiteral,
+  navy: "#000080" as ColorLiteral,
+  blue: "#0000ff" as ColorLiteral,
+  teal: "#008080" as ColorLiteral,
+  aqua: "#00ffff" as ColorLiteral,
+  orange: "#ffa500" as ColorLiteral,
+  aliceblue: "#f0f8ff" as ColorLiteral,
+  antiquewhite: "#faebd7" as ColorLiteral,
+  aquamarine: "#7fffd4" as ColorLiteral,
+  azure: "#f0ffff" as ColorLiteral,
+  beige: "#f5f5dc" as ColorLiteral,
+  bisque: "#ffe4c4" as ColorLiteral,
+  blanchedalmond: "#ffebcd" as ColorLiteral,
+  blueviolet: "#8a2be2" as ColorLiteral,
+  brown: "#a52a2a" as ColorLiteral,
+  burlywood: "#deb887" as ColorLiteral,
+  cadetblue: "#5f9ea0" as ColorLiteral,
+  chartreuse: "#7fff00" as ColorLiteral,
+  chocolate: "#d2691e" as ColorLiteral,
+  coral: "#ff7f50" as ColorLiteral,
+  cornflowerblue: "#6495ed" as ColorLiteral,
+  cornsilk: "#fff8dc" as ColorLiteral,
+  crimson: "#dc143c" as ColorLiteral,
+  cyan: "#00ffff" as ColorLiteral,
+  darkblue: "#00008b" as ColorLiteral,
+  darkcyan: "#008b8b" as ColorLiteral,
+  darkgoldenrod: "#b8860b" as ColorLiteral,
+  darkgray: "#a9a9a9" as ColorLiteral,
+  darkgreen: "#006400" as ColorLiteral,
+  darkgrey: "#a9a9a9" as ColorLiteral,
+  darkkhaki: "#bdb76b" as ColorLiteral,
+  darkmagenta: "#8b008b" as ColorLiteral,
+  darkolivegreen: "#556b2f" as ColorLiteral,
+  darkorange: "#ff8c00" as ColorLiteral,
+  darkorchid: "#9932cc" as ColorLiteral,
+  darkred: "#8b0000" as ColorLiteral,
+  darksalmon: "#e9967a" as ColorLiteral,
+  darkseagreen: "#8fbc8f" as ColorLiteral,
+  darkslateblue: "#483d8b" as ColorLiteral,
+  darkslategray: "#2f4f4f" as ColorLiteral,
+  darkslategrey: "#2f4f4f" as ColorLiteral,
+  darkturquoise: "#00ced1" as ColorLiteral,
+  darkviolet: "#9400d3" as ColorLiteral,
+  deeppink: "#ff1493" as ColorLiteral,
+  deepskyblue: "#00bfff" as ColorLiteral,
+  dimgray: "#696969" as ColorLiteral,
+  dimgrey: "#696969" as ColorLiteral,
+  dodgerblue: "#1e90ff" as ColorLiteral,
+  firebrick: "#b22222" as ColorLiteral,
+  floralwhite: "#fffaf0" as ColorLiteral,
+  forestgreen: "#228b22" as ColorLiteral,
+  gainsboro: "#dcdcdc" as ColorLiteral,
+  ghostwhite: "#f8f8ff" as ColorLiteral,
+  gold: "#ffd700" as ColorLiteral,
+  goldenrod: "#daa520" as ColorLiteral,
+  greenyellow: "#adff2f" as ColorLiteral,
+  grey: "#808080" as ColorLiteral,
+  honeydew: "#f0fff0" as ColorLiteral,
+  hotpink: "#ff69b4" as ColorLiteral,
+  indianred: "#cd5c5c" as ColorLiteral,
+  indigo: "#4b0082" as ColorLiteral,
+  ivory: "#fffff0" as ColorLiteral,
+  khaki: "#f0e68c" as ColorLiteral,
+  lavender: "#e6e6fa" as ColorLiteral,
+  lavenderblush: "#fff0f5" as ColorLiteral,
+  lawngreen: "#7cfc00" as ColorLiteral,
+  lemonchiffon: "#fffacd" as ColorLiteral,
+  lightblue: "#add8e6" as ColorLiteral,
+  lightcoral: "#f08080" as ColorLiteral,
+  lightcyan: "#e0ffff" as ColorLiteral,
+  lightgoldenrodyellow: "#fafad2" as ColorLiteral,
+  lightgray: "#d3d3d3" as ColorLiteral,
+  lightgreen: "#90ee90" as ColorLiteral,
+  lightgrey: "#d3d3d3" as ColorLiteral,
+  lightpink: "#ffb6c1" as ColorLiteral,
+  lightsalmon: "#ffa07a" as ColorLiteral,
+  lightseagreen: "#20b2aa" as ColorLiteral,
+  lightskyblue: "#87cefa" as ColorLiteral,
+  lightslategray: "#778899" as ColorLiteral,
+  lightslategrey: "#778899" as ColorLiteral,
+  lightsteelblue: "#b0c4de" as ColorLiteral,
+  lightyellow: "#ffffe0" as ColorLiteral,
+  limegreen: "#32cd32" as ColorLiteral,
+  linen: "#faf0e6" as ColorLiteral,
+  magenta: "#ff00ff" as ColorLiteral,
+  mediumaquamarine: "#66cdaa" as ColorLiteral,
+  mediumblue: "#0000cd" as ColorLiteral,
+  mediumorchid: "#ba55d3" as ColorLiteral,
+  mediumpurple: "#9370db" as ColorLiteral,
+  mediumseagreen: "#3cb371" as ColorLiteral,
+  mediumslateblue: "#7b68ee" as ColorLiteral,
+  mediumspringgreen: "#00fa9a" as ColorLiteral,
+  mediumturquoise: "#48d1cc" as ColorLiteral,
+  mediumvioletred: "#c71585" as ColorLiteral,
+  midnightblue: "#191970" as ColorLiteral,
+  mintcream: "#f5fffa" as ColorLiteral,
+  mistyrose: "#ffe4e1" as ColorLiteral,
+  moccasin: "#ffe4b5" as ColorLiteral,
+  navajowhite: "#ffdead" as ColorLiteral,
+  oldlace: "#fdf5e6" as ColorLiteral,
+  olivedrab: "#6b8e23" as ColorLiteral,
+  orangered: "#ff4500" as ColorLiteral,
+  orchid: "#da70d6" as ColorLiteral,
+  palegoldenrod: "#eee8aa" as ColorLiteral,
+  palegreen: "#98fb98" as ColorLiteral,
+  paleturquoise: "#afeeee" as ColorLiteral,
+  palevioletred: "#db7093" as ColorLiteral,
+  papayawhip: "#ffefd5" as ColorLiteral,
+  peachpuff: "#ffdab9" as ColorLiteral,
+  peru: "#cd853f" as ColorLiteral,
+  pink: "#ffc0cb" as ColorLiteral,
+  plum: "#dda0dd" as ColorLiteral,
+  powderblue: "#b0e0e6" as ColorLiteral,
+  rosybrown: "#bc8f8f" as ColorLiteral,
+  royalblue: "#4169e1" as ColorLiteral,
+  saddlebrown: "#8b4513" as ColorLiteral,
+  salmon: "#fa8072" as ColorLiteral,
+  sandybrown: "#f4a460" as ColorLiteral,
+  seagreen: "#2e8b57" as ColorLiteral,
+  seashell: "#fff5ee" as ColorLiteral,
+  sienna: "#a0522d" as ColorLiteral,
+  skyblue: "#87ceeb" as ColorLiteral,
+  slateblue: "#6a5acd" as ColorLiteral,
+  slategray: "#708090" as ColorLiteral,
+  slategrey: "#708090" as ColorLiteral,
+  snow: "#fffafa" as ColorLiteral,
+  springgreen: "#00ff7f" as ColorLiteral,
+  steelblue: "#4682b4" as ColorLiteral,
+  tan: "#d2b48c" as ColorLiteral,
+  thistle: "#d8bfd8" as ColorLiteral,
+  tomato: "#ff6347" as ColorLiteral,
+  turquoise: "#40e0d0" as ColorLiteral,
+  violet: "#ee82ee" as ColorLiteral,
+  wheat: "#f5deb3" as ColorLiteral,
+  whitesmoke: "#f5f5f5" as ColorLiteral,
+  yellowgreen: "#9acd32" as ColorLiteral,
+};
+
+type ColorKeyword = keyof typeof COLOR_KEYWORDS;
+
+export function isColorKeyword(str: unknown): str is ColorKeyword {
+  return typeof str === "string" && str in COLOR_KEYWORDS;
+}
+
+export type ColorString = ColorLiteral | ColorKeyword;
+
+export function isColorString(str: unknown): str is ColorString {
+  return isColorLiteral(str) || isColorKeyword(str);
+}
+
 export function parseColorString(str: ColorString): RGB | HSL {
   let m: RegExpExecArray | null = null;
+  if (isColorKeyword(str)) {
+    str = COLOR_KEYWORDS[str];
+  }
   m = RGB_HEX_REGEX.exec(str);
   if (m) {
     const length = m[1].length;
@@ -177,11 +354,12 @@ export function parseColorString(str: ColorString): RGB | HSL {
   if (m) {
     return hsl(parseFloat(m[1]), parseFloat(m[2]) / 100, parseFloat(m[3]) / 100, parseFloat(m[4]));
   }
-  throw new Error(`Was unable to parse "${str}" as Color`);
-}
-
-export function isColorString(str: unknown): str is ColorString {
-  return (typeof str === "string") && COLOR_REGEX_LIST.some((regex) => regex.test(str));
+  return rgb(0, 0, 0);
+  // throw new Error(`Was unable to parse "${str}" as Color`);
 }
 
 export type Color = ColorString | RGB | HSL;
+
+export function isColor(value: unknown): value is Color {
+  return (typeof value === "string" && isColorString(value)) || isRGB(value) || isHSL(value);
+}
