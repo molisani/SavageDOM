@@ -1,6 +1,6 @@
 import { getAttribute } from "./attributes";
 import { HSL, hsl, isColor, isColorString, isRGB, parseColorString, RGB, rgb } from "./colors";
-import { isTransform, matrix, rotate, scale, skewX, skewY, Transform, translate } from "./transforms";
+import { composeMatrix, decomposeMatrix, isTransform, Matrix, rotate, Rotate, scale, Scale, skewX, SkewX, skewY, SkewY, Transform, translate, Translate } from "./transforms";
 import { assert, isNumber, isTypedArray } from "./ts-util";
 import { Angle, isAbsoluteLength, isAngle, isLength, isLengthWithUnit, isPoint, length, Length, point, Point } from "./types";
 
@@ -38,44 +38,69 @@ const interpolateHSL = (a: HSL, b: HSL, t: number) => {
   return hsl(interpolateAngle(a.h, b.h, t), lerp(a.s, b.s, t), lerp(a.l, b.l, t), lerp(a.a || 1, b.a || 1, t));
 };
 
+function interpolateTranslate(a: Translate, b: Translate, t: number) {
+  const tx = lerp(a.tx, b.tx, t);
+  const ty = lerp(a.ty, b.ty, t);
+  return translate(tx, ty);
+}
+
+function interpolateScale(a: Scale, b: Scale, t: number) {
+  const sx = lerp(a.sx, b.sx, t);
+  const sy = lerp(a.sy, b.sy, t);
+  return scale(sx, sy);
+}
+
+function interpolateRotate(a: Rotate, b: Rotate, t: number) {
+  const angle = lerp(a.angle.valueOf(), b.angle.valueOf(), t);
+  const cx = lerp(a.cx, b.cx, t);
+  const cy = lerp(a.cy, b.cy, t);
+  return rotate(angle, cx, cy);
+}
+
+function interpolateSkewX(a: SkewX, b: SkewX, t: number): Transform {
+  return skewX(lerp(a.angle.valueOf(), b.angle.valueOf(), t));
+}
+
+function interpolateSkewY(a: SkewY, b: SkewY, t: number): Transform {
+  return skewY(lerp(a.angle.valueOf(), b.angle.valueOf(), t));
+}
+
+function interpolateMatrix(a: Matrix, b: Matrix, t: number) {
+  const [aTranslate, aRotate, aScale] = decomposeMatrix(a);
+  const [bTranslate, bRotate, bScale] = decomposeMatrix(b);
+  const out = composeMatrix([
+    interpolateTranslate(aTranslate, bTranslate, t),
+    interpolateRotate(aRotate, bRotate, t),
+    interpolateScale(aScale, bScale, t),
+  ]);
+  return out;
+}
+
 function interpolateTransform(a: Transform, b: Transform, t: number): Transform {
   switch (a.type) {
     case "matrix": {
       assert(a.type === b.type);
-      const m0 = lerp(a.matrix[0], b.matrix[0], t);
-      const m1 = lerp(a.matrix[1], b.matrix[1], t);
-      const m2 = lerp(a.matrix[2], b.matrix[2], t);
-      const m3 = lerp(a.matrix[3], b.matrix[3], t);
-      const m4 = lerp(a.matrix[4], b.matrix[4], t);
-      const m5 = lerp(a.matrix[5], b.matrix[5], t);
-      return matrix([m0, m1, m2, m3, m4, m5]);
+      return interpolateMatrix(a, b, t);
     }
     case "translate": {
       assert(a.type === b.type);
-      const tx = lerp(a.tx, b.tx, t);
-      const ty = lerp(a.ty, b.ty, t);
-      return translate(tx, ty);
+      return interpolateTranslate(a, b, t);
     }
     case "scale": {
       assert(a.type === b.type);
-      const sx = lerp(a.sx, b.sx, t);
-      const sy = lerp(a.sy, b.sy, t);
-      return scale(sx, sy);
+      return interpolateScale(a, b, t);
     }
     case "rotate": {
       assert(a.type === b.type);
-      const angle = lerp(a.angle.valueOf(), b.angle.valueOf(), t);
-      const cx = lerp(a.cx, b.cx, t);
-      const cy = lerp(a.cy, b.cy, t);
-      return rotate(angle, cx, cy);
+      return interpolateRotate(a, b, t);
     }
     case "skewX": {
       assert(a.type === b.type);
-      return skewX(lerp(a.angle.valueOf(), b.angle.valueOf(), t));
+      return interpolateSkewX(a, b, t);
     }
     case "skewY": {
       assert(a.type === b.type);
-      return skewY(lerp(a.angle.valueOf(), b.angle.valueOf(), t));
+      return interpolateSkewY(a, b, t);
     }
   }
 }

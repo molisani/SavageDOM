@@ -124,12 +124,15 @@ interface AngleWithUnit {
   toString(): string;
 }
 
+export const RAD_TO_DEG = 180 / Math.PI;
+export const DEG_TO_RAD = Math.PI / 180;
+
 const AngleWithUnitPrototype = {
   valueOf(this: AngleWithUnit) {
     switch (this.unit) {
       case "deg": return this.value;
       case "grad": return this.value * 360 / 400;
-      case "rad": return this.value * 180 / Math.PI;
+      case "rad": return this.value * RAD_TO_DEG;
       case "turn": return this.value * 360;
     }
   },
