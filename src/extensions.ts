@@ -1,8 +1,9 @@
-import { computeActualEffectTiming, SVGEffectTiming, SVGRenderer } from "./animations";
+import { computeActualEffectTiming, SVGAnimation, SVGEffectTiming, SVGRenderer } from "./animations";
 import { getAttribute, SavageDOMAttributes, setAttribute } from "./attributes";
 import { SVGElementTagName, XMLNS } from "./constants";
-import { SavageDOMElement, wrap } from "./element";
+import { element, SavageDOMElement, wrap } from "./element";
 import { getInterpolator, SVGPropertyInterpolators } from "./interpolators";
+import { matrix } from "./transforms";
 
 export function add(element: SavageDOMElement, child: SVGElement, prefix: boolean = false) {
   (prefix) ? element.prepend(child) : element.append(child);
@@ -15,7 +16,10 @@ function _assignProperties<ELEMENT extends SVGElement>(element: SavageDOMElement
 }
 
 export function createChild(parent: SVGElement, tagName: SVGElementTagName, props?: SavageDOMAttributes): SavageDOMElement {
-  const child = document.createElementNS(XMLNS.SVG, tagName);
+  if (!parent.ownerDocument) {
+    throw new Error("Parent element has no owner document");
+  }
+  const child = parent.ownerDocument.createElementNS(XMLNS.SVG, tagName);
   parent.append(child);
   const wrapped = wrap(child);
   if (props) {
@@ -106,3 +110,31 @@ export const SavageDOMElementPrototype = {
     return _mapCollection(collection, wrap);
   },
 } as const;
+
+export function transplant(group: SVGGElement, target: SVGGraphicsElement, timing: SVGEffectTiming): SVGAnimation {
+  const temp = element.g();
+  let finished = Promise.resolve();
+  if (target.ownerSVGElement) {
+    target.ownerSVGElement.appendChild(temp);
+    const screenCTM = target.ownerSVGElement.getScreenCTM();
+    if (screenCTM) {
+      const inverseScreenCTM = screenCTM.inverse();
+      const childMatrix = target.getScreenCTM();
+      if (childMatrix) {
+        const transform = target.ownerSVGElement?.createSVGTransformFromMatrix(inverseScreenCTM.multiply(childMatrix));
+        temp.transform.baseVal.initialize(transform);
+        temp.appendChild(target);
+      }
+      const groupMatrix = group.getScreenCTM();
+      if (groupMatrix) {
+        const transformList = [matrix(inverseScreenCTM.multiply(groupMatrix))];
+        finished = temp.animateTo(timing, "transform", transformList).finished;
+      }
+    }
+  }
+  finished = finished.then(() => {
+    group.appendChild(target);
+    temp.remove();
+  });
+  return { finished };
+}
