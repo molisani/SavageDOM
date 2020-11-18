@@ -53,7 +53,7 @@
     "load-grunt-tasks": "^4.0.0",
     "requirejs": "^2.3.6",
     "rxjs": "^6.4.0",
-    "semantic-release": "^15.13.3",
+    "semantic-release": "^17.2.3",
     "ts-loader": "^5.3.3",
     "tslint": "^5.14.0",
     "typedoc": "^0.14.2",
